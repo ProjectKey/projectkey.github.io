@@ -120,3 +120,8 @@ footer strong { color: var(--ink2); }
 .legge tbody tr:last-child th, .legge tbody tr:last-child td { border-bottom: 0; }
 code { background: var(--carta2); border-radius: 6px; padding: 1px 6px; font-size: 14px; }
 .briciole { font-size: 14px; margin-bottom: 22px; color: var(--ink3); }
+
+/* Il sottotesto di una voce in elenco: la riga di servizio sotto al nome di un
+   gioco. Più piccola e più spenta, ma non sotto ai 14 punti — sul telefono
+   sarebbe la riga che non legge nessuno. */
+.minore { font-size: 15px; color: var(--ink3); }
