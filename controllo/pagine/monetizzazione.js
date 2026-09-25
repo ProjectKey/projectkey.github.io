@@ -5,13 +5,20 @@
  * Gli acquisti veri, verificati dal server con Google, e i rimborsi letti ogni
  * ora (F-111-decies). La pubblicità è spenta finché AdMob non approva: la sua
  * parte resta vuota con la ragione, non a zero.
+ *
+ * Il tasto «Rimborsa» (qui e nella scheda del giocatore) chiede motivo e codice
+ * TOTP e parte subito: Google restituisce i soldi, la cassa toglie quello che
+ * l'acquisto aveva dato (`acquisti.rimborsa`, docs/controllo/ARCHITETTURA.md).
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, pill, kpi, num, soldi, perc, data, giorniFa, memoria, erroreBox, nonDisponibile } from '../ui.js';
+import { h, scheda, tabella, pill, kpi, num, soldi, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, confermaConMotivo, avvisa } from '../ui.js';
 
 export async function disegna(ctx) {
   ctx.ricordaRecente('Monetizzazione');
-  const f = memoria.leggi('monetizzazione.filtri', { da: giorniFa(29), a: giorniFa(0), stato: '' });
+  // Le date scelte valgono per la giornata: il giorno dopo si riparte dagli ultimi 30 giorni,
+  // se no un «Al» rimasto a ieri nasconde gli acquisti di oggi.
+  const salvati = memoria.leggi('monetizzazione.filtri', null);
+  const f = salvati?.giorno === giorniFa(0) ? salvati : { da: giorniFa(29), a: giorniFa(0), stato: salvati?.stato ?? '' };
   const apps = (ctx.app ? [ctx.app] : ctx.apps);
   const conAcquisti = apps.filter((a) => api.sa(a, 'acquisti'));
   const risposte = await Promise.all(conAcquisti.map(async (a) => ({ app: a, r: await api.acquisti(a.id, f.da, f.a).catch((e) => ({ errore: e })) })));
@@ -35,10 +42,12 @@ export async function disegna(ctx) {
   stato.value = f.stato;
 
   return [
-    ...apps.filter((x) => !api.sa(x, 'acquisti')).map((x) => nonDisponibile(`Acquisti di ${x.nome}`, 'l\'adattatore non espone `acquisti`.')),
+    ...apps.filter((x) => !api.sa(x, 'acquisti')).map((x) => (x.erroreAdattatore
+      ? erroreBox(new Error(`${x.nome} non risponde: ${x.erroreAdattatore}. Ricarica la pagina fra poco.`))
+      : nonDisponibile(`Acquisti di ${x.nome}`, 'l\'adattatore non espone `acquisti`.'))),
     ...risposte.filter((x) => x.r?.errore).map((x) => erroreBox(new Error(`${x.app.nome}: ${x.r.errore.message}`))),
     scheda(null, h('form', {
-      class: 'filtri', onsubmit: (e) => { e.preventDefault(); memoria.scrivi('monetizzazione.filtri', { da: da.value, a: a.value, stato: stato.value }); ctx.vai(`#/monetizzazione?${Date.now()}`); },
+      class: 'filtri', onsubmit: (e) => { e.preventDefault(); memoria.scrivi('monetizzazione.filtri', { da: da.value, a: a.value, stato: stato.value, giorno: giorniFa(0) }); ctx.vai(`#/monetizzazione?${Date.now()}`); },
     }, h('label', { class: 'campo' }, h('span', {}, 'Dal'), da), h('label', { class: 'campo' }, h('span', {}, 'Al'), a),
     h('label', { class: 'campo' }, h('span', {}, 'Stato'), stato), h('button', { class: 'bottone primario', type: 'submit' }, 'Applica'))),
     h('div', { class: 'griglia g6' },
@@ -67,6 +76,36 @@ export async function disegna(ctx) {
       { titolo: 'Prezzo', num: true, cella: (x) => soldi(x.prezzo) },
       { titolo: 'Stato', cella: (x) => pill(x.stato, x.stato === 'consegnato' ? 'verde' : x.stato === 'rimborsato' ? 'rosso' : 'ambra') },
       { titolo: 'Ordine', cella: (x) => h('span', { class: 'mono' }, x.ordine ?? '—') },
+      { titolo: '', cella: (x) => tastoRimborsa(ctx, x.app, x) },
     ], visibili, { vuoto: 'Nessun acquisto nel periodo.' })),
   ];
+}
+
+/**
+ * **Il tasto «Rimborsa»** di un acquisto consegnato e non ancora rimborsato; niente
+ * tasto se l'app non sa rimborsare o il ruolo non ha `soldi.rimborsa`.
+ * Chiede conferma (scrivere RIMBORSA), motivo e codice TOTP, poi ridisegna la pagina.
+ */
+export function tastoRimborsa(ctx, app, x) {
+  if (x.stato !== 'consegnato' || !x.id || !x.ordine || !api.sa(app, 'rimborsa')) return null;
+  const permessi = ctx.io?.permessi ?? [];
+  if (!permessi.includes('soldi.rimborsa') && !permessi.includes('*')) return null;
+  return h('button', {
+    class: 'bottone piccolo pericolo', type: 'button',
+    onclick: async (e) => {
+      e.stopPropagation();
+      const r = await confermaConMotivo({
+        titolo: `Rimborsa ${x.prodotto} (${soldi(x.prezzo)})`, tasto: 'Rimborsa', pericolo: true, parola: 'RIMBORSA',
+        testo: `Ordine ${x.ordine}. Google restituisce i soldi al giocatore e il gioco gli toglie quello che l'acquisto aveva dato. Non si torna indietro.`,
+        campi: [{ nome: 'codice', etichetta: 'Codice dell\'app di autenticazione', segnaposto: '000000' }],
+      });
+      if (!r) return;
+      if (!/^\d{6}$/.test(String(r.codice ?? '').trim())) { avvisa('Servono le sei cifre del codice', true); return; }
+      try {
+        const esito = await api.rimborsa(app.id, x.id, r.motivo, String(r.codice).trim());
+        avvisa(esito.gia_rimborsato ? 'Era già rimborsato' : esito.avviso ?? 'Rimborsato');
+        ctx.vai(`${location.hash.split('?')[0]}?${Date.now()}`);
+      } catch (err) { avvisa(err.message, true); }
+    },
+  }, 'Rimborsa');
 }

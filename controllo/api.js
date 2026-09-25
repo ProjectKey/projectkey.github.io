@@ -19,7 +19,7 @@ export const inProva = () =>
 
 /** I nomi delle azioni dell'adattatore che le pagine controllano con `sa()`. */
 export const NOMI = {
-  kpi: 'kpi', salute: 'salute', errori: 'errori', acquisti: 'acquisti', versioni: 'versioni',
+  kpi: 'kpi', salute: 'salute', errori: 'errori', acquisti: 'acquisti', rimborsa: 'acquisti.rimborsa', versioni: 'versioni',
   cercaGiocatori: 'giocatori.cerca', scheda: 'giocatori.scheda', timeline: 'giocatori.timeline',
   accredita: 'giocatori.accredita', blocca: 'giocatori.blocca', sblocca: 'giocatori.sblocca', nome: 'giocatori.nome',
   cercaPartite: 'partite.cerca', partita: 'partite.scheda', configLeggi: 'config.leggi', configScrivi: 'config.scrivi',
@@ -84,6 +84,14 @@ async function chiama(azione, argomenti = {}, giaRiprovato = false) {
   return j;
 }
 
+/**
+ * Alcuni adattatori (Last Sheep) rispondono `{ ok, azione, dati: {...} }` invece di mettere i
+ * campi in cima come dice il contratto: si toglie la busta, così le pagine leggono uguale.
+ */
+function sbusta(j) {
+  return j && j.dati && typeof j.dati === 'object' && !Array.isArray(j.dati) ? { ...j, ...j.dati } : j;
+}
+
 /** Una risposta «per app» (`perApp[slug]`): l'errore di un gioco diventa un'eccezione. */
 function diApp(j, slug) {
   const x = j.perApp?.[slug];
@@ -123,13 +131,23 @@ export async function apps() {
     config: { manutenzione: a.manutenzione ?? { attiva: false }, versioneMinima: a.versione_minima },
     capacita: null,
   }));
-  // Cosa sa fare ogni gioco lo dice il suo adattatore; uno che non risponde resta senza capacità.
+  // Cosa sa fare ogni gioco lo dice il suo adattatore. Una volta sola non basta: al primo
+  // accesso le funzioni si svegliano da fredde, e un gioco che non ha risposto al primo colpo
+  // sembrava «senza giocatori né acquisti» (25 set 2026). Si riprova, e se proprio tace le
+  // pagine dicono che **non risponde**, non che non sa fare la cosa.
   await Promise.all(elenco.map(async (a) => {
     if (!a.adattatore) return;
-    try {
-      const c = await chiama('app.capacita', { app: a.id });
-      a.capacita = { versioneContratto: c.versioneContratto, azioni: c.azioni ?? [], moduli: c.moduli ?? [], valute: c.valute ?? [], note: c.note ?? {} };
-    } catch (e) { a.erroreAdattatore = e.message; }
+    for (let giro = 0; giro < 2; giro++) {
+      try {
+        const c = sbusta(await chiama('app.capacita', { app: a.id }));
+        a.capacita = {
+          versioneContratto: c.versioneContratto, azioni: c.azioni ?? [], moduli: c.moduli ?? [], note: c.note ?? {},
+          valute: (c.valute ?? []).map((v) => (typeof v === 'string' ? { codice: v, nome: v } : { ...v, codice: v.codice ?? v.k ?? v.id })),
+        };
+        delete a.erroreAdattatore;
+        return;
+      } catch (e) { a.erroreAdattatore = e.message; }
+    }
   }));
   return elenco;
 }
@@ -187,13 +205,22 @@ export async function errori(app, da, a) {
   ];
 }
 
+/** Lo stato di un acquisto come lo mostrano le pagine. */
+const statoAcquisto = (x) => (x.stato === 'rimborsato' ? 'rimborsato' : x.stato === 'valido' && x.consegnato_il ? 'consegnato' : x.stato === 'valido' ? 'in-attesa' : x.stato);
+
 export async function acquisti(app, da, a) {
-  const j = await chiama('acquisti', { app, da, a });
+  const j = sbusta(await chiama('acquisti', { app, da, a }));
   if (inProva()) return j.acquisti ?? [];
-  return (j.acquisti ?? []).map((x) => ({
-    ...x, prezzo: x.euro, nome: null,
-    stato: x.stato === 'rimborsato' ? 'rimborsato' : x.stato === 'valido' && x.consegnato_il ? 'consegnato' : 'in-attesa',
-  }));
+  return (j.acquisti ?? (Array.isArray(j.dati) ? j.dati : [])).map((x) => ({ ...x, prezzo: x.euro ?? x.prezzo, nome: null, stato: statoAcquisto(x) }));
+}
+
+/**
+ * **Rimborsa un acquisto** (Google Play `orders.refund` + la cassa toglie quello che aveva
+ * dato). Il server lo vuole con un codice TOTP appena verificato: si verifica qui prima.
+ */
+export async function rimborsa(app, id, motivo, codice) {
+  if (!inProva() && codice && verificaCodice) await verificaCodice(codice);
+  return chiama('acquisti.rimborsa', { app, id, motivo });
 }
 
 const NOMI_CANALI = { production: 'Produzione', internal: 'Test interno', alpha: 'Test chiuso (alpha)', beta: 'Test aperto (beta)' };
@@ -213,8 +240,8 @@ export async function versioni(app) {
 /* ------------------------------------------------------------ giocatori */
 
 export async function cercaGiocatori(app, q) {
-  const j = await chiama('giocatori.cerca', { app, q });
-  return inProva() ? j.giocatori ?? [] : j.risultati ?? [];
+  const j = sbusta(await chiama('giocatori.cerca', { app, q }));
+  return inProva() ? j.giocatori ?? [] : j.risultati ?? (Array.isArray(j.dati) ? j.dati : []);
 }
 
 export async function scheda(app, id) {
@@ -226,8 +253,12 @@ export async function scheda(app, id) {
   const t = j.tecnica ?? {};
   const s = j.stato ?? {};
   const ultima = (t.installazioni ?? [])[0] ?? {};
+  // «Ultimo accesso»: profili.visto_il si scrive quasi solo alla nascita; l'installazione sa di più.
+  const visti = [p.visto, p.visto_il, ...(t.installazioni ?? []).map((i) => i.ultima_volta)].filter(Boolean);
+  const visto = visti.length ? visti.reduce((x, y) => (Date.parse(y) > Date.parse(x) ? y : x)) : null;
   return {
     ...p,
+    visto,
     legami: [p.accesso && p.accesso !== 'anonimo' ? p.accesso : null, ...(p.play_games ?? []).map((x) => `play-games: ${x.nome ?? x.player_id}`)].filter(Boolean),
     device: null, os: ultima.piattaforma ?? null, versione: ultima.versione ?? null,
     gioco: { ...j.gioco, ranking: j.gioco?.lega?.posizione ?? null, tornei: null, missioni: null },
@@ -239,7 +270,7 @@ export async function scheda(app, id) {
     },
     monetizzazione: {
       speso: m.totale_speso, ultimo: m.ultimo_acquisto, rimborsi: m.rimborsi, premiVideo: m.premi_video,
-      acquisti: (m.acquisti ?? []).map((a) => ({ quando: a.consegnato_il ?? a.creato_il, prodotto: a.prodotto, prezzo: a.euro, ordine: a.ordine, stato: a.stato === 'valido' && a.consegnato_il ? 'consegnato' : a.stato })),
+      acquisti: (m.acquisti ?? []).map((a) => ({ id: a.id, quando: a.consegnato_il ?? a.creato_il, prodotto: a.prodotto, prezzo: a.euro, ordine: a.ordine, stato: statoAcquisto(a), rimborsato_il: a.rimborsato_il })),
     },
     tecnica: {
       installazioni: (t.installazioni ?? []).map((i) => ({ piattaforma: i.piattaforma, versione: i.versione, aggiornamento: null, ultima: i.ultima_volta })),

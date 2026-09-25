@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'versioni'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni'];
 
 const APPS = [
   {
@@ -103,7 +103,7 @@ export async function rispondi(azione, a) {
           },
           monetizzazione: {
             speso: 1.99, ultimo: istante(25), rimborsi: 0, premiVideo: 0,
-            acquisti: [{ quando: istante(25), prodotto: 'gemme_120', prezzo: 1.99, stato: 'consegnato', ordine: 'GPA.3312-0000-1111' }],
+            acquisti: [{ id: 'acq-1', quando: istante(25), prodotto: 'gemme_120', prezzo: 1.99, stato: 'consegnato', ordine: 'GPA.3312-0000-1111' }],
           },
           tecnica: {
             installazioni: [{ piattaforma: 'android', versione: '1.0.8', aggiornamento: '01a0d885', ultima: istante(12) }],
@@ -183,11 +183,12 @@ export async function rispondi(azione, a) {
     };
     case 'acquisti': return {
       ok: true, acquisti: [
-        { quando: istante(25), giocatore: GIOCATORI[0].id, nome: 'Giorgio', prodotto: 'gemme_120', prezzo: 1.99, stato: 'consegnato', ordine: 'GPA.3312-0000-1111' },
-        { quando: istante(700), giocatore: GIOCATORI[1].id, nome: 'Marta88', prodotto: 'starter', prezzo: 2.99, stato: 'consegnato', ordine: 'GPA.3312-0000-2222' },
-        { quando: istante(4000), giocatore: GIOCATORI[1].id, nome: 'Marta88', prodotto: 'gemme_50', prezzo: 0.99, stato: 'rimborsato', ordine: 'GPA.3312-0000-3333' },
+        { id: 'acq-1', quando: istante(25), giocatore: GIOCATORI[0].id, nome: 'Giorgio', prodotto: 'gemme_120', prezzo: 1.99, stato: 'consegnato', ordine: 'GPA.3312-0000-1111' },
+        { id: 'acq-2', quando: istante(700), giocatore: GIOCATORI[1].id, nome: 'Marta88', prodotto: 'starter', prezzo: 2.99, stato: 'consegnato', ordine: 'GPA.3312-0000-2222' },
+        { id: 'acq-3', quando: istante(4000), giocatore: GIOCATORI[1].id, nome: 'Marta88', prodotto: 'gemme_50', prezzo: 0.99, stato: 'rimborsato', ordine: 'GPA.3312-0000-3333' },
       ],
     };
+    case 'acquisti.rimborsa': return { ok: true, acquisto: a.id, revoca: 'revocato' };
     case 'versioni': return {
       ok: true,
       store: [

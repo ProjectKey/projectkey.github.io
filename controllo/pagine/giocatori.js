@@ -8,6 +8,7 @@
  * motivo, passa dal server e finisce nel registro (§12, §102).
  */
 import * as api from '../api.js';
+import { tastoRimborsa } from './monetizzazione.js';
 import {
   h, svuota, metti, scheda, tabella, pill, kpi, num, soldi, perc, data, ora, giornoDi, fa,
   confermaConMotivo, avvisa, caricamento, erroreBox, nonDisponibile, memoria,
@@ -32,9 +33,14 @@ export async function disegna(ctx) {
     await Promise.all(bersagli.map(async (app) => {
       try { for (const g of await api.cercaGiocatori(app.id, q.value.trim())) righe.push({ ...g, app }); } catch (e) { errori.push(`${app.nome}: ${e.message}`); }
     }));
-    metti(svuota(esiti), 
-      errori.length ? erroreBox(new Error(errori.join(' · '))) : null,
-      tabella([
+    righe.sort((x, y) => String(y.visto ?? '').localeCompare(String(x.visto ?? '')));
+    const cercato = q.value.trim();
+    // A vuoto non tutti i giochi sanno rispondere (Last Sheep vuole un testo): lo si dice piano,
+    // non in rosso. Cercando qualcosa, invece, un errore è un errore.
+    metti(svuota(esiti),
+      errori.length && q.value.trim() ? erroreBox(new Error(errori.join(' · '))) : null,
+      errori.length && !q.value.trim() ? h('p', { class: 'nota', style: { color: 'var(--ink3)', fontSize: '13px' } }, `Senza ricerca non rispondono: ${errori.join(' · ')}. Scrivi un nome o un ID per cercare anche lì.`) : null,
+      scheda(cercato ? `Risultati per «${cercato}» (${righe.length})` : `Ultimi giocatori visti (${righe.length})`, tabella([
         { titolo: 'Nome', cella: (g) => h('strong', {}, g.nome ?? '—') },
         { titolo: 'ID', cella: (g) => h('span', { class: 'mono' }, g.id) },
         { titolo: 'App', cella: (g) => g.app.nome },
@@ -42,12 +48,15 @@ export async function disegna(ctx) {
         { titolo: 'Legami', cella: (g) => (g.legami ?? []).length ? g.legami.map((l) => pill(l, 'viola')) : pill('anonimo') },
         { titolo: 'Iscritto', cella: (g) => data(g.creato, false) },
         { titolo: 'Ultimo accesso', cella: (g) => fa(g.visto) },
-      ], righe, { vuoto: 'Nessun giocatore trovato.', clic: (g) => ctx.vai(`#/giocatori/${g.app.id}/${g.id}`) }));
+      ], righe, { vuoto: 'Nessun giocatore trovato.', clic: (g) => ctx.vai(`#/giocatori/${g.app.id}/${g.id}`) }),
+      { nota: cercato ? '' : 'a ricerca vuota: gli ultimi 50 per app, senza amministratori e account di prova' }));
   };
   const nodi = [
     scheda(null, h('form', { class: 'filtri', onsubmit: (e) => { e.preventDefault(); void cerca(); } },
       q, h('button', { class: 'bottone primario', type: 'submit' }, 'Cerca'))),
     esiti,
+    ...(ctx.app ? [ctx.app] : ctx.apps).filter((a) => a.erroreAdattatore)
+      .map((a) => erroreBox(new Error(`${a.nome} non risponde: ${a.erroreAdattatore}. Ricarica la pagina fra poco.`))),
     bersagli.length === 0 ? nonDisponibile('Ricerca giocatori', 'l\'adattatore non espone `giocatori.cerca`.') : null,
   ];
   if (bersagli.length) void cerca();
@@ -170,6 +179,7 @@ async function schedaGiocatore(ctx, app, id) {
         { titolo: 'Prezzo', num: true, cella: (a) => soldi(a.prezzo) },
         { titolo: 'Stato', cella: (a) => pill(a.stato, a.stato === 'consegnato' ? 'verde' : a.stato === 'rimborsato' ? 'rosso' : 'ambra') },
         { titolo: 'Ordine', cella: (a) => h('span', { class: 'mono' }, a.ordine ?? '—') },
+        { titolo: '', cella: (a) => tastoRimborsa(ctx, app, a) },
       ], mon.acquisti ?? [], { vuoto: 'Nessun acquisto.' }))],
     Tecnica: () => h('div', { class: 'griglia g2' },
       scheda('Installazioni', tabella([
