@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Last Sheep Royale · Delete account</title>
+<meta name="description" content="How to delete your Last Sheep Royale account and data: in the app, with Facebook, or by email.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src https://jvmpwhoosojharlbmgsi.supabase.co; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<!--
+  LA PAGINA DELLA CANCELLAZIONE
+  =============================
+  Chiesta da Google Play (Sicurezza dei dati) e da Meta (Data deletion
+  instructions URL e risposta della callback). SPECIFICA M20 e M22,
+  docs/PROGETTO_SERVER.md §4.6.
+
+  Tre strade, piu' lo stato di una richiesta:
+  (a) nell'app, Settings -> Delete account;
+  (b) con Facebook: supabase-js (unico script esterno) fa il login OAuth e
+      torna qui; la pagina chiama la Edge `cancella-account` col JWT
+      dell'utente, mostra il codice di conferma e fa signOut;
+  (c) ospite senza Facebook: email col codice account (6 caratteri);
+  (d) ?c=<codice>: RPC anon `stato_cancellazione(p_codice)` ->
+      {stato: 'chiesta' | 'fatta' | 'sconosciuta'}. E' il link che la Edge
+      `facebook-cancella` rimanda a Meta.
+
+  La chiave e' quella pubblica (publishable) gia' nell'app. La sessione sta
+  nel localStorage di questa pagina: niente cookie, niente di terzi.
+  Va aggiunto https://projectkey.github.io/lastsheep/delete.html
+  all'uri_allow_list di Supabase, se no il ritorno da Facebook va alla
+  Site URL.
+-->
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+<main class="legge">
+
+<p class="briciole">
+  <a href="../">PK - Project Key</a> &nbsp;·&nbsp;
+  <a href="./">Last Sheep Royale</a> &nbsp;·&nbsp;
+  <a href="privacy.html#delete">Privacy policy</a> &nbsp;·&nbsp;
+  <a href="#it" hreflang="it">Italiano</a>
+</p>
+
+<h1>Delete your Last Sheep Royale account</h1>
+<p class="data">Deleting is final: coins, gems, items and friends are gone, also those bought with real money.</p>
+
+<p>Pick the way that fits you. Your account, game, friends and race results are
+deleted. Only the receipt code, pack, Google order number and dates of a purchase stay, with no link to you
+(<a href="privacy.html#delete">details</a>).</p>
+
+<section id="stato" hidden aria-labelledby="stato-titolo">
+  <h2 id="stato-titolo">Your request</h2>
+  <div class="box">
+    <p>Code: <code id="stato-codice"></code></p>
+    <p id="stato-testo" role="status" aria-live="polite">Checking…</p>
+  </div>
+</section>
+
+<h2>1 · In the app</h2>
+<p>Open the game → <strong>Settings</strong> → <strong>Delete account</strong>, and confirm twice.
+It works for every account, guest or Facebook.</p>
+
+<h2>2 · With Facebook</h2>
+<p>If you linked Facebook in the game, you can delete here without the app.</p>
+<div class="box" id="fb">
+  <div id="fb-fuori">
+    <p>Log in with the Facebook account you use in the game.</p>
+    <div class="tasti">
+      <button class="tasto" id="fb-entra" type="button">Log in with Facebook</button>
+    </div>
+  </div>
+
+  <div id="fb-dentro" hidden>
+    <p>Logged in as <strong id="fb-nome"></strong>.</p>
+    <p id="fb-pecora" hidden>Game account: <strong id="fb-pecora-nome"></strong>
+      · code <code id="fb-pecora-codice"></code></p>
+    <p id="fb-vuoto" hidden>No game account is linked to this Facebook.
+      Deleting removes only this login.</p>
+    <div class="tasti" id="fb-passo1">
+      <button class="tasto rosso" id="fb-cancella" type="button">Delete my account</button>
+      <button class="tasto piano" id="fb-esci" type="button">Log out</button>
+    </div>
+    <div id="fb-passo2" hidden>
+      <p class="passo">Are you sure? This can't be undone.</p>
+      <div class="tasti">
+        <button class="tasto rosso" id="fb-conferma" type="button">Yes, delete forever</button>
+        <button class="tasto piano" id="fb-annulla" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="fb-fatto" hidden>
+    <p class="passo">Your account is deleted.</p>
+    <p>Confirmation code:</p>
+    <p><span class="codice-grande" id="fb-codice"></span></p>
+    <p id="fb-link-riga">Keep it if you want to check later: <a id="fb-link" href="delete.html">status of this request</a>.</p>
+  </div>
+
+  <p id="fb-msg" role="status" aria-live="polite"></p>
+</div>
+
+<h2>3 · Guest account, without Facebook</h2>
+<p>A guest account can't log in on the web. Delete it in the app, or email
+<a href="mailto:supporto.applicazioni@gmail.com?subject=Last%20Sheep%20Royale%20-%20delete%20my%20account">supporto.applicazioni@gmail.com</a>
+with your <strong>account code</strong>: six characters, shown in <strong>Settings</strong>.
+We delete it within thirty days.</p>
+
+<h2>From Facebook</h2>
+<p>You can also remove Last Sheep Royale in Facebook → Settings → <strong>Apps and
+websites</strong>. Facebook tells us and we delete the account; Facebook shows you a
+link to this page with your code.</p>
+
+<h2>Anonymous statistics</h2>
+<p>Gameplay statistics are not linked to your account. To erase them too, email
+us the <strong>installation ID</strong> shown in Settings under the credits.</p>
+
+<hr style="border:0;border-top:1px solid var(--filo);margin:48px 0 8px">
+
+<div lang="it" id="it">
+<h2>In italiano</h2>
+<p><strong>Nell'app:</strong> Settings → <strong>Delete account</strong>, e conferma due volte.</p>
+<p><strong>Con Facebook:</strong> il tasto <strong>Log in with Facebook</strong> qui sopra, poi
+<strong>Delete my account</strong> e <strong>Yes, delete forever</strong>.</p>
+<p><strong>Ospite senza Facebook:</strong> scrivi a
+<a href="mailto:supporto.applicazioni@gmail.com?subject=Last%20Sheep%20Royale%20-%20cancellazione%20account">supporto.applicazioni@gmail.com</a>
+con il <strong>codice account</strong> (sei caratteri, in Settings). Lo cancelliamo entro
+trenta giorni.</p>
+<p>La cancellazione è definitiva. Restano solo codice della ricevuta, prodotto, numero d'ordine e date di un
+acquisto, senza legame con te. Dettagli nell'<a href="privacy.html#cancellazione">informativa</a>.</p>
+</div>
+
+<hr style="border:0;border-top:1px solid var(--filo);margin:40px 0 18px">
+<p class="briciole">
+  <strong>PK - PROJECT KEY S.R.L.</strong> · Via Città della Pieve 76, 00191 Roma (RM) ·
+  P. IVA 15538561000 · REA Roma 1597981
+</p>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  'use strict';
+
+  var URL_SB = 'https://jvmpwhoosojharlbmgsi.supabase.co';
+  var CHIAVE = 'sb_publishable_PzbVFWJgMp5XS1hhePEJHA_e-OlN32h';
+  var QUI = 'https://projectkey.github.io/lastsheep/delete.html';
+
+  function $(id) { return document.getElementById(id); }
+  function mostra(id, si) { $(id).hidden = !si; }
+  function msg(testo, errore) {
+    var m = $('fb-msg');
+    m.textContent = testo || '';
+    m.className = errore ? 'errore' : '';
+  }
+
+  var par = new URLSearchParams(location.search);
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+
+  // (d) Lo stato di una richiesta: ?c=<codice>
+  var c = (par.get('c') || '').trim();
+  if (c) {
+    mostra('stato', true);
+    $('stato-codice').textContent = c;
+    if (!/^[A-Za-z0-9_-]{4,64}$/.test(c)) {
+      $('stato-testo').textContent = 'This code is not valid.';
+    } else {
+      fetch(URL_SB + '/rest/v1/rpc/stato_cancellazione', {
+        method: 'POST',
+        headers: { 'apikey': CHIAVE, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_codice: c })
+      }).then(function (r) {
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.json();
+      }).then(function (d) {
+        if (Array.isArray(d)) d = d[0];
+        var stato = d && typeof d === 'object' ? d.stato : d;
+        var testi = {
+          chiesta: 'Received. We are deleting your account.',
+          fatta: 'Done. Your account and game data are deleted.',
+          sconosciuta: 'We have no request with this code.'
+        };
+        $('stato-testo').textContent = testi[stato] || testi.sconosciuta;
+      }).catch(function () {
+        $('stato-testo').textContent = 'Can\'t check right now. Try again later.';
+      });
+    }
+  }
+
+  // (b) Con Facebook
+  if (!window.supabase || !window.supabase.createClient) {
+    $('fb-entra').disabled = true;
+    msg('The login could not load. Use the app, or write to us.', true);
+    return;
+  }
+
+  var sb = window.supabase.createClient(URL_SB, CHIAVE, {
+    auth: { flowType: 'pkce', detectSessionInUrl: true, persistSession: true, autoRefreshToken: true }
+  });
+
+  // Un errore di ritorno da Facebook (annullato, negato) arriva nell'indirizzo.
+  var errore = par.get('error_description') || hash.get('error_description');
+
+  // Pulisce l'indirizzo: resta solo ?c=, se c'era.
+  function pulisci() {
+    var nuovo = location.pathname + (c ? '?c=' + encodeURIComponent(c) : '');
+    history.replaceState(null, '', nuovo);
+  }
+
+  function nomeDi(u) {
+    var m = (u && u.user_metadata) || {};
+    return m.full_name || m.name || m.user_name || 'your Facebook account';
+  }
+
+  function fuori() {
+    mostra('fb-fuori', true); mostra('fb-dentro', false);
+  }
+
+  function dentro(sessione) {
+    mostra('fb-fuori', false); mostra('fb-dentro', true);
+    mostra('fb-passo1', true); mostra('fb-passo2', false);
+    $('fb-nome').textContent = nomeDi(sessione.user);
+    // Il nome della pecora e il codice: la riga in `giocatori` si legge con RLS.
+    sb.from('giocatori').select('nome,codice').maybeSingle().then(function (r) {
+      if (r.error) return;                       // niente permesso o tabella: si va avanti col nome Facebook
+      if (r.data) {
+        $('fb-pecora-nome').textContent = r.data.nome || '(no name)';
+        $('fb-pecora-codice').textContent = r.data.codice || '';
+        mostra('fb-pecora', true);
+      } else {
+        mostra('fb-vuoto', true);
+      }
+    });
+  }
+
+  sb.auth.getSession().then(function (r) {
+    var s = r && r.data && r.data.session;
+    if (par.has('code') || par.has('error') || hash.has('access_token') || hash.has('error')) pulisci();
+    if (errore) msg('Facebook login did not finish: ' + errore, true);
+    if (s) dentro(s); else fuori();
+  });
+
+  $('fb-entra').addEventListener('click', function () {
+    msg('');
+    $('fb-entra').disabled = true;
+    sb.auth.signInWithOAuth({ provider: 'facebook', options: { redirectTo: QUI } }).then(function (r) {
+      if (r.error) {
+        $('fb-entra').disabled = false;
+        msg('Could not open Facebook. Try again.', true);
+      }
+    });
+  });
+
+  $('fb-esci').addEventListener('click', function () {
+    sb.auth.signOut().finally(function () { msg(''); fuori(); $('fb-entra').disabled = false; });
+  });
+
+  $('fb-cancella').addEventListener('click', function () {
+    mostra('fb-passo1', false); mostra('fb-passo2', true);
+    $('fb-annulla').focus();
+  });
+
+  $('fb-annulla').addEventListener('click', function () {
+    mostra('fb-passo2', false); mostra('fb-passo1', true);
+  });
+
+  $('fb-conferma').addEventListener('click', function () {
+    var tasto = $('fb-conferma');
+    tasto.disabled = true;
+    msg('Deleting…');
+    sb.auth.getSession().then(function (r) {
+      var s = r && r.data && r.data.session;
+      if (!s) throw new Error('sessione');
+      return fetch(URL_SB + '/functions/v1/cancella-account', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + s.access_token,
+          'apikey': CHIAVE,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fonte: 'web' })
+      });
+    }).then(function (risp) {
+      return risp.json().catch(function () { return {}; }).then(function (d) {
+        if (!risp.ok) throw new Error('http ' + risp.status);
+        return d;
+      });
+    }).then(function (d) {
+      var codice = (d && (d.codice || d.confirmation_code || d.code)) || '';
+      mostra('fb-dentro', false); mostra('fb-fatto', true);
+      $('fb-codice').textContent = codice || '—';
+      if (codice) $('fb-link').href = 'delete.html?c=' + encodeURIComponent(codice);
+      else mostra('fb-link-riga', false);
+      msg('');
+      // L'utente non esiste piu': la sessione locale si butta comunque.
+      return sb.auth.signOut({ scope: 'local' }).catch(function () {});
+    }).catch(function (e) {
+      tasto.disabled = false;
+      if (e && e.message === 'sessione') {
+        msg('Your login expired. Log in again.', true);
+        fuori(); $('fb-entra').disabled = false;
+      } else {
+        msg('Something went wrong. Try again, or write to us.', true);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

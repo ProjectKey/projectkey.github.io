@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Last Sheep Royale · Invite</title>
+<meta name="description" content="Race me in Last Sheep Royale! 100 sheep, one winner.">
+<meta property="og:title" content="Race me in Last Sheep Royale!">
+<meta property="og:description" content="100 sheep. One winner. Tap to join me.">
+<meta property="og:image" content="https://projectkey.github.io/lastsheep/pecora.png">
+<meta property="og:type" content="website">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; connect-src https://jvmpwhoosojharlbmgsi.supabase.co; style-src 'self' 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<!--
+  LA PAGINA DELL'INVITO
+  =====================
+  SPECIFICA M22, docs/PROGETTO_SERVER.md §5.1. Il link che si condivide dal
+  gioco e' i.html?c=K7QM2X (6 caratteri, niente 0/O/1/I).
+
+  1. legge `c` e chiama l'RPC anon `invito_pubblico(p_codice)` ->
+     {nome, lana, viso, cappello} oppure null. Mostra «<nome> invited you».
+     La pecora disegnata e' l'icona del gioco (pecora.png, 192 px, dalla
+     scheda dello store): lana/viso/cappello oggi non si disegnano.
+  2. PLAY su Android: intent://invito/<C>#Intent;scheme=lastsheep;
+     package=com.lastsheep.game;S.browser_fallback_url=<Play>;end
+     Con l'app si apre lastsheep://invito/<C>; senza, Android va su Play col
+     referrer invito=<C>, che il gioco legge al primo avvio.
+     Altrove: il link di Play diretto.
+  Nessuno script esterno, nessun cookie.
+-->
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+<main class="invito">
+
+  <img src="pecora.png" width="144" height="144" alt="">
+
+  <h1 id="titolo">Race me in Last Sheep Royale!</h1>
+  <p id="sotto">100 sheep. One winner. Run from the wolves.</p>
+
+  <div id="blocco-codice" hidden>
+    <p>Friend code</p>
+    <p><span class="codice-grande" id="codice"></span></p>
+  </div>
+
+  <p><a class="tasto grande" id="gioca" href="https://play.google.com/store/apps/details?id=com.lastsheep.game">PLAY</a></p>
+  <p class="minore" id="nota">Free on Google Play.</p>
+
+  <p class="minore" id="aiuto" hidden>No friend yet? In the game open <strong>Friends</strong> →
+  <strong>Enter code</strong>.</p>
+
+  <p class="minore" style="margin-top:40px"><a href="./">About the game</a> ·
+  <a href="privacy.html">Privacy</a></p>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var URL_SB = 'https://jvmpwhoosojharlbmgsi.supabase.co';
+  var CHIAVE = 'sb_publishable_PzbVFWJgMp5XS1hhePEJHA_e-OlN32h';
+  var PACCHETTO = 'com.lastsheep.game';
+  var PLAY = 'https://play.google.com/store/apps/details?id=' + PACCHETTO;
+
+  function $(id) { return document.getElementById(id); }
+
+  var grezzo = (new URLSearchParams(location.search).get('c') || '').trim().toUpperCase();
+  var C = /^[A-HJ-NP-Z2-9]{6}$/.test(grezzo) ? grezzo : '';
+  var android = /Android/i.test(navigator.userAgent);
+
+  if (!C) {
+    // Link senza codice o sbagliato: resta la pagina del gioco, PLAY va su Play.
+    if (grezzo) { $('sotto').textContent = 'This invite link is broken. You can still play!'; }
+    return;
+  }
+
+  var playCol = PLAY + '&referrer=' + encodeURIComponent('invito=' + C);   // referrer=invito%3D<C>
+  $('gioca').href = android
+    ? 'intent://invito/' + C + '#Intent;scheme=lastsheep;package=' + PACCHETTO +
+      ';S.browser_fallback_url=' + encodeURIComponent(playCol) + ';end'
+    : playCol;
+
+  $('codice').textContent = C;
+  $('blocco-codice').hidden = false;
+  $('aiuto').hidden = false;
+
+  fetch(URL_SB + '/rest/v1/rpc/invito_pubblico', {
+    method: 'POST',
+    headers: { 'apikey': CHIAVE, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ p_codice: C })
+  }).then(function (r) {
+    if (!r.ok) throw new Error('http ' + r.status);
+    return r.json();
+  }).then(function (d) {
+    if (Array.isArray(d)) d = d[0];
+    var nome = d && typeof d.nome === 'string' ? d.nome.trim() : '';
+    if (d && nome) {
+      $('titolo').textContent = nome + ' invited you';
+      document.title = nome + ' invited you · Last Sheep Royale';
+      $('sotto').textContent = 'Race together in Last Sheep Royale!';
+    } else if (d) {
+      $('titolo').textContent = 'A friend invited you';
+    } else {
+      // Codice che non esiste (o account cancellato): niente amico, si gioca lo stesso.
+      $('sotto').textContent = 'This invite has expired. You can still play!';
+      $('blocco-codice').hidden = true;
+      $('aiuto').hidden = true;
+      $('gioca').href = PLAY;
+    }
+  }).catch(function () {
+    // Senza risposta: la pagina resta col codice, PLAY funziona uguale.
+  });
+})();
+</script>
+</body>
+</html>

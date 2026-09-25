@@ -1,0 +1,159 @@
+/*
+  IL FOGLIO DI STILE DEL SITO
+  ===========================
+
+  Uno solo per tutte le pagine. I colori sono quelli dell'app (l'azzurro
+  dell'icona e il viola dei tasti): il sito e il gioco si vedono uno accanto
+  all'altro nella scheda dello store, e devono somigliarsi.
+*/
+
+:root {
+  color-scheme: light dark;
+  --ground: #F2F5FA;
+  --carta: #FFFFFF;
+  --carta2: #E8EEF6;
+  --ink: #10182A;
+  --ink2: #46536B;
+  --ink3: #6F7C93;
+  --filo: #DCE4EE;
+  --cielo: #3AC5FA;
+  --cielo-fondo: #0A50AF;
+  --viola: #5B2EE0;
+  --ambra: #FFC93D;
+  --rosso: #C62828;
+  --ombra: 0 1px 2px rgba(10, 32, 80, .06), 0 10px 30px rgba(10, 32, 80, .08);
+}
+
+/* Il tema scuro: quello di sistema, e quello scelto a mano — serve
+   all'anteprima, dove la pagina vive dentro a un visore che ha il suo
+   interruttore. Gli stessi valori, scritti due volte apposta. */
+:root[data-theme="dark"] {
+  --ground: #0A101B;
+  --carta: #141D2D;
+  --carta2: #1D2739;
+  --ink: #E9EFF8;
+  --ink2: #B2BECF;
+  --ink3: #7F8CA1;
+  --filo: #26324A;
+  --viola: #B49CFF;
+  --rosso: #FF7A7A;
+  --ombra: 0 1px 2px rgba(0, 0, 0, .45), 0 12px 30px rgba(0, 0, 0, .42);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0A101B;
+    --carta: #141D2D;
+    --carta2: #1D2739;
+    --ink: #E9EFF8;
+    --ink2: #B2BECF;
+    --ink3: #7F8CA1;
+    --filo: #26324A;
+    --viola: #B49CFF;
+  --rosso: #FF7A7A;
+    --ombra: 0 1px 2px rgba(0, 0, 0, .45), 0 12px 30px rgba(0, 0, 0, .42);
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }   /* se no un display:flex lo batte */
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 17px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+main { max-width: 860px; margin: 0 auto; padding: 0 22px 90px; }
+
+a { color: var(--viola); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--viola); outline-offset: 3px; }
+
+/* --- il cappello azzurro coi raggi, come l'app --- */
+.cappello {
+  border-radius: 24px; padding: 44px 30px; margin-top: 8px;
+  position: relative; overflow: hidden; color: #fff;
+  background: linear-gradient(var(--cielo), var(--cielo-fondo));
+  box-shadow: 0 16px 40px rgba(4, 44, 104, .26);
+}
+.cappello::before {
+  content: ""; position: absolute; inset: -45%; pointer-events: none;
+  background: repeating-conic-gradient(from -90deg at 50% 32%,
+    rgba(255,255,255,.13) 0deg 5deg, rgba(255,255,255,0) 5deg 10deg);
+}
+.cappello > * { position: relative; }
+.cappello h1 { font-size: clamp(28px, 5.2vw, 44px); line-height: 1.06; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+.cappello p { color: rgba(255,255,255,.94); max-width: 58ch; margin: 16px 0 0; }
+.cappello .occhiello { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.82); font-weight: 700; margin-bottom: 10px; }
+
+section { padding-top: 54px; }
+h2 { font-size: clamp(21px, 3vw, 27px); margin: 0 0 14px; letter-spacing: -.015em; text-wrap: balance; }
+h3 { font-size: 17px; margin: 0 0 6px; }
+p { margin: 0 0 14px; color: var(--ink2); max-width: 66ch; }
+p strong, li strong { color: var(--ink); }
+ul { color: var(--ink2); padding-left: 22px; }
+li { margin-bottom: 8px; }
+
+footer {
+  max-width: 860px; margin: 0 auto; padding: 26px 22px 60px;
+  border-top: 1px solid var(--filo); color: var(--ink3); font-size: 14px;
+}
+footer p { color: var(--ink3); font-size: 14px; max-width: none; line-height: 1.75; }
+footer strong { color: var(--ink2); }
+
+/* --- le pagine di legge: privacy e termini ---
+   Tutto sotto a `.legge`, se no i titoli delle sezioni della home si
+   ritroverebbero addosso il filo grigio dei capitoli dell'informativa. */
+.legge .data { color: var(--ink3); font-size: 14px; margin: 0 0 26px; }
+.legge h1 { font-size: clamp(26px, 4.6vw, 34px); line-height: 1.14; margin: 0 0 6px; letter-spacing: -.02em; }
+.legge h2 { font-size: 19px; margin: 32px 0 8px; padding-top: 18px; border-top: 1px solid var(--filo); }
+.legge h2:first-of-type { border-top: 0; padding-top: 0; }
+.legge .box {
+  background: var(--carta); border: 1px solid var(--filo); border-radius: 14px;
+  padding: 14px 16px; margin: 16px 0;
+}
+.legge .box p:last-child { margin-bottom: 0; }
+.legge table {
+  width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px;
+  background: var(--carta); border: 1px solid var(--filo); border-radius: 12px; overflow: hidden;
+}
+.legge th, .legge td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--filo); vertical-align: top; }
+.legge th { color: var(--ink3); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.legge tbody tr:last-child th, .legge tbody tr:last-child td { border-bottom: 0; }
+code { background: var(--carta2); border-radius: 6px; padding: 1px 6px; font-size: 14px; }
+.briciole { font-size: 14px; margin-bottom: 22px; color: var(--ink3); }
+
+/* Il sottotesto di una voce in elenco: la riga di servizio sotto al nome di un
+   gioco. Più piccola e più spenta, ma non sotto ai 14 punti — sul telefono
+   sarebbe la riga che non legge nessuno. */
+.minore { font-size: 15px; color: var(--ink3); }
+
+/* --- i tasti e i riquadri delle pagine che fanno qualcosa: delete e invito ---
+   Il testo del tasto usa --carta: bianco sul viola scuro, blu notte sul viola
+   chiaro del tema scuro. Area da dito 48 punti, come nell'app. */
+.tasto {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 12px 24px; border: 0; border-radius: 14px;
+  background: var(--viola); color: var(--carta);
+  font: inherit; font-weight: 700; letter-spacing: .02em; text-decoration: none;
+  cursor: pointer;
+}
+.tasto.rosso { background: var(--rosso); }
+.tasto.grande { font-size: 20px; min-height: 58px; padding: 14px 40px; }
+.tasto.piano { background: transparent; color: var(--viola); border: 2px solid var(--filo); }
+.tasto[disabled] { opacity: .55; cursor: default; }
+.tasti { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 4px; }
+.passo { font-weight: 700; color: var(--ink); }
+.errore { color: var(--rosso); font-weight: 600; }
+.codice-grande {
+  display: inline-block; margin: 6px 0 10px; padding: 8px 16px;
+  font: 700 clamp(32px, 10vw, 48px)/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .16em; color: var(--ink);
+  background: var(--carta2); border-radius: 12px;
+}
+.invito { text-align: center; }
+.invito p { margin-left: auto; margin-right: auto; }
+.invito img { width: 144px; height: 144px; border-radius: 32px; box-shadow: var(--ombra); margin: 28px auto 6px; display: block; }
+.invito h1 { font-size: clamp(26px, 7vw, 38px); line-height: 1.15; margin: 14px 0 6px; letter-spacing: -.02em; overflow-wrap: anywhere; }

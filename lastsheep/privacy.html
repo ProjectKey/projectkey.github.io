@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Last Sheep Royale · Privacy policy</title>
+<!--
+  L'INFORMATIVA DI LAST SHEEP ROYALE
+  ==================================
+  Scritta leggendo il codice e il progetto, non a memoria:
+  docs/PROGETTO_SERVER.md (conto sul server, account, Facebook, amici;
+  vince il §11), SPECIFICA M16 e M22, src/nuvola.ts (telemetria),
+  src/negozio/annunci.ts (AdMob + UMP), src/negozio/cassa.ts (Google Play),
+  src/notifiche.ts (notifiche locali), src/crash.ts (Sentry),
+  supabase/functions/verifica-acquisto (verifica degli acquisti), app.json
+  (permessi). Se una di quelle cose cambia, questa pagina va riscritta nello
+  stesso giro — e con lei il modulo «Sicurezza dei dati» della Play Console
+  (docs/store/SICUREZZA_DATI.md) e il testo per Meta.
+  Rev 24/09/2026 notte: account (ospite e Facebook), amici, cancellazione.
+  Rev 26/09/2026: CONTACT US (src/supporto.ts) come canale; gli eventi di
+  src/misure.ts e src/misureApp.ts (docs/ANALYTICS.md), senza id del biglietto.
+-->
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+<main class="legge">
+
+<p class="briciole">
+  <a href="../">PK - Project Key</a> &nbsp;·&nbsp;
+  <a href="./">Last Sheep Royale</a> &nbsp;·&nbsp;
+  <a href="termini.html">Terms</a> &nbsp;·&nbsp;
+  <a href="delete.html">Delete account</a> &nbsp;·&nbsp;
+  <a href="#it" hreflang="it">Italiano</a>
+</p>
+
+<h1>Last Sheep Royale — Privacy policy</h1>
+<p class="data">Last updated: 26 September 2026 · for the version with game accounts</p>
+
+<div class="box">
+  <p><strong>In short.</strong> The game creates a <strong>guest account</strong> for you on first
+  launch, without asking anything: your coins, gems and progress are kept on our
+  server, in the EU. You can <strong>link Facebook</strong> later if you want; then we
+  receive your Facebook ID for this app and your public name, <strong>never your
+  email or your password</strong>, and we don't keep your Facebook token. Your
+  friends in the game see your sheep's name, look, level, league, weekly coins
+  and wins. Gameplay statistics stay <strong>anonymous</strong> and are not linked to your
+  account. <strong>Google</strong> shows ads (with your consent where the law requires
+  it) and handles payments. We don't sell data. You can
+  <a href="#delete">delete your account</a> at any time.</p>
+</div>
+
+<h2>Who is responsible</h2>
+<p>The data controller is <strong>PK - PROJECT KEY S.R.L.</strong>, Via Città della Pieve
+76, 00191 Roma (RM), Italy — VAT and tax code 15538561000, REA 1597981, PEC
+<code>pkprojectkeysrl@legalmail.it</code>.</p>
+<p>For anything about your data write to
+<a href="mailto:supporto.applicazioni@gmail.com">supporto.applicazioni@gmail.com</a>. We answer within
+thirty days. The PEC address is the company's legal mailbox, not customer
+support.</p>
+<p>In the game, <strong>Settings → CONTACT US</strong> opens an email to the same address,
+already filled in with what we need to find your account: your account code, the
+app version, phone model and Android version, the installation ID and the short
+ID of your last race. You can read and change it before sending. We use your
+email and what you write only to answer you.</p>
+
+<h2>Your game account</h2>
+<p>The game needs an <strong>internet connection</strong>: your progress lives on our server,
+so it can't be edited on the phone, it follows you to a new phone (with Facebook)
+and your friends can see it. On first launch the game creates a <strong>guest
+account</strong>: no name, email or password is asked. The phone keeps only a copy to
+show the home screen quickly, and your settings (music, sounds, notifications).</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Account ID</strong>: a random identifier created for your account, guest
+      or Facebook</td>
+      <td>To keep your progress and know which requests are yours</td>
+      <td>Contract (providing the game)</td>
+    </tr>
+    <tr>
+      <td><strong>Account code</strong>: six characters (for example <code>K7QM2X</code>), shown in
+      Settings. It is also your invite code</td>
+      <td>To invite friends, and to identify your account if you write to us</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Your sheep's name</strong>, the one you choose in the game</td>
+      <td>To show it to your friends. It passes through a bad-words filter</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Time zone</strong> of your phone (for example Europe/Rome)</td>
+      <td>So that the day and the week start at your midnight</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Game state</strong>: coins, gems, items, level, chests, pass, missions,
+      league, rewards waiting to be collected, tutorial done</td>
+      <td>It is the game: this is what you own and what you've done</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Record of changes</strong>: every change of coins and gems, with the action
+      that caused it, and the requests your phone sent</td>
+      <td>So that nothing is paid twice, and so we can fix an account after a bug</td>
+      <td>Contract; legitimate interest (fraud prevention)</td>
+    </tr>
+    <tr>
+      <td><strong>Race results</strong> your phone sends at the end of a race: placement,
+      duration, coins collected, powers and jumps</td>
+      <td>To pay the right reward, and cut results that can't be real</td>
+      <td>Contract; legitimate interest (fair play)</td>
+    </tr>
+    <tr>
+      <td><strong>Fair-play score</strong>: goes up when results are impossible</td>
+      <td>High scores get smaller podium rewards and can be left out of friends'
+      leaderboards</td>
+      <td>Legitimate interest (fair play)</td>
+    </tr>
+    <tr>
+      <td><strong>Friends</strong>: which accounts are your friends, how (invite, code,
+      Facebook), and who invited you</td>
+      <td>For the friends list, the leaderboard and the invite reward</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Old save</strong>, only if you played version 1.0.x: the save found on the
+      phone, what was accepted, and the old installation ID</td>
+      <td>To import your old progress once, and fix it by hand if you report a
+      problem</td>
+      <td>Contract</td>
+    </tr>
+  </tbody>
+</table>
+<p>The connection also shows your IP address to the server, as with any internet
+request. We don't store it with your account.</p>
+
+<h2>If you link Facebook</h2>
+<p>Linking Facebook is <strong>optional</strong>: it saves your progress so you can play on
+a new phone, and finds friends who play. The login happens on Facebook's page;
+we never see your password. With Facebook we receive and keep:</p>
+<ul>
+  <li>your <strong>Facebook ID for this app</strong> (an ID that Facebook creates only for
+  Last Sheep Royale);</li>
+  <li>your <strong>public profile</strong>: name and profile picture, as Facebook gives
+  them with the <code>public_profile</code> permission;</li>
+  <li><strong>only if you allow it</strong> (<code>user_friends</code> permission): the list of
+  your Facebook friends <strong>who also play and linked Facebook</strong>. We use it when
+  you log in to make them your friends in the game; we keep the friendships, not
+  the list.</li>
+</ul>
+<p>We <strong>don't keep your Facebook token</strong>: it is used once, at login, and
+thrown away. We <strong>don't ask for your email</strong>, and we never post anything on
+Facebook. What Meta does with your login is described in
+<a href="https://www.facebook.com/privacy/policy/">Meta's privacy policy</a>.</p>
+
+<h2>What your friends see</h2>
+<p>Your friends in the game see: your sheep's <strong>name and look</strong> (wool, face,
+hat), your <strong>level</strong>, <strong>league</strong>, <strong>coins won this week</strong> and
+<strong>wins</strong>. Nothing else: not your Facebook profile, not your coins or gems.</p>
+<p>When you share your <strong>invite link</strong>, whoever opens it sees your sheep's name
+and look, and your code. Don't share it if you don't want that.</p>
+
+<h2>Anonymous gameplay statistics</h2>
+<p>Separately from your account, the game sends statistics tied to an
+<strong>installation ID</strong>, a random number created on first launch. They are
+<strong>not linked to your account</strong>, and carry no name, no Facebook ID and no
+advertising ID.</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Installation ID</strong>: a random number created on first launch. It is not
+      linked to your device or your advertising ID. It is stored with your account
+      only for a purchase and for the one-time import of an old save (see those
+      sections), and in the email if you use CONTACT US</td>
+      <td>To tell whether two events come from the same installation</td>
+      <td>Legitimate interest</td>
+    </tr>
+    <tr>
+      <td><strong>Gameplay events</strong>: app opened, sessions and their length, screens
+      viewed; the first-launch tutorial; matchmaking time; at the end of a race your
+      placement, duration, coins collected, whether you won, powers and jumps used,
+      whether you gave up; chests, missions, daily gift and rewards collected;
+      reward videos offered, started and finished; which pack you tried to buy and
+      how it ended (never the amount); network drops; notifications opened, or
+      received with the game open; account actions (Facebook linked, invite shared,
+      account deleted), without who; the
+      Play Store campaign you came from; the app version; how long the server takes
+      to answer. <strong>No race or ticket ID</strong>, nothing that points to your account</td>
+      <td>To balance the game, see what is too hard, too easy or too slow, and
+      count how many players come back</td>
+      <td>Legitimate interest</td>
+    </tr>
+    <tr>
+      <td><strong>Technical error reports</strong>: the error message and where in the app it
+      happened, with no personal content</td>
+      <td>To notice when something breaks</td>
+      <td>Legitimate interest</td>
+    </tr>
+    <tr>
+      <td><strong>Crash reports</strong>: error type and message, where in the code it
+      happened, phone model, Android version, memory, app version, recent technical
+      events and the installation ID. No name, IP address, screenshots or anything
+      you typed</td>
+      <td>To find and fix crashes</td>
+      <td>Legitimate interest</td>
+    </tr>
+  </tbody>
+</table>
+<p>Crash reports are processed by <strong>Functional Software, Inc. (Sentry)</strong> on
+our behalf, stored in the European Union (Frankfurt).</p>
+
+<h2>Where the data is</h2>
+<p>Your account, your game and the statistics are on our server at
+<strong>Supabase</strong>, hosted in the <strong>European Union (Ireland)</strong>. The game also
+downloads game settings (prices, calendars) from the same server.</p>
+
+<h2>How long we keep it</h2>
+<table>
+  <thead><tr><th>Data</th><th>Kept for</th></tr></thead>
+  <tbody>
+    <tr><td>Your account and game</td><td>Until you delete it. Guest accounts that never
+    finished a race: <strong>30 days</strong>. Accounts not used for <strong>12 months</strong>:
+    deleted</td></tr>
+    <tr><td>Requests sent by the phone</td><td><strong>7 days</strong></td></tr>
+    <tr><td>Record of coin and gem changes</td><td><strong>180 days</strong></td></tr>
+    <tr><td>Race results sent to the server</td><td><strong>30 days</strong></td></tr>
+    <tr><td>Anonymous gameplay statistics</td><td><strong>24 months</strong></td></tr>
+    <tr><td>Crash reports (Sentry)</td><td><strong>30 days</strong></td></tr>
+    <tr><td>Purchase code, pack, Google order number, status and dates</td><td>As long as accounting law
+    requires, <strong>without any link to your account</strong> once you delete it</td></tr>
+  </tbody>
+</table>
+
+<h2>Advertising (Google AdMob)</h2>
+<p>The game shows a banner on the home screen and <strong>video ads only when you
+choose to watch one</strong> for a reward. There are no ads during a race.</p>
+<p>Ads are served by <strong>Google AdMob</strong>, which collects your device's
+<strong>advertising ID</strong>, IP address (approximate location), device information and
+how you interact with ads, for advertising, analytics and fraud prevention. In
+the European Economic Area, the UK and Switzerland we ask for your
+<strong>consent</strong> (Google's consent form) before any ad is requested; without it you
+only get non-personalised ads, or none. You can change your choice any time in
+<strong>Settings → Ad privacy</strong>. You can also reset or delete the advertising ID
+in your phone's settings. How Google uses data:
+<a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
+
+<h2>Purchases (Google Play)</h2>
+<p>Gem packs and No Ads are bought through <strong>Google Play</strong>. Google handles the
+payment: we never see your card or your Google account. The game receives the
+confirmation of the purchase (which pack, and a purchase code) and sends it to our
+server with your account, which asks Google whether it is valid and then adds the
+gems to your account.</p>
+<p>The server keeps the purchase code, the pack, Google's order number, the
+installation ID, your account and the date, so that one purchase can't be used
+twice and so we can help if you report a problem (legitimate interest: fraud
+prevention). To limit abuse, the server keeps your IP address in memory only,
+for ten minutes. If you delete your account, we keep only the purchase code, the pack, Google's
+order number, the status and the dates, with no link to you or to your device:
+they stop the same purchase from being credited twice, and accounting needs them.</p>
+
+<h2>Notifications</h2>
+<p>Reminders (a chest is ready, the daily gift) are <strong>scheduled on your
+phone</strong>. No notification server is involved. You can turn each kind off in
+Settings, or all of them in Android settings.</p>
+
+<h2>What we don't collect</h2>
+<p>No email, phone number, contacts, photos, microphone, camera or precise
+location. The app doesn't ask for those permissions, and they are explicitly
+blocked in its configuration. We don't keep your Facebook token or read your
+Facebook posts.</p>
+
+<h2 id="delete">Deleting your account and data</h2>
+<div class="box">
+  <p><strong>In the app:</strong> <strong>Settings → Delete account</strong>, and confirm twice.
+  Your account, game, friendships and race results are deleted right away.</p>
+  <p><strong>On the web:</strong> <a href="delete.html">projectkey.github.io/lastsheep/delete.html</a>.
+  If you linked Facebook, log in there and delete. If you are a guest, email
+  <a href="mailto:supporto.applicazioni@gmail.com?subject=Last%20Sheep%20Royale%20-%20delete%20my%20account">supporto.applicazioni@gmail.com</a>
+  with your <strong>account code</strong> (six characters, in Settings).</p>
+  <p><strong>From Facebook:</strong> remove Last Sheep Royale in your Facebook settings
+  (Apps and websites). Facebook tells us, we delete the account, and you get a
+  link to check it's done.</p>
+  <p>What stays: the purchase code, pack, Google order number, status and dates of a purchase, with no link to you or your device. The
+  <strong>anonymous statistics</strong> are not linked to your account: to have them erased
+  too, send us the <strong>installation ID</strong> shown in Settings under the credits. We
+  delete every record with that ID within thirty days, crash reports included.</p>
+</div>
+
+<h2>Your rights</h2>
+<p>Under the GDPR you can ask to access, correct or erase your data, restrict or
+object to its processing, and receive it in a portable format. Write to the
+contact address with your account code. You can also complain to the Italian
+data protection authority (<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>) or
+the one where you live.</p>
+
+<h2>Children</h2>
+<p>The game is meant for players aged <strong>13 and over</strong> and is not directed at
+children. It contains ads and real-money purchases. Facebook Login has the same
+minimum age.</p>
+
+<h2>Changes</h2>
+<p>If we change this policy in a way that matters to you, we'll tell you in the app
+before it takes effect. The date at the top is always the latest version.</p>
+
+<hr style="border:0;border-top:1px solid var(--filo);margin:48px 0 8px">
+
+<div lang="it" id="it">
+
+<h1>Last Sheep Royale — Informativa privacy</h1>
+<p class="data">Ultimo aggiornamento: 26 settembre 2026 · per la versione con gli account di gioco</p>
+
+<div class="box">
+  <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account ospite</strong>,
+  senza chiederti niente: monete, gemme e progressi stanno sul nostro server,
+  nell'UE. Se vuoi, dopo puoi <strong>collegare Facebook</strong>: riceviamo il tuo ID
+  Facebook per quest'app e il tuo nome pubblico, <strong>mai l'email né la
+  password</strong>, e non conserviamo il token di Facebook. I tuoi amici nel gioco
+  vedono nome della pecora, aspetto, livello, lega, monete della settimana e
+  vittorie. Le statistiche di gioco restano <strong>anonime</strong> e non sono legate
+  all'account. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
+  legge lo richiede) e gestisce i pagamenti. Non vendiamo dati. Puoi
+  <a href="#cancellazione">cancellare l'account</a> quando vuoi.</p>
+</div>
+
+<h2>Chi tratta i dati</h2>
+<p>Il titolare del trattamento è <strong>PK - PROJECT KEY S.R.L.</strong>, con sede in Via
+Città della Pieve 76, 00191 Roma (RM), Italia — partita IVA e codice fiscale
+15538561000, REA 1597981, PEC <code>pkprojectkeysrl@legalmail.it</code>.</p>
+<p>Per qualunque richiesta sui tuoi dati scrivi a
+<a href="mailto:supporto.applicazioni@gmail.com">supporto.applicazioni@gmail.com</a>: rispondiamo entro trenta
+giorni. La PEC è il recapito legale della società, non il servizio clienti.</p>
+<p>Nel gioco, <strong>Settings → CONTACT US</strong> apre una mail allo stesso indirizzo,
+già compilata con quello che ci serve per trovare il tuo account: codice
+account, versione dell'app, modello del telefono e versione di Android,
+identificativo d'installazione e l'id corto dell'ultima corsa. Puoi leggerla e
+cambiarla prima di mandarla. La tua email e quello che scrivi li usiamo solo per
+risponderti.</p>
+
+<h2>Il tuo account di gioco</h2>
+<p>Il gioco ha bisogno della <strong>connessione a internet</strong>: i progressi stanno sul
+nostro server, così non si modificano dal telefono, ti seguono su un telefono
+nuovo (con Facebook) e i tuoi amici li vedono. Al primo avvio il gioco crea un
+<strong>account ospite</strong>: nessun nome, email o password. Sul telefono resta solo una
+copia per mostrare subito la casa, e le impostazioni (musica, suoni, avvisi).</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>ID dell'account</strong>: un identificativo casuale creato per il tuo
+      account, ospite o Facebook</td>
+      <td>Per tenere i tuoi progressi e sapere quali richieste sono tue</td>
+      <td>Contratto (fornirti il gioco)</td>
+    </tr>
+    <tr>
+      <td><strong>Codice account</strong>: sei caratteri (per esempio <code>K7QM2X</code>), visibile
+      in Settings. È anche il tuo codice d'invito</td>
+      <td>Per invitare gli amici, e per riconoscere l'account se ci scrivi</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Il nome della tua pecora</strong>, quello che scegli nel gioco</td>
+      <td>Per mostrarlo ai tuoi amici. Passa da un filtro delle parolacce</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Fuso orario</strong> del telefono (per esempio Europe/Rome)</td>
+      <td>Perché il giorno e la settimana partano alla tua mezzanotte</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Stato di gioco</strong>: monete, gemme, oggetti, livello, bauli, pass,
+      missioni, lega, premi da raccogliere, tutorial fatto</td>
+      <td>È il gioco: quello che hai e quello che hai fatto</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Registro dei movimenti</strong>: ogni variazione di monete e gemme, con
+      l'azione che l'ha causata, e le richieste mandate dal telefono</td>
+      <td>Perché niente si paghi due volte, e per sistemare un account dopo un
+      errore</td>
+      <td>Contratto; legittimo interesse (prevenzione delle frodi)</td>
+    </tr>
+    <tr>
+      <td><strong>Esiti delle corse</strong> che il telefono manda a fine corsa: piazzamento,
+      durata, monete raccolte, poteri e salti</td>
+      <td>Per pagare il premio giusto, e tagliare gli esiti impossibili</td>
+      <td>Contratto; legittimo interesse (gioco pulito)</td>
+    </tr>
+    <tr>
+      <td><strong>Indice di gioco pulito</strong>: sale quando gli esiti sono impossibili</td>
+      <td>Con un indice alto il podio paga meno, e l'account può uscire dalle
+      classifiche degli amici</td>
+      <td>Legittimo interesse (gioco pulito)</td>
+    </tr>
+    <tr>
+      <td><strong>Amici</strong>: quali account sono tuoi amici, come (invito, codice,
+      Facebook), e chi ti ha invitato</td>
+      <td>Per la lista degli amici, la classifica e il premio d'invito</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Vecchio salvataggio</strong>, solo se giocavi alla 1.0.x: il salvataggio
+      trovato sul telefono, cosa è stato accettato, e il vecchio identificativo
+      d'installazione</td>
+      <td>Per importare una volta i vecchi progressi, e sistemarli a mano se
+      segnali un problema</td>
+      <td>Contratto</td>
+    </tr>
+  </tbody>
+</table>
+<p>Come ogni richiesta su internet, la connessione mostra al server il tuo
+indirizzo IP. Non lo conserviamo insieme all'account.</p>
+
+<h2>Se colleghi Facebook</h2>
+<p>Collegare Facebook è <strong>facoltativo</strong>: salva i progressi per giocare su un
+telefono nuovo, e trova gli amici che giocano. L'accesso avviene sulla pagina di
+Facebook; la password non la vediamo mai. Con Facebook riceviamo e conserviamo:</p>
+<ul>
+  <li>il tuo <strong>ID Facebook per quest'app</strong> (un identificativo che Facebook crea
+  solo per Last Sheep Royale);</li>
+  <li>il tuo <strong>profilo pubblico</strong>: nome e immagine del profilo, come Facebook
+  li dà con il permesso <code>public_profile</code>;</li>
+  <li><strong>solo se lo permetti</strong> (permesso <code>user_friends</code>): l'elenco dei
+  tuoi amici di Facebook <strong>che giocano anche loro e hanno collegato
+  Facebook</strong>. Lo usiamo all'accesso per renderli tuoi amici nel gioco; teniamo
+  le amicizie, non l'elenco.</li>
+</ul>
+<p><strong>Non conserviamo il token di Facebook</strong>: si usa una volta, all'accesso, e
+si butta. <strong>Non chiediamo l'email</strong> e non pubblichiamo mai niente su
+Facebook. Cosa fa Meta col tuo accesso lo spiega
+<a href="https://www.facebook.com/privacy/policy/">l'informativa di Meta</a>.</p>
+
+<h2>Cosa vedono i tuoi amici</h2>
+<p>I tuoi amici nel gioco vedono: <strong>nome e aspetto</strong> della pecora (lana, viso,
+cappello), <strong>livello</strong>, <strong>lega</strong>, <strong>monete vinte questa settimana</strong>
+e <strong>vittorie</strong>. Nient'altro: non il tuo profilo Facebook, non le tue monete
+o gemme.</p>
+<p>Quando condividi il tuo <strong>link d'invito</strong>, chi lo apre vede nome e aspetto
+della tua pecora e il tuo codice. Se non vuoi, non condividerlo.</p>
+
+<h2>Statistiche di gioco anonime</h2>
+<p>A parte l'account, il gioco manda statistiche legate a un <strong>identificativo
+d'installazione</strong>, un numero casuale creato al primo avvio. <strong>Non sono legate
+all'account</strong>, e non contengono nomi, ID Facebook o identificativo
+pubblicitario.</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Identificativo d'installazione</strong>: un numero casuale creato al primo
+      avvio. Non è collegato al dispositivo né all'identificativo pubblicitario. Sta
+      con il tuo account solo per un acquisto e per l'import, una volta, di un vecchio
+      salvataggio (vedi quelle sezioni), e nella mail se usi CONTACT US</td>
+      <td>Per capire se due eventi vengono dalla stessa installazione</td>
+      <td>Legittimo interesse</td>
+    </tr>
+    <tr>
+      <td><strong>Eventi di gioco</strong>: apertura dell'app, sessioni e loro durata,
+      schermate viste; il tutorial del primo avvio; il tempo della ricerca della
+      partita; a fine corsa piazzamento, durata, monete raccolte, vittoria, poteri e
+      salti usati, se hai abbandonato; bauli, missioni, regalo del giorno e premi
+      raccolti; video premiati offerti, iniziati e finiti; quale pacchetto hai
+      provato a comprare e com'è andata (mai l'importo); cadute della rete; notifiche
+      aperte, o arrivate col gioco aperto; azioni sull'account (Facebook collegato,
+      invito condiviso, account cancellato), senza dire di chi; la campagna del Play
+      Store da cui arrivi; la versione dell'app; quanto
+      ci mette il server a rispondere. <strong>Nessun id della corsa o del
+      biglietto</strong>, niente che porti al tuo account</td>
+      <td>Per bilanciare il gioco, vedere cosa è troppo difficile, troppo facile o
+      troppo lento, e contare quanti tornano</td>
+      <td>Legittimo interesse</td>
+    </tr>
+    <tr>
+      <td><strong>Segnalazioni tecniche di errore</strong>: il messaggio d'errore e il punto
+      dell'app in cui è successo, senza contenuti personali</td>
+      <td>Per accorgerci quando qualcosa si rompe</td>
+      <td>Legittimo interesse</td>
+    </tr>
+    <tr>
+      <td><strong>Segnalazioni di arresto anomalo</strong>: tipo e messaggio dell'errore, punto
+      del codice, modello del telefono, versione di Android, memoria, versione
+      dell'app, ultimi eventi tecnici e l'identificativo d'installazione. Niente
+      nome, indirizzo IP, schermate o cose che hai scritto</td>
+      <td>Per trovare e correggere i blocchi dell'app</td>
+      <td>Legittimo interesse</td>
+    </tr>
+  </tbody>
+</table>
+<p>Le segnalazioni di arresto anomalo le tratta per nostro conto
+<strong>Functional Software, Inc. (Sentry)</strong>, responsabile del trattamento, che le
+conserva nell'Unione Europea (Francoforte).</p>
+
+<h2>Dove stanno i dati</h2>
+<p>Account, gioco e statistiche stanno sul nostro server su <strong>Supabase</strong>,
+nell'<strong>Unione Europea (Irlanda)</strong>. Dallo stesso server il gioco scarica le
+impostazioni di gioco (prezzi, calendari).</p>
+
+<h2>Per quanto li teniamo</h2>
+<table>
+  <thead><tr><th>Dato</th><th>Per quanto</th></tr></thead>
+  <tbody>
+    <tr><td>Account e gioco</td><td>Finché non lo cancelli. Account ospite che non hanno
+    mai finito una corsa: <strong>30 giorni</strong>. Account non usati da <strong>12
+    mesi</strong>: cancellati</td></tr>
+    <tr><td>Richieste mandate dal telefono</td><td><strong>7 giorni</strong></td></tr>
+    <tr><td>Registro dei movimenti di monete e gemme</td><td><strong>180 giorni</strong></td></tr>
+    <tr><td>Esiti delle corse mandati al server</td><td><strong>30 giorni</strong></td></tr>
+    <tr><td>Statistiche di gioco anonime</td><td><strong>24 mesi</strong></td></tr>
+    <tr><td>Segnalazioni di arresto anomalo (Sentry)</td><td><strong>30 giorni</strong></td></tr>
+    <tr><td>Codice, prodotto, numero d'ordine, stato e date di un acquisto</td><td>Quanto chiede la legge
+    contabile, <strong>senza legame con l'account</strong> dopo che l'hai cancellato</td></tr>
+  </tbody>
+</table>
+
+<h2>Pubblicità (Google AdMob)</h2>
+<p>Il gioco mostra un banner nella schermata principale e <strong>video solo quando
+scegli tu di guardarne uno</strong> in cambio di un premio. Durante la corsa non c'è
+pubblicità.</p>
+<p>Gli annunci li serve <strong>Google AdMob</strong>, che raccoglie l'<strong>identificativo
+pubblicitario</strong> del dispositivo, l'indirizzo IP (posizione approssimativa), dati
+sul dispositivo e le interazioni con gli annunci, per pubblicità, statistiche e
+prevenzione delle frodi. Nello Spazio economico europeo, nel Regno Unito e in
+Svizzera ti chiediamo il <strong>consenso</strong> (il modulo di Google) prima di
+richiedere qualunque annuncio; senza, ricevi solo annunci non personalizzati, o
+nessuno. Puoi cambiare scelta quando vuoi da <strong>Settings → Ad privacy</strong>, e
+azzerare o eliminare l'identificativo pubblicitario dalle impostazioni del
+telefono. Come Google usa i dati:
+<a href="https://policies.google.com/technologies/partner-sites?hl=it">policies.google.com/technologies/partner-sites</a>.</p>
+
+<h2>Acquisti (Google Play)</h2>
+<p>I pacchetti di gemme e No Ads si comprano tramite <strong>Google Play</strong>. Il
+pagamento lo gestisce Google: non vediamo mai la tua carta né il tuo account
+Google. Il gioco riceve la conferma dell'acquisto (quale pacchetto e un codice
+d'acquisto) e la manda al nostro server insieme al tuo account; il server chiede
+a Google se è valido e poi aggiunge le gemme al tuo account.</p>
+<p>Il server conserva codice, pacchetto, numero d'ordine di Google,
+identificativo d'installazione, account e data, perché lo stesso acquisto non si
+usi due volte e per aiutarti se segnali un problema (legittimo interesse:
+prevenzione delle frodi). Per limitare gli abusi il server tiene l'indirizzo IP
+solo in memoria, per dieci minuti. Quando cancelli l'account, delle ricevute d'acquisto di Google Play conserviamo
+solo il codice della ricevuta, il prodotto, il numero d'ordine, lo stato e le
+date, senza nessun collegamento a te né al tuo dispositivo: servono a impedire che
+la stessa ricevuta venga accreditata due volte e per la contabilità.</p>
+
+<h2>Notifiche</h2>
+<p>I promemoria (un baule pronto, il regalo del giorno) sono <strong>programmati sul
+telefono</strong>. Non c'è un server di notifiche. Puoi spegnerli uno per uno nelle
+impostazioni del gioco, o tutti da quelle di Android.</p>
+
+<h2>Cosa non raccogliamo</h2>
+<p>Email, numero di telefono, rubrica, foto, microfono, fotocamera, posizione
+precisa: niente di questo. L'app non chiede quei permessi, e sono bloccati
+esplicitamente nella sua configurazione. Non conserviamo il token di Facebook e
+non leggiamo i tuoi post.</p>
+
+<h2 id="cancellazione">Cancellare l'account e i dati</h2>
+<div class="box">
+  <p><strong>Nell'app:</strong> <strong>Settings → Delete account</strong>, e conferma due volte.
+  Account, gioco, amicizie ed esiti delle corse si cancellano subito.</p>
+  <p><strong>Dal web:</strong> <a href="delete.html">projectkey.github.io/lastsheep/delete.html</a>.
+  Se hai collegato Facebook, accedi lì e cancella. Se sei ospite, scrivi a
+  <a href="mailto:supporto.applicazioni@gmail.com?subject=Last%20Sheep%20Royale%20-%20cancellazione%20account">supporto.applicazioni@gmail.com</a>
+  con il tuo <strong>codice account</strong> (sei caratteri, in Settings).</p>
+  <p><strong>Da Facebook:</strong> togli Last Sheep Royale dalle impostazioni di Facebook
+  (App e siti web). Facebook ce lo dice, cancelliamo l'account, e ricevi un link
+  per controllare che sia fatto.</p>
+  <p>Cosa resta: codice della ricevuta, prodotto, numero d'ordine, stato e date di un acquisto, senza legame con te né col tuo dispositivo. Le
+  <strong>statistiche anonime</strong> non sono legate all'account: per far cancellare
+  anche quelle, mandaci l'<strong>identificativo d'installazione</strong> che trovi in
+  Settings sotto ai crediti. Cancelliamo ogni riga con quell'ID entro trenta
+  giorni, segnalazioni di arresto anomalo comprese.</p>
+</div>
+
+<h2>I tuoi diritti</h2>
+<p>Puoi chiedere di accedere ai tuoi dati, correggerli, cancellarli, limitarne il
+trattamento, opporti, e riceverli in un formato leggibile da una macchina.
+Scrivi all'indirizzo di contatto con il tuo codice account. Puoi anche
+rivolgerti al Garante per la protezione dei dati personali
+(<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).</p>
+
+<h2>Minori</h2>
+<p>Il gioco è pensato per chi ha <strong>almeno 13 anni</strong> e non si rivolge ai bambini:
+contiene pubblicità e acquisti con denaro vero. Anche l'accesso con Facebook ha
+la stessa età minima.</p>
+
+<h2>Se cambia qualcosa</h2>
+<p>Se modifichiamo questa informativa in modo che conti per te, te lo diciamo
+dentro all'app prima che entri in vigore. La data in cima dice sempre qual è
+l'ultima versione.</p>
+
+</div>
+
+<hr style="border:0;border-top:1px solid var(--filo);margin:40px 0 18px">
+<p class="briciole">
+  <strong>PK - PROJECT KEY S.R.L.</strong> · Via Città della Pieve 76, 00191 Roma (RM) ·
+  P. IVA 15538561000 · REA Roma 1597981
+</p>
+
+</main>
+</body>
+</html>
