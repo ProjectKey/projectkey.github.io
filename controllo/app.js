@@ -18,6 +18,8 @@ const MENU = [
   { gruppo: 'Giocatori', voci: [
     { k: 'giocatori', nome: 'Giocatori', ico: '☺' },
     { k: 'partite', nome: 'Partite', ico: '♠' },
+    // Compare solo se almeno un gioco sa dare le segnalazioni (`capacita` dichiara `problemi`).
+    { k: 'segnalazioni', nome: 'Segnalazioni', ico: '⚐', serve: 'problemi' },
     { k: 'assistenza', nome: 'Assistenza', ico: '✉', fase: 2 },
     { k: 'moderazione', nome: 'Moderazione', ico: '⚑', fase: 2 },
     { k: 'frodi', nome: 'Frodi', ico: '⛨', fase: 2 },
@@ -55,6 +57,7 @@ const PAGINE = {
   apps: () => import('./pagine/apps.js'),
   giocatori: () => import('./pagine/giocatori.js'),
   partite: () => import('./pagine/partite.js'),
+  segnalazioni: () => import('./pagine/segnalazioni.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
@@ -142,7 +145,7 @@ export async function avvia(radice, { email, token }) {
       h('div', { class: 'marchio' }, h('span', { class: 'logo' }, 'CC'), h('div', {}, 'Control Center', h('small', {}, 'PK - Project Key'))),
       preferiti.length ? [h('div', { class: 'gruppo' }, 'Preferiti'),
         preferiti.map((p) => h('a', { class: 'voce', href: p.hash }, h('span', { class: 'ico' }, '★'), p.titolo))] : null,
-      MENU.map((g) => [h('div', { class: 'gruppo' }, g.gruppo), g.voci.map((v) => h('a', {
+      MENU.map((g) => [h('div', { class: 'gruppo' }, g.gruppo), g.voci.filter((v) => !v.serve || v.k === attiva || apps.some((a) => (a.capacita?.azioni ?? []).includes(v.serve))).map((v) => h('a', {
         class: `voce${v.k === attiva ? ' attiva' : ''}${v.fase ? ' spenta' : ''}`, href: `#/${v.k}`,
         onclick: () => guscio.classList.remove('menu-aperto'),
         title: v.fase ? `${v.nome}: fase ${v.fase}` : v.nome,

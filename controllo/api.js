@@ -23,6 +23,7 @@ export const NOMI = {
   cercaGiocatori: 'giocatori.cerca', scheda: 'giocatori.scheda', timeline: 'giocatori.timeline',
   accredita: 'giocatori.accredita', blocca: 'giocatori.blocca', sblocca: 'giocatori.sblocca', nome: 'giocatori.nome',
   cercaPartite: 'partite.cerca', partita: 'partite.scheda', configLeggi: 'config.leggi', configScrivi: 'config.scrivi',
+  problemi: 'problemi', problemaLetto: 'problemi.letto',
 };
 
 export class ErroreApi extends Error {
@@ -222,6 +223,18 @@ export async function rimborsa(app, id, motivo, codice) {
   if (!inProva() && codice && verificaCodice) await verificaCodice(codice);
   return chiama('acquisti.rimborsa', { app, id, motivo });
 }
+
+/**
+ * **Le segnalazioni dei giocatori** («Segnala un problema», F-146-bis): le più recenti prima,
+ * al massimo 200. `soloNonLette` = solo quelle che nessuno ha ancora segnato come lette.
+ */
+export async function problemi(app, da, a, soloNonLette = false) {
+  const j = sbusta(await chiama('problemi', { app, da, a, soloNonLette }));
+  return j.problemi ?? (Array.isArray(j.dati) ? j.dati : []);
+}
+
+/** Segna letta una segnalazione. È una scrittura: il server vuole un motivo e la mette nel registro. */
+export const problemaLetto = (app, id, motivo = 'Segnalazione letta nel pannello') => chiama('problemi.letto', { app, id, motivo });
 
 const NOMI_CANALI = { production: 'Produzione', internal: 'Test interno', alpha: 'Test chiuso (alpha)', beta: 'Test aperto (beta)' };
 

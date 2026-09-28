@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto'];
 
 const APPS = [
   {
@@ -189,6 +189,15 @@ export async function rispondi(azione, a) {
       ],
     };
     case 'acquisti.rimborsa': return { ok: true, acquisto: a.id, revoca: 'revocato' };
+    case 'problemi': {
+      const tutti = [
+        { id: 'pr-1', profilo_id: GIOCATORI[1].id, giocatore: 'Marta88', testo: 'Il tavolo si è bloccato dopo la scopa, non potevo più giocare', dove: 'tavolo', partita_id: 'p-1000-0', versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Samsung SM-A546B · Android 14', creata_il: istante(18), letta_il: null, letta_da: null },
+        { id: 'pr-2', profilo_id: GIOCATORI[2].id, giocatore: 'Giocatore 4685', testo: 'Non mi è arrivato il baule della missione', dove: 'impostazioni', partita_id: null, versione: '1.0.7', aggiornamento: null, telefono: 'Xiaomi 2201117TY · Android 13', creata_il: istante(400), letta_il: null, letta_da: null },
+        { id: 'pr-3', profilo_id: GIOCATORI[0].id, giocatore: 'Giorgio', testo: 'Prova della segnalazione', dove: 'impostazioni', partita_id: null, versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Google Pixel 7 · Android 15', creata_il: istante(3000), letta_il: istante(2900), letta_da: 'supporto.applicazioni@gmail.com' },
+      ];
+      return { ok: true, problemi: a.soloNonLette ? tutti.filter((x) => !x.letta_il) : tutti };
+    }
+    case 'problemi.letto': return { ok: true, id: a.id, letta_il: istante(0), letta_da: 'supporto.applicazioni@gmail.com' };
     case 'versioni': return {
       ok: true,
       store: [
