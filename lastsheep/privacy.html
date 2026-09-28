@@ -10,8 +10,9 @@
   Scritta leggendo il codice e il progetto, non a memoria:
   docs/PROGETTO_SERVER.md (conto sul server, account, Facebook, amici;
   vince il §11), SPECIFICA M16 e M22, src/nuvola.ts (telemetria),
-  src/negozio/annunci.ts (AdMob + UMP), src/negozio/cassa.ts (Google Play),
-  src/notifiche.ts (notifiche locali), src/crash.ts (Sentry),
+  src/negozio/annunci.ts (AdMob + UMP, SPENTO nella 1.2.0: PUBBLICITA_ATTIVA
+  in src/dati.ts), src/negozio/cassa.ts (Google Play), src/notifiche.ts
+  (notifiche locali), src/crash.ts + src/erroreDati.ts (errori in casa),
   supabase/functions/verifica-acquisto (verifica degli acquisti), app.json
   (permessi). Se una di quelle cose cambia, questa pagina va riscritta nello
   stesso giro — e con lei il modulo «Sicurezza dei dati» della Play Console
@@ -19,6 +20,13 @@
   Rev 24/09/2026 notte: account (ospite e Facebook), amici, cancellazione.
   Rev 26/09/2026: CONTACT US (src/supporto.ts) come canale; gli eventi di
   src/misure.ts e src/misureApp.ts (docs/ANALYTICS.md), senza id del biglietto.
+  Rev 25/09/2026 sera: Expo (EAS Update: id client casuale e IP a ogni avvio)
+  come responsabile, sezioni «Where the data is» / «Dove stanno i dati».
+  Rev 25/09/2026, release 1.2.0: niente pubblicita' (AdMob, UMP, ID pubblicita',
+  No Ads) e niente Sentry; gli errori come eventi `errore` della telemetria,
+  ripuliti. Quando torna AdMob, le sezioni «Advertising»/«Pubblicità» si
+  riprendono dalla storia di git (commit b4bd7af) e si aggiornano.
+  Rev 28/09/2026: età minima 14.
 -->
 <link rel="stylesheet" href="stile.css">
 </head>
@@ -34,7 +42,7 @@
 </p>
 
 <h1>Last Sheep Royale — Privacy policy</h1>
-<p class="data">Last updated: 26 September 2026 · for the version with game accounts</p>
+<p class="data">Last updated: 28 September 2026 · version 1.2.0 (no ads)</p>
 
 <div class="box">
   <p><strong>In short.</strong> The game creates a <strong>guest account</strong> for you on first
@@ -44,8 +52,8 @@
   email or your password</strong>, and we don't keep your Facebook token. Your
   friends in the game see your sheep's name, look, level, league, weekly coins
   and wins. Gameplay statistics stay <strong>anonymous</strong> and are not linked to your
-  account. <strong>Google</strong> shows ads (with your consent where the law requires
-  it) and handles payments. We don't sell data. You can
+  account. <strong>There are no ads</strong> in this version. <strong>Google</strong> handles
+  payments. We don't sell data. You can
   <a href="#delete">delete your account</a> at any time.</p>
 </div>
 
@@ -183,7 +191,7 @@ advertising ID.</p>
       viewed; the first-launch tutorial; matchmaking time; at the end of a race your
       placement, duration, coins collected, whether you won, powers and jumps used,
       whether you gave up; chests, missions, daily gift and rewards collected;
-      reward videos offered, started and finished; which pack you tried to buy and
+      free coins taken when you ran out; which pack you tried to buy and
       how it ended (never the amount); network drops; notifications opened, or
       received with the game open; account actions (Facebook linked, invite shared,
       account deleted), without who; the
@@ -194,28 +202,32 @@ advertising ID.</p>
       <td>Legitimate interest</td>
     </tr>
     <tr>
-      <td><strong>Technical error reports</strong>: the error message and where in the app it
-      happened, with no personal content</td>
-      <td>To notice when something breaks</td>
-      <td>Legitimate interest</td>
-    </tr>
-    <tr>
-      <td><strong>Crash reports</strong>: error type and message, where in the code it
-      happened, phone model, Android version, memory, app version, recent technical
-      events and the installation ID. No name, IP address, screenshots or anything
-      you typed</td>
+      <td><strong>Error reports</strong>: when something in the app breaks, the type of
+      error, a shortened message and where in the code it happened, the screen you
+      were on, the app version and update, with the installation ID. Names, codes,
+      emails and similar are removed from the message before it leaves the phone.
+      No IP address, screenshots or anything you typed. They go to our own server
+      like the statistics: <strong>no third-party crash service</strong></td>
       <td>To find and fix crashes</td>
       <td>Legitimate interest</td>
     </tr>
   </tbody>
 </table>
-<p>Crash reports are processed by <strong>Functional Software, Inc. (Sentry)</strong> on
-our behalf, stored in the European Union (Frankfurt).</p>
+<p>If the app crashes inside Android itself, Google Play may show us anonymous
+crash statistics (Android vitals), under Google's own privacy policy.</p>
 
 <h2>Where the data is</h2>
 <p>Your account, your game and the statistics are on our server at
 <strong>Supabase</strong>, hosted in the <strong>European Union (Ireland)</strong>. The game also
 downloads game settings (prices, calendars) from the same server.</p>
+<p><strong>App updates.</strong> At every launch the game asks
+<strong>Expo</strong> (650 Industries, Inc., USA), the service that delivers small
+updates to the game without going through the store, whether a new version is
+available. Expo receives a <strong>random ID created by the update system</strong> on
+your phone, the app version and update channel, and — like any server — your
+<strong>IP address</strong>. It processes them on our behalf, only to deliver updates;
+they are not linked to your game account. Transfers to the USA are covered by
+the EU Standard Contractual Clauses.</p>
 
 <h2>How long we keep it</h2>
 <table>
@@ -228,27 +240,19 @@ downloads game settings (prices, calendars) from the same server.</p>
     <tr><td>Record of coin and gem changes</td><td><strong>180 days</strong></td></tr>
     <tr><td>Race results sent to the server</td><td><strong>30 days</strong></td></tr>
     <tr><td>Anonymous gameplay statistics</td><td><strong>24 months</strong></td></tr>
-    <tr><td>Crash reports (Sentry)</td><td><strong>30 days</strong></td></tr>
+    <tr><td>Error reports</td><td><strong>24 months</strong>, like the statistics</td></tr>
     <tr><td>Purchase code, pack, Google order number, status and dates</td><td>As long as accounting law
     requires, <strong>without any link to your account</strong> once you delete it</td></tr>
   </tbody>
 </table>
 
-<h2>Advertising (Google AdMob)</h2>
-<p>The game shows a banner on the home screen and <strong>video ads only when you
-choose to watch one</strong> for a reward. There are no ads during a race.</p>
-<p>Ads are served by <strong>Google AdMob</strong>, which collects your device's
-<strong>advertising ID</strong>, IP address (approximate location), device information and
-how you interact with ads, for advertising, analytics and fraud prevention. In
-the European Economic Area, the UK and Switzerland we ask for your
-<strong>consent</strong> (Google's consent form) before any ad is requested; without it you
-only get non-personalised ads, or none. You can change your choice any time in
-<strong>Settings → Ad privacy</strong>. You can also reset or delete the advertising ID
-in your phone's settings. How Google uses data:
-<a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
+<h2>Advertising</h2>
+<p>This version of the game has <strong>no ads</strong>: no advertising SDK, no
+advertising ID, no ad consent form. If a future version adds ads, we will update
+this page before it is released.</p>
 
 <h2>Purchases (Google Play)</h2>
-<p>Gem packs and No Ads are bought through <strong>Google Play</strong>. Google handles the
+<p>Gem packs are bought through <strong>Google Play</strong>. Google handles the
 payment: we never see your card or your Google account. The game receives the
 confirmation of the purchase (which pack, and a purchase code) and sends it to our
 server with your account, which asks Google whether it is valid and then adds the
@@ -286,7 +290,7 @@ Facebook posts.</p>
   <p>What stays: the purchase code, pack, Google order number, status and dates of a purchase, with no link to you or your device. The
   <strong>anonymous statistics</strong> are not linked to your account: to have them erased
   too, send us the <strong>installation ID</strong> shown in Settings under the credits. We
-  delete every record with that ID within thirty days, crash reports included.</p>
+  delete every record with that ID within thirty days, error reports included.</p>
 </div>
 
 <h2>Your rights</h2>
@@ -297,9 +301,10 @@ data protection authority (<a href="https://www.garanteprivacy.it">garanteprivac
 the one where you live.</p>
 
 <h2>Children</h2>
-<p>The game is meant for players aged <strong>13 and over</strong> and is not directed at
-children. It contains ads and real-money purchases. Facebook Login has the same
-minimum age.</p>
+<p>The game is meant for players aged <strong>14 and over</strong> (the age of digital
+consent in Italy, art. 2-quinquies of the Italian privacy code and art. 8 GDPR) and is
+not directed at children. It contains real-money purchases. We don't knowingly collect
+data from anyone under 14; if we find out we did, we delete the account.</p>
 
 <h2>Changes</h2>
 <p>If we change this policy in a way that matters to you, we'll tell you in the app
@@ -310,7 +315,7 @@ before it takes effect. The date at the top is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Last Sheep Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 26 settembre 2026 · per la versione con gli account di gioco</p>
+<p class="data">Ultimo aggiornamento: 28 settembre 2026 · versione 1.2.0 (senza pubblicità)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account ospite</strong>,
@@ -320,8 +325,8 @@ before it takes effect. The date at the top is always the latest version.</p>
   password</strong>, e non conserviamo il token di Facebook. I tuoi amici nel gioco
   vedono nome della pecora, aspetto, livello, lega, monete della settimana e
   vittorie. Le statistiche di gioco restano <strong>anonime</strong> e non sono legate
-  all'account. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
-  legge lo richiede) e gestisce i pagamenti. Non vendiamo dati. Puoi
+  all'account. In questa versione <strong>non c'è pubblicità</strong>. <strong>Google</strong>
+  gestisce i pagamenti. Non vendiamo dati. Puoi
   <a href="#cancellazione">cancellare l'account</a> quando vuoi.</p>
 </div>
 
@@ -462,7 +467,7 @@ pubblicitario.</p>
       schermate viste; il tutorial del primo avvio; il tempo della ricerca della
       partita; a fine corsa piazzamento, durata, monete raccolte, vittoria, poteri e
       salti usati, se hai abbandonato; bauli, missioni, regalo del giorno e premi
-      raccolti; video premiati offerti, iniziati e finiti; quale pacchetto hai
+      raccolti; monete gratis prese quando eri senza; quale pacchetto hai
       provato a comprare e com'è andata (mai l'importo); cadute della rete; notifiche
       aperte, o arrivate col gioco aperto; azioni sull'account (Facebook collegato,
       invito condiviso, account cancellato), senza dire di chi; la campagna del Play
@@ -474,29 +479,34 @@ pubblicitario.</p>
       <td>Legittimo interesse</td>
     </tr>
     <tr>
-      <td><strong>Segnalazioni tecniche di errore</strong>: il messaggio d'errore e il punto
-      dell'app in cui è successo, senza contenuti personali</td>
-      <td>Per accorgerci quando qualcosa si rompe</td>
-      <td>Legittimo interesse</td>
-    </tr>
-    <tr>
-      <td><strong>Segnalazioni di arresto anomalo</strong>: tipo e messaggio dell'errore, punto
-      del codice, modello del telefono, versione di Android, memoria, versione
-      dell'app, ultimi eventi tecnici e l'identificativo d'installazione. Niente
-      nome, indirizzo IP, schermate o cose che hai scritto</td>
+      <td><strong>Segnalazioni di errore</strong>: quando qualcosa nell'app si rompe, il tipo
+      d'errore, il messaggio accorciato e il punto del codice, la schermata in cui
+      eri, versione e aggiornamento dell'app, con l'identificativo d'installazione.
+      Nomi, codici, email e simili si tolgono dal messaggio prima che lasci il
+      telefono. Niente indirizzo IP, schermate o cose che hai scritto. Arrivano al
+      nostro server come le statistiche: <strong>nessun servizio esterno per i
+      crash</strong></td>
       <td>Per trovare e correggere i blocchi dell'app</td>
       <td>Legittimo interesse</td>
     </tr>
   </tbody>
 </table>
-<p>Le segnalazioni di arresto anomalo le tratta per nostro conto
-<strong>Functional Software, Inc. (Sentry)</strong>, responsabile del trattamento, che le
-conserva nell'Unione Europea (Francoforte).</p>
+<p>Se l'app si blocca dentro ad Android, Google Play può mostrarci statistiche
+anonime sui blocchi (Android vitals), secondo l'informativa di Google.</p>
 
 <h2>Dove stanno i dati</h2>
 <p>Account, gioco e statistiche stanno sul nostro server su <strong>Supabase</strong>,
 nell'<strong>Unione Europea (Irlanda)</strong>. Dallo stesso server il gioco scarica le
 impostazioni di gioco (prezzi, calendari).</p>
+<p><strong>Aggiornamenti dell'app.</strong> A ogni avvio il gioco chiede a
+<strong>Expo</strong> (650 Industries, Inc., USA), il servizio che consegna i piccoli
+aggiornamenti del gioco senza passare dallo store, se c'è una versione nuova.
+Expo riceve un <strong>identificativo casuale creato dal sistema di aggiornamento</strong>
+sul telefono, la versione dell'app e il canale, e — come ogni server — il tuo
+<strong>indirizzo IP</strong>. Li tratta per nostro conto, responsabile del trattamento,
+solo per consegnare gli aggiornamenti; non sono legati al tuo account di gioco.
+Il trasferimento negli USA è coperto dalle Clausole contrattuali standard
+dell'UE.</p>
 
 <h2>Per quanto li teniamo</h2>
 <table>
@@ -509,29 +519,20 @@ impostazioni di gioco (prezzi, calendari).</p>
     <tr><td>Registro dei movimenti di monete e gemme</td><td><strong>180 giorni</strong></td></tr>
     <tr><td>Esiti delle corse mandati al server</td><td><strong>30 giorni</strong></td></tr>
     <tr><td>Statistiche di gioco anonime</td><td><strong>24 mesi</strong></td></tr>
-    <tr><td>Segnalazioni di arresto anomalo (Sentry)</td><td><strong>30 giorni</strong></td></tr>
+    <tr><td>Segnalazioni di errore</td><td><strong>24 mesi</strong>, come le statistiche</td></tr>
     <tr><td>Codice, prodotto, numero d'ordine, stato e date di un acquisto</td><td>Quanto chiede la legge
     contabile, <strong>senza legame con l'account</strong> dopo che l'hai cancellato</td></tr>
   </tbody>
 </table>
 
-<h2>Pubblicità (Google AdMob)</h2>
-<p>Il gioco mostra un banner nella schermata principale e <strong>video solo quando
-scegli tu di guardarne uno</strong> in cambio di un premio. Durante la corsa non c'è
-pubblicità.</p>
-<p>Gli annunci li serve <strong>Google AdMob</strong>, che raccoglie l'<strong>identificativo
-pubblicitario</strong> del dispositivo, l'indirizzo IP (posizione approssimativa), dati
-sul dispositivo e le interazioni con gli annunci, per pubblicità, statistiche e
-prevenzione delle frodi. Nello Spazio economico europeo, nel Regno Unito e in
-Svizzera ti chiediamo il <strong>consenso</strong> (il modulo di Google) prima di
-richiedere qualunque annuncio; senza, ricevi solo annunci non personalizzati, o
-nessuno. Puoi cambiare scelta quando vuoi da <strong>Settings → Ad privacy</strong>, e
-azzerare o eliminare l'identificativo pubblicitario dalle impostazioni del
-telefono. Come Google usa i dati:
-<a href="https://policies.google.com/technologies/partner-sites?hl=it">policies.google.com/technologies/partner-sites</a>.</p>
+<h2>Pubblicità</h2>
+<p>Questa versione del gioco <strong>non ha pubblicità</strong>: nessun SDK pubblicitario,
+nessun identificativo pubblicitario, nessun modulo di consenso agli annunci. Se
+una versione futura aggiungerà la pubblicità, aggiorneremo questa pagina prima
+che esca.</p>
 
 <h2>Acquisti (Google Play)</h2>
-<p>I pacchetti di gemme e No Ads si comprano tramite <strong>Google Play</strong>. Il
+<p>I pacchetti di gemme si comprano tramite <strong>Google Play</strong>. Il
 pagamento lo gestisce Google: non vediamo mai la tua carta né il tuo account
 Google. Il gioco riceve la conferma dell'acquisto (quale pacchetto e un codice
 d'acquisto) e la manda al nostro server insieme al tuo account; il server chiede
@@ -571,7 +572,7 @@ non leggiamo i tuoi post.</p>
   <strong>statistiche anonime</strong> non sono legate all'account: per far cancellare
   anche quelle, mandaci l'<strong>identificativo d'installazione</strong> che trovi in
   Settings sotto ai crediti. Cancelliamo ogni riga con quell'ID entro trenta
-  giorni, segnalazioni di arresto anomalo comprese.</p>
+  giorni, segnalazioni di errore comprese.</p>
 </div>
 
 <h2>I tuoi diritti</h2>
@@ -582,9 +583,10 @@ rivolgerti al Garante per la protezione dei dati personali
 (<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).</p>
 
 <h2>Minori</h2>
-<p>Il gioco è pensato per chi ha <strong>almeno 13 anni</strong> e non si rivolge ai bambini:
-contiene pubblicità e acquisti con denaro vero. Anche l'accesso con Facebook ha
-la stessa età minima.</p>
+<p>Il gioco è pensato per chi ha <strong>almeno 14 anni</strong> (l'età del consenso digitale
+in Italia, art. 2-quinquies del Codice privacy e art. 8 GDPR) e non si rivolge ai bambini:
+contiene acquisti con denaro vero. Non raccogliamo consapevolmente dati di chi ha meno
+di 14 anni; se ce ne accorgiamo, cancelliamo l'account.</p>
 
 <h2>Se cambia qualcosa</h2>
 <p>Se modifichiamo questa informativa in modo che conti per te, te lo diciamo
