@@ -197,6 +197,14 @@ section { padding: 64px 0; }
 .schermate figure:nth-child(even) img { transform: rotate(2deg) translateY(14px); }
 .schermate img:hover { transform: rotate(0) scale(1.03); }
 
+/* Le schermate orizzontali (Last Sheep): tre in fila, senza inclinarle troppo. */
+.gioco-2 { margin-top: 56px; }
+.gioco-2 .copertina { background: #7cc8f5; }
+.schermate.orizzontali { grid-template-columns: repeat(3, 1fr); }
+.schermate.orizzontali img { border-radius: 20px; border-width: 5px; }
+.schermate.orizzontali figure:nth-child(odd) img { transform: rotate(-1deg); }
+.schermate.orizzontali figure:nth-child(even) img { transform: rotate(1deg) translateY(10px); }
+
 /* Tre cose su di noi */
 .tre { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .tessera {
@@ -262,6 +270,7 @@ footer nav a:hover { text-decoration: underline; }
     margin: 30px -16px 0; padding: 6px 16px 26px;
   }
   .schermate figure { flex: 0 0 62%; scroll-snap-align: center; }
+  .schermate.orizzontali figure { flex: 0 0 86%; }
   .schermate figure:nth-child(even) img { transform: rotate(2deg); }
   .tre { grid-template-columns: 1fr; }
   .contatti { grid-template-columns: minmax(0, 1fr); padding: 34px 24px; }

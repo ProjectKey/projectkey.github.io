@@ -1,159 +1,211 @@
 /*
-  IL FOGLIO DI STILE DEL SITO
-  ===========================
+  IL FOGLIO DI STILE DELLE PAGINE INTERNE (SetteGames, 1 ottobre 2026)
+  ===================================================================
 
-  Uno solo per tutte le pagine. I colori sono quelli dell'app (l'azzurro
-  dell'icona e il viola dei tasti): il sito e il gioco si vedono uno accanto
-  all'altro nella scheda dello store, e devono somigliarsi.
+  Le pagine dei giochi e quelle di legge (privacy, termini, eliminazione
+  dell'account, FAQ, invito). Stesso stile della home (`home.css`): POP come le
+  app, viola acceso, angoli tondi, ombre colorate, Titan One per i titoli e
+  Baloo 2 per i tasti. Il testo lungo resta nel carattere del sistema, su
+  carta bianca: le informative si devono leggere, non guardare.
+
+  **Lo stesso file sta anche in `lastsheep/stile.css`**, identico: per questo i
+  caratteri hanno percorsi assoluti (`/font/...`). La sorgente di quella copia è
+  nel progetto di Last Sheep (`BattleRoyale2D/sito/lastsheep/stile.css`):
+  cambiandolo qui, va cambiato anche là, se no la loro prossima pubblicazione
+  riporta lo stile vecchio.
 */
+@font-face { font-family: 'Titan One'; src: url('/font/TitanOne-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Baloo 2'; src: url('/font/Baloo2-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
 
 :root {
-  color-scheme: light dark;
-  --ground: #F2F5FA;
-  --carta: #FFFFFF;
-  --carta2: #E8EEF6;
-  --ink: #10182A;
-  --ink2: #46536B;
-  --ink3: #6F7C93;
-  --filo: #DCE4EE;
-  --cielo: #3AC5FA;
-  --cielo-fondo: #0A50AF;
-  --viola: #5B2EE0;
-  --ambra: #FFC93D;
-  --rosso: #C62828;
-  --ombra: 0 1px 2px rgba(10, 32, 80, .06), 0 10px 30px rgba(10, 32, 80, .08);
+  --ground: #f4f0ff;
+  --carta: #ffffff;
+  --carta2: #efe9ff;
+  --ink: #24124f;
+  --ink2: #4a3d72;
+  --ink3: #7a6fa0;
+  --filo: #e6ddff;
+  --viola: #6a3cf5;
+  --viola-chiaro: #9a6bff;
+  --viola-scuro: #5b2ee0;
+  --oro: #ffc93c;
+  --oro-scuro: #f59e0b;
+  --rosa: #ff3d8b;
+  --rosso: #d62a4a;
+  --ombra: 0 2px 0 var(--filo), 0 18px 46px rgba(91, 46, 224, .12);
 }
 
-/* Il tema scuro: quello di sistema, e quello scelto a mano — serve
-   all'anteprima, dove la pagina vive dentro a un visore che ha il suo
-   interruttore. Gli stessi valori, scritti due volte apposta. */
-:root[data-theme="dark"] {
-  --ground: #0A101B;
-  --carta: #141D2D;
-  --carta2: #1D2739;
-  --ink: #E9EFF8;
-  --ink2: #B2BECF;
-  --ink3: #7F8CA1;
-  --filo: #26324A;
-  --viola: #B49CFF;
-  --rosso: #FF7A7A;
-  --ombra: 0 1px 2px rgba(0, 0, 0, .45), 0 12px 30px rgba(0, 0, 0, .42);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ground: #0A101B;
-    --carta: #141D2D;
-    --carta2: #1D2739;
-    --ink: #E9EFF8;
-    --ink2: #B2BECF;
-    --ink3: #7F8CA1;
-    --filo: #26324A;
-    --viola: #B49CFF;
-  --rosso: #FF7A7A;
-    --ombra: 0 1px 2px rgba(0, 0, 0, .45), 0 12px 30px rgba(0, 0, 0, .42);
-  }
-}
-
-* { box-sizing: border-box; }
 [hidden] { display: none !important; }   /* se no un display:flex lo batte */
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: var(--ground);
   color: var(--ink);
-  font: 17px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font: 17px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* La fascia viola in cima, coi raggi: la stessa della home, in piccolo. */
+body::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 300px; z-index: -1;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 0%, rgba(255,255,255,.08) 0 6deg, transparent 6deg 15deg),
+    linear-gradient(160deg, var(--viola-chiaro), var(--viola) 50%, var(--viola-scuro));
+  border-radius: 0 0 50% 50% / 0 0 36px 36px;
 }
 
-main { max-width: 860px; margin: 0 auto; padding: 0 22px 90px; }
+main { max-width: 880px; margin: 0 auto; padding: 18px 18px 80px; }
 
-a { color: var(--viola); text-underline-offset: 3px; }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--viola); outline-offset: 3px; }
+a { color: var(--viola-scuro); font-weight: 600; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
 
-/* --- il cappello azzurro coi raggi, come l'app --- */
+/* Le briciole in cima stanno sulla fascia viola: pastiglie chiare. Quelle in
+   fondo alle pagine di legge stanno sulla carta: restano testo. */
+.briciole { font-size: 15px; margin: 0 0 22px; color: var(--ink3); }
+main > .briciole:first-child {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+  color: rgba(255,255,255,.6); margin: 0 0 22px;
+}
+main > .briciole:first-child a {
+  font: 800 15px/1 'Baloo 2', system-ui; color: #fff; text-decoration: none;
+  background: rgba(255,255,255,.16); padding: 9px 13px 7px; border-radius: 999px;
+}
+main > .briciole:first-child a:first-child {
+  font: 21px/1 'Titan One', system-ui; background: none; padding: 4px 6px 4px 0;
+  color: var(--oro); text-shadow: 0 2px 0 rgba(36,18,79,.35);
+}
+main > .briciole:first-child a:hover { background: rgba(255,255,255,.28); }
+main > .briciole:first-child a:first-child:hover { background: none; }
+
+/* --- il cappello: la carta viola coi raggi, come le app --- */
 .cappello {
-  border-radius: 24px; padding: 44px 30px; margin-top: 8px;
+  border-radius: 30px; padding: 40px 32px 38px; margin-top: 6px;
   position: relative; overflow: hidden; color: #fff;
-  background: linear-gradient(var(--cielo), var(--cielo-fondo));
-  box-shadow: 0 16px 40px rgba(4, 44, 104, .26);
+  background: linear-gradient(150deg, #8c5cff, var(--viola-scuro));
+  box-shadow: 0 6px 0 #4520b8, 0 22px 50px rgba(36, 18, 79, .3);
 }
 .cappello::before {
   content: ""; position: absolute; inset: -45%; pointer-events: none;
   background: repeating-conic-gradient(from -90deg at 50% 32%,
-    rgba(255,255,255,.13) 0deg 5deg, rgba(255,255,255,0) 5deg 10deg);
+    rgba(255,255,255,.1) 0deg 5deg, rgba(255,255,255,0) 5deg 10deg);
 }
 .cappello > * { position: relative; }
-.cappello h1 { font-size: clamp(28px, 5.2vw, 44px); line-height: 1.06; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
-.cappello p { color: rgba(255,255,255,.94); max-width: 58ch; margin: 16px 0 0; }
-.cappello .occhiello { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.82); font-weight: 700; margin-bottom: 10px; }
+.cappello h1 {
+  font: clamp(34px, 6vw, 54px)/1.02 'Titan One', system-ui; margin: 0; letter-spacing: .5px;
+  color: var(--oro); text-wrap: balance;
+  text-shadow: 0 3px 0 var(--oro-scuro), 0 5px 0 #2a1170, 0 12px 24px rgba(20,4,70,.4);
+}
+.cappello p { color: rgba(255,255,255,.95); max-width: 58ch; margin: 16px 0 0; font-size: 18px; }
+.cappello .occhiello {
+  display: inline-block; font: 800 13px/1 'Baloo 2', system-ui; letter-spacing: 1.2px; text-transform: uppercase;
+  background: var(--rosa); color: #fff; padding: 8px 13px 6px; border-radius: 999px; margin-bottom: 14px;
+  box-shadow: 0 6px 16px rgba(255,61,139,.4);
+}
 
-section { padding-top: 54px; }
-h2 { font-size: clamp(21px, 3vw, 27px); margin: 0 0 14px; letter-spacing: -.015em; text-wrap: balance; }
-h3 { font-size: 17px; margin: 0 0 6px; }
-p { margin: 0 0 14px; color: var(--ink2); max-width: 66ch; }
+/* Le sezioni delle pagine dei giochi: carte bianche, una dopo l'altra. */
+main:not(.legge):not(.invito) section {
+  background: var(--carta); border-radius: 26px; padding: 26px 28px 14px; margin-top: 20px;
+  box-shadow: var(--ombra);
+}
+section { padding-top: 40px; }
+h2 {
+  font: clamp(24px, 3.4vw, 30px)/1.1 'Titan One', system-ui; margin: 0 0 12px; letter-spacing: .3px;
+  color: var(--ink); text-wrap: balance;
+}
+h3 { font: 800 19px/1.25 'Baloo 2', system-ui; margin: 0 0 6px; color: var(--ink); }
+p { margin: 0 0 14px; color: var(--ink2); max-width: 68ch; }
 p strong, li strong { color: var(--ink); }
-ul { color: var(--ink2); padding-left: 22px; }
+ul, ol { color: var(--ink2); padding-left: 22px; }
 li { margin-bottom: 8px; }
+hr { border: 0; border-top: 2px dashed var(--filo); }
 
 footer {
-  max-width: 860px; margin: 0 auto; padding: 26px 22px 60px;
-  border-top: 1px solid var(--filo); color: var(--ink3); font-size: 14px;
+  max-width: 880px; margin: 0 auto; padding: 26px 18px 60px; color: var(--ink3); font-size: 14px;
 }
 footer p { color: var(--ink3); font-size: 14px; max-width: none; line-height: 1.75; }
 footer strong { color: var(--ink2); }
 
-/* --- le pagine di legge: privacy e termini ---
-   Tutto sotto a `.legge`, se no i titoli delle sezioni della home si
-   ritroverebbero addosso il filo grigio dei capitoli dell'informativa. */
-.legge .data { color: var(--ink3); font-size: 14px; margin: 0 0 26px; }
-.legge h1 { font-size: clamp(26px, 4.6vw, 34px); line-height: 1.14; margin: 0 0 6px; letter-spacing: -.02em; }
-.legge h2 { font-size: 19px; margin: 32px 0 8px; padding-top: 18px; border-top: 1px solid var(--filo); }
-.legge h2:first-of-type { border-top: 0; padding-top: 0; }
+/* --- le pagine di legge: privacy, termini, eliminazione, FAQ ---
+   Un foglio bianco solo, appoggiato sulla fascia viola: si legge di fila. */
+main.legge {
+  background: var(--carta); border-radius: 30px; margin-top: 26px; padding: 30px 38px 40px;
+  box-shadow: 0 6px 0 var(--filo), 0 26px 60px rgba(36, 18, 79, .18);
+}
+/* Indirizzi e codici lunghi vanno a capo, le tabelle larghe scorrono dentro
+   al foglio: niente deve allargare la pagina oltre lo schermo. */
+main.legge { overflow-wrap: anywhere; }
+.legge table { display: block; overflow-x: auto; }
+/* Sul foglio bianco le briciole in cima sono pastiglie lilla, non bianche. */
+main.legge > .briciole:first-child { color: var(--ink3); }
+main.legge > .briciole:first-child a { background: var(--carta2); color: var(--viola-scuro); }
+main.legge > .briciole:first-child a:first-child { color: var(--viola); text-shadow: none; background: none; }
+main.legge > .briciole:first-child a:hover { background: var(--filo); }
+.legge h1 {
+  font: clamp(30px, 5vw, 44px)/1.08 'Titan One', system-ui; letter-spacing: .3px;
+  color: var(--ink); margin: 6px 0 10px; text-wrap: balance;
+}
+.legge .data {
+  display: inline-block; color: var(--viola-scuro); font: 800 14px/1 'Baloo 2', system-ui;
+  background: var(--carta2); padding: 8px 12px 6px; border-radius: 999px; margin: 0 0 22px;
+}
+.legge h2 {
+  font: clamp(21px, 3vw, 25px)/1.15 'Titan One', system-ui; color: var(--viola-scuro);
+  margin: 34px 0 10px; padding-top: 0; border: 0;
+}
 .legge .box {
-  background: var(--carta); border: 1px solid var(--filo); border-radius: 14px;
-  padding: 14px 16px; margin: 16px 0;
+  background: var(--carta2); border: 0; border-left: 5px solid var(--viola);
+  border-radius: 16px; padding: 14px 18px; margin: 16px 0;
 }
 .legge .box p:last-child { margin-bottom: 0; }
 .legge table {
-  width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 15px;
-  background: var(--carta); border: 1px solid var(--filo); border-radius: 12px; overflow: hidden;
+  width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 15px;
+  background: var(--carta); border: 2px solid var(--filo); border-radius: 16px; overflow: hidden;
 }
-.legge th, .legge td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--filo); vertical-align: top; }
-.legge th { color: var(--ink3); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.legge th, .legge td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--filo); vertical-align: top; }
+.legge th { color: var(--viola-scuro); background: var(--carta2); font: 800 13px/1.3 'Baloo 2', system-ui; text-transform: uppercase; letter-spacing: .06em; }
 .legge tbody tr:last-child th, .legge tbody tr:last-child td { border-bottom: 0; }
-code { background: var(--carta2); border-radius: 6px; padding: 1px 6px; font-size: 14px; }
-.briciole { font-size: 14px; margin-bottom: 22px; color: var(--ink3); }
+code { background: var(--carta2); color: var(--ink); border-radius: 7px; padding: 1px 7px; font-size: 14px; }
 
-/* Il sottotesto di una voce in elenco: la riga di servizio sotto al nome di un
-   gioco. Più piccola e più spenta, ma non sotto ai 14 punti — sul telefono
-   sarebbe la riga che non legge nessuno. */
+/* Il sottotesto di una voce in elenco: non sotto ai 14 punti. */
 .minore { font-size: 15px; color: var(--ink3); }
 
 /* --- i tasti e i riquadri delle pagine che fanno qualcosa: delete e invito ---
-   Il testo del tasto usa --carta: bianco sul viola scuro, blu notte sul viola
-   chiaro del tema scuro. Area da dito 48 punti, come nell'app. */
+   Area da dito 48 punti, come nelle app. */
 .tasto {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 12px 24px; border: 0; border-radius: 14px;
-  background: var(--viola); color: var(--carta);
-  font: inherit; font-weight: 700; letter-spacing: .02em; text-decoration: none;
-  cursor: pointer;
+  min-height: 50px; padding: 13px 24px 11px; border: 0; border-radius: 16px;
+  background: var(--viola); color: #fff;
+  font: 800 17px/1 'Baloo 2', system-ui; letter-spacing: .02em; text-decoration: none;
+  cursor: pointer; box-shadow: 0 5px 0 var(--viola-scuro), 0 12px 24px rgba(106,60,245,.3);
+  transition: transform .12s ease;
 }
-.tasto.rosso { background: var(--rosso); }
-.tasto.grande { font-size: 20px; min-height: 58px; padding: 14px 40px; }
-.tasto.piano { background: transparent; color: var(--viola); border: 2px solid var(--filo); }
-.tasto[disabled] { opacity: .55; cursor: default; }
-.tasti { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 4px; }
+.tasto:hover { transform: translateY(-1px); }
+.tasto:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--viola-scuro); }
+.tasto.rosso { background: var(--rosso); box-shadow: 0 5px 0 #a51c37, 0 12px 24px rgba(214,42,74,.3); }
+.tasto.grande { font-size: 20px; min-height: 58px; padding: 16px 40px 14px; }
+.tasto.piano { background: #fff; color: var(--viola-scuro); box-shadow: 0 5px 0 var(--filo); border: 0; }
+.tasto[disabled] { opacity: .55; cursor: default; transform: none; }
+.tasti { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
 .passo { font-weight: 700; color: var(--ink); }
 .errore { color: var(--rosso); font-weight: 600; }
 .codice-grande {
-  display: inline-block; margin: 6px 0 10px; padding: 8px 16px;
+  display: inline-block; margin: 6px 0 10px; padding: 10px 18px;
   font: 700 clamp(32px, 10vw, 48px)/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: .16em; color: var(--ink);
-  background: var(--carta2); border-radius: 12px;
+  background: var(--carta2); border-radius: 16px; box-shadow: inset 0 0 0 2px var(--filo);
 }
 .invito { text-align: center; }
 .invito p { margin-left: auto; margin-right: auto; }
-.invito img { width: 144px; height: 144px; border-radius: 32px; box-shadow: var(--ombra); margin: 28px auto 6px; display: block; }
-.invito h1 { font-size: clamp(26px, 7vw, 38px); line-height: 1.15; margin: 14px 0 6px; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.invito img { width: 144px; height: 144px; border-radius: 32px; box-shadow: 0 18px 40px rgba(36,18,79,.35); margin: 28px auto 6px; display: block; }
+.invito h1 {
+  font: clamp(28px, 7vw, 40px)/1.12 'Titan One', system-ui; color: #fff; margin: 14px 0 6px; overflow-wrap: anywhere;
+  text-shadow: 0 3px 0 rgba(36,18,79,.35);
+}
+
+@media (max-width: 560px) {
+  main { padding: 14px 16px 64px; }
+  main.legge { margin: 16px 12px 40px; padding: 22px 20px 30px; border-radius: 24px; }
+  .cappello { padding: 30px 22px 28px; border-radius: 26px; }
+  main:not(.legge):not(.invito) section { padding: 22px 20px 10px; border-radius: 22px; }
+}
