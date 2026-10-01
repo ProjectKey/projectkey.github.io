@@ -42,7 +42,10 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-img { max-width: 100%; display: block; }
+/* `height: auto`: le immagini hanno larghezza e altezza scritte nella pagina (per non
+   far saltare il testo mentre arrivano); senza, la larghezza si stringe e l'altezza
+   resta quella scritta, e le schermate escono stirate. */
+img { max-width: 100%; height: auto; display: block; }
 a { color: var(--viola-scuro); font-weight: 600; }
 
 .contenitore { width: min(1120px, 100% - 32px); margin: 0 auto; }
@@ -168,8 +171,10 @@ section { padding: 64px 0; }
   box-shadow: 0 2px 0 var(--bordo), 0 24px 60px rgba(91,46,224,.16);
   display: grid; grid-template-columns: 1.1fr 1fr;
 }
-.gioco .copertina { background: #2f8bff; min-height: 100%; }
-.gioco .copertina img { width: 100%; height: 100%; object-fit: cover; }
+/* La copertina si vede **intera**, nelle sue proporzioni (1024×500): se la
+   scheda è più alta, intorno resta il suo azzurro, non un ritaglio. */
+.gioco .copertina { background: #2f8bff; display: flex; align-items: center; }
+.gioco .copertina img { width: 100%; height: auto; }
 .gioco .dentro { padding: 34px 36px 36px; }
 .gioco .riga { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
 .gioco .icona { width: 76px; height: 76px; border-radius: 20px; box-shadow: 0 8px 20px rgba(91,46,224,.25); }
