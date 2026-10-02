@@ -9,7 +9,12 @@
  * - Prima volta: si arruola il fattore (QR da inquadrare con Google
  *   Authenticator, 1Password, Authy…) e lo si conferma con il primo codice.
  * - Le volte dopo: password, poi codice.
- * - Trenta minuti senza toccare niente e si esce da soli.
+ * - **Lo stesso browser è ricordato per trenta giorni** dall'ultimo codice
+ *   (Giorgio, 2 ott 2026): riaprendo il pannello non si chiede il codice.
+ * - **Trenta minuti fermo e il pannello si blocca**: chiede solo la password,
+ *   controllata con un cliente a parte (`passwordGiusta`), così la sessione
+ *   `aal2` resta quella di prima. Le operazioni critiche vogliono sempre il
+ *   codice fresco (lo pretende il server).
  */
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { CONFIG } from './config.js';
@@ -25,13 +30,25 @@ export function supabase() {
   return cliente;
 }
 
+/* ------------------------------------------------- il browser ricordato */
+
+const leggiNumero = (k) => { try { return Number(localStorage.getItem(`cc.${k}`)) || 0; } catch { return 0; } };
+const scriviNumero = (k, v) => { try { localStorage.setItem(`cc.${k}`, String(v)); } catch { /* niente */ } };
+/** Da chiamare a ogni codice giusto: da qui contano i trenta giorni. */
+const codiceDatoAdesso = () => scriviNumero('codiceIl', Date.now());
+const browserRicordato = () => Date.now() - leggiNumero('codiceIl') < CONFIG.giorniBrowserRicordato * 86_400_000;
+
 /** A che punto siamo: 'fuori' | 'codice' (password fatta, manca il TOTP) | 'arruola' | 'dentro'. */
 export async function statoAccesso() {
   const db = supabase();
   const { data: s } = await db.auth.getSession();
   if (!s.session) return { stato: 'fuori' };
   const { data: livello } = await db.auth.mfa.getAuthenticatorAssuranceLevel();
-  if (livello?.currentLevel === 'aal2') return { stato: 'dentro', email: s.session.user.email };
+  if (livello?.currentLevel === 'aal2') {
+    // Una sessione aperta prima che si contassero i giorni: si comincia a contare da adesso.
+    if (!leggiNumero('codiceIl')) codiceDatoAdesso();
+    if (browserRicordato()) return { stato: 'dentro', email: s.session.user.email };
+  }
   const { data: fattori } = await db.auth.mfa.listFactors();
   const verificati = (fattori?.totp ?? []).filter((f) => f.status === 'verified');
   return verificati.length > 0
@@ -41,20 +58,75 @@ export async function statoAccesso() {
 
 export async function esci() {
   try { await supabase().auth.signOut(); } catch { /* si esce comunque */ }
+  try { localStorage.removeItem('cc.bloccato'); } catch { /* niente */ }
   location.hash = '';
   location.reload();
 }
 
 /* ------------------------------------------------------------ l'inattività */
 
+/**
+ * **Trenta minuti fermo: il pannello si blocca** (§73). Anche a pagina chiusa:
+ * l'ultimo tocco sta nel browser, e riaprendo dopo più di trenta minuti si
+ * ritrova il blocco. Un blocco in corso sopravvive al ricaricare la pagina.
+ */
 let timer = null;
-export function sorvegliaInattivita() {
-  const riparti = () => {
+let riparti = () => {};
+export function sorvegliaInattivita(email) {
+  const minuti = CONFIG.minutiInattivita * 60_000;
+  riparti = () => {
+    if (bloccato()) return;
+    scriviNumero('ultimoTocco', Date.now());
     clearTimeout(timer);
-    timer = setTimeout(() => { void esci(); }, CONFIG.minutiInattivita * 60_000);
+    timer = setTimeout(() => blocca(email), minuti);
   };
-  for (const e of ['pointerdown', 'keydown', 'wheel', 'touchstart']) addEventListener(e, riparti, { passive: true });
-  riparti();
+  for (const e of ['pointerdown', 'keydown', 'wheel', 'touchstart']) addEventListener(e, () => riparti(), { passive: true });
+  const ultimo = leggiNumero('ultimoTocco');
+  if (bloccato() || (ultimo && Date.now() - ultimo > minuti)) blocca(email);
+  else riparti();
+}
+
+const bloccato = () => { try { return localStorage.getItem('cc.bloccato') === '1'; } catch { return false; } };
+
+/** La password, controllata senza toccare la sessione del pannello. */
+async function passwordGiusta(email, password) {
+  const a_parte = createClient(CONFIG.url, CONFIG.chiavePubblica, {
+    auth: { persistSession: false, autoRefreshToken: false, storageKey: 'cc.verifica' },
+  });
+  const { error } = await a_parte.auth.signInWithPassword({ email, password });
+  if (error) return false;
+  // Si chiude solo la sessione appena aperta per controllare: quella del pannello resta.
+  try { await a_parte.auth.signOut({ scope: 'local' }); } catch { /* scade da sola */ }
+  return true;
+}
+
+function blocca(email) {
+  if (document.querySelector('.blocco')) return;
+  clearTimeout(timer);
+  try { localStorage.setItem('cc.bloccato', '1'); } catch { /* niente */ }
+  const pw = h('input', { type: 'password', autocomplete: 'current-password', placeholder: 'password', 'aria-label': 'Password', required: true });
+  const errore = h('div', { class: 'errore-testo', role: 'alert' });
+  const tasto = h('button', { class: 'bottone primario', type: 'submit' }, 'Sblocca');
+  const velo = h('div', { class: 'blocco', style: { position: 'fixed', inset: '0', zIndex: '9999', background: 'var(--bg, #0b1020)' } },
+    box(h('h1', {}, 'Pannello bloccato'),
+      h('p', {}, `Trenta minuti fermo. Scrivi la password di ${email}.`),
+      h('form', {
+        style: { display: 'flex', flexDirection: 'column', gap: '10px' },
+        onsubmit: async (e) => {
+          e.preventDefault();
+          errore.textContent = '';
+          tasto.disabled = true;
+          const ok = await passwordGiusta(email, pw.value);
+          tasto.disabled = false;
+          if (!ok) { errore.textContent = 'Password non giusta.'; pw.value = ''; return; }
+          try { localStorage.removeItem('cc.bloccato'); } catch { /* niente */ }
+          velo.remove();
+          riparti();
+        },
+      }, pw, errore, tasto),
+      h('button', { class: 'bottone', type: 'button', onclick: esci }, 'Esci')));
+  document.body.append(velo);
+  pw.focus();
 }
 
 /* ------------------------------------------------------------ le schermate */
@@ -171,6 +243,7 @@ async function schermataArruola(avanti) {
         e.preventDefault();
         const { error: err } = await db.auth.mfa.challengeAndVerify({ factorId: data.id, code: codice.value.trim() });
         if (err) { errore.textContent = 'Codice non valido: riprova con quello nuovo.'; codice.value = ''; return; }
+        codiceDatoAdesso();
         await avanti();
       },
     }, codice, errore, h('button', { class: 'bottone primario', type: 'submit' }, 'Conferma')),
@@ -188,6 +261,7 @@ function schermataCodice(fattore, email, avanti) {
         e.preventDefault();
         const { error } = await supabase().auth.mfa.challengeAndVerify({ factorId: fattore, code: codice.value.trim() });
         if (error) { errore.textContent = 'Codice non valido.'; codice.value = ''; return; }
+        codiceDatoAdesso();
         await avanti();
       },
     }, codice, errore, h('button', { class: 'bottone primario', type: 'submit' }, 'Entra')),
@@ -204,6 +278,7 @@ export async function verificaCodice(codice) {
   if (!f) throw new Error('Nessun secondo fattore attivo: esci e rientra.');
   const { error } = await db.auth.mfa.challengeAndVerify({ factorId: f.id, code: String(codice).trim() });
   if (error) throw new Error('Codice non valido.');
+  codiceDatoAdesso();
 }
 
 /**

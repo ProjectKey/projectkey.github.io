@@ -16,7 +16,7 @@ if (inProva()) {
 } else {
   const { ingresso, supabase, sorvegliaInattivita, verificaCodice, chiediCodiceFresco } = await import('./accesso.js');
   const { email } = await ingresso(radice);
-  sorvegliaInattivita();
+  sorvegliaInattivita(email);
   usaVerificaCodice(verificaCodice);
   usaCodiceFresco(chiediCodiceFresco);
   await avvia(radice, {
