@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /controllo/
+
+Sitemap: https://settegames.com/sitemap.xml

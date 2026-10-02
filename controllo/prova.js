@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso'];
 
 const APPS = [
   {
@@ -196,6 +196,26 @@ export async function rispondi(azione, a) {
         { id: 'pr-3', profilo_id: GIOCATORI[0].id, giocatore: 'Giorgio', testo: 'Prova della segnalazione', dove: 'impostazioni', partita_id: null, versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Google Pixel 7 · Android 15', creata_il: istante(3000), letta_il: istante(2900), letta_da: 'supporto.applicazioni@gmail.com' },
       ];
       return { ok: true, problemi: a.soloNonLette ? tutti.filter((x) => !x.letta_il) : tutti };
+    }
+    case 'percorso': {
+      // Trenta coorti finte: aprono → iniziano → finiscono → tornano, con la prima carta in secondi.
+      const giorni = Array.from({ length: 30 }, (_, i) => {
+        const nuove = 20 + ((i * 7) % 13);
+        const iniziano = Math.round(nuove * .86), una = Math.round(nuove * .71), due = Math.round(nuove * .48);
+        return {
+          giorno: new Date(Date.now() - (29 - i) * 86400000).toISOString().slice(0, 10), nuove, iniziano,
+          finiscono_una: una, finiscono_due: due,
+          d1_possibili: i <= 28 ? nuove : null, d1: i <= 28 ? Math.round(nuove * .38) : null,
+          d7_possibili: i <= 22 ? nuove : null, d7: i <= 22 ? Math.round(nuove * .16) : null,
+          con_prima_carta: iniziano, prima_carta_mediana_s: 40 + (i % 9) * 3,
+        };
+      });
+      const somma = (k) => giorni.reduce((s, g) => s + (g[k] ?? 0), 0);
+      return { ok: true, giorni, totali: {
+        nuove: somma('nuove'), iniziano: somma('iniziano'), finiscono_una: somma('finiscono_una'), finiscono_due: somma('finiscono_due'),
+        d1_possibili: somma('d1_possibili'), d1: somma('d1'), d7_possibili: somma('d7_possibili'), d7: somma('d7'),
+        con_prima_carta: somma('con_prima_carta'), prima_carta_s: 51.5,
+      }, note: { coorti: 'dati finti della modalità prova' } };
     }
     case 'problemi.letto': return { ok: true, id: a.id, letta_il: istante(0), letta_da: 'supporto.applicazioni@gmail.com' };
     case 'versioni': return {

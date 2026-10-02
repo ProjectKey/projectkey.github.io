@@ -33,6 +33,8 @@ const MENU = [
   ] },
   { gruppo: 'Ricavi e crescita', voci: [
     { k: 'monetizzazione', nome: 'Monetizzazione', ico: '€' },
+    // Il percorso del giocatore (F-128): compare se un gioco lo sa dare.
+    { k: 'percorso', nome: 'Percorso', ico: '⤳', serve: 'percorso' },
     { k: 'crm', nome: 'CRM', ico: '✆', fase: 2 },
     { k: 'crescita', nome: 'Crescita', ico: '↗', fase: 3 },
     { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', fase: 3 },
@@ -59,6 +61,7 @@ const PAGINE = {
   partite: () => import('./pagine/partite.js'),
   segnalazioni: () => import('./pagine/segnalazioni.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
+  percorso: () => import('./pagine/percorso.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),

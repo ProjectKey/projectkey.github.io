@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La mano del giorno: un quiz di Scopa · Settebello</title>
+<meta name="description" content="Ogni giorno una situazione vera di Scopa: tre carte in mano, la tavola, e una giocata migliore di quella che viene d&#x27;istinto. Scegli la tua, domani la soluzione.">
+<link rel="canonical" href="https://settegames.com/settebello/mano-del-giorno/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="SetteGames">
+<meta property="og:title" content="La mano del giorno: un quiz di Scopa · Settebello">
+<meta property="og:description" content="Ogni giorno una situazione vera di Scopa: tre carte in mano, la tavola, e una giocata migliore di quella che viene d&#x27;istinto. Scegli la tua, domani la soluzione.">
+<meta property="og:url" content="https://settegames.com/settebello/mano-del-giorno/">
+<meta property="og:image" content="https://settegames.com/settebello/img/anteprima.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/img/settebello-icona.webp">
+<link rel="stylesheet" href="../../stile.css">
+<link rel="stylesheet" href="../guide.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SetteGames", "item": "https://settegames.com/"}, {"@type": "ListItem", "position": 2, "name": "Settebello", "item": "https://settegames.com/settebello/"}, {"@type": "ListItem", "position": 3, "name": "La mano del giorno", "item": "https://settegames.com/settebello/mano-del-giorno/"}]}</script>
+</head>
+<body>
+
+<main>
+
+  <p class="briciole"><a href="../../">SetteGames</a> <a href="../">Settebello</a></p>
+
+  <header class="cappello">
+    <div class="occhiello">Guida · Scopa Online</div>
+    <h1>La mano del giorno</h1>
+    <p>Una situazione vera, da una partita di Scopa: tre carte in mano, la tavola davanti. Cosa giochi? La soluzione arriva domani.</p>
+    <ul class="indice">
+      <li><a href="../regole/">Regole</a></li>
+      <li><a href="../punteggio/">Punteggio</a></li>
+      <li><a href="../varianti/">Varianti</a></li>
+      <li><a href="../mazzi/">Mazzi</a></li>
+      <li><a href="../primiera/">Calcola la primiera</a></li>
+      <li><a href="../mano-del-giorno/" aria-current="page">Mano del giorno</a></li>
+    </ul>
+  </header>
+
+  <section>
+    <h2>Oggi, <span id="data"></span></h2>
+    <div id="oggi"></div>
+    <p id="esito" aria-live="polite">Tocca la carta che giocheresti.</p>
+  </section>
+
+  <section id="ieri">
+    <h2>La soluzione di ieri, <span id="data-ieri"></span></h2>
+    <div id="ieri-tavolo"></div>
+    <p id="soluzione"></p>
+  </section>
+
+  <section>
+    <h2>Da dove vengono</h2>
+    <p class="nota">Le mani escono dal motore di Settebello: partite giocate fino a metà, e poi ogni giocata possibile
+    pesata finendo la mano molte volte con le carte che non si vedono rimescolate. Si sceglie una mano solo quando la
+    giocata migliore batte di almeno mezzo punto quella d'istinto, e si sa dire perché. È una stima, non una legge:
+    al tavolo vero conta anche chi hai davanti.</p>
+  </section>
+
+  <aside class="gioca">
+    <img src="/img/settebello-icona.webp" alt="" width="72" height="72">
+    <div>
+      <h2>Gioca la prossima mano</h2>
+      <p>In Settebello le mani così capitano a ogni partita: Scopa Online gratis, al tavolo online o contro il computer.</p>
+    </div>
+    <a class="tasto grande" href="https://play.google.com/store/apps/details?id=it.settebello.app&referrer=utm_source%3Dsito%26utm_campaign%3Dmano-del-giorno">Scarica gratis</a>
+  </aside>
+
+  <section>
+    <h2>Le altre guide</h2>
+    <div class="altre">
+    <a href="../regole/">Come si gioca a Scopa<span>Le regole, dal primo turno alla scopa.</span></a>
+    <a href="../punteggio/">Il punteggio<span>Carte, denari, settebello, primiera, scope.</span></a>
+    <a href="../varianti/">Le varianti<span>Scopone, asso piglia tutto, bugiarda e le altre.</span></a>
+    <a href="../mazzi/">I mazzi regionali<span>Napoletane, piacentine, bergamasche.</span></a>
+    <a href="../primiera/">Calcola la primiera<span>Scegli le carte, il conto lo fa lui.</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>PK - PROJECT KEY S.R.L.</strong> · <a href="../">Settebello</a> ·
+  <a href="mailto:supporto@settegames.com?subject=Settebello">supporto@settegames.com</a><br>
+  Via Città della Pieve 76 — 00191 Roma (RM), Italia · P. IVA 15538561000</p>
+</footer>
+
+<script type="module">
+import { carta, nomeCarta } from '../carte.js';
+const oggi = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
+const mani = await (await fetch('mani.json', { cache: 'no-cache' })).json();
+const passate = mani.filter((m) => m.giorno <= oggi);
+const diOggi = passate.at(-1) ?? mani[0];
+const diIeri = passate.length > 1 ? passate.at(-2) : null;
+const data = (g) => new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'long' }).format(new Date(`${g}T12:00:00`));
+
+function tavolo(m, dove, scegli) {
+  const conti = `<div class="conti"><span>Nel mazzo: ${m.mazzo}</span><span>Le tue prese: ${m.prese.tu} carte, ${m.scope.tu} scope</span><span>Le sue: ${m.prese.lui} carte, ${m.scope.lui} scope</span></div>`;
+  dove.innerHTML = `${conti}<div class="tavolo-g"><div class="etichetta">In tavola</div><div class="fila t"></div><div class="etichetta">In mano a te</div><div class="fila mano-g"></div></div>`;
+  for (const id of m.tavola) dove.querySelector('.t').append(carta(id, 58));
+  for (const id of m.mano) {
+    const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+    b.setAttribute('aria-label', nomeCarta(id)); b.append(carta(id, 74));
+    if (scegli) b.addEventListener('click', () => scegli(id, b)); else b.disabled = true;
+    dove.querySelector('.mano-g').append(b);
+  }
+}
+
+document.getElementById('data').textContent = data(diOggi.giorno);
+const esito = document.getElementById('esito');
+let ricordata = null;
+try { ricordata = localStorage.getItem(`mano:${diOggi.giorno}`); } catch {}
+tavolo(diOggi, document.getElementById('oggi'), (id, b) => {
+  document.querySelectorAll('#oggi .mano-g button').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+  b.setAttribute('aria-pressed', 'true');
+  try { localStorage.setItem(`mano:${diOggi.giorno}`, id); } catch {}
+  esito.textContent = `Hai scelto il ${nomeCarta(id).toLowerCase()}. La soluzione è qui domani.`;
+});
+if (ricordata) document.querySelectorAll('#oggi .mano-g button').forEach((b) => {
+  if (b.getAttribute('aria-label') === nomeCarta(ricordata)) { b.setAttribute('aria-pressed', 'true'); esito.textContent = `Hai scelto il ${nomeCarta(ricordata).toLowerCase()}. La soluzione è qui domani.`; }
+});
+
+const ieri = document.getElementById('ieri');
+if (diIeri) {
+  document.getElementById('data-ieri').textContent = data(diIeri.giorno);
+  tavolo(diIeri, document.getElementById('ieri-tavolo'), null);
+  document.querySelectorAll('#ieri-tavolo .mano-g button').forEach((b) => {
+    if (b.getAttribute('aria-label') === nomeCarta(diIeri.soluzione.carta)) b.setAttribute('aria-pressed', 'true');
+  });
+  const maiu = (t) => t[0].toUpperCase() + t.slice(1);
+  document.getElementById('soluzione').innerHTML =
+    `<strong>${maiu(diIeri.soluzione.testo)}.</strong> ${diIeri.perche}<br>` +
+    `<span class="nota">D'istinto si gioca ${diIeri.istinto.testo}: finendo la mano ${diIeri.prove} volte col motore del gioco, la giocata giusta vale in media ${String(diIeri.scarto).replace('.', ',')} punti in più.</span>`;
+} else ieri.hidden = true;
+</script>
+</body>
+</html>

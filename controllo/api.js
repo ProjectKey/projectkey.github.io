@@ -23,7 +23,7 @@ export const NOMI = {
   cercaGiocatori: 'giocatori.cerca', scheda: 'giocatori.scheda', timeline: 'giocatori.timeline',
   accredita: 'giocatori.accredita', blocca: 'giocatori.blocca', sblocca: 'giocatori.sblocca', nome: 'giocatori.nome',
   cercaPartite: 'partite.cerca', partita: 'partite.scheda', configLeggi: 'config.leggi', configScrivi: 'config.scrivi',
-  problemi: 'problemi', problemaLetto: 'problemi.letto',
+  problemi: 'problemi', problemaLetto: 'problemi.letto', percorso: 'percorso',
 };
 
 export class ErroreApi extends Error {
@@ -204,6 +204,11 @@ export async function errori(app, da, a) {
     ...(j.server ?? []).map((e) => ({ ...e, dove: 'server', versioni: [] })),
     ...(j.app ?? []).map((e) => ({ ...e, dove: 'app', utenti: e.installazioni })),
   ];
+}
+
+/** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+export async function percorso(app, da, a) {
+  return sbusta(await chiama('percorso', { app, da, a }));
 }
 
 /** Lo stato di un acquisto come lo mostrano le pagine. */

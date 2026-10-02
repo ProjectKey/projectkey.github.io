@@ -1,6 +1,6 @@
 # Il Gaming Control Center — la pagina
 
-`https://projectkey.github.io/controllo/` · architettura e decisioni in
+`https://settegames.com/controllo/` · architettura e decisioni in
 `docs/controllo/ARCHITETTURA.md` · l'API del server in `server/funzioni/controllo/LEGGIMI.md`.
 
 Pagina statica, moduli ES, niente build. **Nessun segreto dentro**: solo l'indirizzo del progetto

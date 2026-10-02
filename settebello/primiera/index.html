@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calcolatore della primiera della Scopa · Settebello</title>
+<meta name="description" content="Calcola la primiera della Scopa: tocca le carte che hai preso e il calcolatore trova la migliore di ogni seme e fa il totale. Coi valori veri: 7 vale 21, 6 vale 18, asso 16.">
+<link rel="canonical" href="https://settegames.com/settebello/primiera/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="SetteGames">
+<meta property="og:title" content="Calcolatore della primiera della Scopa · Settebello">
+<meta property="og:description" content="Calcola la primiera della Scopa: tocca le carte che hai preso e il calcolatore trova la migliore di ogni seme e fa il totale. Coi valori veri: 7 vale 21, 6 vale 18, asso 16.">
+<meta property="og:url" content="https://settegames.com/settebello/primiera/">
+<meta property="og:image" content="https://settegames.com/settebello/img/anteprima.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/img/settebello-icona.webp">
+<link rel="stylesheet" href="../../stile.css">
+<link rel="stylesheet" href="../guide.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SetteGames", "item": "https://settegames.com/"}, {"@type": "ListItem", "position": 2, "name": "Settebello", "item": "https://settegames.com/settebello/"}, {"@type": "ListItem", "position": 3, "name": "Calcola la primiera", "item": "https://settegames.com/settebello/primiera/"}]}</script>
+</head>
+<body>
+
+<main>
+
+  <p class="briciole"><a href="../../">SetteGames</a> <a href="../">Settebello</a></p>
+
+  <header class="cappello">
+    <div class="occhiello">Guida · Scopa Online</div>
+    <h1>Calcola la primiera</h1>
+    <p>Tocca le carte che hai nel mucchio: per ogni seme conta la migliore, e il totale si aggiorna da solo. Gli stessi valori che usa Settebello.</p>
+    <ul class="indice">
+      <li><a href="../regole/">Regole</a></li>
+      <li><a href="../punteggio/">Punteggio</a></li>
+      <li><a href="../varianti/">Varianti</a></li>
+      <li><a href="../mazzi/">Mazzi</a></li>
+      <li><a href="../primiera/" aria-current="page">Calcola la primiera</a></li>
+      <li><a href="../mano-del-giorno/">Mano del giorno</a></li>
+    </ul>
+  </header>
+
+  <section>
+    <h2>Le tue carte</h2>
+    <div class="semi" id="semi"></div>
+    <div class="risultato" aria-live="polite">
+      <strong id="totale">0</strong>
+      <span id="dettaglio">Tocca le carte che hai preso.</span>
+      <button class="tasto piano piccolo" type="button" id="azzera" style="margin-left:auto">Azzera</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Come si conta</h2>
+    <p>Per ogni seme vale la carta migliore: <strong>7 = 21, 6 = 18, asso = 16, 5 = 15, 4 = 14, 3 = 13, 2 = 12,
+    figure = 10</strong>. Si sommano i quattro semi; un seme che manca vale zero. Vince la primiera chi fa di più, e
+    a pari punti non la prende nessuno. Tutto il resto del conto è in <a href="../punteggio/">il punteggio</a>.</p>
+  </section>
+
+  <aside class="gioca">
+    <img src="/img/settebello-icona.webp" alt="" width="72" height="72">
+    <div>
+      <h2>Gioca a Scopa Online</h2>
+      <p>Settebello è gratis: scopa, scopone e altri quattro giochi, al tavolo online o contro il computer, anche senza connessione.</p>
+    </div>
+    <a class="tasto grande" href="https://play.google.com/store/apps/details?id=it.settebello.app&referrer=utm_source%3Dsito%26utm_campaign%3Dprimiera">Scarica gratis</a>
+  </aside>
+
+  <section>
+    <h2>Le altre guide</h2>
+    <div class="altre">
+    <a href="../regole/">Come si gioca a Scopa<span>Le regole, dal primo turno alla scopa.</span></a>
+    <a href="../punteggio/">Il punteggio<span>Carte, denari, settebello, primiera, scope.</span></a>
+    <a href="../varianti/">Le varianti<span>Scopone, asso piglia tutto, bugiarda e le altre.</span></a>
+    <a href="../mazzi/">I mazzi regionali<span>Napoletane, piacentine, bergamasche.</span></a>
+    <a href="../mano-del-giorno/">La mano del giorno<span>Tre carte, una tavola: cosa giochi?</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>PK - PROJECT KEY S.R.L.</strong> · <a href="../">Settebello</a> ·
+  <a href="mailto:supporto@settegames.com?subject=Settebello">supporto@settegames.com</a><br>
+  Via Città della Pieve 76 — 00191 Roma (RM), Italia · P. IVA 15538561000</p>
+</footer>
+
+<script type="module">
+import { carta, SEMI, nomeCarta } from '../carte.js';
+import { primiera } from './primiera.js';
+const scelte = new Set();
+const radice = document.getElementById('semi');
+for (const seme of SEMI) {
+  const box = document.createElement('div'); box.className = 'seme';
+  box.innerHTML = `<h3>${seme[0].toUpperCase() + seme.slice(1)}</h3>`;
+  const griglia = document.createElement('div'); griglia.className = 'carte';
+  for (let v = 1; v <= 10; v++) {
+    const id = `${seme}-${v}`;
+    const b = document.createElement('button'); b.type = 'button';
+    b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', nomeCarta(id));
+    b.append(carta(id, '100%'));
+    b.addEventListener('click', () => {
+      if (scelte.has(id)) scelte.delete(id); else scelte.add(id);
+      b.setAttribute('aria-pressed', String(scelte.has(id))); mostra();
+    });
+    griglia.append(b);
+  }
+  box.append(griglia); radice.append(box);
+}
+const tot = document.getElementById('totale'), det = document.getElementById('dettaglio');
+function mostra() {
+  const { totale, migliore } = primiera([...scelte]);
+  tot.textContent = totale;
+  const parti = SEMI.map((s) => migliore[s] ? `${s}: ${nomeCarta(migliore[s].id).toLowerCase()} (${migliore[s].valore})` : `${s}: nessuna (0)`);
+  det.textContent = scelte.size ? parti.join(' · ') : 'Tocca le carte che hai preso.';
+}
+document.getElementById('azzera').addEventListener('click', () => {
+  scelte.clear(); radice.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', 'false')); mostra();
+});
+mostra();
+</script>
+</body>
+</html>

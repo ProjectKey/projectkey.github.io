@@ -1,0 +1,99 @@
+/*
+  LE GUIDE DI SETTEBELLO (2 ottobre 2026, PIANO.md voci 11–14)
+  ============================================================
+  Regole, punteggio, varianti, mazzi, calcolatore della primiera, mano del
+  giorno. Si appoggia a `/stile.css` (comune con Last Sheep, che NON si tocca
+  da qui) e aggiunge solo quello che serve alle guide: le carte disegnate dal
+  foglio del mazzo, le tabelle, il riquadro che invita a giocare.
+*/
+
+/* Le guide sono carte bianche come le pagine dei giochi, con un indice in cima. */
+.indice { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.indice a {
+  display: inline-block; font: 800 15px/1 'Baloo 2', system-ui; text-decoration: none;
+  color: #fff; background: rgba(255,255,255,.18); padding: 9px 13px 7px; border-radius: 999px;
+}
+.indice a:hover, .indice a[aria-current="page"] { background: var(--oro); color: var(--ink); }
+
+/* Una carta: il foglio è 10 colonne (asso → re) per 4 righe (denari, coppe, spade, bastoni). */
+.carta-g {
+  display: inline-block; width: var(--w, 64px); aspect-ratio: 290 / 470; border-radius: 8%;
+  background-image: url('img/napoletane-foglio.webp'); background-size: 1000% 400%;
+  box-shadow: 0 2px 0 rgba(36,18,79,.18), 0 8px 18px rgba(36,18,79,.18); vertical-align: middle;
+  background-color: #fff;
+}
+.fila { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 10px 0 16px; }
+.fila figure { margin: 0; text-align: center; }
+.fila figcaption { font: 800 13px/1.2 'Baloo 2', system-ui; color: var(--ink3); margin-top: 6px; }
+.mazzo-foto { width: 110px; height: auto; border-radius: 9px; box-shadow: 0 8px 18px rgba(36,18,79,.2); display: block; }
+
+/* Le tabelle delle guide: stesse della pagine di legge, sulla carta bianca. */
+.tabella { width: 100%; border-collapse: separate; border-spacing: 0; margin: 10px 0 18px; font-size: 16px;
+  border: 2px solid var(--filo); border-radius: 16px; overflow: hidden; display: block; overflow-x: auto; }
+.tabella table { width: 100%; border-collapse: collapse; }
+.tabella th, .tabella td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--filo); vertical-align: top; }
+.tabella th { color: var(--viola-scuro); background: var(--carta2); font: 800 13px/1.3 'Baloo 2', system-ui; text-transform: uppercase; letter-spacing: .06em; }
+.tabella tr:last-child td { border-bottom: 0; }
+.tabella td.num { font: 800 18px/1 'Baloo 2', system-ui; color: var(--ink); white-space: nowrap; }
+
+/* Il riquadro in fondo a ogni guida: gioca davvero. */
+.gioca {
+  margin-top: 22px; border-radius: 26px; padding: 26px 28px; color: #fff;
+  background: linear-gradient(150deg, #8c5cff, var(--viola-scuro));
+  box-shadow: 0 6px 0 #4520b8, 0 22px 50px rgba(36, 18, 79, .25);
+  display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+}
+.gioca img { width: 72px; height: 72px; border-radius: 18px; box-shadow: 0 10px 22px rgba(20,4,70,.35); }
+.gioca div { flex: 1 1 260px; }
+.gioca h2 { color: var(--oro); margin: 0 0 6px; text-shadow: 0 2px 0 rgba(20,4,70,.35); }
+.gioca p { color: rgba(255,255,255,.95); margin: 0; }
+.gioca .tasto { background: var(--oro); color: var(--ink); box-shadow: 0 5px 0 var(--oro-scuro), 0 12px 24px rgba(20,4,70,.3); }
+
+.altre { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 6px 0 12px; }
+.altre a {
+  display: block; text-decoration: none; background: var(--carta2); border-radius: 16px; padding: 14px 16px;
+  color: var(--ink); font: 800 16px/1.25 'Baloo 2', system-ui;
+}
+.altre a span { display: block; font: 15px/1.4 system-ui, sans-serif; color: var(--ink3); margin-top: 4px; }
+.altre a:hover { background: var(--filo); }
+
+.nota { font-size: 15px; color: var(--ink3); }
+
+/* --- il calcolatore della primiera --- */
+.semi { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 10px 0 6px; }
+@media (min-width: 700px) { .semi { grid-template-columns: 1fr 1fr; } }
+.seme { background: var(--carta2); border-radius: 18px; padding: 14px; }
+.seme h3 { margin: 0 0 10px; }
+.seme .carte { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.seme button {
+  border: 0; padding: 0; background: none; cursor: pointer; border-radius: 8px; position: relative;
+  outline-offset: 2px; transition: transform .1s ease;
+}
+.seme button .carta-g { --w: 100%; display: block; opacity: .45; filter: grayscale(.6); transition: opacity .12s, filter .12s; }
+.seme button[aria-pressed="true"] .carta-g { opacity: 1; filter: none; box-shadow: 0 0 0 3px var(--oro), 0 8px 18px rgba(36,18,79,.25); }
+.seme button:active { transform: scale(.96); }
+.risultato {
+  position: sticky; bottom: 12px; margin-top: 16px; background: var(--ink); color: #fff; border-radius: 20px;
+  padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; box-shadow: 0 14px 30px rgba(36,18,79,.35);
+}
+.risultato strong { font: 30px/1 'Titan One', system-ui; color: var(--oro); }
+.risultato span { color: rgba(255,255,255,.85); font-size: 15px; }
+.tasto.piccolo { min-height: 40px; padding: 9px 16px 7px; font-size: 15px; }
+
+/* --- la mano del giorno --- */
+.tavolo-g {
+  background: radial-gradient(ellipse at 50% 30%, #2f9a5a, #17633a); border-radius: 22px; padding: 16px;
+  box-shadow: inset 0 0 0 4px #0f4b2b; margin: 10px 0 14px;
+}
+.tavolo-g .etichetta { font: 800 13px/1 'Baloo 2', system-ui; color: rgba(255,255,255,.8); text-transform: uppercase; letter-spacing: .08em; margin: 2px 0 8px; }
+.tavolo-g .fila { margin: 0 0 14px; }
+.mano-g button { border: 0; background: none; padding: 0; cursor: pointer; border-radius: 9px; }
+.mano-g button[aria-pressed="true"] .carta-g { box-shadow: 0 0 0 4px var(--oro), 0 10px 22px rgba(0,0,0,.35); transform: translateY(-8px); }
+.mano-g .carta-g { transition: transform .12s ease; }
+.conti { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.conti span { background: var(--carta2); border-radius: 999px; padding: 6px 12px 5px; font: 800 14px/1 'Baloo 2', system-ui; color: var(--ink2); }
+
+@media (max-width: 560px) {
+  .gioca { padding: 22px 20px; }
+  .seme .carte { gap: 5px; }
+}

@@ -1,0 +1,613 @@
+[
+ {
+  "giorno": "2026-10-01",
+  "mano": [
+   "spade-2",
+   "spade-4",
+   "coppe-5"
+  ],
+  "tavola": [
+   "coppe-8",
+   "spade-5",
+   "spade-1",
+   "coppe-4",
+   "denari-2"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 3,
+   "lui": 8
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "spade-2",
+   "prende": [
+    "denari-2"
+   ],
+   "testo": "il 2 di spade prendendo il 2 di denari"
+  },
+  "istinto": {
+   "carta": "coppe-5",
+   "prende": [
+    "spade-5"
+   ],
+   "testo": "il 5 di coppe prendendo il 5 di spade"
+  },
+  "perche": "Ti porti a casa più denari.",
+  "scarto": 0.9,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-02",
+  "mano": [
+   "denari-3",
+   "bastoni-9",
+   "coppe-1"
+  ],
+  "tavola": [
+   "coppe-5",
+   "spade-9",
+   "bastoni-2"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 5,
+   "lui": 8
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 1
+  },
+  "soluzione": {
+   "carta": "coppe-1",
+   "prende": [],
+   "testo": "l'asso di coppe senza prendere"
+  },
+  "istinto": {
+   "carta": "bastoni-9",
+   "prende": [
+    "spade-9"
+   ],
+   "testo": "il cavallo di bastoni prendendo il cavallo di spade"
+  },
+  "perche": "Giocando il cavallo di bastoni lasci in tavola 7 in tutto: lui fa scopa subito 22 volte su 100.",
+  "scarto": 0.8,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-03",
+  "mano": [
+   "spade-9",
+   "coppe-9",
+   "bastoni-4"
+  ],
+  "tavola": [
+   "spade-6",
+   "spade-10",
+   "bastoni-9",
+   "denari-4",
+   "coppe-3"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 6,
+   "lui": 11
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-4",
+   "prende": [
+    "denari-4"
+   ],
+   "testo": "il 4 di bastoni prendendo il 4 di denari"
+  },
+  "istinto": {
+   "carta": "spade-9",
+   "prende": [
+    "bastoni-9"
+   ],
+   "testo": "il cavallo di spade prendendo il cavallo di bastoni"
+  },
+  "perche": "Ti porti a casa più denari.",
+  "scarto": 0.6,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-04",
+  "mano": [
+   "bastoni-6",
+   "bastoni-7",
+   "spade-9"
+  ],
+  "tavola": [
+   "denari-6",
+   "bastoni-9",
+   "coppe-3",
+   "spade-8",
+   "spade-7"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 11,
+   "lui": 6
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-6",
+   "prende": [
+    "denari-6"
+   ],
+   "testo": "il 6 di bastoni prendendo il 6 di denari"
+  },
+  "istinto": {
+   "carta": "spade-9",
+   "prende": [
+    "bastoni-9"
+   ],
+   "testo": "il cavallo di spade prendendo il cavallo di bastoni"
+  },
+  "perche": "Ti porti a casa più denari.",
+  "scarto": 0.8,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-05",
+  "mano": [
+   "spade-7",
+   "bastoni-10",
+   "coppe-2"
+  ],
+  "tavola": [
+   "coppe-4",
+   "spade-9",
+   "coppe-3",
+   "spade-1"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 9,
+   "lui": 9
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "spade-7",
+   "prende": [
+    "coppe-4",
+    "coppe-3"
+   ],
+   "testo": "il 7 di spade prendendo 4 di coppe e 3 di coppe"
+  },
+  "istinto": {
+   "carta": "bastoni-10",
+   "prende": [
+    "spade-9",
+    "spade-1"
+   ],
+   "testo": "il re di bastoni prendendo cavallo di spade e asso di spade"
+  },
+  "perche": "Giocando il re di bastoni lasci in tavola 7 in tutto: lui fa scopa subito 44 volte su 100. E ti prendi un sette, che conta per la primiera.",
+  "scarto": 1,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-06",
+  "mano": [
+   "spade-8",
+   "spade-7",
+   "bastoni-3"
+  ],
+  "tavola": [
+   "spade-10",
+   "coppe-7",
+   "bastoni-6",
+   "coppe-9",
+   "bastoni-4",
+   "denari-1",
+   "denari-2"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 9,
+   "lui": 6
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-3",
+   "prende": [
+    "denari-1",
+    "denari-2"
+   ],
+   "testo": "il 3 di bastoni prendendo asso di denari e 2 di denari"
+  },
+  "istinto": {
+   "carta": "spade-8",
+   "prende": [
+    "coppe-7",
+    "denari-1"
+   ],
+   "testo": "il fante di spade prendendo 7 di coppe e asso di denari"
+  },
+  "perche": "Ti porti a casa più denari.",
+  "scarto": 0.9,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-07",
+  "mano": [
+   "spade-8",
+   "coppe-10",
+   "denari-7"
+  ],
+  "tavola": [
+   "spade-3",
+   "coppe-7",
+   "coppe-6"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 9,
+   "lui": 10
+  },
+  "scope": {
+   "tu": 1,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "denari-7",
+   "prende": [
+    "coppe-7"
+   ],
+   "testo": "il 7 di denari prendendo il 7 di coppe"
+  },
+  "istinto": {
+   "carta": "coppe-10",
+   "prende": [
+    "spade-3",
+    "coppe-7"
+   ],
+   "testo": "il re di coppe prendendo 3 di spade e 7 di coppe"
+  },
+  "perche": "Metti al sicuro il settebello: adesso prende.",
+  "scarto": 1.2,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-08",
+  "mano": [
+   "coppe-1",
+   "coppe-5",
+   "bastoni-9"
+  ],
+  "tavola": [
+   "coppe-10",
+   "denari-8",
+   "spade-5",
+   "spade-4",
+   "coppe-7",
+   "denari-2"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 7,
+   "lui": 3
+  },
+  "scope": {
+   "tu": 1,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-9",
+   "prende": [
+    "coppe-7",
+    "denari-2"
+   ],
+   "testo": "il cavallo di bastoni prendendo 7 di coppe e 2 di denari"
+  },
+  "istinto": {
+   "carta": "bastoni-9",
+   "prende": [
+    "spade-5",
+    "spade-4"
+   ],
+   "testo": "il cavallo di bastoni prendendo 5 di spade e 4 di spade"
+  },
+  "perche": "Ti porti a casa più denari. E ti prendi un sette, che conta per la primiera.",
+  "scarto": 1.4,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-09",
+  "mano": [
+   "bastoni-4",
+   "denari-2",
+   "bastoni-3"
+  ],
+  "tavola": [
+   "coppe-2",
+   "coppe-3",
+   "denari-8"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 8,
+   "lui": 11
+  },
+  "scope": {
+   "tu": 1,
+   "lui": 1
+  },
+  "soluzione": {
+   "carta": "denari-2",
+   "prende": [
+    "coppe-2"
+   ],
+   "testo": "il 2 di denari prendendo il 2 di coppe"
+  },
+  "istinto": {
+   "carta": "bastoni-3",
+   "prende": [
+    "coppe-3"
+   ],
+   "testo": "il 3 di bastoni prendendo il 3 di coppe"
+  },
+  "perche": "Giocando il 3 di bastoni lasci in tavola 10 in tutto: lui fa scopa subito 37 volte su 100. Ti porti a casa più denari.",
+  "scarto": 1,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-10",
+  "mano": [
+   "bastoni-10",
+   "bastoni-2",
+   "spade-10"
+  ],
+  "tavola": [
+   "denari-10",
+   "spade-4",
+   "coppe-1"
+  ],
+  "mazzo": 6,
+  "prese": {
+   "tu": 13,
+   "lui": 12
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-2",
+   "prende": [],
+   "testo": "il 2 di bastoni senza prendere"
+  },
+  "istinto": {
+   "carta": "bastoni-10",
+   "prende": [
+    "denari-10"
+   ],
+   "testo": "il re di bastoni prendendo il re di denari"
+  },
+  "perche": "Giocando il re di bastoni lasci in tavola 5 in tutto: lui fa scopa subito 75 volte su 100.",
+  "scarto": 1,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-11",
+  "mano": [
+   "denari-6",
+   "spade-5",
+   "spade-9"
+  ],
+  "tavola": [
+   "spade-2",
+   "coppe-9",
+   "denari-7",
+   "coppe-1"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 4,
+   "lui": 8
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 2
+  },
+  "soluzione": {
+   "carta": "spade-5",
+   "prende": [],
+   "testo": "il 5 di spade senza prendere"
+  },
+  "istinto": {
+   "carta": "spade-9",
+   "prende": [
+    "coppe-9"
+   ],
+   "testo": "il cavallo di spade prendendo il cavallo di coppe"
+  },
+  "perche": "Giocando il cavallo di spade lasci in tavola 10 in tutto: lui fa scopa subito 41 volte su 100.",
+  "scarto": 0.8,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-12",
+  "mano": [
+   "denari-7",
+   "denari-6",
+   "spade-9"
+  ],
+  "tavola": [
+   "bastoni-6",
+   "spade-5",
+   "coppe-7",
+   "coppe-9",
+   "denari-1",
+   "bastoni-3"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 6,
+   "lui": 10
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 2
+  },
+  "soluzione": {
+   "carta": "denari-7",
+   "prende": [
+    "coppe-7"
+   ],
+   "testo": "il 7 di denari prendendo il 7 di coppe"
+  },
+  "istinto": {
+   "carta": "spade-9",
+   "prende": [
+    "coppe-9"
+   ],
+   "testo": "il cavallo di spade prendendo il cavallo di coppe"
+  },
+  "perche": "Metti al sicuro il settebello: adesso prende. E ti prendi un sette, che conta per la primiera.",
+  "scarto": 0.8,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-13",
+  "mano": [
+   "spade-3",
+   "denari-9",
+   "spade-2"
+  ],
+  "tavola": [
+   "coppe-9",
+   "bastoni-7",
+   "coppe-2"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 7,
+   "lui": 6
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "spade-2",
+   "prende": [
+    "coppe-2"
+   ],
+   "testo": "il 2 di spade prendendo il 2 di coppe"
+  },
+  "istinto": {
+   "carta": "denari-9",
+   "prende": [
+    "coppe-9"
+   ],
+   "testo": "il cavallo di denari prendendo il cavallo di coppe"
+  },
+  "perche": "Giocando il cavallo di denari lasci in tavola 9 in tutto: lui fa scopa subito 25 volte su 100.",
+  "scarto": 0.6,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-14",
+  "mano": [
+   "bastoni-8",
+   "denari-5",
+   "denari-7"
+  ],
+  "tavola": [
+   "coppe-3",
+   "denari-9",
+   "coppe-5",
+   "bastoni-6",
+   "coppe-10",
+   "bastoni-4"
+  ],
+  "mazzo": 18,
+  "prese": {
+   "tu": 5,
+   "lui": 5
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "denari-7",
+   "prende": [
+    "coppe-3",
+    "bastoni-4"
+   ],
+   "testo": "il 7 di denari prendendo 3 di coppe e 4 di bastoni"
+  },
+  "istinto": {
+   "carta": "bastoni-8",
+   "prende": [
+    "coppe-3",
+    "coppe-5"
+   ],
+   "testo": "il fante di bastoni prendendo 3 di coppe e 5 di coppe"
+  },
+  "perche": "Metti al sicuro il settebello: adesso prende.",
+  "scarto": 1.3,
+  "prove": 300
+ },
+ {
+  "giorno": "2026-10-15",
+  "mano": [
+   "bastoni-6",
+   "coppe-10",
+   "coppe-2"
+  ],
+  "tavola": [
+   "bastoni-9",
+   "bastoni-10",
+   "coppe-3",
+   "coppe-5",
+   "denari-6"
+  ],
+  "mazzo": 12,
+  "prese": {
+   "tu": 9,
+   "lui": 8
+  },
+  "scope": {
+   "tu": 0,
+   "lui": 0
+  },
+  "soluzione": {
+   "carta": "bastoni-6",
+   "prende": [
+    "denari-6"
+   ],
+   "testo": "il 6 di bastoni prendendo il 6 di denari"
+  },
+  "istinto": {
+   "carta": "coppe-10",
+   "prende": [
+    "bastoni-10"
+   ],
+   "testo": "il re di coppe prendendo il re di bastoni"
+  },
+  "perche": "Ti porti a casa più denari.",
+  "scarto": 0.7,
+  "prove": 300
+ }
+]
