@@ -36,7 +36,8 @@ const MENU = [
     { k: 'economia', nome: 'Economia', ico: '◈', serve: 'economia' },
     // Fase 2, B6: bauli, probabilità, regali, rientro.
     { k: 'listino', nome: 'Bauli e regali', ico: '▤', serve: 'listino.leggi' },
-    { k: 'negozio', nome: 'Negozio', ico: '▣', fase: 2 },
+    // Fase 2, B9: prezzi in gemme e monete, pacchetto di benvenuto, offerte; i prodotti in euro in sola lettura.
+    { k: 'negozio', nome: 'Negozio', ico: '▣', serve: 'negozio.leggi' },
   ] },
   { gruppo: 'Ricavi e crescita', voci: [
     { k: 'monetizzazione', nome: 'Monetizzazione', ico: '€' },
@@ -76,6 +77,7 @@ const PAGINE = {
   missioni: () => import('./pagine/missioni.js'),
   tornei: () => import('./pagine/tornei.js'),
   listino: () => import('./pagine/listino.js'),
+  negozio: () => import('./pagine/negozio.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),

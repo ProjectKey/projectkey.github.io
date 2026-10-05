@@ -209,6 +209,9 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** Il negozio: prezzi in gemme e monete, benvenuto, offerte, prodotti in euro (fase 2, B9). */
+export const negozioLeggi = async (app) => sbusta(await chiama('negozio.leggi', { app }));
+
 /** Il listino di bauli e regali (fase 2, B6). */
 export const listinoLeggi = async (app) => sbusta(await chiama('listino.leggi', { app }));
 

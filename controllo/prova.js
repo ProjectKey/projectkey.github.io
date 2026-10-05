@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi'];
 
 const APPS = [
   {
@@ -235,6 +235,15 @@ export async function rispondi(azione, a) {
       { id: 'p2', titolo: 'Grazie per la segnalazione', testo: '', monete: 0, gemme: 20, per_tutti: false, destinatari: 1, creata_il: istante(3000), scade_il: istante(-6000), creata_da: 'supporto.applicazioni@gmail.com', letti: 1, ritirati: 1 },
     ] };
     case 'posta.manda': return { ok: true, id: 'p3' };
+    case 'negozio.leggi': {
+      const casa = { pacchiMonete: [{ monete: 1500, gemme: 10 }, { monete: 5000, gemme: 32 }, { monete: 12000, gemme: 74 }, { monete: 30000, gemme: 178 }, { monete: 80000, gemme: 460 }, { monete: 200000, gemme: 1120 }],
+        noAds: [45, 130], pass: { gemme: 550, monete: 25000 }, prezzi: { salvadanaio: 120, dueBauli: 400, missioniNuove: 75 }, starter: { gemme: 300, monete: 4000 },
+        offerte: { starter: { accesa: true, partite: 3 }, torneo: { accesa: true, gemmeSotto: 40 }, club: { accesa: true, partite: 40 } } };
+      return { ok: true, inUso: JSON.parse(JSON.stringify(casa)), diCasa: casa, dalPannello: false, noAdsGiorni: [7, 30],
+        limiti: { monete: [100, 1000000], gemmePacco: [1, 5000], noAds: [5, 1000], passGemme: [311, 5000], passMonete: [1000, 500000], salvadanaio: [10, 1000], dueBauli: [50, 3000], missioniNuove: [10, 500], starterGemme: [0, 2000], starterMonete: [0, 50000], partiteStarter: [0, 500], gemmeSotto: [0, 2000], partiteClub: [0, 2000] },
+        pacchiGemme: [{ gemme: 50, euro: 0.99 }, { gemme: 120, euro: 1.99 }, { gemme: 310, euro: 4.49 }],
+        prodotti: [{ id: 'gemme_50', tipo: 'consumabile', nome: '50 gemme', euro: '0,99 €', venduti: 1, altri: 0 }, { id: 'starter', tipo: 'unaVolta', nome: 'Pacchetto di benvenuto', euro: '2,99 €', venduti: 0, altri: 0 }, { id: 'club_mensile', tipo: 'abbonamento', nome: 'Settebello Club', euro: '3,99 €', venduti: 0, altri: 0 }] };
+    }
     case 'segmenti.leggi': return { ok: true, segmenti: [
       { k: 'attivi_7', nome: 'Attivi', descrizione: 'ha giocato negli ultimi 7 giorni', quanti: 9, anteprima: ['Giocatore 4685', 'Mario', 'Lucia'] },
       { k: 'inattivi_7', nome: 'Inattivi da 7 giorni', descrizione: 'visto l\'ultima volta fra 7 e 30 giorni fa', quanti: 4, anteprima: ['Peppe', 'Anna'] },
