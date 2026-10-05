@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi'];
 
 const APPS = [
   {
@@ -235,6 +235,11 @@ export async function rispondi(azione, a) {
       { id: 'p2', titolo: 'Grazie per la segnalazione', testo: '', monete: 0, gemme: 20, per_tutti: false, destinatari: 1, creata_il: istante(3000), scade_il: istante(-6000), creata_da: 'supporto.applicazioni@gmail.com', letti: 1, ritirati: 1 },
     ] };
     case 'posta.manda': return { ok: true, id: 'p3' };
+    case 'segmenti.leggi': return { ok: true, segmenti: [
+      { k: 'attivi_7', nome: 'Attivi', descrizione: 'ha giocato negli ultimi 7 giorni', quanti: 9, anteprima: ['Giocatore 4685', 'Mario', 'Lucia'] },
+      { k: 'inattivi_7', nome: 'Inattivi da 7 giorni', descrizione: 'visto l\'ultima volta fra 7 e 30 giorni fa', quanti: 4, anteprima: ['Peppe', 'Anna'] },
+      { k: 'paganti', nome: 'Paganti', descrizione: 'almeno un acquisto in euro', quanti: 1, anteprima: ['Mario'] },
+    ] };
     case 'economia': {
       // Quattordici giorni finti: il tavolo muove tanto, i regali stanno sotto il tetto.
       const giorni = Array.from({ length: 14 }, (_, i) => ({

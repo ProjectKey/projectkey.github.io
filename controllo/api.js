@@ -218,6 +218,11 @@ export const torneiLeggi = async (app) => sbusta(await chiama('tornei.leggi', { 
 /** Le missioni (fase 2, B4): in uso, di casa, e le regole per scriverne. */
 export const missioniLeggi = async (app) => sbusta(await chiama('missioni.leggi', { app }));
 
+/** I segmenti di giocatori (fase 2, B7). */
+export async function segmentiLeggi(app) {
+  return (sbusta(await chiama('segmenti.leggi', { app })).segmenti ?? []);
+}
+
 /** La posta in-app (fase 2, B3). */
 export const postaManda = (app, x) => chiama('posta.manda', { app, ...x });
 export async function postaElenco(app) {
