@@ -209,6 +209,9 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** Il listino di bauli e regali (fase 2, B6). */
+export const listinoLeggi = async (app) => sbusta(await chiama('listino.leggi', { app }));
+
 /** Il calendario dei tornei (fase 2, B5). */
 export const torneiLeggi = async (app) => sbusta(await chiama('tornei.leggi', { app }));
 

@@ -34,6 +34,8 @@ const MENU = [
     { k: 'tornei', nome: 'Tornei', ico: '♛', serve: 'tornei.leggi' },
     // Fase 2, B1: compare se un gioco sa dare l'economia (`capacita` dichiara `economia`).
     { k: 'economia', nome: 'Economia', ico: '◈', serve: 'economia' },
+    // Fase 2, B6: bauli, probabilità, regali, rientro.
+    { k: 'listino', nome: 'Bauli e regali', ico: '▤', serve: 'listino.leggi' },
     { k: 'negozio', nome: 'Negozio', ico: '▣', fase: 2 },
   ] },
   { gruppo: 'Ricavi e crescita', voci: [
@@ -73,6 +75,7 @@ const PAGINE = {
   crm: () => import('./pagine/crm.js'),
   missioni: () => import('./pagine/missioni.js'),
   tornei: () => import('./pagine/tornei.js'),
+  listino: () => import('./pagine/listino.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),
