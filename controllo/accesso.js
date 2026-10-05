@@ -284,7 +284,17 @@ function schermataPassword(avanti) {
       onclick: async () => {
         if (!email.value.trim()) { errore.textContent = 'Scrivi prima la tua email.'; return; }
         const { error } = await supabase().auth.resetPasswordForEmail(email.value.trim(), { redirectTo: location.href.split('#')[0] });
-        errore.textContent = error ? 'Non sono riuscito a mandare l\'email.' : 'Se l\'indirizzo è di un amministratore, arriva un\'email per scegliere la password.';
+        /*
+         * **Il server di posta di Supabase manda due email all'ora** (`rate_limit_email_sent`):
+         * la terza risponde 429 `over_email_send_rate_limit`. Va detto così, non «non sono riuscito»
+         * (Giorgio, 5 ott 2026). Fuori orario un amministratore genera il link dal server
+         * (`auth/v1/admin/generate_link`, TOOLS.md).
+         */
+        errore.textContent = !error
+          ? 'Se l\'indirizzo è di un amministratore, arriva un\'email per scegliere la password.'
+          : error.code === 'over_email_send_rate_limit' || error.status === 429
+            ? 'Troppe email in poco tempo: se ne possono mandare due all\'ora. Usa quella già arrivata, o riprova fra un\'ora.'
+            : `Non sono riuscito a mandare l'email (${error.code || error.status || 'rete'}).`;
       },
     }, 'Password dimenticata o primo accesso'));
 }
