@@ -63,6 +63,43 @@ export async function esci() {
   location.reload();
 }
 
+/* ------------------------------------------------------------ il motivo vero */
+
+/**
+ * **Cosa ha risposto davvero il server** (Giorgio, 5 ott 2026: «mi dice sempre
+ * che la password è errata anche se so che è giusta»). Prima qualunque errore
+ * diventava «password non giusta»: anche «troppi tentativi» e la rete che non
+ * risponde. La password giusta il server la accetta sempre (provato dal vero:
+ * `prove/server/accesso-pannello.mjs`); quello che resta va detto per nome.
+ */
+export function motivoAccesso(error) {
+  const codice = error?.code ?? '';
+  if (codice === 'invalid_credentials') return 'Email o password non giuste.';
+  if (error?.status === 429 || /rate_limit/.test(codice)) return 'Troppi tentativi di fila: aspetta cinque minuti e riprova.';
+  if (!error?.status) return 'Il server non risponde: controlla la connessione e riprova.';
+  return `Accesso non riuscito (${codice || error.status}): riprova fra poco.`;
+}
+
+/**
+ * **La password si può guardare.** Il gestore delle password del browser può
+ * riempire il campo con una password vecchia, e i pallini non lo dicono: col
+ * tasto «Mostra» si vede cosa sta per partire.
+ */
+function campoPassword(attributi) {
+  const pw = h('input', { type: 'password', required: true, style: { flex: '1', minWidth: '0' }, ...attributi });
+  const tasto = h('button', {
+    class: 'bottone', type: 'button', 'aria-label': 'Mostra la password',
+    onclick: () => {
+      const visibile = pw.type === 'text';
+      pw.type = visibile ? 'password' : 'text';
+      tasto.textContent = visibile ? 'Mostra' : 'Nascondi';
+      tasto.setAttribute('aria-label', visibile ? 'Mostra la password' : 'Nascondi la password');
+      pw.focus();
+    },
+  }, 'Mostra');
+  return { pw, riga: h('div', { style: { display: 'flex', gap: '8px', alignItems: 'stretch' } }, pw, tasto) };
+}
+
 /* ------------------------------------------------------------ l'inattività */
 
 /**
@@ -88,23 +125,29 @@ export function sorvegliaInattivita(email) {
 
 const bloccato = () => { try { return localStorage.getItem('cc.bloccato') === '1'; } catch { return false; } };
 
-/** La password, controllata senza toccare la sessione del pannello. */
-async function passwordGiusta(email, password) {
+/** La password, controllata senza toccare la sessione del pannello. Torna l'errore, o `null` se è giusta. */
+async function erroreDellaPassword(email, password) {
   const a_parte = createClient(CONFIG.url, CONFIG.chiavePubblica, {
     auth: { persistSession: false, autoRefreshToken: false, storageKey: 'cc.verifica' },
   });
   const { error } = await a_parte.auth.signInWithPassword({ email, password });
-  if (error) return false;
+  if (error) return error;
   // Si chiude solo la sessione appena aperta per controllare: quella del pannello resta.
   try { await a_parte.auth.signOut({ scope: 'local' }); } catch { /* scade da sola */ }
-  return true;
+  return null;
 }
 
 function blocca(email) {
   if (document.querySelector('.blocco')) return;
   clearTimeout(timer);
   try { localStorage.setItem('cc.bloccato', '1'); } catch { /* niente */ }
-  const pw = h('input', { type: 'password', autocomplete: 'current-password', placeholder: 'password', 'aria-label': 'Password', required: true });
+  /*
+   * **L'email c'è, anche se non si vede.** Con il solo campo password il
+   * gestore del browser non sa di quale account è la password da mettere, e
+   * se ne ha salvate più d'una per questo sito può scegliere quella sbagliata.
+   */
+  const utente = h('input', { type: 'email', autocomplete: 'username', value: email, readonly: true, 'aria-hidden': 'true', tabindex: '-1', style: { display: 'none' } });
+  const { pw, riga } = campoPassword({ autocomplete: 'current-password', placeholder: 'password', 'aria-label': 'Password' });
   const errore = h('div', { class: 'errore-testo', role: 'alert' });
   const tasto = h('button', { class: 'bottone primario', type: 'submit' }, 'Sblocca');
   const velo = h('div', { class: 'blocco', style: { position: 'fixed', inset: '0', zIndex: '9999', background: 'var(--bg, #0b1020)' } },
@@ -116,14 +159,14 @@ function blocca(email) {
           e.preventDefault();
           errore.textContent = '';
           tasto.disabled = true;
-          const ok = await passwordGiusta(email, pw.value);
+          const sbaglio = await erroreDellaPassword(email, pw.value);
           tasto.disabled = false;
-          if (!ok) { errore.textContent = 'Password non giusta.'; pw.value = ''; return; }
+          if (sbaglio) { errore.textContent = motivoAccesso(sbaglio); if (sbaglio.code === 'invalid_credentials') pw.value = ''; return; }
           try { localStorage.removeItem('cc.bloccato'); } catch { /* niente */ }
           velo.remove();
           riparti();
         },
-      }, pw, errore, tasto),
+      }, utente, riga, errore, tasto),
       h('button', { class: 'bottone', type: 'button', onclick: esci }, 'Esci')));
   document.body.append(velo);
   pw.focus();
@@ -193,7 +236,7 @@ function schermataNuovaPassword(fatto) {
 
 function schermataPassword(avanti) {
   const email = h('input', { type: 'email', autocomplete: 'username', placeholder: 'email', 'aria-label': 'Email', required: true });
-  const pw = h('input', { type: 'password', autocomplete: 'current-password', placeholder: 'password', 'aria-label': 'Password', required: true });
+  const { pw, riga } = campoPassword({ autocomplete: 'current-password', placeholder: 'password', 'aria-label': 'Password' });
   const errore = h('div', { class: 'errore-testo', role: 'alert' });
   const tasto = h('button', { class: 'bottone primario', type: 'submit' }, 'Entra');
   const form = h('form', {
@@ -204,10 +247,10 @@ function schermataPassword(avanti) {
       tasto.disabled = true;
       const { error } = await supabase().auth.signInWithPassword({ email: email.value.trim(), password: pw.value });
       tasto.disabled = false;
-      if (error) { errore.textContent = 'Email o password non giuste.'; return; }
+      if (error) { errore.textContent = motivoAccesso(error); return; }
       await avanti();
     },
-  }, email, pw, errore, tasto);
+  }, email, riga, errore, tasto);
   return box(h('h1', {}, 'Accesso riservato'),
     h('p', {}, 'Solo per gli amministratori. Dopo la password serve il codice dell\'app di autenticazione.'),
     form,
