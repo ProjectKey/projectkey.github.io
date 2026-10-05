@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica'];
 
 const APPS = [
   {
@@ -145,6 +145,7 @@ export async function rispondi(azione, a) {
     };
     case 'config.versioni': return {
       ok: true, versioni: [
+        { versione: 5, quando: istante(30), admin: 'supporto.applicazioni@gmail.com', motivo: 'Venerdì monete doppie', stato: 'programmata', scope: 'Settebello Scopa', inizio: new Date(oggi + 4 * 86400000).toISOString(), fine: new Date(oggi + 5 * 86400000).toISOString(), valori: { evento: { nome: 'Monete doppie', moltiplicatoreMonete: 2 } } },
         { versione: 4, quando: istante(3000), admin: 'supporto.applicazioni@gmail.com', motivo: 'Un raddoppio al giorno', stato: 'live', scope: 'Settebello Scopa', valori: { raddoppiAlGiorno: 1, missioniAlGiorno: 3, versioneMinima: '1.0.7' } },
         { versione: 3, quando: istante(9000), admin: 'supporto.applicazioni@gmail.com', motivo: 'Versione minima 1.0.7', stato: 'passata', scope: 'Settebello Scopa', valori: { raddoppiAlGiorno: 3, missioniAlGiorno: 3, versioneMinima: '1.0.7' } },
         { versione: 2, quando: istante(20000), admin: 'supporto.applicazioni@gmail.com', motivo: 'Prima configurazione', stato: 'passata', scope: 'Settebello Scopa', valori: { raddoppiAlGiorno: 3, missioniAlGiorno: 3, versioneMinima: '1.0.0' } },
