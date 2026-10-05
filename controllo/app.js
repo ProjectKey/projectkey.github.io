@@ -28,7 +28,8 @@ const MENU = [
     { k: 'giochi', nome: 'Giochi', ico: '♦', fase: 2 },
     { k: 'liveops', nome: 'Live Ops', ico: '◷', fase: 2 },
     { k: 'tornei', nome: 'Tornei', ico: '♛', fase: 2 },
-    { k: 'economia', nome: 'Economia', ico: '◈', fase: 2 },
+    // Fase 2, B1: compare se un gioco sa dare l'economia (`capacita` dichiara `economia`).
+    { k: 'economia', nome: 'Economia', ico: '◈', serve: 'economia' },
     { k: 'negozio', nome: 'Negozio', ico: '▣', fase: 2 },
   ] },
   { gruppo: 'Ricavi e crescita', voci: [
@@ -62,6 +63,7 @@ const PAGINE = {
   segnalazioni: () => import('./pagine/segnalazioni.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
+  economia: () => import('./pagine/economia.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),

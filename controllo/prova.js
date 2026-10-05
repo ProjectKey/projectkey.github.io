@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia'];
 
 const APPS = [
   {
@@ -216,6 +216,24 @@ export async function rispondi(azione, a) {
         d1_possibili: somma('d1_possibili'), d1: somma('d1'), d7_possibili: somma('d7_possibili'), d7: somma('d7'),
         con_prima_carta: somma('con_prima_carta'), prima_carta_s: 51.5,
       }, note: { coorti: 'dati finti della modalità prova' } };
+    }
+    case 'economia': {
+      // Quattordici giorni finti: il tavolo muove tanto, i regali stanno sotto il tetto.
+      const giorni = Array.from({ length: 14 }, (_, i) => ({
+        giorno: giorno(13 - i), monete_in: 9000 + (i % 5) * 900, monete_out: 8200 + (i % 4) * 700,
+        gemme_in: 30 + i, gemme_out: 20 + (i % 3) * 5, monete_regalate: 2100 + (i % 6) * 150, giocatori: 6 + (i % 4),
+      }));
+      const cause = [
+        ['mano', 'tavolo', 52000, 0, 40, 0], ['gettone', 'tavolo', 0, 61000, 0, 0], ['pass', 'regalo', 9000, 0, 55, 0],
+        ['baule', 'regalo', 7000, 0, 0, 30], ['regalo', 'regalo', 4200, 0, 0, 0], ['missione', 'regalo', 3600, 0, 0, 0],
+        ['bonus', 'regalo', 2400, 0, 0, 0], ['negozio', 'regalo', 0, 6000, 0, 900], ['acquisto', 'fuori', 0, 0, 1400, 0],
+      ].map(([causa, genere, mi, mo, gi, go]) => ({ causa, genere, monete_in: mi, monete_out: mo, gemme_in: gi, gemme_out: go, righe: 40, giocatori: 7 }));
+      return { ok: true, giorni, cause,
+        totali: { monete_in: 130000, monete_out: 118000, gemme_in: 600, gemme_out: 350, monete_regalate: 32000, giocatori: 9, giocatore_giorni: 96, regalate_per_giocatore_giorno: 333 },
+        saldi: { giocatori: 9, monete_media: 4100, monete_mediana: 2600, monete_p90: 9800, monete_max: 21000, gemme_media: 31.5, gemme_mediana: 22, gemme_max: 140 },
+        teorico: [['osteria', "L'Osteria", 1020, 1100], ['circolo', 'Il Circolo', 1500, 1800], ['villa', 'La Villa', 2300, 2900]]
+          .map(([tavolo, nome, monete, tetto]) => ({ tavolo, nome, monete, tetto, quota: monete / tetto, gemme: 3.9 })),
+        peggiore: { tavolo: 'osteria', quota: 0.93 }, tettoGemme: 4.2 };
     }
     case 'problemi.letto': return { ok: true, id: a.id, letta_il: istante(0), letta_da: 'supporto.applicazioni@gmail.com' };
     case 'versioni': return {

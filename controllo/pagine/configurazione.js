@@ -88,13 +88,37 @@ export async function disegna(ctx) {
     if (!ok) return;
     const r = await confermaConMotivo({ titolo: 'Proponi la configurazione', tasto: 'Proponi', testo: 'Parte secondo il flusso delle approvazioni. La versione di adesso resta nello storico e si ripristina con un clic.' });
     if (!r) return;
+    const invia = (forza) => api.configProponi(app.id, {
+      valori: dispiega(dopo), cambi: d.map((x) => ({ chiave: x.chiave, prima: x.prima, dopo: x.dopo })),
+      portata: { livello: portata.value, valore: dettaglio.hidden ? null : dettaglio.value.trim() || null },
+      inizio: inizio.value ? new Date(inizio.value).toISOString() : null, fine: fine.value ? new Date(fine.value).toISOString() : null,
+      motivo: r.motivo, forza,
+    });
     try {
-      const res = await api.configProponi(app.id, {
-        valori: dispiega(dopo), cambi: d.map((x) => ({ chiave: x.chiave, prima: x.prima, dopo: x.dopo })),
-        portata: { livello: portata.value, valore: dettaglio.hidden ? null : dettaglio.value.trim() || null },
-        inizio: inizio.value ? new Date(inizio.value).toISOString() : null, fine: fine.value ? new Date(fine.value).toISOString() : null,
-        motivo: r.motivo,
-      });
+      let res;
+      try {
+        res = await invia(false);
+      } catch (e) {
+        /*
+         * **Il rubinetto blocca** (fase 2, B0; decisione di Giorgio, 5 ott 2026):
+         * si mostra il conto del locale peggiore e si può solo correggere, o
+         * forzare — e allora la proposta va in approvazione critica (codice e
+         * dieci minuti annullabili, §10).
+         */
+        if (e.codice !== 'rubinetto') throw e;
+        const rb = e.dati?.rubinetto ?? {};
+        const forza = await finestra({
+          titolo: 'Il rubinetto non regge',
+          corpo: [
+            h('p', {}, `Con questi valori, al locale peggiore (${rb.tavolo ?? '?'}) un giorno di gioco regala ${rb.monete ?? '?'} monete contro un tetto di ${rb.tetto ?? '?'} (${Math.round((rb.quota ?? 0) * 100)}%) e ${rb.gemme ?? '?'} gemme contro ${rb.tettoGemme ?? '?'}.`),
+            h('table', { class: 'tabella' }, h('tbody', {}, (rb.voci ?? []).map((v) => h('tr', {}, h('td', {}, v.nome), h('td', { class: 'num' }, `${v.monete} monete`), h('td', { class: 'num' }, `${v.gemme} gemme`))))),
+            h('p', {}, 'Si salva solo forzando: diventa un\'operazione critica, con il codice dell\'app di autenticazione e dieci minuti per annullarla.'),
+          ],
+          tasti: [{ testo: 'Torna a correggere', risposta: false }, { testo: 'Forza (va in approvazione)', classe: 'pericolo', risposta: true }],
+        });
+        if (!forza) return;
+        res = await invia(true);
+      }
       const s = res?.approvazione;
       avvisa(s ? `Proposta: ${s.stato}${s.parte_il ? `, parte ${data(s.parte_il)}` : ''}` : 'Proposta inviata');
       if ((res?.avvisi ?? []).length) avvisa(`Il server segnala: ${res.avvisi.map((x) => x.testo ?? x).join(' · ')}`);

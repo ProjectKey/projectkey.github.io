@@ -27,7 +27,7 @@ export const NOMI = {
 };
 
 export class ErroreApi extends Error {
-  constructor(messaggio, stato, codice) { super(messaggio); this.stato = stato; this.codice = codice; }
+  constructor(messaggio, stato, codice, dati = null) { super(messaggio); this.stato = stato; this.codice = codice; this.dati = dati; }
 }
 
 /** I codici d'errore del server, detti in italiano (LEGGIMI.md). */
@@ -35,6 +35,8 @@ const MESSAGGI = {
   accesso: 'La sessione è scaduta: rientra.',
   mfa: 'Serve il codice dell\'app di autenticazione: rientra.',
   'mfa-recente': 'Questa operazione vuole il codice dell\'app di autenticazione appena inserito.',
+  'fuori-limite': 'Valori fuori dai limiti del gioco',
+  rubinetto: 'Con questi valori il gioco regala più del tetto (rubinetto)',
   amministratore: 'Questo account non è un amministratore attivo del Control Center.',
   permesso: 'Il tuo ruolo non ha questo permesso',
   motivo: 'Serve un motivo di almeno 5 caratteri.',
@@ -80,7 +82,7 @@ async function chiama(azione, argomenti = {}, giaRiprovato = false) {
       if (await chiediCodice()) return chiama(azione, argomenti, true);
     }
     const base = MESSAGGI[codice] ?? (r.status === 404 ? 'La funzione del server non risponde (non ancora pubblicata?).' : `Errore: ${codice}`);
-    throw new ErroreApi(j?.dettaglio ? `${base}: ${j.dettaglio}` : base, r.status, codice);
+    throw new ErroreApi(j?.dettaglio ? `${base}: ${j.dettaglio}` : base, r.status, codice, j);
   }
   return j;
 }
@@ -207,6 +209,11 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** L'economia (fase 2, B1): entrate, uscite, fonti, saldi e rubinetto teorico. */
+export async function economia(app, da, a) {
+  return sbusta(await chiama('economia', { app, da, a }));
+}
+
 export async function percorso(app, da, a) {
   return sbusta(await chiama('percorso', { app, da, a }));
 }
@@ -364,9 +371,9 @@ export async function configVersioni(app) {
 /** Portata della pagina → `scope` del server: `{}` = tutta l'app. */
 const SCOPE = { app: () => ({}), piattaforma: (v) => ({ os: v }), paese: (v) => ({ paese: v }), versione: (v) => ({ versione: v }), segmento: (v) => ({ segmento: v }) };
 
-export async function configProponi(app, { valori, portata, inizio, fine, motivo }) {
+export async function configProponi(app, { valori, portata, inizio, fine, motivo, forza = false }) {
   const scope = (SCOPE[portata?.livello] ?? SCOPE.app)(portata?.valore);
-  const j = await chiama('config.proponi', { app, valori, scope, inizio, fine, motivo });
+  const j = await chiama('config.proponi', { app, valori, scope, inizio, fine, motivo, ...(forza ? { forza: true } : {}) });
   return normalizzaEsito(j);
 }
 export const configRipristina = (app, versione, motivo) => chiama('config.rollback', { app, versione, motivo }).then(normalizzaEsito);
