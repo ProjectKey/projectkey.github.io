@@ -37,7 +37,8 @@ const MENU = [
     { k: 'monetizzazione', nome: 'Monetizzazione', ico: '€' },
     // Il percorso del giocatore (F-128): compare se un gioco lo sa dare.
     { k: 'percorso', nome: 'Percorso', ico: '⤳', serve: 'percorso' },
-    { k: 'crm', nome: 'CRM', ico: '✆', fase: 2 },
+    // Fase 2, B3: la posta in-app; compare se un gioco la sa mandare.
+    { k: 'crm', nome: 'CRM', ico: '✆', serve: 'posta.manda' },
     { k: 'crescita', nome: 'Crescita', ico: '↗', fase: 3 },
     { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', fase: 3 },
     { k: 'analisi', nome: 'Analisi', ico: '▤', fase: 2 },
@@ -66,6 +67,7 @@ const PAGINE = {
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),
   liveops: () => import('./pagine/liveops.js'),
+  crm: () => import('./pagine/crm.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),

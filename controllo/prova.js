@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco'];
 
 const APPS = [
   {
@@ -218,6 +218,11 @@ export async function rispondi(azione, a) {
         con_prima_carta: somma('con_prima_carta'), prima_carta_s: 51.5,
       }, note: { coorti: 'dati finti della modalità prova' } };
     }
+    case 'posta.elenco': return { ok: true, messaggi: [
+      { id: 'p1', titolo: 'Scusate il disservizio', testo: 'Un regalo per la pausa di ieri', monete: 500, gemme: 0, per_tutti: true, destinatari: 0, creata_il: istante(600), scade_il: istante(-9000), creata_da: 'supporto.applicazioni@gmail.com', letti: 6, ritirati: 5 },
+      { id: 'p2', titolo: 'Grazie per la segnalazione', testo: '', monete: 0, gemme: 20, per_tutti: false, destinatari: 1, creata_il: istante(3000), scade_il: istante(-6000), creata_da: 'supporto.applicazioni@gmail.com', letti: 1, ritirati: 1 },
+    ] };
+    case 'posta.manda': return { ok: true, id: 'p3' };
     case 'economia': {
       // Quattordici giorni finti: il tavolo muove tanto, i regali stanno sotto il tetto.
       const giorni = Array.from({ length: 14 }, (_, i) => ({

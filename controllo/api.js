@@ -209,6 +209,12 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** La posta in-app (fase 2, B3). */
+export const postaManda = (app, x) => chiama('posta.manda', { app, ...x });
+export async function postaElenco(app) {
+  return (sbusta(await chiama('posta.elenco', { app })).messaggi ?? []);
+}
+
 /** L'economia (fase 2, B1): entrate, uscite, fonti, saldi e rubinetto teorico. */
 export async function economia(app, da, a) {
   return sbusta(await chiama('economia', { app, da, a }));
