@@ -201,7 +201,7 @@ export function ingresso(radice) {
       const s = await statoAccesso();
       // Arrivati dal link dell'invito o del recupero: prima si sceglie la password.
       if (!passwordScelta && s.stato !== 'fuori') {
-        svuota(radice).append(schermataNuovaPassword(async () => { passwordScelta = true; await avanti(); }));
+        svuota(radice).append(schermataNuovaPassword(s, async () => { passwordScelta = true; await avanti(); }));
         return;
       }
       if (s.stato === 'dentro') { pronto(s); return; }
@@ -214,24 +214,49 @@ export function ingresso(radice) {
   });
 }
 
-function schermataNuovaPassword(fatto) {
-  const pw = h('input', { type: 'password', autocomplete: 'new-password', placeholder: 'nuova password (almeno 12 caratteri)', 'aria-label': 'Nuova password', minlength: 12, required: true });
+/**
+ * **La password nuova.** Dall'invito (account senza codice) basta sceglierla.
+ * Da «password dimenticata» no: l'account ha già il codice dell'app di
+ * autenticazione, il link dell'email apre una sessione di livello `aal1`, e
+ * Supabase non cambia la password finché non si è dato anche il codice
+ * («AAL2 session is required to update email or password when MFA is
+ * enabled», Giorgio, 5 ott 2026). Quindi qui si chiede **anche il codice**, lo
+ * si verifica e solo dopo si salva la password.
+ *
+ * C'è l'email nascosta: il gestore delle password del browser salva la nuova
+ * sull'account giusto, invece di aggiungerne un'altra accanto alla vecchia.
+ */
+function schermataNuovaPassword(stato, fatto) {
+  const serveCodice = stato.stato === 'codice';
+  const utente = h('input', { type: 'email', autocomplete: 'username', value: stato.email ?? '', readonly: true, 'aria-hidden': 'true', tabindex: '-1', style: { display: 'none' } });
+  const { pw, riga } = campoPassword({ autocomplete: 'new-password', placeholder: 'nuova password (almeno 12 caratteri)', 'aria-label': 'Nuova password', minlength: 12 });
   const pw2 = h('input', { type: 'password', autocomplete: 'new-password', placeholder: 'ripetila', 'aria-label': 'Ripeti la password', required: true });
+  const codice = serveCodice
+    ? h('input', { class: 'codice-otp', inputmode: 'numeric', autocomplete: 'one-time-code', maxlength: 6, placeholder: '000000', 'aria-label': 'Codice a sei cifre', required: true })
+    : null;
   const errore = h('div', { class: 'errore-testo', role: 'alert' });
   return box(h('h1', {}, 'Scegli la password'),
-    h('p', {}, 'Almeno 12 caratteri. Dopo attivi il codice dell\'app di autenticazione.'),
+    h('p', {}, serveCodice
+      ? `Almeno 12 caratteri. Per salvarla serve anche il codice dell'app di autenticazione di ${stato.email}.`
+      : 'Almeno 12 caratteri. Dopo attivi il codice dell\'app di autenticazione.'),
     h('form', {
       style: { display: 'flex', flexDirection: 'column', gap: '10px' },
       onsubmit: async (e) => {
         e.preventDefault();
+        errore.textContent = '';
         if (pw.value.length < 12) { errore.textContent = 'Almeno 12 caratteri.'; return; }
         if (pw.value !== pw2.value) { errore.textContent = 'Le due password non sono uguali.'; return; }
+        if (serveCodice) {
+          const { error: ce } = await supabase().auth.mfa.challengeAndVerify({ factorId: stato.fattore, code: codice.value.trim() });
+          if (ce) { errore.textContent = 'Codice non valido: aspetta il prossimo e riprova.'; codice.value = ''; return; }
+          codiceDatoAdesso();
+        }
         const { error } = await supabase().auth.updateUser({ password: pw.value });
         if (error) { errore.textContent = `Non riesco a salvarla: ${error.message}`; return; }
         history.replaceState(null, '', location.pathname);
         await fatto();
       },
-    }, pw, pw2, errore, h('button', { class: 'bottone primario', type: 'submit' }, 'Salva la password')));
+    }, utente, riga, pw2, codice, errore, h('button', { class: 'bottone primario', type: 'submit' }, 'Salva la password')));
 }
 
 function schermataPassword(avanti) {
