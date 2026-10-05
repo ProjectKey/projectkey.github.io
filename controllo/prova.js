@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi'];
 
 const APPS = [
   {
@@ -217,6 +217,18 @@ export async function rispondi(azione, a) {
         d1_possibili: somma('d1_possibili'), d1: somma('d1'), d7_possibili: somma('d7_possibili'), d7: somma('d7'),
         con_prima_carta: somma('con_prima_carta'), prima_carta_s: 51.5,
       }, note: { coorti: 'dati finti della modalità prova' } };
+    }
+    case 'missioni.leggi': {
+      const giorno = [
+        { id: 'play', testo: 'Gioca {n} partite', goal: 3, monete: 15, passXp: 22 }, { id: 'win', testo: 'Vinci {n} partite', goal: 2, monete: 30, passXp: 40 },
+        { id: 'scopa', testo: 'Fai {n} scope', goal: 3, monete: 35, passXp: 50 }, { id: 'bluff', testo: 'Vinci a Scopa bugiarda', goal: 1, monete: 40, passXp: 60, giochi: ['bugiarda'] },
+      ];
+      const settimana = [{ id: 'play40', testo: 'Gioca {n} partite', goal: 40, monete: 0, passXp: 260 }, { id: 'win20', testo: 'Vinci {n} partite', goal: 20, monete: 0, passXp: 300 },
+        { id: 'scopa30', testo: 'Fai {n} scope', goal: 30, monete: 0, passXp: 280 }, { id: 'sette12', testo: 'Prendi {n} settebelli', goal: 12, monete: 0, passXp: 280 }, { id: 'hard8', testo: 'Batti {n} Esperti o Maestri', goal: 8, monete: 0, passXp: 320 }];
+      return { ok: true, giorno, settimana, dalPannello: { giorno: false, settimana: false }, diCasa: { giorno, settimana },
+        famiglie: ['winsette', 'winscopa', 'online', 'scopa', 'sette', 'hard', 'play', 'win'],
+        giochi: [{ id: 'scopa', nome: 'Scopa' }, { id: 'bugiarda', nome: 'Scopa bugiarda' }],
+        tetti: { goal: 100, moneteGiorno: 300, moneteSettimana: 0, passXp: 600, minimoGiorno: 3, minimoSettimana: 5 } };
     }
     case 'posta.elenco': return { ok: true, messaggi: [
       { id: 'p1', titolo: 'Scusate il disservizio', testo: 'Un regalo per la pausa di ieri', monete: 500, gemme: 0, per_tutti: true, destinatari: 0, creata_il: istante(600), scade_il: istante(-9000), creata_da: 'supporto.applicazioni@gmail.com', letti: 6, ritirati: 5 },

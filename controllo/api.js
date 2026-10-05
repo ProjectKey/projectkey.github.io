@@ -209,6 +209,9 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** Le missioni (fase 2, B4): in uso, di casa, e le regole per scriverne. */
+export const missioniLeggi = async (app) => sbusta(await chiama('missioni.leggi', { app }));
+
 /** La posta in-app (fase 2, B3). */
 export const postaManda = (app, x) => chiama('posta.manda', { app, ...x });
 export async function postaElenco(app) {

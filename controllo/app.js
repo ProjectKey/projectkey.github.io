@@ -28,6 +28,8 @@ const MENU = [
     { k: 'giochi', nome: 'Giochi', ico: '♦', fase: 2 },
     // Fase 2, B2: gli eventi a tempo; compare se un gioco sa verificare la configurazione.
     { k: 'liveops', nome: 'Live Ops', ico: '◷', serve: 'config.verifica' },
+    // Fase 2, B4: le missioni del giorno e della settimana.
+    { k: 'missioni', nome: 'Missioni', ico: '☑', serve: 'missioni.leggi' },
     { k: 'tornei', nome: 'Tornei', ico: '♛', fase: 2 },
     // Fase 2, B1: compare se un gioco sa dare l'economia (`capacita` dichiara `economia`).
     { k: 'economia', nome: 'Economia', ico: '◈', serve: 'economia' },
@@ -68,6 +70,7 @@ const PAGINE = {
   economia: () => import('./pagine/economia.js'),
   liveops: () => import('./pagine/liveops.js'),
   crm: () => import('./pagine/crm.js'),
+  missioni: () => import('./pagine/missioni.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),
