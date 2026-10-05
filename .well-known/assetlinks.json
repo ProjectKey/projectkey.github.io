@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "it.settebello.app",
+      "sha256_cert_fingerprints": [
+        "4D:E9:53:69:C7:70:41:9B:CF:65:21:52:96:EC:74:A0:0F:0D:48:DA:1C:B1:CE:EC:F1:AD:F0:36:BB:4D:1A:34",
+        "4D:95:CA:08:BB:B5:AC:3E:58:58:DA:67:FE:B8:EF:D0:55:39:29:9A:90:1F:5B:E2:3C:92:29:F0:F8:49:6A:06"
+      ]
+    }
+  }
+]

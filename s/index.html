@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ti sfido a Scopa Online · Settebello</title>
+<meta name="description" content="Un amico ti ha invitato a Settebello: Scopa Online, Scopone e le varianti italiane, gratis su Google Play.">
+<!-- Pagina personale di un invito: non va nei risultati di ricerca. -->
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="SetteGames">
+<meta property="og:title" content="Ti sfido a Scopa Online">
+<meta property="og:description" content="Scarica Settebello e gioca con me: Scopa, Scopone e le varianti italiane, gratis.">
+<meta property="og:image" content="https://settegames.com/settebello/img/anteprima.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/img/settebello-icona.webp">
+<link rel="stylesheet" href="../stile.css">
+<link rel="stylesheet" href="../settebello/guide.css">
+<style>
+  .invito { max-width: 560px; margin: 0 auto; padding: 32px 16px 48px; text-align: center; }
+  .invito h1 { margin: 8px 0 12px; }
+  .codice { display: inline-block; font: 700 28px/1.2 ui-monospace, Menlo, monospace; letter-spacing: 4px;
+            padding: 10px 18px; border-radius: 12px; background: #fff3c4; color: #3a2600; margin: 8px 0 4px; }
+  .tasto { display: inline-block; margin-top: 20px; padding: 14px 22px; border-radius: 14px; background: #1f7a3a;
+           color: #fff; font-weight: 700; text-decoration: none; font-size: 18px; }
+  .piccolo { color: #6b6485; font-size: 15px; margin-top: 18px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main class="invito">
+  <!--
+    LA PAGINA DEL LINK DELL'AMICO [F-75-ter, docs/requisiti/FUORIGIOCO.md]
+    Col gioco installato Android non arriva nemmeno qui: apre l'app (App Links,
+    /.well-known/assetlinks.json). Qui arriva chi non ce l'ha: si dice cosa
+    succede e si va al Play Store passandogli il codice nel referrer, così il
+    gioco lo usa da solo al primo avvio.
+  -->
+  <img src="/img/settebello-icona.webp" alt="" width="96" height="96">
+  <h1 id="titolo">Ti sfido a Scopa Online</h1>
+  <p id="testo">Settebello: Scopa, Scopone e le varianti italiane, gratis.</p>
+  <div id="conCodice" hidden>
+    <p>Il codice del tuo amico:</p>
+    <div class="codice" id="codice"></div>
+    <p class="piccolo" id="nota"></p>
+  </div>
+  <a class="tasto" id="play" href="https://play.google.com/store/apps/details?id=it.settebello.app">Scarica da Google Play</a>
+  <p class="piccolo" id="iphone" hidden>Su iPhone Settebello arriva presto.</p>
+  <p class="piccolo"><a href="/settebello/regole/">Come si gioca a Scopa</a></p>
+</main>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var tipo = q.get('invita') ? 'invita' : q.get('tavolo') ? 'tavolo' : null;
+    var codice = tipo ? String(q.get(tipo)).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12) : '';
+    var pulito = function (s) { return String(s || '').toLowerCase().replace(/[^a-z0-9_-]+/g, '_').slice(0, 60); };
+    var rif = [
+      ['utm_source', pulito(q.get('utm_source') || 'link')],
+      ['utm_medium', pulito(q.get('utm_medium') || 'link')],
+      ['utm_campaign', pulito(q.get('utm_campaign') || tipo || 'link')],
+      ['utm_content', tipo || ''],
+      // Solo l'invito al gioco passa allo Store: un tavolo privato vale un quarto d'ora.
+      ['codice', tipo === 'invita' ? codice : '']
+    ].filter(function (c) { return c[1]; }).map(function (c) { return c[0] + '=' + c[1]; }).join('&');
+    document.getElementById('play').href =
+      'https://play.google.com/store/apps/details?id=it.settebello.app&referrer=' + encodeURIComponent(rif);
+    if (codice) {
+      document.getElementById('conCodice').hidden = false;
+      document.getElementById('codice').textContent = codice;
+      document.getElementById('nota').textContent = tipo === 'invita'
+        ? 'Installa il gioco: il codice lo mette lui. Alla tua prima partita finita ti arrivano le monete di benvenuto.'
+        : 'È il codice del suo tavolo privato: vale un quarto d\'ora. Installa il gioco e scrivilo in Amici → Entra.';
+      if (tipo === 'tavolo') document.getElementById('titolo').textContent = 'Ti aspetto al mio tavolo';
+    }
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.getElementById('iphone').hidden = false;
+  })();
+</script>
+</body>
+</html>
