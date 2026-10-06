@@ -347,6 +347,9 @@ export async function moderazioneCoda(app, tutte = false) {
 }
 export const moderazioneDecidi = (app, x) => chiama('moderazione.decidi', { app, ...x });
 
+/** Il rischio di frode (C3): punteggio e motivi per giocatore. */
+export const rischio = async (app, giorni) => sbusta(await chiama('rischio', { app, giorni }));
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

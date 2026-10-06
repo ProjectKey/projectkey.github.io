@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio'];
 
 const APPS = [
   {
@@ -253,6 +253,11 @@ export async function rispondi(azione, a) {
           { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
     ] };
     case 'moderazione.decidi': return { ok: true, chiuse: 3 };
+    case 'rischio': return { ok: true, giorni: 30, guardati: 14, giocatori: [
+      { id: GIOCATORI[2].id, nome: 'Giocatore 4685', livello: 5, punti: 50, escluso: false, visto: istante(30), motivi: [
+        { k: 'video', peso: 30, perche: '5 video premiati in un giorno' }, { k: 'riallineati', peso: 20, perche: '4200 monete arrivate da riallineamenti del telefono' }] },
+      { id: GIOCATORI[1].id, nome: 'Marta88', livello: 9, punti: 15, escluso: false, visto: istante(300), motivi: [{ k: 'rimborsi', peso: 15, perche: '1 acquisti rimborsati' }] },
+    ] };
     case 'giochi': return { ok: true, persone: 14, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
       giochi: [
         { gioco: 'scopa', partite: 469, persone: 12, perPersona: 39.1, secondi: 104, vinte: 260, online: 456, torneo: 3, giorni: 9, abbandoni: 7, tornati: 6 },

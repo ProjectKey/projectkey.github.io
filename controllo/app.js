@@ -23,7 +23,8 @@ const MENU = [
     { k: 'assistenza', nome: 'Assistenza', ico: '✉', serve: 'assistenza.elenco' },
     // C2 (6 ott 2026): le segnalazioni fra giocatori, per giocatore segnalato.
     { k: 'moderazione', nome: 'Moderazione', ico: '⚑', serve: 'moderazione.coda' },
-    { k: 'frodi', nome: 'Frodi', ico: '⛨', fase: 2 },
+    // C3 (6 ott 2026): il rischio di frode con i motivi.
+    { k: 'frodi', nome: 'Frodi', ico: '⛨', serve: 'rischio' },
   ] },
   { gruppo: 'Gioco', voci: [
     // 6 ott 2026: quali giochi si giocano e quali tengono la gente.
@@ -73,6 +74,7 @@ const PAGINE = {
   segnalazioni: () => import('./pagine/segnalazioni.js'),
   assistenza: () => import('./pagine/assistenza.js'),
   moderazione: () => import('./pagine/moderazione.js'),
+  frodi: () => import('./pagine/frodi.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),
