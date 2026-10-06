@@ -336,6 +336,11 @@ export const timeline = (app, id, limite = 200) => chiama('giocatori.timeline', 
 export const accredita = (app, id, valuta, quantita, motivo) => chiama('giocatori.accredita', { app, id, valuta, quantita, motivo });
 export const blocca = (app, id, fino, motivo) => chiama('giocatori.blocca', { app, id, fino, motivo });
 export const sblocca = (app, id, motivo) => chiama('giocatori.sblocca', { app, id, motivo });
+/** L'assistenza (C1): le richieste, una richiesta col suo contesto, stato/nota/presa in carico. */
+export const assistenzaElenco = async (app, f = {}) => sbusta(await chiama('assistenza.elenco', { app, ...f }));
+export const assistenzaScheda = async (app, id) => sbusta(await chiama('assistenza.scheda', { app, id }));
+export const assistenzaAggiorna = (app, x) => chiama('assistenza.aggiorna', { app, ...x });
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

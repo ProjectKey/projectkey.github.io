@@ -18,9 +18,9 @@ const MENU = [
   { gruppo: 'Giocatori', voci: [
     { k: 'giocatori', nome: 'Giocatori', ico: '☺' },
     { k: 'partite', nome: 'Partite', ico: '♠' },
-    // Compare solo se almeno un gioco sa dare le segnalazioni (`capacita` dichiara `problemi`).
-    { k: 'segnalazioni', nome: 'Segnalazioni', ico: '⚐', serve: 'problemi' },
-    { k: 'assistenza', nome: 'Assistenza', ico: '✉', fase: 2 },
+    // C1 (6 ott 2026): le segnalazioni dei giocatori sono richieste di assistenza, con stato e risposta.
+    // La vecchia pagina Segnalazioni resta raggiungibile da `#/segnalazioni`, ma non sta più nel menu.
+    { k: 'assistenza', nome: 'Assistenza', ico: '✉', serve: 'assistenza.elenco' },
     { k: 'moderazione', nome: 'Moderazione', ico: '⚑', fase: 2 },
     { k: 'frodi', nome: 'Frodi', ico: '⛨', fase: 2 },
   ] },
@@ -70,6 +70,7 @@ const PAGINE = {
   giocatori: () => import('./pagine/giocatori.js'),
   partite: () => import('./pagine/partite.js'),
   segnalazioni: () => import('./pagine/segnalazioni.js'),
+  assistenza: () => import('./pagine/assistenza.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna'];
 
 const APPS = [
   {
@@ -235,6 +235,18 @@ export async function rispondi(azione, a) {
       { id: 'p2', titolo: 'Grazie per la segnalazione', testo: '', monete: 0, gemme: 20, per_tutti: false, destinatari: 1, creata_il: istante(3000), scade_il: istante(-6000), creata_da: 'supporto.applicazioni@gmail.com', letti: 1, ritirati: 1 },
     ] };
     case 'posta.manda': return { ok: true, id: 'p3' };
+    case 'assistenza.elenco': return { ok: true, conti: { aperta: 2, in_corso: 1, risolta: 4 }, richieste: [
+      { id: 'pr-1', profilo_id: GIOCATORI[1].id, giocatore: 'Marta88', testo: 'Ho comprato le gemme ma non sono arrivate', dove: 'impostazioni', versione: '1.0.9', telefono: 'Samsung SM-A536B · Android 14', creata_il: istante(90), stato: 'aperta', seguita_da: null, note: 0, risposte: 0 },
+      { id: 'pr-2', profilo_id: GIOCATORI[2].id, giocatore: 'Giocatore 4685', testo: 'Non mi è arrivato il baule della missione', dove: 'impostazioni', versione: '1.0.7', telefono: 'Xiaomi 2201117TY · Android 13', creata_il: istante(400), stato: 'aperta', seguita_da: null, note: 0, risposte: 0 },
+      { id: 'pr-3', profilo_id: GIOCATORI[0].id, giocatore: 'Giorgio', testo: 'La partita si è bloccata alla terza mano', dove: 'tavolo', versione: '1.0.8', telefono: 'Google Pixel 7 · Android 15', creata_il: istante(3000), stato: 'in_corso', seguita_da: 'supporto.applicazioni@gmail.com', note: 1, risposte: 0 },
+    ] };
+    case 'assistenza.scheda': return { ok: true, giocatore: { nome: 'Marta88', livello: 7 },
+      richiesta: { id: 'pr-1', profilo_id: GIOCATORI[1].id, testo: 'Ho comprato le gemme ma non sono arrivate', dove: 'impostazioni', versione: '1.0.9', telefono: 'Samsung SM-A536B · Android 14', creata_il: istante(90), stato: 'aperta', seguita_da: null,
+        note: [{ quando: istante(60), chi: 'supporto.applicazioni@gmail.com', tipo: 'nota', testo: 'Controllo l\'ordine su Play' }] },
+      contesto: { richieste: 1, partite: [{ id: 'p-1', modo: 'scopa', tavolo: 'osteria', stato: 'finita', creata: istante(120), motivo: 'conta', vinta: true }],
+        acquisti: [{ prodotto: 'gemme_120', stato: 'valido', quando: istante(100), ordine: 'GPA.3312-0000-1111-22222' }], errori: [],
+        telefoni: [{ piattaforma: 'android', versione: '1.0.9', ultima: istante(30), aperture: 12 }], posta: [] } };
+    case 'assistenza.aggiorna': return { ok: true };
     case 'giochi': return { ok: true, persone: 14, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
       giochi: [
         { gioco: 'scopa', partite: 469, persone: 12, perPersona: 39.1, secondi: 104, vinte: 260, online: 456, torneo: 3, giorni: 9, abbandoni: 7, tornati: 6 },
