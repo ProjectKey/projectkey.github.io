@@ -167,7 +167,7 @@ async function schedaGiocatore(ctx, app, id) {
         h('dt', {}, 'Stato'), h('dd', {}, bandito ? pill(`Bloccato fino al ${data(g.stato.bandito_fino)}`, 'rosso') : pill('Attivo', 'verde')),
         h('dt', {}, 'Statistiche'), h('dd', {}, g.stato?.escluso
           ? pill(g.stato.escluso_a_mano ? `fuori: ${g.stato.escluso_a_mano.motivo || 'a mano'}` : 'fuori da solo (robot, prova o amministratore)', 'ambra')
-          : 'conta')))),
+          : 'conta'))),
       scheda('Dispositivo e consensi', h('dl', { class: 'dati' },
         h('dt', {}, 'Dispositivo'), h('dd', {}, g.device ?? '—'),
         h('dt', {}, 'Sistema'), h('dd', {}, g.os ?? '—'),
