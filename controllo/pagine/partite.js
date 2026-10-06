@@ -20,14 +20,16 @@ export async function disegna(ctx) {
   const bersagli = (ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'cercaPartite'));
   if (bersagli.length === 0) return nonDisponibile('Ricerca partite', 'l\'adattatore di questa app non espone `partite.cerca`.');
 
-  const f = memoria.leggi('partite.filtri', { q: '', da: giorniFa(7), a: giorniFa(0) });
-  const q = h('input', { type: 'search', value: f.q, placeholder: 'ID partita o ID giocatore', 'aria-label': 'ID partita o giocatore', style: { flex: 1, minWidth: '200px' } });
+  // Si ricorda solo la ricerca: le date ripartono sempre dagli ultimi sette giorni fino a oggi,
+  // se no chi riapre la pagina dopo una settimana vede il periodo vecchio e nessuna partita nuova.
+  const f = { q: memoria.leggi('partite.filtri', { q: '' }).q ?? '', da: giorniFa(7), a: giorniFa(0) };
+  const q = h('input', { type: 'search', value: f.q, placeholder: 'Nome del giocatore, ID partita o ID giocatore', 'aria-label': 'ID partita o giocatore', style: { flex: 1, minWidth: '200px' } });
   const da = h('input', { type: 'date', value: f.da, 'aria-label': 'Dal' });
   const a = h('input', { type: 'date', value: f.a, 'aria-label': 'Al' });
   const esiti = h('div', {});
   const cerca = async () => {
     const filtri = { q: q.value.trim(), da: da.value, a: a.value };
-    memoria.scrivi('partite.filtri', filtri);
+    memoria.scrivi('partite.filtri', { q: filtri.q });
     metti(svuota(esiti), caricamento());
     const righe = [];
     const errori = [];
@@ -35,14 +37,25 @@ export async function disegna(ctx) {
       try { for (const p of await api.cercaPartite(app.id, filtri)) righe.push({ ...p, app }); } catch (e) { errori.push(`${app.nome}: ${e.message}`); }
     }));
     righe.sort((x, y) => String(y.inizio).localeCompare(String(x.inizio)));
-    metti(svuota(esiti), errori.length ? erroreBox(new Error(errori.join(' · '))) : null, scheda(`${righe.length} partite`, tabella([
+    const persone = new Set(righe.flatMap((p) => (p.giocatori ?? []).filter((g) => !g.bot && g.id).map((g) => g.id)));
+    const perGiorno = {};
+    for (const p of righe) { const g = String(p.inizio).slice(0, 10); perGiorno[g] = (perGiorno[g] ?? 0) + 1; }
+    const giorni = Object.keys(perGiorno).length;
+    metti(svuota(esiti), errori.length ? erroreBox(new Error(errori.join(' · '))) : null,
+      h('div', { class: 'griglia g4' },
+        kpi('Partite', num(righe.length), righe.length >= 500 ? 'le ultime 500: stringi il periodo' : `${filtri.da} → ${filtri.a}`),
+        kpi('Giocatori diversi', num(persone.size), 'persone, senza i bot'),
+        kpi('Al giorno', giorni ? (righe.length / giorni).toLocaleString('it-IT', { maximumFractionDigits: 1 }) : '—', 'nei giorni con partite'),
+        kpi('Finite', num(righe.filter((p) => p.stato === 'finita').length), `${num(righe.filter((p) => p.stato !== 'finita').length)} in corso o interrotte`)),
+      scheda(`${righe.length} partite`, tabella([
       { titolo: 'Inizio', cella: (p) => data(p.inizio) },
       { titolo: 'Gioco', cella: (p) => `${p.gioco ?? p.app.nome}${p.modo ? ` · ${p.modo}` : ''}` },
       { titolo: 'Giocatori', cella: (p) => (p.giocatori ?? []).map((g) => g.bot ? pill(g.nome, '') : pill(g.nome, 'viola')) },
       { titolo: 'Risultato', chiave: 'risultato' },
       { titolo: 'Stato', cella: (p) => pill(p.stato ?? '—', p.stato === 'in corso' ? 'ambra' : '') },
       { titolo: 'ID', cella: (p) => h('span', { class: 'mono' }, p.id) },
-    ], righe, { vuoto: 'Nessuna partita in questo periodo.', clic: (p) => ctx.vai(`#/partite/${p.app.id}/${p.id}`) })));
+    ], righe, { vuoto: 'Nessuna partita in questo periodo.', clic: (p) => ctx.vai(`#/partite/${p.app.id}/${p.id}`) }),
+      { nota: 'Sono le partite passate dal server (online e al tavolo col computer). L\'allenamento senza rete resta sul telefono: la contano il Command Center e la pagina Giochi.' }));
   };
   void cerca();
   return [

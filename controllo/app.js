@@ -25,7 +25,8 @@ const MENU = [
     { k: 'frodi', nome: 'Frodi', ico: '⛨', fase: 2 },
   ] },
   { gruppo: 'Gioco', voci: [
-    { k: 'giochi', nome: 'Giochi', ico: '♦', fase: 2 },
+    // 6 ott 2026: quali giochi si giocano e quali tengono la gente.
+    { k: 'giochi', nome: 'Giochi', ico: '♦', serve: 'giochi' },
     // Fase 2, B2: gli eventi a tempo; compare se un gioco sa verificare la configurazione.
     { k: 'liveops', nome: 'Live Ops', ico: '◷', serve: 'config.verifica' },
     // Fase 2, B4: le missioni del giorno e della settimana.
@@ -78,6 +79,7 @@ const PAGINE = {
   tornei: () => import('./pagine/tornei.js'),
   listino: () => import('./pagine/listino.js'),
   negozio: () => import('./pagine/negozio.js'),
+  giochi: () => import('./pagine/giochi.js'),
   tecnica: () => import('./pagine/tecnica.js'),
   rilasci: () => import('./pagine/rilasci.js'),
   configurazione: () => import('./pagine/configurazione.js'),

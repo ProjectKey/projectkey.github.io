@@ -209,6 +209,9 @@ export async function errori(app, da, a) {
 }
 
 /** **Il percorso del giocatore** (F-128): per giorno di nascita, dall'apertura al D7. */
+/** Quali giochi si giocano (6 ott 2026): partite, persone, tornati, durata, vittorie, abbandoni. */
+export const giochi = async (app, da, a) => sbusta(await chiama('giochi', { app, da, a }));
+
 /** Il negozio: prezzi in gemme e monete, benvenuto, offerte, prodotti in euro (fase 2, B9). */
 export const negozioLeggi = async (app) => sbusta(await chiama('negozio.leggi', { app }));
 

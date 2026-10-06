@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi'];
 
 const APPS = [
   {
@@ -235,6 +235,14 @@ export async function rispondi(azione, a) {
       { id: 'p2', titolo: 'Grazie per la segnalazione', testo: '', monete: 0, gemme: 20, per_tutti: false, destinatari: 1, creata_il: istante(3000), scade_il: istante(-6000), creata_da: 'supporto.applicazioni@gmail.com', letti: 1, ritirati: 1 },
     ] };
     case 'posta.manda': return { ok: true, id: 'p3' };
+    case 'giochi': return { ok: true, persone: 14, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
+      giochi: [
+        { gioco: 'scopa', partite: 469, persone: 12, perPersona: 39.1, secondi: 104, vinte: 260, online: 456, torneo: 3, giorni: 9, abbandoni: 7, tornati: 6 },
+        { gioco: 'scientifico', partite: 53, persone: 4, perPersona: 13.3, secondi: 280, vinte: 25, online: 44, torneo: 0, giorni: 4, abbandoni: 2, tornati: 2 },
+        { gioco: 'assopiglia', partite: 17, persone: 5, perPersona: 3.4, secondi: 90, vinte: 9, online: 9, torneo: 0, giorni: 3, abbandoni: 1, tornati: 1 },
+        { gioco: 'bugiarda', partite: 4, persone: 1, perPersona: 4, secondi: 150, vinte: 2, online: 3, torneo: 0, giorni: 2, abbandoni: 4, tornati: 1 },
+      ],
+      perGiorno: [{ giorno: giorno(3), gioco: 'scopa', partite: 120 }, { giorno: giorno(2), gioco: 'scopa', partite: 160 }, { giorno: giorno(2), gioco: 'scientifico', partite: 20 }, { giorno: giorno(1), gioco: 'scopa', partite: 50 }, { giorno: giorno(1), gioco: 'assopiglia', partite: 8 }] };
     case 'negozio.leggi': {
       const casa = { pacchiMonete: [{ monete: 1500, gemme: 10 }, { monete: 5000, gemme: 32 }, { monete: 12000, gemme: 74 }, { monete: 30000, gemme: 178 }, { monete: 80000, gemme: 460 }, { monete: 200000, gemme: 1120 }],
         noAds: [45, 130], pass: { gemme: 550, monete: 25000 }, prezzi: { salvadanaio: 120, dueBauli: 400, missioniNuove: 75 }, starter: { gemme: 300, monete: 4000 },
