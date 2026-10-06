@@ -49,14 +49,16 @@ const MENU = [
     // Fase 2, B3: la posta in-app; compare se un gioco la sa mandare.
     { k: 'crm', nome: 'CRM', ico: '✆', serve: 'posta.manda' },
     { k: 'crescita', nome: 'Crescita', ico: '↗', fase: 3 },
-    { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', fase: 3 },
+    // C6 (6 ott 2026): test A/B su pubblicità e offerte.
+    { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', serve: 'esperimenti.risultati' },
     // C4 (6 ott 2026): esplora eventi, percorso a passi scelti, coorti.
     { k: 'analisi', nome: 'Analisi', ico: '▤', serve: 'analisi.catalogo' },
   ] },
   { gruppo: 'Operazioni', voci: [
     { k: 'tecnica', nome: 'Tecnica', ico: '⚙' },
     { k: 'rilasci', nome: 'Rilasci', ico: '⇪' },
-    { k: 'contenuti', nome: 'Contenuti', ico: '✎', fase: 2 },
+    // C5 (6 ott 2026): righe in home e finestre una tantum, senza versione nuova.
+    { k: 'contenuti', nome: 'Contenuti', ico: '✎', serve: 'config.verifica' },
     { k: 'configurazione', nome: 'Configurazione', ico: '⚒' },
   ] },
   { gruppo: 'Sicurezza', voci: [
@@ -77,6 +79,8 @@ const PAGINE = {
   moderazione: () => import('./pagine/moderazione.js'),
   frodi: () => import('./pagine/frodi.js'),
   analisi: () => import('./pagine/analisi.js'),
+  contenuti: () => import('./pagine/contenuti.js'),
+  esperimenti: () => import('./pagine/esperimenti.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

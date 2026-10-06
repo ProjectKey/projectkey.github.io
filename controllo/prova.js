@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi'];
 
 const APPS = [
   {
@@ -141,7 +141,8 @@ export async function rispondi(azione, a) {
     };
     case 'config.leggi': return {
       ok: true, versione: 4, aggiornato: istante(3000),
-      valori: { ...(app?.config ?? {}), raddoppiAlGiorno: 1, missioniAlGiorno: 3, bonus: { giriAlGiorno: 3, base: 17, moltiplicatore: 3 } },
+      valori: { ...(app?.config ?? {}), raddoppiAlGiorno: 1, missioniAlGiorno: 3, bonus: { giriAlGiorno: 3, base: 17, moltiplicatore: 3 },
+        esperimenti: [{ id: 'spot-ogni-2', nome: 'Uno spot ogni due mani', quota: 50, variante: { annunci: { maniPerAnnuncio: 2 } }, dal: istante(9000), al: null }] },
     };
     case 'config.versioni': return {
       ok: true, versioni: [
@@ -253,6 +254,9 @@ export async function rispondi(azione, a) {
           { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
     ] };
     case 'moderazione.decidi': return { ok: true, chiuse: 3 };
+    case 'esperimenti.risultati': return { ok: true, id: a.id, gruppi: {
+      variante: { telefoni: 31, d1: [12, 28], d7: [5, 19], aperture_al_giorno: 1.8, partite_al_giorno: 6.2, spot_al_giorno: 3.1, acquisti: 1, paganti: 1 },
+      controllo: { telefoni: 29, d1: [13, 27], d7: [6, 18], aperture_al_giorno: 1.7, partite_al_giorno: 5.4, spot_al_giorno: 5.6, acquisti: 2, paganti: 2 } } };
     case 'analisi.catalogo': return { ok: true, eventi: [
       { nome: 'schermata', quanti: 1601, telefoni: 14, proprieta: [{ chiave: 'nome', n: 1601, esempi: ['home', 'negozio'] }] },
       { nome: 'partita', quanti: 537, telefoni: 11, proprieta: [{ chiave: 'gioco', n: 537, esempi: ['scopa', 'scientifico'] }, { chiave: 'vinta', n: 537, esempi: ['true', 'false'] }, { chiave: 'secondi', n: 537, esempi: ['100'] }] },

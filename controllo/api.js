@@ -339,7 +339,8 @@ export const sblocca = (app, id, motivo) => chiama('giocatori.sblocca', { app, i
 /** L'assistenza (C1): le richieste, una richiesta col suo contesto, stato/nota/presa in carico. */
 export const assistenzaElenco = async (app, f = {}) => sbusta(await chiama('assistenza.elenco', { app, ...f }));
 export const assistenzaScheda = async (app, id) => sbusta(await chiama('assistenza.scheda', { app, id }));
-export const assistenzaAggiorna = (app, x) => chiama('assistenza.aggiorna', { app, ...x });
+// Il motivo è fisso, come per «Letta»: lavorare su una richiesta non ha un perché da scrivere.
+export const assistenzaAggiorna = (app, x) => chiama('assistenza.aggiorna', { app, motivo: 'Lavoro sulla richiesta di assistenza', ...x });
 
 /** La moderazione (C2): la coda per giocatore segnalato, e la decisione. */
 export async function moderazioneCoda(app, tutte = false) {
@@ -355,6 +356,9 @@ export const analisiCatalogo = async (app, da, a) => (sbusta(await chiama('anali
 export const analisiEventi = async (app, x) => sbusta(await chiama('analisi.eventi', { app, ...x }));
 export const analisiImbuto = async (app, passi, da, a) => (sbusta(await chiama('analisi.imbuto', { app, passi, da, a })).passi ?? []);
 export const analisiCoorti = async (app, per, da, a) => (sbusta(await chiama('analisi.coorti', { app, per, da, a })).coorti ?? []);
+
+/** I risultati di un esperimento (C6): variante e controllo. */
+export const esperimentiRisultati = async (app, id) => sbusta(await chiama('esperimenti.risultati', { app, id }));
 
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
