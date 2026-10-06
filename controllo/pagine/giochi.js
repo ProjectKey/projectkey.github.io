@@ -17,7 +17,7 @@
 import * as api from '../api.js';
 import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
 
-const COLORI = ['--blu', '--viola', '--verde', '--ambra', '--rosso', '--testo-2'];
+const COLORI = ['--cielo', '--viola', '--verde', '--ambra', '--rosso', '--ink3'];
 
 export async function disegna(ctx) {
   ctx.ricordaRecente('Giochi');

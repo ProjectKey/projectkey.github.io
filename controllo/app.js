@@ -48,7 +48,8 @@ const MENU = [
     { k: 'percorso', nome: 'Percorso', ico: '⤳', serve: 'percorso' },
     // Fase 2, B3: la posta in-app; compare se un gioco la sa mandare.
     { k: 'crm', nome: 'CRM', ico: '✆', serve: 'posta.manda' },
-    { k: 'crescita', nome: 'Crescita', ico: '↗', fase: 3 },
+    // C7 (6 ott 2026): fonti, quanto restano, inviti e K.
+    { k: 'crescita', nome: 'Crescita', ico: '↗', serve: 'crescita' },
     // C6 (6 ott 2026): test A/B su pubblicità e offerte.
     { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', serve: 'esperimenti.risultati' },
     // C4 (6 ott 2026): esplora eventi, percorso a passi scelti, coorti.
@@ -81,6 +82,7 @@ const PAGINE = {
   analisi: () => import('./pagine/analisi.js'),
   contenuti: () => import('./pagine/contenuti.js'),
   esperimenti: () => import('./pagine/esperimenti.js'),
+  crescita: () => import('./pagine/crescita.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

@@ -360,6 +360,9 @@ export const analisiCoorti = async (app, per, da, a) => (sbusta(await chiama('an
 /** I risultati di un esperimento (C6): variante e controllo. */
 export const esperimentiRisultati = async (app, id) => sbusta(await chiama('esperimenti.risultati', { app, id }));
 
+/** La crescita (C7): fonti, nati al giorno, inviti, K. */
+export const crescita = async (app, da, a) => sbusta(await chiama('crescita', { app, da, a }));
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

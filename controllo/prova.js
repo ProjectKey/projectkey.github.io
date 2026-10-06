@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi', 'crescita'];
 
 const APPS = [
   {
@@ -254,6 +254,10 @@ export async function rispondi(azione, a) {
           { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
     ] };
     case 'moderazione.decidi': return { ok: true, chiuse: 3 };
+    case 'crescita': return { ok: true, nati: 23, perFonte: [{ fonte: 'google-play', n: 9 }, { fonte: 'non si sa (prima della 1.0.9)', n: 12 }, { fonte: 'invito', n: 2 }],
+      perGiorno: [{ giorno: giorno(4), fonte: 'google-play', n: 3 }, { giorno: giorno(2), fonte: 'google-play', n: 6 }, { giorno: giorno(2), fonte: 'invito', n: 2 }, { giorno: giorno(9), fonte: 'non si sa (prima della 1.0.9)', n: 5 }],
+      inviti: { mandati: 7, da_quanti: 3, aperti: 2, condivisioni: 1, account_invitati: 2, giocano: 14, dove: { fine_partita: 5, amici: 2 } },
+      chiInvita: [{ id: GIOCATORI[1].id, nome: 'Marta88', invitati: 2 }] };
     case 'esperimenti.risultati': return { ok: true, id: a.id, gruppi: {
       variante: { telefoni: 31, d1: [12, 28], d7: [5, 19], aperture_al_giorno: 1.8, partite_al_giorno: 6.2, spot_al_giorno: 3.1, acquisti: 1, paganti: 1 },
       controllo: { telefoni: 29, d1: [13, 27], d7: [6, 18], aperture_al_giorno: 1.7, partite_al_giorno: 5.4, spot_al_giorno: 5.6, acquisti: 2, paganti: 2 } } };
