@@ -50,7 +50,8 @@ const MENU = [
     { k: 'crm', nome: 'CRM', ico: '✆', serve: 'posta.manda' },
     { k: 'crescita', nome: 'Crescita', ico: '↗', fase: 3 },
     { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', fase: 3 },
-    { k: 'analisi', nome: 'Analisi', ico: '▤', fase: 2 },
+    // C4 (6 ott 2026): esplora eventi, percorso a passi scelti, coorti.
+    { k: 'analisi', nome: 'Analisi', ico: '▤', serve: 'analisi.catalogo' },
   ] },
   { gruppo: 'Operazioni', voci: [
     { k: 'tecnica', nome: 'Tecnica', ico: '⚙' },
@@ -75,6 +76,7 @@ const PAGINE = {
   assistenza: () => import('./pagine/assistenza.js'),
   moderazione: () => import('./pagine/moderazione.js'),
   frodi: () => import('./pagine/frodi.js'),
+  analisi: () => import('./pagine/analisi.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

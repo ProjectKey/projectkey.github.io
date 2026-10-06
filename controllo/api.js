@@ -350,6 +350,12 @@ export const moderazioneDecidi = (app, x) => chiama('moderazione.decidi', { app,
 /** Il rischio di frode (C3): punteggio e motivi per giocatore. */
 export const rischio = async (app, giorni) => sbusta(await chiama('rischio', { app, giorni }));
 
+/** L'analisi (C4): catalogo degli eventi, eventi di un nome, imbuto a passi scelti, coorti. */
+export const analisiCatalogo = async (app, da, a) => (sbusta(await chiama('analisi.catalogo', { app, da, a })).eventi ?? []);
+export const analisiEventi = async (app, x) => sbusta(await chiama('analisi.eventi', { app, ...x }));
+export const analisiImbuto = async (app, passi, da, a) => (sbusta(await chiama('analisi.imbuto', { app, passi, da, a })).passi ?? []);
+export const analisiCoorti = async (app, per, da, a) => (sbusta(await chiama('analisi.coorti', { app, per, da, a })).coorti ?? []);
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti'];
 
 const APPS = [
   {
@@ -253,6 +253,16 @@ export async function rispondi(azione, a) {
           { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
     ] };
     case 'moderazione.decidi': return { ok: true, chiuse: 3 };
+    case 'analisi.catalogo': return { ok: true, eventi: [
+      { nome: 'schermata', quanti: 1601, telefoni: 14, proprieta: [{ chiave: 'nome', n: 1601, esempi: ['home', 'negozio'] }] },
+      { nome: 'partita', quanti: 537, telefoni: 11, proprieta: [{ chiave: 'gioco', n: 537, esempi: ['scopa', 'scientifico'] }, { chiave: 'vinta', n: 537, esempi: ['true', 'false'] }, { chiave: 'secondi', n: 537, esempi: ['100'] }] },
+      { nome: 'avvio', quanti: 109, telefoni: 14, proprieta: [] }] };
+    case 'analisi.eventi': return { ok: true, quanti: 537, telefoni: 11, per: [{ valore: 'scopa', n: 469, telefoni: 9 }, { valore: 'scientifico', n: 53, telefoni: 4 }, { valore: 'assopiglia', n: 15, telefoni: 4 }],
+      ultimi: [{ quando: istante(5), dati: { gioco: 'scopa', vinta: true, punti: 4, secondi: 100 }, versione: '1.0.9', giocatore: 'Diablo', profilo_id: GIOCATORI[1].id }] };
+    case 'analisi.imbuto': return { ok: true, passi: [{ passo: 'nati nel periodo', quanti: 20 }, { passo: 'avvio', quanti: 20 }, { passo: 'partita_iniziata', quanti: 17 }, { passo: 'prima_carta', quanti: 12 }, { passo: 'partita', quanti: 9 }, { passo: 'partita', quanti: 8 }] };
+    case 'analisi.coorti': return { ok: true, per: 'giorno', coorti: [
+      { gruppo: giorno(9), quanti: 3, d1: [1, 3], d3: [1, 3], d7: [1, 3], d14: [0, 0], d30: [0, 0], partite: 12.3, paganti: 0 },
+      { gruppo: giorno(2), quanti: 9, d1: [2, 9], d3: [0, 0], d7: [0, 0], d14: [0, 0], d30: [0, 0], partite: 3.1, paganti: 1 }] };
     case 'rischio': return { ok: true, giorni: 30, guardati: 14, giocatori: [
       { id: GIOCATORI[2].id, nome: 'Giocatore 4685', livello: 5, punti: 50, escluso: false, visto: istante(30), motivi: [
         { k: 'video', peso: 30, perche: '5 video premiati in un giorno' }, { k: 'riallineati', peso: 20, perche: '4200 monete arrivate da riallineamenti del telefono' }] },
