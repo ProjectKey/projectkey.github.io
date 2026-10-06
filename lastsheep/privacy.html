@@ -10,11 +10,12 @@
   Scritta leggendo il codice e il progetto, non a memoria:
   docs/PROGETTO_SERVER.md (conto sul server, account, Facebook, amici;
   vince il §11), SPECIFICA M16 e M22, src/nuvola.ts (telemetria),
-  src/negozio/annunci.ts (AdMob + UMP, SPENTO nella 1.2.0: PUBBLICITA_ATTIVA
-  in src/dati.ts), src/negozio/cassa.ts (Google Play), src/notifiche.ts
-  (notifiche locali), src/crash.ts + src/erroreDati.ts (errori in casa),
-  supabase/functions/verifica-acquisto (verifica degli acquisti), app.json
-  (permessi). Se una di quelle cose cambia, questa pagina va riscritta nello
+  src/negozio/annunci.ts (AdMob + UMP, spento nella 1.2.0, riacceso nella 1.3.0:
+  PUBBLICITA_ATTIVA in src/dati.ts), src/negozio/cassa.ts (Google Play),
+  src/google.ts + supabase/functions/accesso-google/logica.ts (Google Play
+  Games), src/notifiche.ts (notifiche locali), src/crash.ts + src/erroreDati.ts
+  (errori in casa), supabase/functions/verifica-acquisto (verifica degli
+  acquisti), app.json (permessi). Se una di quelle cose cambia, questa pagina va riscritta nello
   stesso giro — e con lei il modulo «Sicurezza dei dati» della Play Console
   (docs/store/SICUREZZA_DATI.md) e il testo per Meta.
   Rev 24/09/2026 notte: account (ospite e Facebook), amici, cancellazione.
@@ -27,6 +28,22 @@
   ripuliti. Quando torna AdMob, le sezioni «Advertising»/«Pubblicità» si
   riprendono dalla storia di git (commit b4bd7af) e si aggiornano.
   Rev 28/09/2026: età minima 14.
+  Rev 30/09/2026, release 1.3.0: torna la pubblicita' (sezioni «Advertising» /
+  «Pubblicità» riprese da 4612a51^ e aggiornate: AdMob, UMP, ID pubblicita',
+  No Ads) e arriva l'accesso con Google Play Games (email, ID dell'account
+  Google, ID giocatore e nome di Play Games; nessun token conservato).
+  Restano Expo/EAS Update, gli errori in casa (niente Sentry) e l'eta' 14.
+  Rev 30/09/2026 sera, revisione legale 1.3.0: Google e Meta titolari autonomi
+  con trasferimento USA (DPF/SCC); basi giuridiche della pubblicita' (consenso
+  art. 6(1)(a) GDPR e art. 122 Codice privacy via UMP; non personalizzati:
+  legittimo interesse, Google titolare autonomo); revoca del consenso; email
+  solo da Play Games o da CONTACT US; eta' 14 o quella del paese se piu' alta;
+  copie di backup (tools/backup.sh: ultime 14 copie); banner «fuori dalle corse».
+  Rev 06/10/2026, Google Play Games «strada B» (update della 1.3.0): accesso
+  automatico senza permessi; il server ricava dal codice monouso solo l'ID
+  giocatore di Play Games e lo conserva col conto (giocatori_play); niente piu'
+  email ne' ID dell'account Google. L'email condivisa con la versione precedente
+  (strada A) resta finche' esiste il conto e si cancella con lui.
 -->
 <link rel="stylesheet" href="stile.css">
 </head>
@@ -42,18 +59,21 @@
 </p>
 
 <h1>Last Sheep Royale — Privacy policy</h1>
-<p class="data">Last updated: 28 September 2026 · version 1.2.0 (no ads)</p>
+<p class="data">Last updated: 6 October 2026 · version 1.3.0 (ads, Google Play Games)</p>
 
 <div class="box">
   <p><strong>In short.</strong> The game creates a <strong>guest account</strong> for you on first
   launch, without asking anything: your coins, gems and progress are kept on our
   server, in the EU. You can <strong>link Facebook</strong> later if you want; then we
   receive your Facebook ID for this app and your public name, <strong>never your
-  email or your password</strong>, and we don't keep your Facebook token. Your
+  email or your password</strong>, and we don't keep your Facebook token. If your
+  phone uses <strong>Google Play Games</strong>, the game links your account to it by itself,
+  <strong>without asking for any permission</strong>: we receive only your <strong>Play Games
+  player ID</strong>, never your email, and we don't keep Google's tokens. Your
   friends in the game see your sheep's name, look, level, league, weekly coins
   and wins. Gameplay statistics stay <strong>anonymous</strong> and are not linked to your
-  account. <strong>There are no ads</strong> in this version. <strong>Google</strong> handles
-  payments. We don't sell data. You can
+  account. <strong>Google</strong> shows ads (with your consent where the law requires
+  it) and handles payments. We don't sell data. You can
   <a href="#delete">delete your account</a> at any time.</p>
 </div>
 
@@ -71,16 +91,16 @@ email and what you write only to answer you.</p>
 
 <h2>Your game account</h2>
 <p>The game needs an <strong>internet connection</strong>: your progress lives on our server,
-so it can't be edited on the phone, it follows you to a new phone (with Facebook)
-and your friends can see it. On first launch the game creates a <strong>guest
+so it can't be edited on the phone, it follows you to a new phone (with Google
+Play Games or Facebook) and your friends can see it. On first launch the game creates a <strong>guest
 account</strong>: no name, email or password is asked. The phone keeps only a copy to
 show the home screen quickly, and your settings (music, sounds, notifications).</p>
 <table>
   <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
   <tbody>
     <tr>
-      <td><strong>Account ID</strong>: a random identifier created for your account, guest
-      or Facebook</td>
+      <td><strong>Account ID</strong>: a random identifier created for your account, guest,
+      Google or Facebook</td>
       <td>To keep your progress and know which requests are yours</td>
       <td>Contract (providing the game)</td>
     </tr>
@@ -161,6 +181,51 @@ thrown away. We <strong>don't ask for your email</strong>, and we never post any
 Facebook. What Meta does with your login is described in
 <a href="https://www.facebook.com/privacy/policy/">Meta's privacy policy</a>.</p>
 
+<h2 id="google">If you sign in with Google Play Games</h2>
+<p>If your phone uses <strong>Google Play Games</strong>, the game links your account to it
+by itself, <strong>without asking for any permission</strong>, so you get it back on a new
+phone or after reinstalling. If that Play Games player already has an account and
+this phone has guest progress, you <strong>choose which one to keep</strong>. If Play Games
+isn't signed in, nothing is linked and you stay a guest; Settings → ACCOUNT →
+<strong>CONNECT</strong> tries again.</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Play Games player ID</strong>, which our server gets from Google with the
+      sign-in. Kept with your game account</td>
+      <td>To save your account and find it again when you open the game with the
+      same Play Games player</td>
+      <td>Contract (providing the game)</td>
+    </tr>
+    <tr>
+      <td><strong>Play Games name</strong> (your gamer name)</td>
+      <td>Shown only on your phone, in Settings → ACCOUNT. We don't store it on our
+      server</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Email address</strong> and <strong>Google account ID</strong>, only if you shared
+      them on Google's screen with an earlier version of the app (before 6 October
+      2026)</td>
+      <td>They stay with your game account. We no longer receive them, and we
+      don't use the email to write to you or for marketing</td>
+      <td>Contract</td>
+    </tr>
+  </tbody>
+</table>
+<p>The game asks Play Games only for a <strong>one-time code</strong>: our server exchanges
+it with Google, reads the player ID, and throws it away. We <strong>don't keep
+Google's tokens</strong>, and we don't receive your email, your Google profile,
+contacts or anything else. We never post anything.
+Google provides the sign-in under its own
+<a href="https://policies.google.com/privacy">privacy policy</a>.</p>
+<p>The player ID (and the email and Google account ID, if you shared them before)
+are kept <strong>as long as your account exists</strong>. <strong>LOG OUT</strong> (Settings → ACCOUNT) signs you out, and the game
+won't sign you back in by itself. You can also remove the game's access from your
+Google Account (<a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>).
+To erase the data, <a href="#delete">delete the account</a>.</p>
+
 <h2>What your friends see</h2>
 <p>Your friends in the game see: your sheep's <strong>name and look</strong> (wool, face,
 hat), your <strong>level</strong>, <strong>league</strong>, <strong>coins won this week</strong> and
@@ -171,8 +236,8 @@ and look, and your code. Don't share it if you don't want that.</p>
 <h2>Anonymous gameplay statistics</h2>
 <p>Separately from your account, the game sends statistics tied to an
 <strong>installation ID</strong>, a random number created on first launch. They are
-<strong>not linked to your account</strong>, and carry no name, no Facebook ID and no
-advertising ID.</p>
+<strong>not linked to your account</strong>, and carry no name, no email, no Facebook or
+Google ID and no advertising ID.</p>
 <table>
   <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
   <tbody>
@@ -189,10 +254,10 @@ advertising ID.</p>
       viewed; the first-launch tutorial; matchmaking time; at the end of a race your
       placement, duration, coins collected, whether you won, powers and jumps used,
       whether you gave up; chests, missions, daily gift and rewards collected;
-      free coins taken when you ran out; which pack you tried to buy and
+      reward videos offered, started and finished; which pack you tried to buy and
       how it ended (never the amount); network drops; notifications opened, or
-      received with the game open; account actions (Facebook linked, invite shared,
-      account deleted), without who; the
+      received with the game open; account actions (Google or Facebook linked,
+      sign-in errors, invite shared, account deleted), without who; the
       Play Store campaign you came from; the app version; how long the server takes
       to answer. <strong>No race or ticket ID</strong>, nothing that points to your account</td>
       <td>To balance the game, see what is too hard, too easy or too slow, and
@@ -205,7 +270,8 @@ advertising ID.</p>
       were on, the app version and update, with the installation ID. Names, codes,
       emails and similar are removed from the message before it leaves the phone.
       No IP address, screenshots or anything you typed. They go to our own server
-      like the statistics: <strong>no third-party crash service</strong></td>
+      like the statistics: <strong>no third-party crash service</strong> (the ad software's
+      own crash data goes to Google: see Advertising)</td>
       <td>To find and fix crashes</td>
       <td>Legitimate interest</td>
     </tr>
@@ -226,6 +292,14 @@ your phone, the app version and update channel, and — like any server — your
 <strong>IP address</strong>. It processes them on our behalf, only to deliver updates;
 they are not linked to your game account. Transfers to the USA are covered by
 the EU Standard Contractual Clauses.</p>
+<p><strong>Google and Meta.</strong> <strong>Google</strong> (Google Ireland Ltd and Google LLC:
+AdMob ads, Google Play Games sign-in, Google Play purchases) and <strong>Meta</strong>
+(Meta Platforms Ireland Ltd, if you use Facebook Login) receive data directly from
+the app as <strong>independent controllers</strong>, under their own privacy policies:
+they are not our processors. They may process it in the <strong>USA</strong> and in other
+countries; those transfers are covered by the <strong>EU-US Data Privacy
+Framework</strong>, to which Google LLC and Meta Platforms, Inc. are certified, or by
+the EU Standard Contractual Clauses.</p>
 
 <h2>How long we keep it</h2>
 <table>
@@ -239,18 +313,40 @@ the EU Standard Contractual Clauses.</p>
     <tr><td>Race results sent to the server</td><td><strong>30 days</strong></td></tr>
     <tr><td>Anonymous gameplay statistics</td><td><strong>24 months</strong></td></tr>
     <tr><td>Error reports</td><td><strong>24 months</strong>, like the statistics</td></tr>
+    <tr><td>Google Play Games link: player ID (and email and Google account ID, if shared
+    before 6 October 2026)</td><td>As long as your account exists; deleted with it</td></tr>
     <tr><td>Purchase code, pack, Google order number, status and dates</td><td>As long as accounting law
     requires, <strong>without any link to your account</strong> once you delete it</td></tr>
   </tbody>
 </table>
 
-<h2>Advertising</h2>
-<p>This version of the game has <strong>no ads</strong>: no advertising SDK, no
-advertising ID, no ad consent form. If a future version adds ads, we will update
-this page before it is released.</p>
+<h2 id="ads">Advertising (Google AdMob)</h2>
+<p>The game shows a banner outside races, on the game's menus, and <strong>video ads only
+when you choose to watch one</strong> for a reward. There are no ads during a race.
+<strong>No Ads</strong>, a one-time purchase, removes the banner; reward videos stay,
+always optional.</p>
+<p>Ads are served by <strong>Google AdMob</strong>, which collects your device's
+<strong>advertising ID</strong>, IP address (approximate location), device information,
+the ad software's own diagnostic and crash data, and how you interact with ads,
+for advertising, analytics and fraud prevention.
+Google does this as an <strong>independent controller</strong>, under its own policies.</p>
+<p><strong>Legal basis.</strong> <strong>Personalised ads</strong>, and reading or storing the
+advertising ID and other information on your phone for ads, are based on your
+<strong>consent</strong> (art. 6(1)(a) GDPR and art. 122 of the Italian privacy code). In
+the European Economic Area, the UK and Switzerland we ask for it with
+<strong>Google's consent form</strong> (UMP) before any ad is requested. If you say no,
+you may get <strong>non-personalised ads</strong>, based only on context (the app, the
+approximate area from the IP address): these are shown on the basis of our
+<strong>legitimate interest</strong> in keeping the game free, and only to the extent your
+choices in the form allow; otherwise you get no ads. You can
+<strong>withdraw or change</strong> your consent at any time in
+<strong>Settings → Ad privacy</strong>; this doesn't affect what was done before. You can also reset or delete the advertising ID
+in your phone's settings. Our own statistics never use the advertising ID. How
+Google uses data:
+<a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
 
 <h2>Purchases (Google Play)</h2>
-<p>Gem packs are bought through <strong>Google Play</strong>. Google handles the
+<p>Gem packs and No Ads are bought through <strong>Google Play</strong>. Google handles the
 payment: we never see your card or your Google account. The game receives the
 confirmation of the purchase (which pack, and a purchase code) and sends it to our
 server with your account, which asks Google whether it is valid and then adds the
@@ -269,40 +365,55 @@ phone</strong>. No notification server is involved. You can turn each kind off i
 Settings, or all of them in Android settings.</p>
 
 <h2>What we don't collect</h2>
-<p>No email, phone number, contacts, photos, microphone, camera or precise
-location. The app doesn't ask for those permissions, and they are explicitly
-blocked in its configuration. We don't keep your Facebook token or read your
+<p>No phone number, contacts from your phone, photos, microphone, camera or
+precise location. The app doesn't ask for those permissions, and they are
+explicitly blocked in its configuration. Inside the app we don't receive any
+email: the only one we may have is your Google account's, if you shared it with
+an earlier version of the app (see Google Play Games above). If you write to us,
+we get the address you write from, used only to answer you. We don't keep your Facebook token or read your
 Facebook posts.</p>
 
 <h2 id="delete">Deleting your account and data</h2>
 <div class="box">
   <p><strong>In the app:</strong> <strong>Settings → Delete account</strong>, and confirm twice.
   Your account, game, friendships and race results are deleted right away.</p>
-  <p><strong>On the web:</strong> <a href="delete.html">projectkey.github.io/lastsheep/delete.html</a>.
-  If you linked Facebook, log in there and delete. If you are a guest, email
+  <p><strong>On the web:</strong> <a href="delete.html">settegames.com/lastsheep/delete.html</a>.
+  If you linked Facebook, log in there and delete. Otherwise (guest or Google
+  Play Games), email
   <a href="mailto:supporto@settegames.com?subject=Last%20Sheep%20Royale%20-%20delete%20my%20account">supporto@settegames.com</a>
   with your <strong>account code</strong> (six characters, in Settings).</p>
   <p><strong>From Facebook:</strong> remove Last Sheep Royale in your Facebook settings
   (Apps and websites). Facebook tells us, we delete the account, and you get a
   link to check it's done.</p>
+  <p><strong>Google Play Games:</strong> deleting the account removes the Play Games link,
+  and your email if you had shared it. To also remove the game's access from your Google Account:
+  <a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>.</p>
   <p>What stays: the purchase code, pack, Google order number, status and dates of a purchase, with no link to you or your device. The
   <strong>anonymous statistics</strong> are not linked to your account: to have them erased
   too, send us the <strong>installation ID</strong> shown in Settings under the credits. We
   delete every record with that ID within thirty days, error reports included.</p>
+  <p><strong>Backups.</strong> For safety we keep a few copies of the database on a company
+  computer, not shared with anyone. Deleted data disappears from them when the
+  copies are replaced: we keep only the <strong>last 14 copies</strong> and destroy the
+  older ones.</p>
 </div>
 
 <h2>Your rights</h2>
 <p>Under the GDPR you can ask to access, correct or erase your data, restrict or
-object to its processing, and receive it in a portable format. Write to the
-contact address with your account code. You can also complain to the Italian
+object to its processing, and receive it in a portable format. Where we rely on
+your consent (personalised ads), you can <strong>withdraw it at any time</strong> in
+<strong>Settings → Ad privacy</strong>, without affecting the processing done before.
+Write to the contact address with your account code. You can also complain to the Italian
 data protection authority (<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>) or
 the one where you live.</p>
 
 <h2>Children</h2>
-<p>The game is meant for players aged <strong>14 and over</strong> (the age of digital
-consent in Italy, art. 2-quinquies of the Italian privacy code and art. 8 GDPR) and is
-not directed at children. It contains real-money purchases. We don't knowingly collect
-data from anyone under 14; if we find out we did, we delete the account.</p>
+<p>The game is meant for players aged <strong>at least 14</strong> (the age of digital
+consent in Italy, art. 2-quinquies of the Italian privacy code and art. 8 GDPR),
+<strong>or the age of digital consent in your country if higher</strong>, and is
+not directed at children. It contains ads and real-money purchases. Facebook Login and
+Google Play Games sign-in have the same minimum age. We don't knowingly collect
+data from anyone under that age; if we find out we did, we delete the account.</p>
 
 <h2>Changes</h2>
 <p>If we change this policy in a way that matters to you, we'll tell you in the app
@@ -313,18 +424,21 @@ before it takes effect. The date at the top is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Last Sheep Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 28 settembre 2026 · versione 1.2.0 (senza pubblicità)</p>
+<p class="data">Ultimo aggiornamento: 6 ottobre 2026 · versione 1.3.0 (pubblicità, Google Play Games)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account ospite</strong>,
   senza chiederti niente: monete, gemme e progressi stanno sul nostro server,
   nell'UE. Se vuoi, dopo puoi <strong>collegare Facebook</strong>: riceviamo il tuo ID
   Facebook per quest'app e il tuo nome pubblico, <strong>mai l'email né la
-  password</strong>, e non conserviamo il token di Facebook. I tuoi amici nel gioco
+  password</strong>, e non conserviamo il token di Facebook. Se il telefono usa
+  <strong>Google Play Games</strong>, il gioco ci collega l'account da solo, <strong>senza
+  chiederti nessun permesso</strong>: riceviamo solo il tuo <strong>ID giocatore di Play
+  Games</strong>, mai l'email, e non conserviamo i token di Google. I tuoi amici nel gioco
   vedono nome della pecora, aspetto, livello, lega, monete della settimana e
   vittorie. Le statistiche di gioco restano <strong>anonime</strong> e non sono legate
-  all'account. In questa versione <strong>non c'è pubblicità</strong>. <strong>Google</strong>
-  gestisce i pagamenti. Non vendiamo dati. Puoi
+  all'account. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
+  legge lo richiede) e gestisce i pagamenti. Non vendiamo dati. Puoi
   <a href="#cancellazione">cancellare l'account</a> quando vuoi.</p>
 </div>
 
@@ -345,7 +459,7 @@ risponderti.</p>
 <h2>Il tuo account di gioco</h2>
 <p>Il gioco ha bisogno della <strong>connessione a internet</strong>: i progressi stanno sul
 nostro server, così non si modificano dal telefono, ti seguono su un telefono
-nuovo (con Facebook) e i tuoi amici li vedono. Al primo avvio il gioco crea un
+nuovo (con Google Play Games o Facebook) e i tuoi amici li vedono. Al primo avvio il gioco crea un
 <strong>account ospite</strong>: nessun nome, email o password. Sul telefono resta solo una
 copia per mostrare subito la casa, e le impostazioni (musica, suoni, avvisi).</p>
 <table>
@@ -353,7 +467,7 @@ copia per mostrare subito la casa, e le impostazioni (musica, suoni, avvisi).</p
   <tbody>
     <tr>
       <td><strong>ID dell'account</strong>: un identificativo casuale creato per il tuo
-      account, ospite o Facebook</td>
+      account, ospite, Google o Facebook</td>
       <td>Per tenere i tuoi progressi e sapere quali richieste sono tue</td>
       <td>Contratto (fornirti il gioco)</td>
     </tr>
@@ -436,6 +550,52 @@ si butta. <strong>Non chiediamo l'email</strong> e non pubblichiamo mai niente s
 Facebook. Cosa fa Meta col tuo accesso lo spiega
 <a href="https://www.facebook.com/privacy/policy/">l'informativa di Meta</a>.</p>
 
+<h2 id="google-it">Se accedi con Google Play Games</h2>
+<p>Se il telefono usa <strong>Google Play Games</strong>, il gioco ci collega il tuo account
+da solo, <strong>senza chiederti nessun permesso</strong>, così lo ritrovi su un telefono
+nuovo o dopo una reinstallazione. Se quel giocatore di Play Games ha già un account e
+questo telefono ha progressi da ospite, <strong>scegli quale tenere</strong>. Se Play Games
+non è attivo, non si collega niente e resti ospite; Settings → ACCOUNT →
+<strong>CONNECT</strong> ci riprova.</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>ID giocatore di Play Games</strong>, che il nostro server riceve da Google
+      con l'accesso. Sta con il tuo account di gioco</td>
+      <td>Per salvare l'account e ritrovarlo quando apri il gioco con lo stesso
+      giocatore di Play Games</td>
+      <td>Contratto (fornirti il gioco)</td>
+    </tr>
+    <tr>
+      <td><strong>Nome di Play Games</strong> (il tuo nome da giocatore)</td>
+      <td>Si vede solo sul telefono, in Settings → ACCOUNT. Non lo conserviamo sul
+      nostro server</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Indirizzo email</strong> e <strong>ID dell'account Google</strong>, solo se li
+      hai condivisi nella schermata di Google con una versione precedente dell'app
+      (prima del 6 ottobre 2026)</td>
+      <td>Restano con il tuo account di gioco. Non li riceviamo più, e l'email non
+      la usiamo per scriverti né per il marketing</td>
+      <td>Contratto</td>
+    </tr>
+  </tbody>
+</table>
+<p>Il gioco chiede a Play Games solo un <strong>codice monouso</strong>: il nostro server lo
+scambia con Google, ne ricava l'ID giocatore e lo butta. <strong>Non conserviamo i
+token di Google</strong>, e non riceviamo la tua email, il profilo Google, i contatti
+o altro. Non pubblichiamo mai niente.
+L'accesso lo fornisce Google, secondo la sua
+<a href="https://policies.google.com/privacy?hl=it">informativa</a>.</p>
+<p>L'ID giocatore (ed email e ID dell'account Google, se li avevi condivisi) restano
+<strong>finché esiste il tuo account</strong>.
+<strong>LOG OUT</strong> (Settings → ACCOUNT) ti fa uscire, e il gioco non ti fa rientrare
+da solo. Puoi anche togliere l'accesso del gioco dal tuo account Google
+(<a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>).
+Per cancellare i dati, <a href="#cancellazione">cancella l'account</a>.</p>
+
 <h2>Cosa vedono i tuoi amici</h2>
 <p>I tuoi amici nel gioco vedono: <strong>nome e aspetto</strong> della pecora (lana, viso,
 cappello), <strong>livello</strong>, <strong>lega</strong>, <strong>monete vinte questa settimana</strong>
@@ -447,8 +607,8 @@ della tua pecora e il tuo codice. Se non vuoi, non condividerlo.</p>
 <h2>Statistiche di gioco anonime</h2>
 <p>A parte l'account, il gioco manda statistiche legate a un <strong>identificativo
 d'installazione</strong>, un numero casuale creato al primo avvio. <strong>Non sono legate
-all'account</strong>, e non contengono nomi, ID Facebook o identificativo
-pubblicitario.</p>
+all'account</strong>, e non contengono nomi, email, ID Facebook o Google, né
+l'identificativo pubblicitario.</p>
 <table>
   <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
   <tbody>
@@ -465,10 +625,10 @@ pubblicitario.</p>
       schermate viste; il tutorial del primo avvio; il tempo della ricerca della
       partita; a fine corsa piazzamento, durata, monete raccolte, vittoria, poteri e
       salti usati, se hai abbandonato; bauli, missioni, regalo del giorno e premi
-      raccolti; monete gratis prese quando eri senza; quale pacchetto hai
+      raccolti; video premiati offerti, iniziati e finiti; quale pacchetto hai
       provato a comprare e com'è andata (mai l'importo); cadute della rete; notifiche
-      aperte, o arrivate col gioco aperto; azioni sull'account (Facebook collegato,
-      invito condiviso, account cancellato), senza dire di chi; la campagna del Play
+      aperte, o arrivate col gioco aperto; azioni sull'account (Google o Facebook
+      collegato, errori d'accesso, invito condiviso, account cancellato), senza dire di chi; la campagna del Play
       Store da cui arrivi; la versione dell'app; quanto
       ci mette il server a rispondere. <strong>Nessun id della corsa o del
       biglietto</strong>, niente che porti al tuo account</td>
@@ -483,7 +643,8 @@ pubblicitario.</p>
       Nomi, codici, email e simili si tolgono dal messaggio prima che lasci il
       telefono. Niente indirizzo IP, schermate o cose che hai scritto. Arrivano al
       nostro server come le statistiche: <strong>nessun servizio esterno per i
-      crash</strong></td>
+      crash</strong> (i dati di arresto del software degli annunci vanno a Google: vedi
+      Pubblicità)</td>
       <td>Per trovare e correggere i blocchi dell'app</td>
       <td>Legittimo interesse</td>
     </tr>
@@ -505,6 +666,14 @@ sul telefono, la versione dell'app e il canale, e — come ogni server — il tu
 solo per consegnare gli aggiornamenti; non sono legati al tuo account di gioco.
 Il trasferimento negli USA è coperto dalle Clausole contrattuali standard
 dell'UE.</p>
+<p><strong>Google e Meta.</strong> <strong>Google</strong> (Google Ireland Ltd e Google LLC:
+annunci AdMob, accesso con Google Play Games, acquisti su Google Play) e
+<strong>Meta</strong> (Meta Platforms Ireland Ltd, se usi l'accesso con Facebook)
+ricevono dati direttamente dall'app come <strong>titolari autonomi</strong> del
+trattamento, secondo le proprie informative: non sono nostri responsabili. Possono
+trattarli negli <strong>USA</strong> e in altri paesi; questi trasferimenti sono coperti
+dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC e Meta Platforms, Inc.
+aderiscono, o dalle Clausole contrattuali standard dell'UE.</p>
 
 <h2>Per quanto li teniamo</h2>
 <table>
@@ -518,19 +687,43 @@ dell'UE.</p>
     <tr><td>Esiti delle corse mandati al server</td><td><strong>30 giorni</strong></td></tr>
     <tr><td>Statistiche di gioco anonime</td><td><strong>24 mesi</strong></td></tr>
     <tr><td>Segnalazioni di errore</td><td><strong>24 mesi</strong>, come le statistiche</td></tr>
+    <tr><td>Collegamento a Google Play Games: ID giocatore (ed email e ID dell'account
+    Google, se condivisi prima del 6 ottobre 2026)</td><td>Finché esiste l'account; si
+    cancellano con lui</td></tr>
     <tr><td>Codice, prodotto, numero d'ordine, stato e date di un acquisto</td><td>Quanto chiede la legge
     contabile, <strong>senza legame con l'account</strong> dopo che l'hai cancellato</td></tr>
   </tbody>
 </table>
 
-<h2>Pubblicità</h2>
-<p>Questa versione del gioco <strong>non ha pubblicità</strong>: nessun SDK pubblicitario,
-nessun identificativo pubblicitario, nessun modulo di consenso agli annunci. Se
-una versione futura aggiungerà la pubblicità, aggiorneremo questa pagina prima
-che esca.</p>
+<h2 id="pubblicita">Pubblicità (Google AdMob)</h2>
+<p>Il gioco mostra un banner fuori dalle corse, nei menu del gioco, e <strong>video solo
+quando scegli tu di guardarne uno</strong> in cambio di un premio. Durante la corsa non c'è
+pubblicità. <strong>No Ads</strong>, un acquisto una tantum, toglie il banner; i video con
+premio restano, sempre a scelta.</p>
+<p>Gli annunci li serve <strong>Google AdMob</strong>, che raccoglie l'<strong>identificativo
+pubblicitario</strong> del dispositivo, l'indirizzo IP (posizione approssimativa), dati
+sul dispositivo, i dati diagnostici e di arresto anomalo del software degli
+annunci e le interazioni con gli annunci, per pubblicità, statistiche e
+prevenzione delle frodi. Google lo fa come <strong>titolare autonomo</strong>, secondo le
+proprie regole.</p>
+<p><strong>Base giuridica.</strong> Gli <strong>annunci personalizzati</strong>, e la lettura o la
+memorizzazione sul telefono dell'identificativo pubblicitario e di altre
+informazioni per gli annunci, si basano sul tuo <strong>consenso</strong> (art. 6(1)(a)
+GDPR e art. 122 del Codice privacy). Nello Spazio economico europeo, nel Regno
+Unito e in Svizzera lo chiediamo con il <strong>modulo di consenso di Google</strong> (UMP)
+prima di richiedere qualunque annuncio. Se dici no, puoi ricevere <strong>annunci non
+personalizzati</strong>, basati solo sul contesto (l'app, l'area approssimativa
+dall'indirizzo IP): li mostriamo sulla base del nostro <strong>legittimo
+interesse</strong> a tenere il gioco gratuito, e solo nei limiti delle scelte fatte nel
+modulo; altrimenti non ricevi annunci. Puoi <strong>revocare o cambiare</strong> il
+consenso quando vuoi da <strong>Settings → Ad privacy</strong>, senza effetti su quanto
+fatto prima. Puoi anche azzerare o eliminare l'identificativo pubblicitario dalle impostazioni del
+telefono. Le nostre statistiche non usano mai l'identificativo pubblicitario.
+Come Google usa i dati:
+<a href="https://policies.google.com/technologies/partner-sites?hl=it">policies.google.com/technologies/partner-sites</a>.</p>
 
 <h2>Acquisti (Google Play)</h2>
-<p>I pacchetti di gemme si comprano tramite <strong>Google Play</strong>. Il
+<p>I pacchetti di gemme e No Ads si comprano tramite <strong>Google Play</strong>. Il
 pagamento lo gestisce Google: non vediamo mai la tua carta né il tuo account
 Google. Il gioco riceve la conferma dell'acquisto (quale pacchetto e un codice
 d'acquisto) e la manda al nostro server insieme al tuo account; il server chiede
@@ -550,41 +743,59 @@ telefono</strong>. Non c'è un server di notifiche. Puoi spegnerli uno per uno n
 impostazioni del gioco, o tutti da quelle di Android.</p>
 
 <h2>Cosa non raccogliamo</h2>
-<p>Email, numero di telefono, rubrica, foto, microfono, fotocamera, posizione
-precisa: niente di questo. L'app non chiede quei permessi, e sono bloccati
-esplicitamente nella sua configurazione. Non conserviamo il token di Facebook e
+<p>Numero di telefono, rubrica del telefono, foto, microfono, fotocamera,
+posizione precisa: niente di questo. L'app non chiede quei permessi, e sono
+bloccati esplicitamente nella sua configurazione. Dentro all'app non riceviamo
+nessuna email: l'unica che possiamo avere è quella del tuo account Google, se
+l'avevi condivisa con una versione precedente dell'app (vedi Google Play Games
+sopra). Se ci scrivi, riceviamo l'indirizzo da cui scrivi, usato solo per
+risponderti. Non conserviamo il token di Facebook e
 non leggiamo i tuoi post.</p>
 
 <h2 id="cancellazione">Cancellare l'account e i dati</h2>
 <div class="box">
   <p><strong>Nell'app:</strong> <strong>Settings → Delete account</strong>, e conferma due volte.
   Account, gioco, amicizie ed esiti delle corse si cancellano subito.</p>
-  <p><strong>Dal web:</strong> <a href="delete.html">projectkey.github.io/lastsheep/delete.html</a>.
-  Se hai collegato Facebook, accedi lì e cancella. Se sei ospite, scrivi a
+  <p><strong>Dal web:</strong> <a href="delete.html">settegames.com/lastsheep/delete.html</a>.
+  Se hai collegato Facebook, accedi lì e cancella. Altrimenti (ospite o Google
+  Play Games), scrivi a
   <a href="mailto:supporto@settegames.com?subject=Last%20Sheep%20Royale%20-%20cancellazione%20account">supporto@settegames.com</a>
   con il tuo <strong>codice account</strong> (sei caratteri, in Settings).</p>
   <p><strong>Da Facebook:</strong> togli Last Sheep Royale dalle impostazioni di Facebook
   (App e siti web). Facebook ce lo dice, cancelliamo l'account, e ricevi un link
   per controllare che sia fatto.</p>
+  <p><strong>Google Play Games:</strong> cancellando l'account si cancellano anche il
+  collegamento a Play Games e la tua email, se l'avevi condivisa. Per togliere anche l'accesso del gioco
+  dal tuo account Google:
+  <a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>.</p>
   <p>Cosa resta: codice della ricevuta, prodotto, numero d'ordine, stato e date di un acquisto, senza legame con te né col tuo dispositivo. Le
   <strong>statistiche anonime</strong> non sono legate all'account: per far cancellare
   anche quelle, mandaci l'<strong>identificativo d'installazione</strong> che trovi in
   Settings sotto ai crediti. Cancelliamo ogni riga con quell'ID entro trenta
   giorni, segnalazioni di errore comprese.</p>
+  <p><strong>Copie di sicurezza.</strong> Per sicurezza teniamo alcune copie del database su
+  un computer della società, non condivise con nessuno. I dati cancellati spariscono
+  anche da lì quando le copie vengono sostituite: teniamo solo le <strong>ultime 14
+  copie</strong> e distruggiamo le più vecchie.</p>
 </div>
 
 <h2>I tuoi diritti</h2>
 <p>Puoi chiedere di accedere ai tuoi dati, correggerli, cancellarli, limitarne il
-trattamento, opporti, e riceverli in un formato leggibile da una macchina.
-Scrivi all'indirizzo di contatto con il tuo codice account. Puoi anche
+trattamento, opporti, e riceverli in un formato leggibile da una macchina. Dove
+ci basiamo sul tuo consenso (annunci personalizzati), puoi <strong>revocarlo quando
+vuoi</strong> da <strong>Settings → Ad privacy</strong>, senza effetti sul trattamento fatto
+prima. Scrivi all'indirizzo di contatto con il tuo codice account. Puoi anche
 rivolgerti al Garante per la protezione dei dati personali
-(<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).</p>
+(<a href="https://www.garanteprivacy.it">garanteprivacy.it</a>) o all'autorità del
+paese in cui vivi.</p>
 
 <h2>Minori</h2>
 <p>Il gioco è pensato per chi ha <strong>almeno 14 anni</strong> (l'età del consenso digitale
-in Italia, art. 2-quinquies del Codice privacy e art. 8 GDPR) e non si rivolge ai bambini:
-contiene acquisti con denaro vero. Non raccogliamo consapevolmente dati di chi ha meno
-di 14 anni; se ce ne accorgiamo, cancelliamo l'account.</p>
+in Italia, art. 2-quinquies del Codice privacy e art. 8 GDPR), <strong>o l'età del
+consenso digitale del tuo paese se è più alta</strong>, e non si rivolge ai bambini:
+contiene pubblicità e acquisti con denaro vero. Anche l'accesso con Facebook e con Google
+Play Games ha la stessa età minima. Non raccogliamo consapevolmente dati di chi è sotto
+quell'età; se ce ne accorgiamo, cancelliamo l'account.</p>
 
 <h2>Se cambia qualcosa</h2>
 <p>Se modifichiamo questa informativa in modo che conti per te, te lo diciamo

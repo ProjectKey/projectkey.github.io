@@ -19,14 +19,17 @@
   (b) con Facebook: supabase-js (unico script esterno) fa il login OAuth e
       torna qui; la pagina chiama la Edge `cancella-account` col JWT
       dell'utente, mostra il codice di conferma e fa signOut;
-  (c) ospite senza Facebook: email col codice account (6 caratteri);
+  (c) ospite senza Facebook, o con Google Play Games [30/09, 1.3.0]: email col
+      codice account (6 caratteri). [06/10, strada B] Con Play Games si cancella
+      il legame col giocatore (giocatori_play) e l'email solo se era stata
+      condivisa con la versione precedente;
   (d) ?c=<codice>: RPC anon `stato_cancellazione(p_codice)` ->
       {stato: 'chiesta' | 'fatta' | 'sconosciuta'}. E' il link che la Edge
       `facebook-cancella` rimanda a Meta.
 
   La chiave e' quella pubblica (publishable) gia' nell'app. La sessione sta
   nel localStorage di questa pagina: niente cookie, niente di terzi.
-  Va aggiunto https://projectkey.github.io/lastsheep/delete.html
+  Va aggiunto https://settegames.com/lastsheep/delete.html
   all'uri_allow_list di Supabase, se no il ritorno da Facebook va alla
   Site URL.
 -->
@@ -59,7 +62,7 @@ deleted. Only the receipt code, pack, Google order number and dates of a purchas
 
 <h2>1 · In the app</h2>
 <p>Open the game → <strong>Settings</strong> → <strong>Delete account</strong>, and confirm twice.
-It works for every account, guest or Facebook.</p>
+It works for every account: guest, Google Play Games or Facebook.</p>
 
 <h2>2 · With Facebook</h2>
 <p>If you linked Facebook in the game, you can delete here without the app.</p>
@@ -100,8 +103,9 @@ It works for every account, guest or Facebook.</p>
   <p id="fb-msg" role="status" aria-live="polite"></p>
 </div>
 
-<h2>3 · Guest account, without Facebook</h2>
-<p>A guest account can't log in on the web. Delete it in the app, or email
+<h2>3 · Guest or Google Play Games account, without Facebook</h2>
+<p>These accounts can't log in on this page. Delete yours in the app (the Play Games
+link goes with it, and your email if you had shared it), or email
 <a href="mailto:supporto@settegames.com?subject=Last%20Sheep%20Royale%20-%20delete%20my%20account">supporto@settegames.com</a>
 with your <strong>account code</strong>: six characters, shown in <strong>Settings</strong>.
 We delete it within thirty days.</p>
@@ -122,11 +126,12 @@ us the <strong>installation ID</strong> shown in Settings under the credits.</p>
 <p><strong>Nell'app:</strong> Settings → <strong>Delete account</strong>, e conferma due volte.</p>
 <p><strong>Con Facebook:</strong> il tasto <strong>Log in with Facebook</strong> qui sopra, poi
 <strong>Delete my account</strong> e <strong>Yes, delete forever</strong>.</p>
-<p><strong>Ospite senza Facebook:</strong> scrivi a
+<p><strong>Ospite o Google Play Games, senza Facebook:</strong> scrivi a
 <a href="mailto:supporto@settegames.com?subject=Last%20Sheep%20Royale%20-%20cancellazione%20account">supporto@settegames.com</a>
 con il <strong>codice account</strong> (sei caratteri, in Settings). Lo cancelliamo entro
 trenta giorni.</p>
-<p>La cancellazione è definitiva. Restano solo codice della ricevuta, prodotto, numero d'ordine e date di un
+<p>Con Google Play Games, cancellando l'account si cancellano anche il collegamento a Play Games e l'email, se l'avevi condivisa.
+La cancellazione è definitiva. Restano solo codice della ricevuta, prodotto, numero d'ordine e date di un
 acquisto, senza legame con te. Dettagli nell'<a href="privacy.html#cancellazione">informativa</a>.</p>
 </div>
 
@@ -145,7 +150,7 @@ acquisto, senza legame con te. Dettagli nell'<a href="privacy.html#cancellazione
 
   var URL_SB = 'https://jvmpwhoosojharlbmgsi.supabase.co';
   var CHIAVE = 'sb_publishable_PzbVFWJgMp5XS1hhePEJHA_e-OlN32h';
-  var QUI = 'https://projectkey.github.io/lastsheep/delete.html';
+  var QUI = 'https://settegames.com/lastsheep/delete.html';
 
   function $(id) { return document.getElementById(id); }
   function mostra(id, si) { $(id).hidden = !si; }
