@@ -133,6 +133,19 @@ async function schedaGiocatore(ctx, app, id) {
         try { await api.resetNome(app.id, id, r.nome.trim() || null, r.motivo); avvisa('Nome cambiato'); ricarica(); } catch (e) { avvisa(e.message, true); }
       },
     }, 'Reimposta nome') : null,
+    // Fuori dalle statistiche (6 ott 2026): i telefoni di Giorgio, un tester, un account di prova.
+    scrive('giocatori.escludi') && !(g.stato?.escluso && !g.stato?.escluso_a_mano) ? h('button', {
+      class: 'bottone', onclick: async () => {
+        const fuori = !g.stato?.escluso;
+        const r = await confermaConMotivo({
+          titolo: fuori ? 'Togli dalle statistiche' : 'Rimetti nelle statistiche', tasto: fuori ? 'Togli' : 'Rimetti',
+          testo: fuori ? 'Le sue partite, i suoi telefoni e i suoi acquisti non contano più in KPI, percorso, giochi, economia e segmenti. Nel gioco non cambia niente.'
+            : 'Torna a contare in tutte le statistiche.',
+        });
+        if (!r) return;
+        try { await api.escludi(app.id, id, fuori, r.motivo); avvisa(fuori ? 'Tolto dalle statistiche' : 'Rimesso nelle statistiche'); ricarica(); } catch (e) { avvisa(e.message, true); }
+      },
+    }, g.stato?.escluso ? 'Rimetti nelle statistiche' : 'Togli dalle statistiche') : null,
     h('button', { class: 'bottone', onclick: () => { void navigator.clipboard?.writeText(id).then(() => avvisa('ID copiato')); } }, 'Copia ID'));
 
   const gi = g.gioco ?? {};
@@ -151,7 +164,10 @@ async function schedaGiocatore(ctx, app, id) {
         h('dt', {}, 'Legami'), h('dd', {}, (g.legami ?? []).length ? g.legami.map((l) => pill(l, 'viola')) : 'anonimo: non recuperabile da un altro telefono'),
         h('dt', {}, 'App usate'), h('dd', {}, (g.app ?? [app.nome]).join(', ')),
         h('dt', {}, 'Paese · lingua'), h('dd', {}, `${g.paese ?? '—'} · ${g.lingua ?? '—'}`),
-        h('dt', {}, 'Stato'), h('dd', {}, bandito ? pill(`Bloccato fino al ${data(g.stato.bandito_fino)}`, 'rosso') : pill('Attivo', 'verde')))),
+        h('dt', {}, 'Stato'), h('dd', {}, bandito ? pill(`Bloccato fino al ${data(g.stato.bandito_fino)}`, 'rosso') : pill('Attivo', 'verde')),
+        h('dt', {}, 'Statistiche'), h('dd', {}, g.stato?.escluso
+          ? pill(g.stato.escluso_a_mano ? `fuori: ${g.stato.escluso_a_mano.motivo || 'a mano'}` : 'fuori da solo (robot, prova o amministratore)', 'ambra')
+          : 'conta')))),
       scheda('Dispositivo e consensi', h('dl', { class: 'dati' },
         h('dt', {}, 'Dispositivo'), h('dd', {}, g.device ?? '—'),
         h('dt', {}, 'Sistema'), h('dd', {}, g.os ?? '—'),

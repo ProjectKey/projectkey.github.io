@@ -327,7 +327,7 @@ export async function scheda(app, id) {
       installazioni: (t.installazioni ?? []).map((i) => ({ piattaforma: i.piattaforma, versione: i.versione, aggiornamento: null, ultima: i.ultima_volta })),
       errori: (t.errori_recenti ?? []).map((x) => ({ quando: x.quando, messaggio: x.dati?.messaggio ?? JSON.stringify(x.dati ?? {}) })),
     },
-    stato: { bandito_fino: s.bloccato ? s.bloccato_fino : null },
+    stato: { bandito_fino: s.bloccato ? s.bloccato_fino : null, escluso: !!s.escluso, escluso_a_mano: s.escluso_a_mano ?? null },
     segnalazioni: s.segnalazioni ?? [],
   };
 }
@@ -336,6 +336,8 @@ export const timeline = (app, id, limite = 200) => chiama('giocatori.timeline', 
 export const accredita = (app, id, valuta, quantita, motivo) => chiama('giocatori.accredita', { app, id, valuta, quantita, motivo });
 export const blocca = (app, id, fino, motivo) => chiama('giocatori.blocca', { app, id, fino, motivo });
 export const sblocca = (app, id, motivo) => chiama('giocatori.sblocca', { app, id, motivo });
+/** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
+export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });
 
 /* ------------------------------------------------------------ partite (§29) */
