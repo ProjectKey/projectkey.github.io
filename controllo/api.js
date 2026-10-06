@@ -341,6 +341,12 @@ export const assistenzaElenco = async (app, f = {}) => sbusta(await chiama('assi
 export const assistenzaScheda = async (app, id) => sbusta(await chiama('assistenza.scheda', { app, id }));
 export const assistenzaAggiorna = (app, x) => chiama('assistenza.aggiorna', { app, ...x });
 
+/** La moderazione (C2): la coda per giocatore segnalato, e la decisione. */
+export async function moderazioneCoda(app, tutte = false) {
+  return (sbusta(await chiama('moderazione.coda', { app, tutte })).giocatori ?? []);
+}
+export const moderazioneDecidi = (app, x) => chiama('moderazione.decidi', { app, ...x });
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

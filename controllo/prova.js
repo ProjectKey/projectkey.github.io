@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi'];
 
 const APPS = [
   {
@@ -247,6 +247,12 @@ export async function rispondi(azione, a) {
         acquisti: [{ prodotto: 'gemme_120', stato: 'valido', quando: istante(100), ordine: 'GPA.3312-0000-1111-22222' }], errori: [],
         telefoni: [{ piattaforma: 'android', versione: '1.0.9', ultima: istante(30), aperture: 12 }], posta: [] } };
     case 'assistenza.aggiorna': return { ok: true };
+    case 'moderazione.coda': return { ok: true, giocatori: [
+      { id: GIOCATORI[2].id, nome: 'Giocatore 4685', livello: 5, quante: 3, da_quanti: 2, aperte: 3, ultima: istante(50), prima: istante(900), motivi: { offensivo: 2, nome: 1 }, ha_segnalato: 0, decise_prima: 0,
+        segnalazioni: [{ id: 's1', motivo: 'offensivo', nota: 'frasi pesanti a fine mano', quando: istante(50), chi: 'Marta88', stato: 'aperta', partita: 'p-1001-1eef' },
+          { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
+    ] };
+    case 'moderazione.decidi': return { ok: true, chiuse: 3 };
     case 'giochi': return { ok: true, persone: 14, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
       giochi: [
         { gioco: 'scopa', partite: 469, persone: 12, perPersona: 39.1, secondi: 104, vinte: 260, online: 456, torneo: 3, giorni: 9, abbandoni: 7, tornati: 6 },
