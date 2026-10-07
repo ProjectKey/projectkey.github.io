@@ -74,6 +74,15 @@ export async function disegna(ctx) {
   const parole = (c.parole ?? []).map((p) => ({ ...p, score: opportunita(p) }));
   const inTop10 = parole.filter((p) => p.oggi && p.oggi <= 10).length;
   const comparsi = parole.filter((p) => p.oggi).length;
+  // I rapporti di Play (G2-bis): ultimi 7 giorni disponibili. Le colonne hanno i nomi inglesi di Play.
+  const pl = c.play?.righe ?? [];
+  const somma = (rapporto, metrica, dim) => pl.filter((r) => r.rapporto.startsWith(rapporto) && r.metrica === metrica && (dim === undefined || r.dimensione === dim))
+    .reduce((s, r) => s + Number(r.valore || 0), 0);
+  const visite = somma('store_performance_traffic_source', 'Store listing visitors');
+  const acquisite = somma('store_performance_traffic_source', 'Store listing acquisitions');
+  const cvr = visite ? acquisite / visite : null;
+  const daRicerca = pl.length ? somma('store_performance_traffic_source', 'Store listing acquisitions', 'Google Play search') : null;
+  const daEsplora = pl.length ? somma('store_performance_traffic_source', 'Store listing acquisitions', 'Google Play explore') : null;
   const targetGiorno = inCorso ? Math.round((targetOggi - (serie.at(-2)?.target ?? 0)) || 40) : 40;
 
   // Il brief del giorno (§49): poche righe, scritte con regole.
@@ -139,8 +148,9 @@ export async function disegna(ctx) {
       { k: 'Recensioni', a: num(sc.recensioni ?? 0), t: '300–500 in 90 gg', s: semaforo(sc.recensioni ?? 0, Math.max(1, giornoN * 4), Math.max(1, giornoN * 2)), n: 'scheda Play, letta ogni mattina' },
       { k: 'Voto', a: sc.voto ? String(sc.voto).replace('.', ',') : '—', t: '4,5', s: semaforo(sc.voto ?? null, 4.5, 4.2), n: '' },
       { k: 'Parole nei primi 10', a: `${inTop10} su ${parole.length}`, t: '—', s: semaforo(inTop10, 10, 4), n: 'ricerca Play, Italia' },
-      { k: 'Conversione della scheda', a: '—', t: '30%', s: pill('—', ''), n: 'serve G2-bis (rapporti di Play Console)' },
-      { k: 'Installazioni da Search / Explore', a: '—', t: '4.500 / 2.000', s: pill('—', ''), n: 'serve G2-bis' },
+      { k: 'Conversione della scheda (7 gg)', a: cvr === null ? '—' : perc(cvr), t: '30%', s: cvr === null ? pill('—', '') : semaforo(cvr, 0.3, 0.2),
+        n: pl.length ? `${num(acquisite)} su ${num(visite)} visite, rapporti di Play fino al ${data(c.play.fino).slice(0, 10)}` : 'i rapporti di Play non sono ancora arrivati (accesso in attivazione)' },
+      { k: 'Installazioni da Search / Explore (7 gg)', a: daRicerca === null ? '—' : `${num(daRicerca)} / ${num(daEsplora)}`, t: '4.500 / 2.000 in 90 gg', s: pill('—', ''), n: pl.length ? 'rapporti di Play' : 'in attesa dei rapporti di Play' },
     ])),
     scheda(`Parole (${parole.length})`, tabella([
       { titolo: 'Parola', cella: (p) => h('strong', {}, p.parola) },
