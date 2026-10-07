@@ -78,6 +78,11 @@ export async function rispondi(azione, a) {
     case 'io': return { ok: true, email: 'supporto.applicazioni@gmail.com', ruolo: 'Super Admin', permessi: ['*'] };
     case 'app.elenco': return { ok: true, apps: APPS };
     case 'app.crea': case 'app.clona': return { ok: true };
+    case 'social.stato': return {
+      ok: true, configurato: true, post: [{ id: 1, clip: 'domanda-1', titolo: 'Tu cosa giocheresti? 👇', privacy: 'SELF_ONLY', stato: 'PUBLISH_COMPLETE', chi: 'supporto.applicazioni@gmail.com', creato: istante(-30) }],
+      tiktok: { nome: 'SetteGames', utente: 'settegames', avatar: '/img/icona-180.png', permessi: 'user.info.basic,video.publish', collegatoDa: 'supporto.applicazioni@gmail.com',
+        privacy: ['FOLLOWER_OF_CREATOR', 'MUTUAL_FOLLOW_FRIENDS', 'SELF_ONLY'], commentiSpenti: false, duettiSpenti: true, stitchSpenti: false, durataMassima: 600 },
+    };
     case 'app.aggiorna': return { ok: true, approvazione: { id: 'ap-99', stato: 'SCHEDULED', parte_il: istante(-10) } };
     case 'kpi': {
       const giorni = serieKpi(a.app === 'last-sheep' ? .6 : 1);
