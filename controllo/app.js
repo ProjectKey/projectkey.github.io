@@ -43,6 +43,8 @@ const MENU = [
     { k: 'negozio', nome: 'Negozio', ico: '▣', serve: 'negozio.leggi' },
   ] },
   { gruppo: 'Ricavi e crescita', voci: [
+    // Growth Engine (7 ott 2026): North Star, scoreboard, parole, concorrenti, esperimenti, registro.
+    { k: 'sala', nome: 'Growth Control Room', ico: '★', serve: 'crescita.cruscotto' },
     { k: 'monetizzazione', nome: 'Monetizzazione', ico: '€' },
     // Il percorso del giocatore (F-128): compare se un gioco lo sa dare.
     { k: 'percorso', nome: 'Percorso', ico: '⤳', serve: 'percorso' },
@@ -83,6 +85,7 @@ const PAGINE = {
   contenuti: () => import('./pagine/contenuti.js'),
   esperimenti: () => import('./pagine/esperimenti.js'),
   crescita: () => import('./pagine/crescita.js'),
+  sala: () => import('./pagine/sala.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

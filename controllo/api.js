@@ -363,6 +363,11 @@ export const esperimentiRisultati = async (app, id) => sbusta(await chiama('espe
 /** La crescita (C7): fonti, nati al giorno, inviti, K. */
 export const crescita = async (app, da, a) => sbusta(await chiama('crescita', { app, da, a }));
 
+/** Il Growth Engine: la Control Room, la raccolta a richiesta, un esperimento salvato. */
+export const crescitaCruscotto = async (app) => sbusta(await chiama('crescita.cruscotto', { app }));
+export const crescitaRaccogli = async (app) => sbusta(await chiama('crescita.raccogli', { app }));
+export const crescitaEsperimento = async (app, esperimento, motivo) => sbusta(await chiama('crescita.esperimento', { app, esperimento, motivo }));
+
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
 export const resetNome = (app, id, nome, motivo) => chiama('giocatori.nome', { app, id, ...(nome ? { nome } : {}), motivo });

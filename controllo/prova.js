@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi', 'crescita'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi', 'crescita', 'crescita.cruscotto', 'crescita.raccogli', 'crescita.esperimento'];
 
 const APPS = [
   {
@@ -254,6 +254,27 @@ export async function rispondi(azione, a) {
           { id: 's2', motivo: 'offensivo', nota: null, quando: istante(300), chi: 'Tino', stato: 'aperta' }, { id: 's3', motivo: 'nome', nota: null, quando: istante(900), chi: 'Tino', stato: 'aperta' }] },
     ] };
     case 'moderazione.decidi': return { ok: true, chiuse: 3 };
+    case 'crescita.cruscotto': {
+      const serie = Array.from({ length: 21 }, (_, i) => ({ giorno: giorno(20 - i), nuovi: [0, 1, 0, 2, 1, 3, 1, 9, 2, 1, 4, 6, 8, 12, 15, 18, 22, 30, 35, 41, 44][i],
+        attivati: [0, 1, 0, 1, 1, 2, 1, 4, 1, 1, 3, 4, 6, 9, 11, 13, 17, 23, 26, 31, 33][i], attivi: 5 + i, giorno_programma: i - 13, target: Math.max(0, (i - 13) * 40) }));
+      return { ok: true, programma: { app: 'settebello-scopa', giorno1: giorno(7), giorni: 90 }, oggi: giorno(0), serie,
+        cumulato: 245, cumulato_attivati: 184, prima_del_programma: 26,
+        retention: { d1: [41, 112], d7: [6, 40], attivazione: [184, 245] },
+        scheda: { voto: 4.6, recensioni: 21, fascia: '100+', titolo: 'Scopa Online: Scopone e Carte' },
+        parole: [
+          { parola: 'scopone scientifico', cluster: 'varianti', volume: 4, difficolta: 3, rilevanza: 5, oggi: 9, settimana_fa: 14, migliore: 9, primi: ['com.digitalmoka.scopadalnegro'] },
+          { parola: 'scopa online', cluster: 'core', volume: 4, difficolta: 4, rilevanza: 5, oggi: null, settimana_fa: null, migliore: null, primi: ['com.WhatWapp.Scopa'] },
+          { parola: 'scopa bugiarda', cluster: 'varianti', volume: 1, difficolta: 1, rilevanza: 5, oggi: 1, settimana_fa: 2, migliore: 1, primi: ['it.settebello.app'] },
+          { parola: 'carte napoletane', cluster: 'carte', volume: 3, difficolta: 4, rilevanza: 4, oggi: null, settimana_fa: null, migliore: null, primi: ['com.digitalmoka.briscoladalnegro'] }],
+        concorrenti: [{ pacchetto: 'com.WhatWapp.Scopa', nome: 'Scopa: la Sfida - Online', sviluppatore: 'Whatwapp Entertainment', installazioni: 12342955, fascia: '10.000.000+', voto: 4.33, recensioni: 229524, aggiornata: '1 ott 2026' }],
+        esperimenti: [
+          { id: 'EXP-0002', stato: 'NOW', titolo: 'Dalla lezione dritti alla prima partita', ipotesi: 'Il tasto GIOCA LA PRIMA PARTITA alza l\'attivazione', metrica: 'attivati / nuovi', baseline: '7 su 13', target: '≥ 75%', ice: 24, inizio: giorno(1) },
+          { id: 'EXP-0006', stato: 'NEXT', titolo: 'Mano del giorno nell\'app', ipotesi: 'La stessa mano per tutti fa tornare ogni giorno', metrica: 'D7', ice: 6.7 }],
+        registro: [{ quando: istante(60), agente: 'ANALYST', azione: 'Raccolta del giorno: 30 parole lette, compariamo in 3', perche: 'routine del mattino (§48)', effetto_atteso: '', stato: 'FATTO' }],
+        inviti: { mandati: 7, account_invitati: 2, giocano: 40 } };
+    }
+    case 'crescita.raccogli': return { ok: true, parole: 30, comparsi: 3 };
+    case 'crescita.esperimento': return { ok: true, id: 'EXP-0007' };
     case 'crescita': return { ok: true, nati: 23, perFonte: [{ fonte: 'google-play', n: 9 }, { fonte: 'non si sa (prima della 1.0.9)', n: 12 }, { fonte: 'invito', n: 2 }],
       perGiorno: [{ giorno: giorno(4), fonte: 'google-play', n: 3 }, { giorno: giorno(2), fonte: 'google-play', n: 6 }, { giorno: giorno(2), fonte: 'invito', n: 2 }, { giorno: giorno(9), fonte: 'non si sa (prima della 1.0.9)', n: 5 }],
       inviti: { mandati: 7, da_quanti: 3, aperti: 2, condivisioni: 1, account_invitati: 2, giocano: 14, dove: { fine_partita: 5, amici: 2 } },
