@@ -516,3 +516,12 @@ export const chiudiAllarme = (id, motivo) => chiama('allarmi.chiudi', { id, moti
 
 /** Può quest'app fare quest'azione? Lo dice il suo adattatore (`capacita`). */
 export const sa = (app, azione) => !app || (app.capacita?.azioni ?? []).includes(NOMI[azione] ?? azione);
+
+/* ------------------------------------------------------------ i social (G8, 7 ott 2026) */
+
+export const social = () => chiama('social.stato');
+export const tiktokInizio = () => chiama('social.tiktok.inizio');
+export const tiktokCollega = (codice, stato) => chiama('social.tiktok.collega', { codice, stato });
+export const tiktokPubblica = (post) => chiama('social.tiktok.pubblica', post);
+export const tiktokEsito = (id) => chiama('social.tiktok.esito', { id });
+export const tiktokScollega = () => chiama('social.tiktok.scollega');

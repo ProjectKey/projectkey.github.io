@@ -54,6 +54,8 @@ const MENU = [
     { k: 'crescita', nome: 'Crescita', ico: '↗', serve: 'crescita' },
     // C6 (6 ott 2026): test A/B su pubblicità e offerte.
     { k: 'esperimenti', nome: 'Esperimenti', ico: '⚗', serve: 'esperimenti.risultati' },
+    // G8 (7 ott 2026): le nostre clip sui nostri account social (per primo TikTok).
+    { k: 'social', nome: 'Social', ico: '▶' },
     // C4 (6 ott 2026): esplora eventi, percorso a passi scelti, coorti.
     { k: 'analisi', nome: 'Analisi', ico: '▤', serve: 'analisi.catalogo' },
   ] },
@@ -86,6 +88,7 @@ const PAGINE = {
   esperimenti: () => import('./pagine/esperimenti.js'),
   crescita: () => import('./pagine/crescita.js'),
   sala: () => import('./pagine/sala.js'),
+  social: () => import('./pagine/social.js'),
   monetizzazione: () => import('./pagine/monetizzazione.js'),
   percorso: () => import('./pagine/percorso.js'),
   economia: () => import('./pagine/economia.js'),

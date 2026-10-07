@@ -32,6 +32,14 @@
 <script>
   const p = new URLSearchParams(location.search);
   const esito = document.getElementById('esito');
+  // Partito dal pannello (pagina Social): si consegnano codice e state al pannello, che li manda al server.
+  if ((p.get('state') || '').startsWith('pannello-')) {
+    try {
+      sessionStorage.setItem('settegames.tiktok.ritorno', JSON.stringify(
+        p.get('code') ? { codice: p.get('code'), stato: p.get('state') } : { errore: `${p.get('error') || 'errore'} ${p.get('error_description') || ''}` }));
+      location.replace('/controllo/#/social');
+    } catch { /* senza sessionStorage si mostra il codice qui sotto */ }
+  }
   if (p.get('code')) {
     esito.innerHTML = '<p>Autorizzazione riuscita. Copia questo codice e consegnalo allo strumento (vale pochi minuti):</p><code id="codice"></code><button id="copia">Copia il codice</button>';
     document.getElementById('codice').textContent = p.get('code');
