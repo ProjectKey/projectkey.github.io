@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Collegamento TikTok · SetteGames</title>
+<link rel="icon" type="image/png" href="/img/favicon-64.png">
+<style>
+  :root { --viola: #1A0B4B; --testo: #F4F6FF; --rosa: #FF2D8B; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--viola); color: var(--testo);
+         font: 16px/1.5 system-ui, -apple-system, sans-serif; padding: 16px; box-sizing: border-box; }
+  main { max-width: 560px; width: 100%; text-align: center; }
+  img { width: 220px; height: auto; }
+  code { display: block; margin: 12px 0; padding: 14px; background: #2a1a66; border-radius: 10px; word-break: break-all; font-size: 15px; }
+  button { background: var(--rosa); color: #fff; border: 0; border-radius: 999px; padding: 10px 20px; font-weight: 700; font-size: 15px; cursor: pointer; }
+  .piccolo { opacity: .75; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <img src="/img/settegames-logo.webp" alt="SetteGames">
+  <!--
+    Il ritorno dell'autorizzazione di TikTok (Login Kit) per lo strumento interno che pubblica
+    i video di SetteGames sul nostro account @settegames. La pagina non manda niente a nessuno:
+    mostra il codice, che chi sta collegando l'account copia e consegna allo strumento.
+  -->
+  <h1 id="titolo">Collegamento a TikTok</h1>
+  <div id="esito"></div>
+  <p class="piccolo">Pagina tecnica di SetteGames per collegare il nostro account TikTok allo strumento che pubblica i video del gioco. <a href="/settebello/privacy.html" style="color:#9fe">Privacy</a></p>
+</main>
+<script>
+  const p = new URLSearchParams(location.search);
+  const esito = document.getElementById('esito');
+  if (p.get('code')) {
+    esito.innerHTML = '<p>Autorizzazione riuscita. Copia questo codice e consegnalo allo strumento (vale pochi minuti):</p><code id="codice"></code><button id="copia">Copia il codice</button>';
+    document.getElementById('codice').textContent = p.get('code');
+    document.getElementById('copia').onclick = () => navigator.clipboard.writeText(p.get('code')).then(() => { document.getElementById('copia').textContent = 'Copiato'; });
+  } else if (p.get('error')) {
+    esito.innerHTML = '<p>TikTok ha risposto con un errore:</p><code id="err"></code>';
+    document.getElementById('err').textContent = `${p.get('error')} ${p.get('error_description') || ''}`;
+  } else {
+    esito.innerHTML = '<p>Qui arriva TikTok quando si collega l\'account di SetteGames. Niente da fare su questa pagina.</p>';
+  }
+</script>
+</body>
+</html>
