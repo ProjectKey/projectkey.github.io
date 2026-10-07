@@ -97,3 +97,7 @@
   .gioca { padding: 22px 20px; }
   .seme .carte { gap: 5px; }
 }
+
+/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+.negozi { margin: 16px 0 4px; }
+.badge-store { display: inline-block; flex-shrink: 0; }

@@ -209,3 +209,7 @@ code { background: var(--carta2); color: var(--ink); border-radius: 7px; padding
   .cappello { padding: 30px 22px 28px; border-radius: 26px; }
   main:not(.legge):not(.invito) section { padding: 22px 20px 10px; border-radius: 22px; }
 }
+
+/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+.negozi { margin: 16px 0 4px; }
+.badge-store { display: inline-block; flex-shrink: 0; }

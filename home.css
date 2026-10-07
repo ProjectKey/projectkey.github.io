@@ -310,3 +310,7 @@ footer nav a:hover { text-decoration: underline; }
 .nome img { display: block; width: min(600px, 100%); height: auto; margin: 4px 0 6px -6px; }
 footer .marchio img { display: block; height: 38px; width: auto; }
 @media (max-width: 860px) { .nome img { margin: 4px auto 6px; } }
+
+/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+.negozi { margin: 16px 0 4px; }
+.badge-store { display: inline-block; flex-shrink: 0; }
