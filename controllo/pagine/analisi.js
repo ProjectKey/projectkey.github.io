@@ -11,9 +11,10 @@
  *    filtro (`partita_iniziata:gioco=scopa`), e quanti telefoni nati nel periodo
  *    arrivano a ogni passo nell'ordine. Lo stesso evento due volte = la seconda
  *    volta (due `partita` = la seconda partita finita);
- *  - **Coorti** (§48): per giorno di nascita, versione, piattaforma o
- *    provenienza: quanti, quanti tornano il giorno 1, 3, 7, 14, 30, quante
- *    partite a testa, quanti pagano.
+ *  - **Coorti** (§48): per giorno di nascita, versione, piattaforma,
+ *    provenienza, e dal G4 (0090) per **primo risultato** e **tipo di
+ *    giocatore** del primo giorno (Growth Engine §32): quanti, quanti tornano
+ *    il giorno 1, 3, 7, 14, 30, quante partite a testa, quanti pagano.
  */
 import * as api from '../api.js';
 import { h, svuota, metti, scheda, tabella, pill, kpi, num, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, caricamento } from '../ui.js';
@@ -129,7 +130,8 @@ function imbuto(app, f, catalogo) {
 /* ------------------------------------------------------------ le coorti */
 
 function coorti(app, f) {
-  const per = h('select', { 'aria-label': 'Coorti per' }, [['giorno', 'giorno di nascita'], ['versione', 'versione'], ['piattaforma', 'piattaforma'], ['provenienza', 'provenienza']]
+  const per = h('select', { 'aria-label': 'Coorti per' }, [['giorno', 'giorno di nascita'], ['versione', 'versione'], ['piattaforma', 'piattaforma'], ['provenienza', 'provenienza'],
+    ['primo_risultato', 'primo risultato (1º giorno)'], ['tipo', 'tipo di giocatore (1º giorno)']]
     .map(([k, t]) => h('option', { value: k, selected: k === memoria.leggi('analisi.coorti', 'giorno') }, t)));
   const esiti = h('div', {});
   const quota = (x) => (x && x[1] ? h('span', { title: `${x[0]} su ${x[1]}` }, perc(x[0] / x[1])) : h('span', { style: { color: 'var(--ink3)' } }, '…'));
@@ -150,5 +152,6 @@ function coorti(app, f) {
   per.addEventListener('change', () => void calcola());
   void calcola();
   return scheda('Coorti', h('div', {}, h('div', { class: 'filtri' }, h('label', { class: 'campo' }, h('span', {}, 'Raggruppa per'), per)), esiti),
-    { nota: 'D1 = tornati il giorno dopo la nascita, e così via. «…» = troppo presto per saperlo. Passa il mouse su una percentuale per vedere quanti su quanti.' });
+    { nota: 'D1 = tornati il giorno dopo la nascita, e così via. «…» = troppo presto per saperlo. Passa il mouse su una percentuale per vedere quanti su quanti. '
+      + 'Primo risultato e tipo guardano solo il giorno della nascita: la prima partita vera (non la lezione) vinta, persa o pari; online, contro il computer, solo la lezione o niente.' });
 }

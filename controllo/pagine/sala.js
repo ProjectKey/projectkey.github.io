@@ -13,6 +13,10 @@
  * - **Brief del giorno** (§49), scritto con regole: niente intelligenza artificiale.
  * - **Parole** con posizione sulla ricerca Play e Opportunity Score (§10).
  * - **Concorrenti** (§38), **esperimenti** con ICE e backlog (§34–37), **registro** (§45).
+ * - **Recensioni** (G4, §17): le 12 categorie del requisito e il top 10 della
+ *   settimana di problemi, richieste e motivi positivi (`crescita.recensioni`).
+ *   Senza recensioni la scheda lo dice e mostra le categorie che aspetta.
+ * - Nello Scoreboard il **CTR dell'invito** (§19): clic sul link ÷ inviti col link.
  *
  * «Nuovi» sono i telefoni che hanno aperto il gioco la prima volta (senza Giorgio,
  * robot e prove): le installazioni della Play Console arrivano col blocco G2-bis.
@@ -50,8 +54,12 @@ export async function disegna(ctx) {
   ctx.ricordaRecente('Growth Control Room');
   const app = ctx.app ?? ctx.apps.find((a) => api.sa(a, 'crescita.cruscotto'));
   if (!app || !api.sa(app, 'crescita.cruscotto')) return [nonDisponibile('Growth Control Room', 'nessun gioco espone ancora il cruscotto della crescita (`crescita.cruscotto`).')];
-  let c;
-  try { c = await api.crescitaCruscotto(app.id); } catch (e) { return [erroreBox(e)]; }
+  let c; let rec = null;
+  try {
+    [c, rec] = await Promise.all([api.crescitaCruscotto(app.id),
+      // Le recensioni sono un di più: se l'adattatore non le sa ancora, la pagina resta quella di prima.
+      api.sa(app, 'crescita.recensioni') ? api.crescitaRecensioni(app.id).catch(() => null) : null]);
+  } catch (e) { return [erroreBox(e)]; }
 
   const pr = c.programma ?? {};
   const serie = c.serie ?? [];
@@ -70,6 +78,7 @@ export async function disegna(ctx) {
   const d1 = quota(ret.d1); const d7 = quota(ret.d7); const att = quota(ret.attivazione);
   const inv = c.inviti ?? {};
   const k = inv.giocano ? inv.account_invitati / inv.giocano : null;
+  const ctr = inv.mandati_con_codice ? (inv.clic ?? 0) / inv.mandati_con_codice : null;
   const sc = c.scheda ?? {};
   const parole = (c.parole ?? []).map((p) => ({ ...p, score: opportunita(p) }));
   const inTop10 = parole.filter((p) => p.oggi && p.oggi <= 10).length;
@@ -92,6 +101,7 @@ export async function disegna(ctx) {
   if (d1 !== null && d1 < 0.35) problemi.push(`D1 ${perc(d1)}, sotto il 35%`);
   if (media7 < targetGiorno) problemi.push(`${media7.toLocaleString('it-IT', { maximumFractionDigits: 1 })} nuovi al giorno contro ${targetGiorno} del piano`);
   if (!sc.recensioni) problemi.push('nessuna recensione sulla scheda');
+  if (rec?.problemi?.length) problemi.push(`recensioni: «${rec.problemi[0].motivo}» (${rec.problemi[0].n} in settimana)`);
   const migliore = [...parole].filter((p) => p.oggi).sort((a, b) => a.oggi - b.oggi)[0];
 
   const raccogli = async (e) => {
@@ -144,6 +154,8 @@ export async function disegna(ctx) {
       { k: 'Attivazione (14 gg)', a: perc(att), t: '75%', s: semaforo(att, 0.75, 0.5), n: `${ret.attivazione?.[0] ?? 0} su ${ret.attivazione?.[1] ?? 0}` },
       { k: 'D1 (14 gg)', a: perc(d1), t: '35%', s: semaforo(d1, 0.35, 0.25), n: `${ret.d1?.[0] ?? 0} su ${ret.d1?.[1] ?? 0}` },
       { k: 'D7', a: perc(d7), t: '15%', s: semaforo(d7, 0.15, 0.1), n: `${ret.d7?.[0] ?? 0} su ${ret.d7?.[1] ?? 0}` },
+      { k: 'CTR dell\'invito (14 gg)', a: ctr === null ? '—' : perc(ctr), t: '30%', s: ctr === null ? pill('—', '') : semaforo(ctr, 0.3, 0.15),
+        n: `${num(inv.clic ?? 0)} clic sul link su ${num(inv.mandati_con_codice ?? 0)} inviti col link` },
       { k: 'Coefficiente K (14 gg)', a: k === null ? '—' : k.toLocaleString('it-IT', { maximumFractionDigits: 2 }), t: '0,1', s: semaforo(k, 0.1, 0.05), n: `${num(inv.mandati ?? 0)} inviti mandati, ${num(inv.account_invitati ?? 0)} account arrivati` },
       { k: 'Recensioni', a: num(sc.recensioni ?? 0), t: '300–500 in 90 gg', s: semaforo(sc.recensioni ?? 0, Math.max(1, giornoN * 4), Math.max(1, giornoN * 2)), n: 'scheda Play, letta ogni mattina' },
       { k: 'Voto', a: sc.voto ? String(sc.voto).replace('.', ',') : '—', t: '4,5', s: semaforo(sc.voto ?? null, 4.5, 4.2), n: '' },
@@ -152,6 +164,7 @@ export async function disegna(ctx) {
         n: pl.length ? `${num(acquisite)} su ${num(visite)} visite, rapporti di Play fino al ${data(c.play.fino).slice(0, 10)}` : 'i rapporti di Play non sono ancora arrivati (accesso in attivazione)' },
       { k: 'Installazioni da Search / Explore (7 gg)', a: daRicerca === null ? '—' : `${num(daRicerca)} / ${num(daEsplora)}`, t: '4.500 / 2.000 in 90 gg', s: pill('—', ''), n: pl.length ? 'rapporti di Play' : 'in attesa dei rapporti di Play' },
     ])),
+    rec ? recensioni(rec) : null,
     scheda(`Parole (${parole.length})`, tabella([
       { titolo: 'Parola', cella: (p) => h('strong', {}, p.parola) },
       { titolo: 'Cluster', cella: (p) => pill(p.cluster, '') },
@@ -190,7 +203,63 @@ export async function disegna(ctx) {
       { titolo: 'Stato', cella: (r) => r.stato },
       { titolo: 'Esp.', cella: (r) => r.esperimento ?? '' },
     ], c.registro ?? [], { vuoto: 'Ancora niente.' }), { nota: 'Ogni azione di un agente, del server o di Claude, con il suo perché (§45).' }),
-  ];
+  ].filter(Boolean);
+}
+
+/** Le 12 categorie del §17, nell'ordine del requisito (i nomi li manda l'adattatore). */
+const CATEGORIE = ['bug', 'matchmaking', 'carte', 'fairness', 'pubblicita', 'ux', 'prestazioni', 'multiplayer', 'richieste', 'complimenti', 'monetizzazione', 'account'];
+const TONI = { problema: 'rosso', richiesta: 'blu', positivo: 'verde', neutro: '' };
+
+/**
+ * **Review Intelligence** (§17): la settimana di recensioni di Play, le 12
+ * categorie e i tre top 10. Senza recensioni (com'era il 7 ottobre 2026) dice
+ * che non ce ne sono e mostra le categorie che le aspettano, invece di tabelle vuote.
+ */
+export function recensioni(r) {
+  const nome = (k) => r.nomi?.[k] ?? k;
+  const periodo = `dal ${data(r.da).slice(0, 10)} al ${data(r.a).slice(0, 10)}`;
+  const nota = 'Recensioni di Google Play lette ogni mattina e classificate con regole scritte (_cassa/recensioni.ts). Il lunedì i problemi che tornano due volte entrano nel backlog in LATER (agente REVIEW).';
+  if (!r.quante) {
+    return scheda('Recensioni della settimana', h('div', { style: { display: 'grid', gap: '8px' } },
+      h('p', { style: { margin: 0 } }, `Nessuna recensione ${periodo}`, r.totale ? ` (${num(r.totale)} in tutto, più vecchie).` : ': non ne è ancora arrivata nessuna.',
+        ' Quando arrivano, qui compaiono il voto, le 12 categorie del requisito e il top 10 di problemi, richieste e motivi positivi.'),
+      h('div', { style: { display: 'flex', gap: '6px', flexWrap: 'wrap' } }, CATEGORIE.map((k) => pill(nome(k), '')))), { nota });
+  }
+  const perCat = Object.fromEntries((r.categorie ?? []).map((x) => [x.categoria, x]));
+  const delta = r.prima?.quante ? r.quante - r.prima.quante : null;
+  const top = (titolo, righe, vuoto) => scheda(titolo, tabella([
+    { titolo: 'Motivo', cella: (x) => h('div', {}, h('strong', {}, x.motivo), x.esempio ? h('div', { style: { color: 'var(--ink3)', fontSize: '12px' } }, `«${x.esempio}»`) : null) },
+    { titolo: 'Categoria', cella: (x) => pill(nome(x.categoria), '') },
+    { titolo: 'Quante', num: true, cella: (x) => num(x.n) },
+    { titolo: 'Voto', num: true, cella: (x) => String(x.voto ?? '—').replace('.', ',') },
+  ], righe ?? [], { vuoto }));
+  return h('div', { style: { display: 'grid', gap: '12px' } },
+    h('div', { class: 'griglia g4' },
+      kpi('Recensioni della settimana', num(r.quante), `${periodo}${delta === null ? '' : ` · ${delta >= 0 ? '+' : ''}${num(delta)} sulla settimana prima`}`),
+      kpi('Voto medio', r.voto ? String(r.voto).replace('.', ',') : '—', r.prima?.voto ? `la settimana prima ${String(r.prima.voto).replace('.', ',')}` : 'obiettivo 4,5'),
+      kpi('Senza risposta', num(r.senza_risposta), `su ${num(r.con_testo)} con testo`),
+      kpi('Da 1 o 2 stelle', num((r.per_voto?.[1] ?? 0) + (r.per_voto?.[2] ?? 0)),
+        `${[5, 4, 3, 2, 1].map((v) => `${v}★ ${num(r.per_voto?.[v] ?? 0)}`).join(' · ')} · ${num(r.totale)} in tutto`)),
+    scheda('Le 12 categorie', tabella([
+      { titolo: 'Categoria', cella: (k) => h('strong', {}, nome(k)) },
+      { titolo: 'Recensioni', num: true, cella: (k) => num(perCat[k]?.n ?? 0) },
+      { titolo: 'Problemi', num: true, cella: (k) => num(perCat[k]?.problemi ?? 0) },
+      { titolo: 'Richieste', num: true, cella: (k) => num(perCat[k]?.richieste ?? 0) },
+      { titolo: 'Positive', num: true, cella: (k) => num(perCat[k]?.positivi ?? 0) },
+      { titolo: 'Voto', num: true, cella: (k) => (perCat[k]?.voto ? String(perCat[k].voto).replace('.', ',') : '—') },
+    ], [...CATEGORIE].sort((a, b) => (perCat[b]?.n ?? 0) - (perCat[a]?.n ?? 0))), { nota }),
+    h('div', { style: { display: 'grid', gap: '12px' } },
+      top('Top 10 problemi', r.problemi, 'Nessun problema questa settimana.'),
+      top('Top 10 richieste', r.richieste, 'Nessuna richiesta questa settimana.'),
+      top('Top 10 motivi positivi', r.positivi, 'Nessuna recensione positiva questa settimana.')),
+    scheda('Le ultime da leggere', h('details', {}, h('summary', {}, `${num((r.ultime ?? []).length)} recensioni, le più recenti prima`), tabella([
+      { titolo: 'Quando', cella: (x) => data(x.quando) },
+      { titolo: 'Voto', cella: (x) => `${x.voto}★` },
+      { titolo: 'Testo', cella: (x) => h('div', {}, x.testo || h('span', { style: { color: 'var(--ink3)' } }, 'solo stelle'),
+        h('div', { style: { marginTop: '4px', display: 'flex', gap: '4px', flexWrap: 'wrap' } }, (x.categorie ?? []).map((k) => pill(nome(k), '')))) },
+      { titolo: 'Tono', cella: (x) => pill(x.tono, TONI[x.tono] ?? '') },
+      { titolo: 'Risposta', cella: (x) => (x.risposta ? 'sì' : pill('da fare', 'ambra')) },
+    ], r.ultime ?? []))));
 }
 
 /** Crea o aggiorna un esperimento: ipotesi, metrica, stato nel backlog, ICE, esito. */

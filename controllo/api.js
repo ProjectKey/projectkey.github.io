@@ -367,6 +367,8 @@ export const crescita = async (app, da, a) => sbusta(await chiama('crescita', { 
 export const crescitaCruscotto = async (app) => sbusta(await chiama('crescita.cruscotto', { app }));
 export const crescitaRaccogli = async (app) => sbusta(await chiama('crescita.raccogli', { app }));
 export const crescitaEsperimento = async (app, esperimento, motivo) => sbusta(await chiama('crescita.esperimento', { app, esperimento, motivo }));
+// G4: la Review Intelligence (§17): categorie e top 10 della settimana (di serie gli ultimi 7 giorni).
+export const crescitaRecensioni = async (app, da, a) => sbusta(await chiama('crescita.recensioni', { app, da, a }));
 
 /** Fuori o dentro le statistiche (6 ott 2026): non tocca il gioco, solo i conti del pannello. */
 export const escludi = (app, id, escluso, motivo) => chiama('giocatori.escludi', { app, id, escluso, motivo });
@@ -525,3 +527,12 @@ export const tiktokCollega = (codice, stato) => chiama('social.tiktok.collega', 
 export const tiktokPubblica = (post) => chiama('social.tiktok.pubblica', post);
 export const tiktokEsito = (id) => chiama('social.tiktok.esito', { id });
 export const tiktokScollega = () => chiama('social.tiktok.scollega');
+// Calendario dei contenuti, community, recensioni dei concorrenti (G8, `controllo/contenuti.ts`).
+// Le scritture vanno nel registro: il motivo è fisso, come per «Letta».
+export const calendario = (da, a) => chiama('social.calendario', { da, a });
+export const contenutoDecidi = (ids, decisione, motivo = 'Decisione nel calendario social') => chiama('social.contenuto.decidi', { ids, decisione, motivo });
+export const contenutoPubblicato = (id, url, motivo = 'Post pubblicato, segnato nel calendario') => chiama('social.contenuto.pubblicato', { id, url, motivo });
+export const contenutoMetriche = (id, metriche, motivo = 'Numeri del post') => chiama('social.contenuto.metriche', { id, metriche, motivo });
+export const comunita = () => chiama('social.comunita');
+export const comunitaAggiorna = (id, campi, motivo = 'Aggiornata la scheda della community') => chiama('social.comunita.aggiorna', { id, ...campi, motivo });
+export const concorrenti = (giorni = 28) => chiama('social.concorrenti', { giorni });

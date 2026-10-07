@@ -12,7 +12,10 @@
  *    provenienza (D1, D7, partite a testa, chi paga);
  *  - **gli inviti**: quanti mandati, da dove, quanti aperti, quanti account
  *    nuovi col codice di qualcuno e il **K** (account invitati ÷ chi gioca:
- *    PIANO.md punta a 0,1–0,3).
+ *    PIANO.md punta a 0,1–0,3);
+ *  - dal G4 (0090) il **CTR dell'invito** (clic sul link ÷ inviti mandati col
+ *    link: i clic dalla pagina `s/` del sito più quelli dall'app, §19) e le
+ *    **partite fra amici** (friend_match_completed, §52).
  *
  * Spesa, CPI e ROAS non ci sono perché non c'è una campagna a pagamento (la
  * crescita per ora è solo organica, decisione di Giorgio del 2 ott 2026).
@@ -35,6 +38,7 @@ export async function disegna(ctx) {
   } catch (e) { return [erroreBox(e)]; }
   const inv = r.inviti ?? {};
   const k = inv.giocano ? inv.account_invitati / inv.giocano : null;
+  const ctr = inv.mandati_con_codice ? (inv.clic ?? 0) / inv.mandati_con_codice : null;
   const fonti = (r.perFonte ?? []).map((x) => x.fonte);
   const giorni = [];
   for (let d = new Date(f.da); d <= new Date(f.a); d.setDate(d.getDate() + 1)) giorni.push(d.toISOString().slice(0, 10));
@@ -56,6 +60,11 @@ export async function disegna(ctx) {
       kpi('Al giorno', (r.nati / Math.max(1, giorni.length)).toLocaleString('it-IT', { maximumFractionDigits: 1 }), 'nel periodo'),
       kpi('Inviti mandati', num(inv.mandati), `da ${num(inv.da_quanti)} telefoni · ${num(inv.aperti)} aperti`),
       kpi('K', k === null ? '—' : k.toLocaleString('it-IT', { maximumFractionDigits: 2 }), `${num(inv.account_invitati)} account invitati su ${num(inv.giocano)} che giocano · obiettivo 0,1–0,3`)),
+    h('div', { class: 'griglia g4' },
+      kpi('CTR dell\'invito', ctr === null ? '—' : perc(ctr), `${num(inv.clic ?? 0)} clic su ${num(inv.mandati_con_codice ?? 0)} inviti col link · ${num(inv.clic_web ?? 0)} dal sito, ${num(inv.clic_app ?? 0)} dall'app`),
+      kpi('Clic sui tavoli privati', num(inv.clic_tavolo ?? 0), 'link di un tavolo aperto da qualcuno'),
+      kpi('Invitati alla prima partita', num(inv.prime_partite_invitati ?? 0), `su ${num(inv.account_invitati)} account arrivati col codice`),
+      kpi('Partite fra amici', num(inv.partite_fra_amici ?? 0), `finite a un tavolo privato · ${num(inv.partite_insieme ?? 0)} fra chi invita e chi è invitato`)),
     scheda('Fonti: quanti e quanto restano', tabella([
       { titolo: 'Fonte', cella: (c) => h('strong', {}, c.gruppo) },
       { titolo: 'Telefoni', num: true, cella: (c) => num(c.quanti) },

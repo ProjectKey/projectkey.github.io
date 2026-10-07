@@ -76,6 +76,22 @@
       if (tipo === 'tavolo') document.getElementById('titolo').textContent = 'Ti aspetto al mio tavolo';
     }
     if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.getElementById('iphone').hidden = false;
+    /*
+      IL CLIC SI CONTA [Growth Engine G4, §19: il CTR degli inviti]. Una chiamata
+      al server con la chiave pubblica (la stessa dell'app), mai bloccante: se non
+      va, la pagina funziona uguale. Il server non tiene l'indirizzo IP, solo
+      un'impronta col sale del giorno (0090, `segna_clic_invito`). Le anteprime
+      dei link (WhatsApp, Telegram…) non eseguono questo codice, e i robot si scartano.
+    */
+    if (codice && !navigator.webdriver && !/bot|crawl|spider|preview|headless/i.test(navigator.userAgent)) {
+      try {
+        fetch('https://agtvevphfaaycjbcfwfa.supabase.co/rest/v1/rpc/segna_clic_invito', {
+          method: 'POST', keepalive: true,
+          headers: { 'Content-Type': 'application/json', apikey: 'sb_publishable_ht_xB-CO7sAf9Jea0zFYfQ_Qu36mRLF' },
+          body: JSON.stringify({ p_tipo: tipo, p_codice: codice, p_campagna: q.get('utm_campaign') || '' })
+        }).catch(function () {});
+      } catch (e) { /* un browser vecchio: niente conto, la pagina va */ }
+    }
   })();
 </script>
 </body>
