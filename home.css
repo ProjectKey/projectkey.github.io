@@ -304,3 +304,9 @@ footer nav a:hover { text-decoration: underline; }
   .palco::before, .ventaglio .carta { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* Il logo vero di SetteGames (7 ott 2026, grafica/logo-settegames): al posto del nome scritto. */
+.barra .marchio img { display: block; height: 42px; width: auto; }
+.nome img { display: block; width: min(600px, 100%); height: auto; margin: 4px 0 6px -6px; }
+footer .marchio img { display: block; height: 38px; width: auto; }
+@media (max-width: 860px) { .nome img { margin: 4px auto 6px; } }
