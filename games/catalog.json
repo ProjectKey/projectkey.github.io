@@ -1,5 +1,12 @@
 [
   {
+    "slug": "sette-secondi",
+    "game_id": "sg-sette-secondi",
+    "name": "Sette Secondi",
+    "description": "Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "perfect-timer",
     "game_id": "sg-perfect-timer",
     "name": "Perfect Timer",

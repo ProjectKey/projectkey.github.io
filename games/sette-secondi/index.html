@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sette Secondi · gioca gratis · SetteGames</title>
+<meta name="description" content="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.">
+<link rel="canonical" href="https://settegames.com/games/sette-secondi/">
+<meta property="og:type" content="website"><meta property="og:title" content="Sette Secondi · gioca gratis · SetteGames"><meta property="og:description" content="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne."><meta property="og:url" content="https://settegames.com/games/sette-secondi/">
+<meta property="og:image" content="https://settegames.com/games/sette-secondi/cover.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#00D1FF"><link rel="icon" href="/img/favicon-32.png">
+<style>
+@font-face{font-family:Titan;src:url(/games/assets/TitanOne-Regular.ttf) format("truetype");font-display:swap}
+@font-face{font-family:Baloo;src:url(/games/assets/Baloo2-ExtraBold-latin.ttf) format("truetype");font-display:swap}
+:root{--field:#00D1FF;--ink:#1A0B4B;--surface:#F4F6FF;--primary:#FF2D8B;--accent:#FFC83D}
+*{box-sizing:border-box}html,body{margin:0;background:var(--field);color:var(--ink);font:600 18px/1.45 Baloo,system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+a{color:var(--ink)}h1,h2,.btn,.brand{font-family:Titan,Baloo,system-ui,sans-serif;font-weight:400}
+.brand{font-size:15px;letter-spacing:.08em;text-decoration:none;display:inline-block;margin-bottom:12px}
+h1{font-size:clamp(44px,12vw,76px);line-height:1;margin:6px 0 14px;color:var(--surface);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
+h2{font-size:26px;margin:36px 0 12px}
+.lead{font-size:20px;max-width:56ch}
+.btn{display:inline-block;padding:16px 30px;border:5px solid var(--ink);border-radius:22px;background:var(--primary);color:var(--surface);
+ font-size:26px;text-decoration:none;box-shadow:0 9px 0 var(--ink);transition:transform .08s,box-shadow .08s;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill}
+.btn:active{transform:translateY(7px);box-shadow:0 2px 0 var(--ink)}
+.btn.secondary{background:var(--surface);color:var(--ink);-webkit-text-stroke:0;font-size:20px;padding:12px 22px}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:22px 0}
+.challenge{background:var(--accent);border:5px solid var(--ink);border-radius:20px;padding:12px 18px;font-family:Titan,sans-serif;font-size:22px;box-shadow:0 7px 0 var(--ink)}
+.shot{float:right;width:min(42%,240px);margin:0 0 16px 18px;border:6px solid var(--ink);border-radius:26px;box-shadow:0 10px 0 var(--ink);background:var(--surface)}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:5px solid var(--ink);border-radius:18px;overflow:hidden}
+td{padding:10px 14px;border-top:2px solid rgba(26,11,75,.15)}td:last-child{text-align:right;font-family:Titan,sans-serif}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;margin:16px 0;clear:both}
+.card{display:block;text-decoration:none;background:var(--surface);border:5px solid var(--ink);border-radius:24px;padding:16px;box-shadow:0 9px 0 var(--ink)}
+.card b{font-family:Titan,sans-serif;font-weight:400;font-size:24px;display:block}.card span{font-size:15px}
+.card.app{background:var(--accent)}
+details{background:var(--surface);border:4px solid var(--ink);border-radius:16px;padding:10px 14px;margin:10px 0}summary{cursor:pointer;font-weight:800}
+footer{margin-top:44px;font-size:13px;opacity:.85;clear:both}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style></head>
+<body><main>
+<a class="brand" href="/games/">SETTEGAMES · MINI-GIOCHI</a>
+<img class="shot" src="cover.png" alt="Schermata di Sette Secondi" width="240" height="520">
+<h1>Sette Secondi</h1>
+<p class="lead">Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.</p>
+<div id="challenge" class="challenge" hidden></div>
+<div class="row"><a id="play" class="btn" href="play/">GIOCA ORA</a><button id="share" class="btn secondary" type="button">SFIDA UN AMICO</button></div>
+<p>Gratis, senza registrazione, direttamente nel browser. Anche su Telegram: <a href="https://t.me/SetteGamesBot?startapp=sette-secondi">@SetteGamesBot</a>.</p>
+<h2>Classifica della settimana</h2>
+<table id="board"><tr><td colspan="2">Gioca per entrare in classifica.</td></tr></table>
+<h2>Giochi simili</h2><div class="games"><a class="card" href="/games/perfect-timer/"><b>Perfect Timer</b><span>Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.</span></a></div>
+<h2>Dagli stessi creatori</h2><div class="games">
+<a class="card app" href="/settebello/"><b>Settebello</b><span>Scopa e scopone online, dagli stessi creatori</span></a>
+<a class="card app" href="/lastsheep/"><b>Last Sheep Royale</b><span>La pecora che sopravvive a tutti</span></a></div>
+<h2>Domande</h2>
+<details><summary>Come si gioca?</summary><p>Tocca per far partire il cronometro e toccalo di nuovo quando la lancetta torna in cima. Più sei vicino al tempo esatto, più punti fai. In modalità Alla cieca il quadrante si spegne dopo pochi secondi: devi contare a mente.</p></details>
+<details><summary>Devo registrarmi?</summary><p>No. In classifica compari con un nome anonimo (un animale e un numero). Non raccogliamo dati personali.</p></details>
+<details><summary>È gratis?</summary><p>Sì, si gioca gratis.</p></details>
+<footer>SetteGames · PK - PROJECT KEY S.R.L. · P. IVA IT15538561000 · Via Città della Pieve 76, 00191 Roma · <a href="/games/privacy.html">Privacy dei mini-giochi</a> · <a href="mailto:supporto@settegames.com">supporto@settegames.com</a></footer>
+</main><script>
+var q=new URLSearchParams(location.search),c=q.get('challenge');
+if(c&&/^c\d{1,7}_[a-z0-9_]{2,21}$/.test(c)){var s=c.slice(1).split('_')[0];var el=document.getElementById('challenge');el.textContent='Un amico ti sfida: batti '+Number(s).toLocaleString('it')+' punti!';el.hidden=false;document.getElementById('play').href='play/?challenge='+c;}
+document.getElementById('share').onclick=function(){var d={title:"Sette Secondi",text:'Gioca a '+"Sette Secondi"+' su SetteGames',url:location.origin+location.pathname};if(navigator.share)navigator.share(d).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(d.url).then(function(){alert('Link copiato!')});};
+var A=['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo'];
+function nm(s){return A[s%A.length]+' #'+String(Math.floor(s/A.length)%10000).padStart(4,'0')}
+fetch("https://jvmpwhoosojharlbmgsi.supabase.co/functions/v1/hub-api"+'/leaderboard?game_id=sg-sette-secondi&mode=classic&period=week&limit=10').then(function(r){return r.json()}).then(function(j){if(!j.ok||!j.rows.length)return;var t=document.getElementById('board');t.innerHTML='';j.rows.forEach(function(r){var tr=document.createElement('tr');var a=document.createElement('td');a.textContent=r.rank+'. '+nm(r.name_seed);var b=document.createElement('td');b.textContent=Number(r.score).toLocaleString('it');tr.appendChild(a);tr.appendChild(b);t.appendChild(tr);});}).catch(function(){});</script></body></html>

@@ -1,0 +1,21 @@
+{
+  "slug": "sette-secondi",
+  "source_hash": "b8450d25d9ec330a",
+  "game_id": "sg-sette-secondi",
+  "version": "1.0.0",
+  "manifest_hash": "88d0da370141911f",
+  "template": "reaction",
+  "engine": "cocos-3.8.8",
+  "git_commit": "e74f7cdaf36f3f4ca2014c734ac4520c1c436de0",
+  "git_dirty": false,
+  "built_at": "2026-10-08T17:15:21.105Z",
+  "duration_ms": 12321,
+  "output_dir": "dist/games/sette-secondi",
+  "files": 25,
+  "bytes": 1996338,
+  "gzip_bytes": 540319,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "1bc23b10bde3c471",
+  "log_file": ".factory/builds/sette-secondi/2026-10-08T17-15-08-792Z.log"
+}
