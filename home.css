@@ -24,7 +24,6 @@
   --abisso: #073a86;
   --notte: #042c68;
   --ambra: #ffc93d;
-  --ambra-scura: #e09b00;
   --crema: #fffdf6;
   --bianco: #ffffff;
   --testo-chiaro: #e8f4ff;
@@ -232,7 +231,7 @@ h1, .vetrina h2, .fascia h2 {
 
 /* I minigiochi: la fascia chiara, il cielo di giorno. */
 .fascia.chiara {
-  background: linear-gradient(180deg, var(--cielo), #1f9be6);
+  background: linear-gradient(180deg, var(--cielo), #2aaef0);
   color: var(--notte);
   position: relative; isolation: isolate;
   padding-top: clamp(64px, 9vw, 120px);
