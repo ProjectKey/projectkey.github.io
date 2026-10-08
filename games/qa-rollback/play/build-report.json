@@ -1,0 +1,21 @@
+{
+  "slug": "qa-rollback",
+  "source_hash": "8ccd26b1e9c6666f",
+  "game_id": "sg-qa-rollback",
+  "version": "1.0.0",
+  "manifest_hash": "c39a647c668e9701",
+  "template": "reaction",
+  "engine": "cocos-3.8.8",
+  "git_commit": "9951880e2ebead8bd5f01a2a7afa68c217efa327",
+  "git_dirty": true,
+  "built_at": "2026-10-08T17:09:18.957Z",
+  "duration_ms": 12561,
+  "output_dir": "dist/games/qa-rollback",
+  "files": 25,
+  "bytes": 1995574,
+  "gzip_bytes": 540113,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "8e6d48d94a265dca",
+  "log_file": ".factory/builds/qa-rollback/2026-10-08T17-09-06-398Z.log"
+}
