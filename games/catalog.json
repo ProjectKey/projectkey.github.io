@@ -1,0 +1,9 @@
+[
+  {
+    "slug": "perfect-timer",
+    "game_id": "sg-perfect-timer",
+    "name": "Perfect Timer",
+    "description": "Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.",
+    "version": "1.0.0"
+  }
+]

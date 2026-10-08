@@ -1,0 +1,21 @@
+{
+  "slug": "perfect-timer",
+  "source_hash": "059339666fb439dd",
+  "game_id": "sg-perfect-timer",
+  "version": "1.0.0",
+  "manifest_hash": "bbcf2c1ebb7c4bcc",
+  "template": "reaction",
+  "engine": "cocos-3.8.8",
+  "git_commit": "d345206874b60d2d3945ed29ba8340d9e7d00a32",
+  "git_dirty": true,
+  "built_at": "2026-10-08T11:56:53.115Z",
+  "duration_ms": 41077,
+  "output_dir": "dist/games/perfect-timer",
+  "files": 25,
+  "bytes": 1995518,
+  "gzip_bytes": 540078,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "ced91dd7b5565b23",
+  "log_file": ".factory/builds/perfect-timer/2026-10-08T11-56-12-048Z.log"
+}
