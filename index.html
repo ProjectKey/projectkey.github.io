@@ -2,10 +2,10 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SetteGames — giochi per telefono, fatti a Roma</title>
-<meta name="description" content="SetteGames fa giochi per telefono: Settebello (Scopa, Scopone e altri quattro giochi di carte) e Last Sheep Battle Royale. Un marchio di PK - Project Key S.R.L., Roma.">
-<meta name="theme-color" content="#7c4dff">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SetteGames — giochi per telefono: carte, pecore e minigiochi</title>
+<meta name="description" content="SetteGames fa giochi per telefono: Settebello (Scopa Online, Scopone e altri quattro giochi di carte), Last Sheep Royale e minigiochi da giocare subito nel browser. PK - Project Key S.R.L., Roma.">
+<meta name="theme-color" content="#0a50af">
 
 <!--
   LA VERIFICA DI GOOGLE
@@ -20,8 +20,8 @@
 
 <link rel="canonical" href="https://settegames.com/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SetteGames — giochi per telefono, fatti a Roma">
-<meta property="og:description" content="Settebello, le carte italiane. Last Sheep, cento pecore e un branco di lupi.">
+<meta property="og:title" content="SetteGames — scegli un gioco, si parte subito">
+<meta property="og:description" content="Settebello, le carte italiane. Last Sheep, cento pecore e un branco di lupi. E minigiochi da un minuto nel browser.">
 <meta property="og:image" content="https://settegames.com/img/settegames-anteprima.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,160 +29,146 @@
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64.png">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" href="img/icona-180.png">
+<link rel="preload" href="font/TitanOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 
 <header class="barra">
   <a class="marchio" href="./" aria-label="SetteGames, la home"><img src="img/settegames-logo.webp" alt="SetteGames" width="148" height="42"></a>
-  <nav>
-    <a href="#giochi">Giochi</a>
-    <a class="via" href="#chi-siamo">Chi siamo</a>
-    <a href="#contatti">Contatti</a>
+  <nav aria-label="Sezioni">
+    <a href="#settebello">Settebello</a>
+    <a href="#minigiochi">Minigiochi</a>
+    <a href="#last-sheep">Last Sheep</a>
+    <a class="via" href="#contatti">Contatti</a>
   </nav>
 </header>
 
 <main>
 
-  <!-- ------------------------------------------------------------ il palco -->
-  <div class="palco">
-    <div class="contenitore">
-      <div>
-        <span class="occhiello">Fatti a Roma</span>
-        <h1 class="nome"><img src="img/settegames-logo.webp" alt="SetteGames" width="600" height="170"></h1>
-        <p class="motto">Giochi <strong>da tasca</strong>, colorati e veloci: le carte
-        italiane di Settebello e la corsa pazza di Last Sheep.</p>
+  <!-- ------------------------------------------------------------ la vetrina -->
+  <section class="vetrina" aria-labelledby="titolo">
+    <h1 id="titolo">Scegli un gioco. Si parte subito.</h1>
+    <p class="riga">Carte di casa, pecore in fuga e partite da un minuto. Gratis.</p>
+
+    <div class="fila" id="fila">
+
+      <article class="posto" aria-labelledby="t-settebello">
+        <div class="palco"><div class="telefono">
+          <div class="schermo">
+            <img src="img/schermata-01.webp" alt="Una mano di Scopa in Settebello" width="720" height="1280">
+          </div>
+        </div></div>
+        <h2 id="t-settebello">Settebello</h2>
+        <p>Scopa Online, Scopone e altri quattro giochi con le carte napoletane.</p>
+        <a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.app&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" aria-label="Scarica Settebello da Google Play"><img src="img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+      </article>
+
+      <article class="posto centro" aria-labelledby="t-minigiochi">
+        <div class="palco"><div class="telefono">
+          <div class="schermo" id="schermo-mini">
+            <button class="accendi" type="button" id="accendi" aria-describedby="t-minigiochi">
+              <img src="games/perfect-timer/cover.png" alt="" width="390" height="844">
+              <span class="tocca">Tocca e gioca</span>
+            </button>
+          </div>
+        </div></div>
+        <h2 id="t-minigiochi">Minigiochi</h2>
+        <p>Perfect Timer: ferma il cronometro a 10 secondi esatti. Tocca lo schermo e giochi qui.</p>
+        <a class="tasto oro" href="games/perfect-timer/play/">Gioca ora</a>
+      </article>
+
+      <article class="posto sdraiato" aria-labelledby="t-lastsheep">
+        <div class="palco"><div class="telefono">
+          <div class="schermo">
+            <img src="img/lastsheep-02-corsa-giorno.webp" alt="Last Sheep: la corsa di giorno, coi lupi alle spalle" width="1200" height="675">
+          </div>
+        </div></div>
+        <h2 id="t-lastsheep">Last Sheep</h2>
+        <p>Cento pecore, un branco di lupi: vince l'ultima che resta in piedi.</p>
+        <a class="tasto chiaro" href="lastsheep/">Scopri Last Sheep</a>
+      </article>
+
+    </div>
+    <p class="scorri" aria-hidden="true">Scorri per vedere gli altri</p>
+  </section>
+
+  <!-- ------------------------------------------------------------ settebello -->
+  <section class="fascia" id="settebello" aria-labelledby="s-settebello">
+    <div class="dentro due">
+      <div class="testo">
+        <img class="logo-gioco" src="img/settebello-copertina.webp" alt="" width="1024" height="500" loading="lazy">
+        <h2 id="s-settebello">Settebello, le carte di casa</h2>
+        <p>Sei giochi in un'app sola: <strong>Scopa, Scopone scientifico, Scopone d'oro, Asso piglia tutto, Scopa a non prendere e Scopa bugiarda</strong>, dove dichiari cosa prendi e puoi mentire.</p>
+        <p>Al tavolo online in pochi secondi, oppure contro il computer anche senza internet. Un torneo ogni settimana, carte grandi per chi le vuole leggere bene.</p>
+        <p class="fatti">Android · Gratis · Si gioca anche offline</p>
         <div class="tasti">
-          <a class="tasto oro" href="#giochi">Scopri i giochi</a>
-          <a class="tasto chiaro" href="#contatti">Scrivici</a>
+          <a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.app&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" aria-label="Scarica Settebello da Google Play"><img src="img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72" loading="lazy"></a>
+          <a class="tasto chiaro" href="settebello/regole/">Le regole della Scopa</a>
         </div>
       </div>
-
-      <div class="ventaglio" aria-hidden="true">
-        <div class="carta c1"><img src="img/asso-coppe.webp" alt="" width="290" height="470"></div>
-        <div class="carta c2"><img src="img/settebello.webp" alt="" width="290" height="470"></div>
-        <div class="carta c3"><img src="img/re-bastoni.webp" alt="" width="290" height="470"></div>
-        <div class="bollino">Sei<br>giochi<br>in uno</div>
+      <div class="ventaglio" aria-label="Schermate di Settebello">
+        <img src="img/schermata-02.webp" alt="A Scopa bugiarda si può mentire" width="720" height="1280" loading="lazy">
+        <img src="img/schermata-04.webp" alt="Un torneo ogni settimana" width="720" height="1280" loading="lazy">
+        <img src="img/schermata-03.webp" alt="Dieci locali, dall'osteria alla reggia" width="720" height="1280" loading="lazy">
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ------------------------------------------------------------ i giochi -->
-  <section id="giochi">
-    <div class="contenitore">
-      <h2 class="titolo">I nostri <em>giochi</em></h2>
-      <p class="sottotitolo">Due, fatti bene. Gli altri arrivano.</p>
-
-      <article class="gioco">
-        <div class="copertina">
-          <img src="img/settebello-copertina.webp" alt="Settebello: Scopa e Scopone" width="1024" height="500" loading="lazy">
-        </div>
-        <div class="dentro">
-          <div class="riga">
-            <img class="icona" src="img/settebello-icona.webp" alt="" width="76" height="76" loading="lazy">
-            <div>
-              <h3>Settebello</h3>
-              <p class="sotto">Scopa e Scopone</p>
-            </div>
-          </div>
-          <p>Sei giochi di carte napoletane in un'app sola: Scopa, Scopone scientifico,
-          Asso piglia tutto, Scopone d'oro, Scopa a non prendere e Scopa bugiarda.
-          Tornei, classifiche e carte grandi per chi le vuole leggere bene.</p>
-          <ul class="pastiglie">
-            <li>Android</li>
-            <li class="calda">Presto su iPhone</li>
-            <li>Gratis</li>
-            <li>Si gioca anche offline</li>
-          </ul>
-          <p class="negozi"><a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.app&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" aria-label="Disponibile su Google Play"><img src="/img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72" style="display:block;height:72px;width:auto"></a></p>
-          <div class="tasti">
-            <a class="tasto viola" href="settebello/">La pagina del gioco</a>
-            <a class="tasto chiaro" href="settebello/#assistenza">Assistenza</a>
-          </div>
-        </div>
-      </article>
-
-      <div class="schermate">
-        <figure><img src="img/schermata-01.webp" alt="Una mano di scopa" width="720" height="1280" loading="lazy"></figure>
-        <figure><img src="img/schermata-02.webp" alt="A scopa bugiarda si può mentire" width="720" height="1280" loading="lazy"></figure>
-        <figure><img src="img/schermata-03.webp" alt="Dieci locali, dall'osteria alla reggia" width="720" height="1280" loading="lazy"></figure>
-        <figure><img src="img/schermata-04.webp" alt="Un torneo ogni settimana" width="720" height="1280" loading="lazy"></figure>
+  <!-- ------------------------------------------------------------ minigiochi -->
+  <section class="fascia chiara" id="minigiochi" aria-labelledby="s-minigiochi">
+    <div class="dentro due">
+      <div class="testo">
+        <h2 id="s-minigiochi">Minigiochi, da un minuto</h2>
+        <p class="intro">Si aprono nel browser e anche su Telegram. Niente da installare, nessuna registrazione: batti il tuo record e sfida gli amici.</p>
+        <p class="fatti scura">Gratis · Nel browser · Su Telegram</p>
+        <div class="tasti"><a class="tasto oro" href="games/perfect-timer/play/">Gioca a Perfect Timer</a><a class="tasto chiaro" href="games/">Tutti i minigiochi</a></div>
       </div>
+      <ul class="mini" id="elenco-mini">
+        <li>
+          <a href="games/perfect-timer/play/">
+            <img src="img/perfect-timer-gioco.webp" alt="Perfect Timer: la lancetta corre, va fermata in cima" width="720" height="1559" loading="lazy">
+            <span class="nome">Perfect Timer</span>
+            <span class="cosa">Ferma il cronometro esattamente a 10 secondi.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-      <article class="gioco gioco-2">
-        <div class="copertina">
-          <img src="img/lastsheep-copertina.webp" alt="Last Sheep Battle Royale" width="1024" height="500" loading="lazy">
+  <!-- ------------------------------------------------------------ last sheep -->
+  <section class="fascia" id="last-sheep" aria-labelledby="s-lastsheep">
+    <div class="dentro due rovescio">
+      <div class="testo">
+        <img class="logo-gioco" src="img/lastsheep-copertina.webp" alt="" width="1024" height="500" loading="lazy">
+        <h2 id="s-lastsheep">Last Sheep, l'ultima pecora vince</h2>
+        <p>Cento pecore corrono sullo stesso prato mentre i lupi arrivano da sinistra. Salti, usi il turbo e scappi. Sfida gli amici nella classifica della settimana.</p>
+        <p class="fatti">Android · Gratis · Si gioca online</p>
+        <div class="tasti">
+          <a class="tasto oro" href="lastsheep/">La pagina del gioco</a>
+          <a class="tasto chiaro" href="lastsheep/faq.html">Domande frequenti</a>
         </div>
-        <div class="dentro">
-          <div class="riga">
-            <img class="icona" src="img/lastsheep-icona.webp" alt="" width="76" height="76" loading="lazy">
-            <div>
-              <h3>Last Sheep</h3>
-              <p class="sotto">Battle Royale</p>
-            </div>
-          </div>
-          <p>Cento pecore corrono sullo stesso prato mentre un branco di lupi arriva da
-          sinistra. Salti, usi il turbo e scappi: vince l'ultima pecora rimasta. Sfida
-          gli amici nella classifica della settimana.</p>
-          <ul class="pastiglie">
-            <li>Android</li>
-            <li>Gratis</li>
-            <li class="calda">100 pecore, 1 vince</li>
-            <li>Si gioca online</li>
-          </ul>
-          <div class="tasti">
-            <a class="tasto viola" href="lastsheep/">La pagina del gioco</a>
-            <a class="tasto chiaro" href="lastsheep/faq.html">Domande frequenti</a>
-          </div>
-        </div>
-      </article>
-
-      <div class="schermate orizzontali">
-        <figure><img src="img/lastsheep-02-corsa-giorno.webp" alt="La corsa di giorno, coi lupi alle spalle" width="1200" height="675" loading="lazy"></figure>
-        <figure><img src="img/lastsheep-01-corsa-notte.webp" alt="La corsa di notte" width="1200" height="675" loading="lazy"></figure>
-        <figure><img src="img/lastsheep-03-poteri-turbo.webp" alt="Poteri e turbo" width="1200" height="675" loading="lazy"></figure>
+      </div>
+      <div class="orizzontali" aria-label="Schermate di Last Sheep">
+        <img src="img/lastsheep-01-corsa-notte.webp" alt="La corsa di notte" width="1200" height="675" loading="lazy">
+        <img src="img/lastsheep-03-poteri-turbo.webp" alt="Poteri e turbo" width="1200" height="675" loading="lazy">
       </div>
     </div>
   </section>
 
   <!-- ------------------------------------------------------------ chi siamo -->
-  <section id="chi-siamo">
-    <div class="contenitore">
-      <h2 class="titolo">Chi <em>siamo</em></h2>
-      <p class="sottotitolo">SetteGames è il marchio con cui PK - Project Key S.R.L. pubblica i suoi giochi.</p>
-      <div class="tre">
-        <div class="tessera">
-          <div class="tondo">7</div>
-          <h3>Le carte di casa</h3>
-          <p>Mazzi napoletani e piacentini, e le regole come si giocano davvero al tavolo.</p>
-        </div>
-        <div class="tessera">
-          <div class="tondo">♥</div>
-          <h3>Giochi, non trappole</h3>
-          <p>Si vince giocando bene. La pubblicità non interrompe mai una mano.</p>
-        </div>
-        <div class="tessera">
-          <div class="tondo">EU</div>
-          <h3>Dati in Europa</h3>
-          <p>Server europei, e niente cessione dei tuoi dati a terzi per il marketing.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ------------------------------------------------------------ contatti -->
-  <section id="contatti">
-    <div class="contenitore">
-      <div class="contatti">
-        <div>
-          <h2 class="titolo">Scrivici</h2>
-          <p>Assistenza sui giochi, idee, richieste sui dati personali:
-          <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>.
-          Rispondiamo entro trenta giorni, di solito molto prima.</p>
-        </div>
-        <div class="tasti">
-          <a class="tasto oro" href="mailto:supporto@settegames.com?subject=SetteGames">Mandaci un'email</a>
-        </div>
+  <section class="fascia notte" id="chi-siamo" aria-labelledby="s-chi">
+    <div class="dentro">
+      <h2 id="s-chi">Chi c'è dietro</h2>
+      <p class="intro">SetteGames è il marchio con cui PK - Project Key S.R.L., a Roma, pubblica i suoi giochi.</p>
+      <dl class="patti">
+        <div><dt>Le carte di casa</dt><dd>Mazzi napoletani, piacentini e bergamaschi, e le regole come si giocano al tavolo.</dd></div>
+        <div><dt>Giochi, non trappole</dt><dd>Si vince giocando bene. La pubblicità non interrompe mai una mano.</dd></div>
+        <div><dt>Dati in Europa</dt><dd>Server europei, e niente cessione dei tuoi dati a terzi per il marketing.</dd></div>
+      </dl>
+      <div class="contatti" id="contatti">
+        <p>Assistenza, idee, richieste sui dati personali: <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>. Rispondiamo entro trenta giorni, di solito molto prima.</p>
+        <a class="tasto oro" href="mailto:supporto@settegames.com?subject=SetteGames">Scrivici</a>
       </div>
     </div>
   </section>
@@ -190,9 +176,9 @@
 </main>
 
 <footer>
-  <div class="contenitore">
+  <div class="dentro">
     <div>
-      <div class="marchio"><img src="img/settegames-logo.webp" alt="SetteGames" width="134" height="38" loading="lazy"></div>
+      <img class="marchio-piede" src="img/settegames-logo.webp" alt="SetteGames" width="134" height="38" loading="lazy">
       <!-- Sede, registro delle imprese e REA, come vuole l'art. 2250 del Codice
            civile per il sito di una S.r.l. Servono anche ad Apple e a Google per
            riconoscere la società dietro al marchio: non si tolgono. -->
@@ -203,10 +189,59 @@
     <nav aria-label="Documenti">
       <a href="settebello/privacy.html">Privacy</a>
       <a href="settebello/termini.html">Termini</a>
+      <a href="games/privacy.html">Privacy dei minigiochi</a>
       <a href="settebello/elimina-account.html">Elimina l'account</a>
     </nav>
   </div>
 </footer>
 
+<script>
+/*
+ * Il telefono di mezzo si accende col minigioco vero, ma solo al tocco: il gioco
+ * pesa 2 MB e chi è venuto per le carte non lo deve scaricare.
+ */
+(function () {
+  var b = document.getElementById('accendi');
+  var s = document.getElementById('schermo-mini');
+  if (b && s) b.addEventListener('click', function () {
+    var f = document.createElement('iframe');
+    f.src = 'games/perfect-timer/play/';
+    f.title = 'Perfect Timer';
+    f.setAttribute('allow', 'autoplay; fullscreen');
+    s.classList.add('acceso');
+    s.appendChild(f);
+    var pronto = function () { s.classList.add('pronto'); f.focus(); };
+    f.addEventListener('load', pronto, { once: true });
+    setTimeout(pronto, 900); // il gioco ha la sua schermata di caricamento: non serve aspettarlo al buio
+  });
+
+  // Sul telefono la fila è un carosello: si parte dal telefono di mezzo, così spuntano tutti e due i vicini.
+  var fila = document.getElementById('fila'), centro = fila && fila.querySelector('.centro');
+  function centra() {
+    if (fila && centro && fila.scrollWidth > fila.clientWidth + 4) fila.scrollTo({ left: centro.offsetLeft - (fila.clientWidth - centro.clientWidth) / 2, behavior: 'instant' });
+  }
+  centra();
+  window.addEventListener('load', centra, { once: true });
+
+  // I minigiochi dal catalogo: quando ne arriva uno nuovo, compare da solo.
+  var ul = document.getElementById('elenco-mini');
+  if (ul && window.fetch) fetch('games/catalog.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (lista) {
+    if (!Array.isArray(lista) || !lista.length) return;
+    var primo = ul.firstElementChild;
+    ul.textContent = '';
+    lista.forEach(function (g) {
+      if (!/^[a-z0-9-]+$/.test(g.slug || '')) return;
+      if (g.slug === 'perfect-timer' && lista.length === 1) { ul.appendChild(primo); return; }
+      var li = document.createElement('li'), a = document.createElement('a'), img = document.createElement('img');
+      var n = document.createElement('span'), c = document.createElement('span');
+      a.href = 'games/' + g.slug + '/play/';
+      img.src = 'games/' + g.slug + '/cover.png'; img.alt = ''; img.width = 390; img.height = 844; img.loading = 'lazy';
+      n.className = 'nome'; n.textContent = g.name || g.slug;
+      c.className = 'cosa'; c.textContent = g.description || '';
+      a.append(img, n, c); li.appendChild(a); ul.appendChild(li);
+    });
+  }).catch(function () {});
+})();
+</script>
 </body>
 </html>

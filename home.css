@@ -1,316 +1,312 @@
 /*
- * LA HOME DI SETTEGAMES (1 ottobre 2026)
- * ======================================
- * Giorgio: «rifallo molto più cool con il titolo SetteGames». Lo stile è quello
- * dell'app — POP, viola acceso, angoli tondi, ombre colorate, Titan One per i
- * titoli e Baloo 2 per i tasti — e il fondo resta chiaro.
+ * LA HOME DI SETTEGAMES — LA VETRINA DEI TELEFONI (8 ottobre 2026)
+ * ================================================================
+ * Giorgio, 8 ott: «a livello grafico sei veramente pessimo… rivedi il sito
+ * considerando che abbiamo aggiunto la sezione dei minigiochi». Rifatta con la
+ * skill impeccable (`sito/PRODUCT.md`, brief in `sito/.impeccable/surfaces/`):
+ * la home è la vetrina stessa, tre telefoni accesi alla pari — Settebello,
+ * Minigiochi, Last Sheep — e quello di mezzo si accende col gioco vero.
  *
- * Solo la home usa questo foglio: le pagine dei giochi e i documenti di legge
- * restano su `stile.css`, sobri, perché si leggono e basta.
+ * Il mondo è quello delle immagini di Play del gioco (`docs/store/brand-kit.json`):
+ * il cielo dell'icona in sfumatura coi raggi bianchi, Titan One bianco col
+ * contorno blu notte, Baloo 2 ambra, cornici crema dei telefoni.
  *
- * I caratteri stanno qui sul sito (`font/`) e non su Google Fonts: caricarli da
- * Google vorrebbe dire mandargli l'indirizzo di ogni visitatore, e dirlo
- * nell'informativa. Il corpo del testo usa il carattere del sistema: Baloo 2 in
- * tutti i pesi costerebbe quasi un megabyte.
+ * I caratteri stanno sul sito (`font/`), non su Google Fonts: caricarli da Google
+ * vorrebbe dire mandargli l'indirizzo di ogni visitatore. Il corpo del testo usa
+ * il carattere del sistema. Solo la home usa questo foglio.
  */
 @font-face { font-family: 'Titan One'; src: url('font/TitanOne-Regular.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'Baloo 2'; src: url('font/Baloo2-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
 
 :root {
-  --viola: #7c4dff;
-  --viola-scuro: #5b2ee0;
-  --notte: #2a1170;
-  --inchiostro: #24124f;
-  --testo: #4a3d72;
-  --oro: #ffc93c;
-  --oro-scuro: #f59e0b;
-  --rosa: #ff3d8b;
-  --lime: #9be15d;
-  --cielo: #33b5ff;
-  --carta: #ffffff;
-  --fondo: #f4f0ff;
-  --bordo: #e6ddff;
+  --cielo: #3ac5fa;
+  --mare: #0a50af;
+  --abisso: #073a86;
+  --notte: #042c68;
+  --ambra: #ffc93d;
+  --ambra-scura: #e09b00;
+  --crema: #fffdf6;
+  --bianco: #ffffff;
+  --testo-chiaro: #e8f4ff;
+  --raggi: repeating-conic-gradient(from -2.5deg at 50% 0%, rgba(255, 255, 255, .13) 0deg 5deg, transparent 5deg 10deg);
+  --ombra-telefono: 0 28px 50px -18px rgba(4, 44, 104, .65), 0 8px 18px -8px rgba(4, 44, 104, .45);
+  --ombra-tasto: 0 10px 20px -8px rgba(4, 44, 104, .55);
+  --titoli: 'Titan One', 'Baloo 2', system-ui, sans-serif;
+  --tasti: 'Baloo 2', system-ui, sans-serif;
+  --corpo: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { overflow-x: clip; scroll-behavior: smooth; scrollbar-color: var(--cielo) var(--abisso); }
 body {
-  margin: 0;
-  background: var(--fondo);
-  color: var(--testo);
-  font: 17px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0; overflow-x: clip;
+  background: var(--abisso);
+  color: var(--testo-chiaro);
+  font: 18px/1.55 var(--corpo);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
-/* `height: auto`: le immagini hanno larghezza e altezza scritte nella pagina (per non
-   far saltare il testo mentre arrivano); senza, la larghezza si stringe e l'altezza
-   resta quella scritta, e le schermate escono stirate. */
+::selection { background: var(--ambra); color: var(--notte); }
+:focus-visible { outline: 4px solid var(--ambra); outline-offset: 4px; border-radius: 10px; }
+a { color: var(--bianco); text-underline-offset: .18em; text-decoration-thickness: 2px; }
 img { max-width: 100%; height: auto; display: block; }
-a { color: var(--viola-scuro); font-weight: 600; }
 
-.contenitore { width: min(1120px, 100% - 32px); margin: 0 auto; }
+/* I titoli: bianchi col contorno, come sulle immagini dello store. */
+h1, h2, .tasto, .nome {
+  font-family: var(--titoli);
+  font-weight: 400;
+  letter-spacing: .005em;
+}
+h1, .vetrina h2, .fascia h2 {
+  color: var(--bianco);
+  -webkit-text-stroke: .14em var(--notte);
+  paint-order: stroke fill;
+  text-wrap: balance;
+}
 
-/* ------------------------------------------------------------ la testata */
+/* ------------------------------------------------------------ la barra */
 .barra {
   position: absolute; inset: 0 0 auto 0; z-index: 5;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px max(16px, calc((100% - 1120px) / 2));
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: max(14px, env(safe-area-inset-top)) clamp(16px, 4vw, 48px) 14px;
 }
-.barra .marchio { font: 26px/1 'Titan One', system-ui; color: #fff; text-decoration: none; letter-spacing: .5px; }
-.barra .marchio b { color: var(--oro); font-weight: 400; }
-.barra nav { display: flex; gap: 6px; }
+.barra .marchio img { width: clamp(118px, 12vw, 148px); }
+.barra nav { display: flex; gap: clamp(6px, 1.4vw, 18px); }
 .barra nav a {
-  font: 800 15px/1 'Baloo 2', system-ui; color: #fff; text-decoration: none;
-  padding: 10px 14px; border-radius: 999px; background: rgba(255,255,255,.14);
+  font: 800 16px/1 var(--tasti); color: var(--bianco); text-decoration: none;
+  padding: 10px 14px; border-radius: 999px;
+  background: rgba(4, 44, 104, .42);
+  transition: background-color .2s ease-out;
 }
-.barra nav a:hover { background: rgba(255,255,255,.26); }
+.barra nav a:hover { background: rgba(4, 44, 104, .7); }
 
-/* ------------------------------------------------------------ il palco */
-.palco {
-  position: relative; overflow: hidden; color: #fff;
-  padding: 120px 0 150px;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.22), transparent 60%),
-    linear-gradient(160deg, #9a6bff 0%, var(--viola) 40%, var(--viola-scuro) 100%);
+/* ------------------------------------------------------------ la vetrina */
+.vetrina {
+  position: relative; overflow: hidden;
+  padding: clamp(84px, 7vw, 100px) clamp(16px, 4vw, 48px) clamp(48px, 6vw, 80px);
+  background: linear-gradient(180deg, var(--cielo) 0%, #1c8fe0 26%, var(--mare) 58%, var(--abisso) 100%);
+  text-align: center;
+  isolation: isolate;
 }
-/* I raggi, come sulla copertina dello store: un ventaglio conico che gira piano. */
-.palco::before {
-  content: ''; position: absolute; left: 50%; top: 38%; width: 2400px; height: 2400px;
-  margin: -1200px 0 0 -1200px; pointer-events: none;
-  background: repeating-conic-gradient(from 0deg, rgba(255,255,255,.09) 0 7deg, transparent 7deg 18deg);
-  animation: gira 90s linear infinite;
+.vetrina::before, .fascia.chiara::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: var(--raggi);
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
+  mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
 }
-/* Il bordo in basso è un'onda, non una riga dritta. */
-.palco::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 90px;
-  background: var(--fondo);
-  clip-path: ellipse(75% 100% at 50% 100%);
+.vetrina h1 {
+  margin: 0 auto;
+  font-size: clamp(36px, 4.6vw, 66px);
+  line-height: 1.04;
+  max-width: 24ch;
 }
-@keyframes gira { to { transform: rotate(360deg); } }
+.vetrina .riga {
+  margin: 10px auto 0;
+  font: 800 clamp(18px, 1.7vw, 24px)/1.3 var(--tasti);
+  text-wrap: balance;
+  color: var(--ambra);
+  -webkit-text-stroke: .2em var(--notte);
+  paint-order: stroke fill;
+  max-width: 36ch;
+}
 
-.palco .contenitore { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: 24px; }
-
-.occhiello {
-  display: inline-block; font: 800 14px/1 'Baloo 2', system-ui; letter-spacing: 1.5px; text-transform: uppercase;
-  background: var(--rosa); color: #fff; padding: 9px 14px 7px; border-radius: 999px;
-  box-shadow: 0 6px 18px rgba(255,61,139,.45);
+/* La fila: tre posti alla pari, quello di mezzo un po' più avanti. */
+.fila {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr 1fr;
+  align-items: end;
+  gap: clamp(20px, 3.5vw, 56px);
+  max-width: 1180px;
+  margin: clamp(20px, 2.6vw, 36px) auto 0;
+}
+.posto { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+/* Il palco di ogni telefono è alto uguale: i nomi stanno sulla stessa riga. */
+.palco { height: clamp(380px, 29vw, 430px); width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.posto h2 { margin: 20px 0 6px; font-size: clamp(28px, 2.6vw, 38px); line-height: 1; }
+.posto p {
+  margin: 0 0 14px; max-width: 30ch; min-height: 2.9em;
+  color: var(--bianco); font-size: 17px; line-height: 1.45;
+  text-shadow: 0 1px 2px rgba(4, 44, 104, .6);
 }
 
-/* Il nome: oro con il bordo viola notte, come il logo del gioco. */
-.nome {
-  margin: 18px 0 8px;
-  font: clamp(44px, 7vw, 84px)/.95 'Titan One', system-ui; letter-spacing: 1px;
-  white-space: nowrap;
-  color: var(--oro);
-  text-shadow:
-    0 3px 0 var(--oro-scuro), 0 6px 0 var(--notte),
-    3px 0 0 var(--notte), -3px 0 0 var(--notte), 0 -3px 0 var(--notte),
-    3px 3px 0 var(--notte), -3px 3px 0 var(--notte), 3px -3px 0 var(--notte), -3px -3px 0 var(--notte),
-    0 14px 28px rgba(20,4,70,.45);
+/* Il telefono: cornice crema, schermo nero con la cosa vera dentro. */
+.telefono {
+  width: min(100%, 186px);
+  padding: 10px;
+  border-radius: 38px;
+  background: var(--crema);
+  box-shadow: var(--ombra-telefono), inset 0 0 0 1px rgba(4, 44, 104, .08);
+  position: relative;
 }
-.nome span { color: #fff; }
-.motto { font-size: clamp(19px, 2.3vw, 23px); line-height: 1.45; margin: 0 0 28px; max-width: 30ch; color: #f3edff; }
-.motto strong { color: #fff; }
+.telefono::before { /* l'altoparlante */
+  content: ''; position: absolute; z-index: 2; top: 18px; left: 50%;
+  width: 56px; height: 7px; margin-left: -28px; border-radius: 99px;
+  background: rgba(4, 44, 104, .55);
+}
+.schermo {
+  position: relative; overflow: hidden;
+  aspect-ratio: 9 / 19.5;
+  border-radius: 29px;
+  background: #0b1430;
+}
+.schermo img { width: 100%; height: 100%; object-fit: cover; }
+.centro .telefono { width: min(100%, 204px); }
 
-.tasti { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Last Sheep si gioca in orizzontale: il suo telefono è sdraiato. */
+.sdraiato .telefono { width: min(125%, 480px); transform: rotate(-4deg); margin-bottom: 70px; }
+.sdraiato .schermo { aspect-ratio: 19.5 / 9; }
+.sdraiato .telefono::before { top: 50%; left: 18px; width: 7px; height: 46px; margin: -23px 0 0; }
+
+/* Il telefono di mezzo, prima e dopo il tocco. */
+.accendi {
+  all: unset; position: absolute; inset: 0; cursor: pointer; display: block;
+}
+.accendi img { width: 100%; height: 100%; object-fit: cover; transition: filter .5s cubic-bezier(.16, 1, .3, 1), transform .5s cubic-bezier(.16, 1, .3, 1); }
+.accendi:hover img { transform: scale(1.03); filter: brightness(1.06); }
+.tocca { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.centro .telefono::after {
+  content: 'Tocca e gioca'; position: absolute; z-index: 3; top: -18px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+  white-space: nowrap; pointer-events: none;
+  font: 400 19px/1 var(--titoli); color: var(--notte);
+  background: var(--ambra); padding: 11px 18px; border-radius: 999px;
+  box-shadow: var(--ombra-tasto);
+}
+.centro .telefono:has(.acceso)::after { opacity: 0; transition: opacity .3s ease-out; }
+.centro .schermo:not(.acceso) { animation: chiama 2.6s cubic-bezier(.45, 0, .55, 1) infinite; }
+@keyframes chiama { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 201, 61, 0); } 50% { box-shadow: 0 0 0 5px rgba(255, 201, 61, .95), 0 0 42px 8px rgba(255, 201, 61, .45); } }
+.schermo iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  opacity: 0; transition: opacity .45s ease-out;
+}
+.schermo.acceso { box-shadow: 0 0 0 3px var(--ambra), 0 0 60px 6px rgba(255, 201, 61, .55); transition: box-shadow .6s cubic-bezier(.16, 1, .3, 1); }
+.schermo.acceso .accendi { pointer-events: none; }
+.schermo.acceso .accendi img { filter: brightness(1.6) blur(6px); }
+.schermo.pronto iframe { opacity: 1; }
+
+.scorri { display: none; }
+
+/* ------------------------------------------------------------ i tasti */
 .tasto {
-  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
-  font: 800 18px/1 'Baloo 2', system-ui; padding: 16px 24px 14px; border-radius: 18px;
-  transition: transform .15s ease, box-shadow .15s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 56px; padding: 0 28px; border-radius: 999px;
+  font-size: 20px; text-decoration: none; color: var(--notte);
+  box-shadow: var(--ombra-tasto);
+  transition: transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s ease-out;
 }
-.tasto:hover { transform: translateY(-2px); }
-.tasto:active { transform: translateY(2px); }
-.tasto.oro { background: var(--oro); color: #3a2600; box-shadow: 0 6px 0 var(--oro-scuro), 0 14px 26px rgba(245,158,11,.4); }
-.tasto.chiaro { background: #fff; color: var(--viola-scuro); box-shadow: 0 6px 0 #d8cbff, 0 14px 26px rgba(42,17,112,.25); }
-.tasto.viola { background: var(--viola); color: #fff; box-shadow: 0 6px 0 var(--viola-scuro), 0 14px 26px rgba(124,77,255,.35); }
+.tasto:hover { transform: translateY(-2px); box-shadow: 0 14px 24px -10px rgba(4, 44, 104, .6); }
+.tasto:active { transform: translateY(1px); }
+.tasto.oro { background: linear-gradient(180deg, #ffd65f, var(--ambra) 60%, #f5b524); }
+.tasto.chiaro { background: var(--bianco); }
+.badge-store { display: inline-block; border-radius: 12px; box-shadow: var(--ombra-tasto); transition: transform .18s cubic-bezier(.16, 1, .3, 1); }
+.badge-store:hover { transform: translateY(-2px); }
+.badge-store img { height: 58px; width: auto; }
 
-/* ------------------------------------------------------------ il ventaglio */
-.ventaglio { position: relative; height: 380px; }
-.ventaglio .carta {
-  position: absolute; left: 50%; top: 50%; width: 170px; aspect-ratio: 290 / 470;
-  margin: -138px 0 0 -85px; border-radius: 14px; overflow: hidden; background: #fff;
-  border: 4px solid #fff;
-  box-shadow: 0 18px 40px rgba(20,4,70,.38);
-  animation: galleggia 6s ease-in-out infinite;
-}
-.ventaglio .carta img { width: 100%; height: 100%; object-fit: cover; }
-.ventaglio .c1 { transform: translateX(-118px) rotate(-16deg); animation-delay: -1s; }
-.ventaglio .c3 { transform: translateX(118px) rotate(16deg); animation-delay: -3s; }
-.ventaglio .c2 {
-  z-index: 2; width: 190px; margin: -160px 0 0 -95px;
-  border-color: var(--oro); box-shadow: 0 0 0 4px rgba(255,201,60,.45), 0 24px 50px rgba(20,4,70,.45);
-  --r: 0deg;
-}
-.ventaglio .c1 { --r: -16deg; --x: -118px; }
-.ventaglio .c3 { --r: 16deg; --x: 118px; }
-.ventaglio .c2 { --x: 0px; }
-@keyframes galleggia {
-  0%, 100% { transform: translateX(var(--x)) translateY(0) rotate(var(--r)); }
-  50% { transform: translateX(var(--x)) translateY(-12px) rotate(var(--r)); }
-}
-.ventaglio .bollino {
-  position: absolute; z-index: 3; right: 6%; top: 4%;
-  font: 800 15px/1.05 'Baloo 2', system-ui; text-align: center; color: #3a2600;
-  width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--lime); box-shadow: 0 8px 0 #6fb43a, 0 16px 30px rgba(20,4,70,.3);
-  transform: rotate(12deg);
-}
+/* ------------------------------------------------------------ le fasce */
+.fascia { padding: clamp(64px, 9vw, 120px) clamp(16px, 4vw, 48px); background: var(--abisso); }
+.fascia + .fascia { padding-top: clamp(40px, 6vw, 80px); }
+.dentro { max-width: 1120px; margin: 0 auto; }
+.due { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
+.rovescio .testo { order: 2; }
+.fascia h2 { margin: 0 0 18px; font-size: clamp(32px, 4vw, 52px); line-height: 1.05; }
+.fascia p { max-width: 58ch; margin: 0 0 14px; }
+.fascia strong { color: var(--bianco); }
+.logo-gioco { width: min(100%, 360px); border-radius: 22px; margin-bottom: 26px; box-shadow: var(--ombra-telefono); }
+.fatti { font: 800 17px/1.4 var(--tasti); color: var(--ambra); letter-spacing: .01em; }
+.fatti.scura { color: var(--notte); }
+.tasti { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 22px; }
 
-/* ------------------------------------------------------------ le sezioni */
-section { padding: 64px 0; }
-.titolo {
-  font: clamp(32px, 4.5vw, 46px)/1.05 'Titan One', system-ui; color: var(--inchiostro);
-  margin: 0 0 10px; letter-spacing: .5px;
+/* Le schermate di Settebello: tre telefoni aperti a ventaglio. */
+.ventaglio { position: relative; height: clamp(380px, 42vw, 520px); }
+.ventaglio img {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(150px, 15vw, 210px);
+  border: 8px solid var(--crema); border-radius: 28px;
+  box-shadow: var(--ombra-telefono);
 }
-.titolo em { font-style: normal; color: var(--viola); }
-.sottotitolo { margin: 0 0 34px; font-size: 19px; max-width: 46ch; }
+.ventaglio img:nth-child(1) { transform: translate(-125%, -46%) rotate(-9deg); }
+.ventaglio img:nth-child(2) { transform: translate(-50%, -54%); z-index: 2; }
+.ventaglio img:nth-child(3) { transform: translate(25%, -46%) rotate(9deg); }
 
-/* La scheda del gioco */
-.gioco {
-  background: var(--carta); border-radius: 32px; overflow: hidden;
-  box-shadow: 0 2px 0 var(--bordo), 0 24px 60px rgba(91,46,224,.16);
-  /* La copertina **sopra**, a tutta larghezza: di fianco al testo la colonna
-     era più alta di lei, e restavano bande blu sopra e sotto. */
-  display: grid; grid-template-columns: minmax(0, 1fr);
-}
-/* La copertina si vede **intera**, nelle sue proporzioni (1024×500): se la
-   scheda è più alta, intorno resta il suo azzurro, non un ritaglio. */
-.gioco .copertina { background: #2f8bff; }
-.gioco .copertina img { width: 100%; height: auto; }
-.gioco .dentro { padding: 30px 40px 36px; }
-.gioco .dentro > p { max-width: 70ch; }
-.gioco .riga { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-.gioco .icona { width: 76px; height: 76px; border-radius: 20px; box-shadow: 0 8px 20px rgba(91,46,224,.25); }
-.gioco h3 { margin: 0; font: 30px/1.05 'Titan One', system-ui; color: var(--inchiostro); }
-.gioco .sotto { margin: 4px 0 0; font: 800 15px/1 'Baloo 2', system-ui; color: var(--viola); letter-spacing: .5px; text-transform: uppercase; }
-.gioco p { margin: 0 0 18px; }
-.pastiglie { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
-.pastiglie li {
-  font: 800 14px/1 'Baloo 2', system-ui; padding: 9px 12px 7px; border-radius: 999px;
-  background: var(--fondo); color: var(--viola-scuro); border: 1.5px solid var(--bordo);
-}
-.pastiglie li.calda { background: #fff4d6; color: #8a5a00; border-color: #ffe29a; }
+.orizzontali { display: grid; gap: 18px; }
+.orizzontali img { border: 8px solid var(--crema); border-radius: 24px; box-shadow: var(--ombra-telefono); }
+.orizzontali img:nth-child(2) { width: 82%; justify-self: end; margin-top: -40px; position: relative; }
 
-/* Le schermate: telefoni in fila, che scorrono sul telefono */
-.schermate {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 34px;
+/* I minigiochi: la fascia chiara, il cielo di giorno. */
+.fascia.chiara {
+  background: linear-gradient(180deg, var(--cielo), #1f9be6);
+  color: var(--notte);
+  position: relative; isolation: isolate;
+  padding-top: clamp(64px, 9vw, 120px);
 }
-.schermate figure { margin: 0; }
-.schermate img {
-  width: 100%; border-radius: 26px; border: 6px solid #fff;
-  box-shadow: 0 18px 40px rgba(91,46,224,.22);
-  transition: transform .2s ease;
+.fascia.chiara a { color: var(--notte); }
+.intro { font-size: 20px; }
+.mini { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; }
+.mini li { width: min(100%, 240px); }
+.mini li:only-child { width: min(100%, 260px); text-align: center; }
+.mini a { display: block; text-decoration: none; }
+.mini img {
+  aspect-ratio: 9 / 19.5; object-fit: cover; width: 100%;
+  border: 9px solid var(--crema); border-radius: 30px; box-shadow: var(--ombra-telefono);
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1);
 }
-.schermate figure:nth-child(odd) img { transform: rotate(-2deg); }
-.schermate figure:nth-child(even) img { transform: rotate(2deg) translateY(14px); }
-.schermate img:hover { transform: rotate(0) scale(1.03); }
+.mini a:hover img { transform: translateY(-6px) rotate(-1.5deg); }
+.mini .nome { display: block; margin-top: 16px; font-size: 24px; color: var(--bianco); -webkit-text-stroke: .14em var(--notte); paint-order: stroke fill; }
+.mini .cosa { display: block; margin-top: 4px; font-size: 16px; line-height: 1.4; }
+.altri { margin-top: 28px; font: 800 18px/1 var(--tasti); }
 
-/* Le schermate orizzontali (Last Sheep): tre in fila, senza inclinarle troppo. */
-.gioco-2 { margin-top: 56px; }
-.gioco-2 .copertina { background: #7cc8f5; }
-.schermate.orizzontali { grid-template-columns: repeat(3, 1fr); }
-.schermate.orizzontali img { border-radius: 20px; border-width: 5px; }
-.schermate.orizzontali figure:nth-child(odd) img { transform: rotate(-1deg); }
-.schermate.orizzontali figure:nth-child(even) img { transform: rotate(1deg) translateY(10px); }
-
-/* Tre cose su di noi */
-.tre { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.tessera {
-  background: #fff; border-radius: 26px; padding: 26px 24px 24px;
-  box-shadow: 0 2px 0 var(--bordo), 0 16px 40px rgba(91,46,224,.1);
-}
-.tessera .tondo {
-  width: 54px; height: 54px; border-radius: 18px; display: grid; place-items: center;
-  font: 26px/1 'Titan One', system-ui; color: #fff; margin-bottom: 14px;
-}
-.tessera:nth-child(1) .tondo { background: var(--rosa); box-shadow: 0 8px 18px rgba(255,61,139,.35); }
-.tessera:nth-child(2) .tondo { background: var(--cielo); box-shadow: 0 8px 18px rgba(51,181,255,.35); }
-.tessera:nth-child(3) .tondo { background: var(--lime); box-shadow: 0 8px 18px rgba(111,180,58,.35); color: #24440a; }
-.tessera h3 { margin: 0 0 6px; font: 800 21px/1.2 'Baloo 2', system-ui; color: var(--inchiostro); }
-.tessera p { margin: 0; font-size: 16px; }
-
-/* Contatti */
+/* Chi siamo: la notte, dopo i giochi. */
+.fascia.notte { background: linear-gradient(180deg, var(--abisso), var(--notte)); }
+.patti { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 4vw, 48px); margin: 36px 0 0; }
+.patti div { border-top: 2px solid rgba(255, 201, 61, .55); padding-top: 16px; }
+.patti dt { font: 800 21px/1.2 var(--tasti); color: var(--ambra); }
+.patti dd { margin: 8px 0 0; }
 .contatti {
-  position: relative; overflow: hidden; border-radius: 32px; color: #fff; padding: 44px 40px;
-  background: linear-gradient(135deg, var(--viola) 0%, var(--viola-scuro) 100%);
-  box-shadow: 0 24px 60px rgba(91,46,224,.3);
-  display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center;
+  display: flex; flex-wrap: wrap; gap: 20px 36px; align-items: center; justify-content: space-between;
+  margin-top: clamp(48px, 7vw, 80px); padding: 28px 32px; border-radius: 28px;
+  background: rgba(58, 197, 250, .12);
 }
-.contatti::before {
-  content: '7'; position: absolute; right: -10px; bottom: -110px; font: 340px/1 'Titan One', system-ui;
-  color: rgba(255,255,255,.08); pointer-events: none;
-}
-.contatti .titolo { color: #fff; }
-.contatti p { margin: 0 0 10px; color: #efe9ff; }
-.contatti a { color: var(--oro); }
-.contatti .tasti { justify-content: flex-end; position: relative; }
+.contatti p { margin: 0; }
 
 /* ------------------------------------------------------------ il piede */
-footer { padding: 40px 0 46px; font-size: 14.5px; color: #6d6292; }
-footer .contenitore { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: end; }
-footer .marchio { font: 24px/1 'Titan One', system-ui; color: var(--inchiostro); margin-bottom: 10px; }
-footer .marchio b { color: var(--viola); font-weight: 400; }
-footer p { margin: 0 0 4px; }
-footer nav { display: flex; flex-wrap: wrap; gap: 14px; justify-content: flex-end; }
-footer nav a { color: var(--viola-scuro); font-weight: 600; text-decoration: none; }
-footer nav a:hover { text-decoration: underline; }
+footer { background: var(--notte); padding: 40px clamp(16px, 4vw, 48px) max(40px, env(safe-area-inset-bottom)); font-size: 14px; color: #bcd3f2; }
+footer .dentro { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: flex-start; }
+footer p { margin: 4px 0; }
+footer strong { color: var(--bianco); }
+.marchio-piede { width: 134px; margin-bottom: 12px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+footer nav a { color: #dbe9fb; }
 
-/* ------------------------------------------------------------ il telefono */
+/* ------------------------------------------------------------ telefono */
 @media (max-width: 860px) {
-  .barra nav a.via { display: none; }
-  .palco { padding: 100px 0 120px; }
-  .palco .contenitore { grid-template-columns: minmax(0, 1fr); text-align: center; }
-  /* «SetteGames» in una riga anche a 320 punti: dieci lettere di Titan One. */
-  .nome { font-size: clamp(38px, 12vw, 64px); }
-  .motto { margin-left: auto; margin-right: auto; }
-  .tasti { justify-content: center; }
-  .ventaglio { height: 300px; margin-top: 10px; }
-  .ventaglio .carta { width: 130px; margin: -105px 0 0 -65px; }
-  .ventaglio .c2 { width: 146px; margin: -118px 0 0 -73px; }
-  .ventaglio .c1 { --x: -92px; }
-  .ventaglio .c3 { --x: 92px; }
-  .ventaglio .bollino { width: 80px; height: 80px; font-size: 13px; right: 2%; }
-  .gioco { grid-template-columns: minmax(0, 1fr); }
-  .gioco .dentro { padding: 26px 22px 28px; }
-  .gioco .tasti { justify-content: flex-start; }
-  .schermate {
-    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px;
-    margin: 30px -16px 0; padding: 6px 16px 26px;
+  .barra nav a:not(.via) { display: none; }
+  /* La fila diventa un carosello a scatti: un telefono per volta, i vicini spuntano. */
+  .fila {
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * clamp(16px, 4vw, 48px)); padding: 6px 18vw 28px; max-width: 100vw;
+    scrollbar-width: none; align-items: flex-end; position: relative;
   }
-  .schermate figure { flex: 0 0 62%; scroll-snap-align: center; }
-  .schermate.orizzontali figure { flex: 0 0 86%; }
-  .schermate figure:nth-child(even) img { transform: rotate(2deg); }
-  .tre { grid-template-columns: 1fr; }
-  .contatti { grid-template-columns: minmax(0, 1fr); padding: 34px 24px; }
-  .contatti a { overflow-wrap: anywhere; }
-  .contatti .tasti { justify-content: flex-start; }
-  footer .contenitore { grid-template-columns: 1fr; }
-  footer nav { justify-content: flex-start; }
-}
-
-/* I telefoni stretti (320–380 punti): un tasto solo in testata, ventaglio più chiuso. */
-@media (max-width: 400px) {
-  .barra .marchio { font-size: 22px; }
-  .barra nav a:not([href="#contatti"]) { display: none; }
-  .ventaglio { height: 250px; }
-  .ventaglio .carta { width: 108px; margin: -88px 0 0 -54px; }
-  .ventaglio .c2 { width: 122px; margin: -99px 0 0 -61px; }
-  .ventaglio .c1 { --x: -74px; }
-  .ventaglio .c3 { --x: 74px; }
-  .ventaglio .bollino { width: 70px; height: 70px; font-size: 12px; right: 0; }
+  .fila::-webkit-scrollbar { display: none; }
+  .posto { flex: 0 0 64vw; scroll-snap-align: center; }
+  .palco { height: 380px; }
+  .telefono, .centro .telefono { width: min(100%, 172px); }
+  .sdraiato .telefono { margin-bottom: 120px; }
+  .posto p { min-height: 0; font-size: 16px; max-width: 100%; }
+  .sdraiato .telefono { width: 100%; }
+  .scorri {
+    display: block; margin: 6px 0 0;
+    font: 800 15px/1 var(--tasti); color: var(--testo-chiaro); opacity: .85;
+  }
+  .due { grid-template-columns: 1fr; }
+  .rovescio .testo { order: 0; }
+  .ventaglio { height: 340px; }
+  .ventaglio img { width: 128px; border-width: 6px; }
+  .ventaglio img:nth-child(1) { transform: translate(-112%, -46%) rotate(-8deg); }
+  .ventaglio img:nth-child(3) { transform: translate(12%, -46%) rotate(8deg); }
+  .patti { grid-template-columns: 1fr; }
+  .mini li { width: calc(50% - 14px); }
+  .mini li:only-child { width: min(100%, 240px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .palco::before, .ventaglio .carta { animation: none; }
   html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-
-/* Il logo vero di SetteGames (7 ott 2026, grafica/logo-settegames): al posto del nome scritto. */
-.barra .marchio img { display: block; height: 42px; width: auto; }
-.nome img { display: block; width: min(600px, 100%); height: auto; margin: 4px 0 6px -6px; }
-footer .marchio img { display: block; height: 38px; width: auto; }
-@media (max-width: 860px) { .nome img { margin: 4px auto 6px; } }
-
-/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
-.negozi { margin: 16px 0 4px; }
-.badge-store { display: inline-block; flex-shrink: 0; }
