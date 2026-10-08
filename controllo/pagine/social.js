@@ -66,7 +66,8 @@ export async function disegna(ctx) {
   } catch (e) { return [erroreBox(e)]; }
   const tt = r.tiktok;
   // Calendario, community e concorrenti: se uno non risponde (migrazione 0092 non ancora fatta), il resto si vede.
-  const [cal, com, conc] = await Promise.all([api.calendario(), api.comunita(), api.concorrenti()].map((p) => p.catch((e) => e)));
+  const indietro = new Date(Date.now() - 30 * 86_400_000).toLocaleDateString('sv-SE', { timeZone: 'Europe/Rome' });
+  const [cal, com, conc, fatti] = await Promise.all([api.calendario(), api.comunita(), api.concorrenti(), api.calendario(indietro)].map((p) => p.catch((e) => e)));
 
   return [
     collegamento ? erroreBox(collegamento) : null,
@@ -85,6 +86,7 @@ export async function disegna(ctx) {
         class: 'bottone', type: 'button', onclick: async (e) => { e.stopPropagation(); await aggiorna(ctx, p.id); },
       }, 'Check status')) },
     ], r.post ?? [], { vuoto: 'Nothing posted yet.' })),
+    fatti instanceof Error ? null : risultati(fatti.contenuti ?? []),
     cal instanceof Error ? scheda('Content calendar', erroreBox(cal)) : calendario(ctx, cal, clip),
     com instanceof Error ? scheda('Communities', erroreBox(com)) : comunita(ctx, com.comunita ?? []),
     conc instanceof Error ? scheda('Competitor reviews', erroreBox(conc)) : concorrenti(conc),
@@ -228,6 +230,61 @@ function modulo(ctx, tt, clip) {
       dichiarazione, errore, invia));
 }
 
+/* ------------------------------------------------------------ i numeri dei post (0095) */
+
+/*
+ * I numeri di ogni post pubblicato (8 ott 2026): li legge la raccolta del mattino da
+ * Meta (`_cassa/social.ts`, `misuraIPubblicati`), più installazioni e attivati dal
+ * referrer di Play con lo stesso content ID. Giorgio: «andare a tentativi e monitorare
+ * se portano quello che ci serve» — qui si vede quale formato porta gente.
+ */
+const numero = (x) => (typeof x === 'number' ? x.toLocaleString('en-US') : '—');
+const brevi = (m = {}) => [
+  m.views != null ? `${numero(m.views)} views` : null,
+  m.like != null ? `${numero(m.like)} likes` : null,
+  m.installazioni ? `${numero(m.installazioni)} installs` : null,
+].filter(Boolean).join(' · ');
+
+function risultati(righe) {
+  const pubblicati = righe.filter((r) => r.stato === 'pubblicata')
+    .sort((a, b) => String(b.pubblicato_il ?? '').localeCompare(String(a.pubblicato_il ?? '')));
+  if (!pubblicati.length) return null;
+  const somma = (k) => pubblicati.reduce((s, r) => s + (Number(r.metriche?.[k]) || 0), 0);
+  const perFormato = new Map();
+  for (const r of pubblicati) {
+    const f = perFormato.get(r.formato) ?? { formato: r.formato, post: 0, views: 0, like: 0, installazioni: 0, attivati: 0 };
+    f.post++; for (const k of ['views', 'like', 'installazioni', 'attivati']) f[k] += Number(r.metriche?.[k]) || 0;
+    perFormato.set(r.formato, f);
+  }
+  return scheda('Post results', h('div', {},
+    h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '0 0 10px' } },
+      pill(`${pubblicati.length} published`, 'verde'), pill(`${numero(somma('views'))} views`, 'cielo'),
+      pill(`${numero(somma('like'))} likes`), pill(`${numero(somma('installazioni'))} installs`, 'viola'), pill(`${numero(somma('attivati'))} activated`, 'viola')),
+    tabella([
+      { titolo: 'Format', cella: (f) => h('strong', {}, f.formato) },
+      { titolo: 'Posts', num: true, cella: (f) => numero(f.post) },
+      { titolo: 'Views / post', num: true, cella: (f) => numero(Math.round(f.views / f.post)) },
+      { titolo: 'Likes / post', num: true, cella: (f) => (f.like / f.post).toFixed(1) },
+      { titolo: 'Installs', num: true, cella: (f) => numero(f.installazioni) },
+      { titolo: 'Activated', num: true, cella: (f) => numero(f.attivati) },
+    ], [...perFormato.values()].sort((a, b) => b.installazioni - a.installazioni || b.views / b.post - a.views / a.post)),
+    tabella([
+      { titolo: 'Published', cella: (r) => data(r.pubblicato_il) },
+      { titolo: 'Content', cella: (r) => h('code', {}, r.contenuto) },
+      { titolo: 'Channel', cella: (r) => CANALI[r.canale] ?? r.canale },
+      { titolo: 'Views', num: true, cella: (r) => numero(r.metriche?.views) },
+      { titolo: 'Watched', num: true, cella: (r) => (r.metriche?.completamento != null ? `${Math.round(r.metriche.completamento * 100)}%` : '—') },
+      { titolo: 'Likes', num: true, cella: (r) => numero(r.metriche?.like) },
+      { titolo: 'Comments', num: true, cella: (r) => numero(r.metriche?.commenti) },
+      { titolo: 'Shares', num: true, cella: (r) => numero(r.metriche?.condivisioni) },
+      { titolo: 'Installs', num: true, cella: (r) => numero(r.metriche?.installazioni) },
+      { titolo: 'Activated', num: true, cella: (r) => numero(r.metriche?.attivati) },
+      { titolo: '', cella: (r) => (r.pubblicato_url ? h('a', { href: r.pubblicato_url, target: '_blank', rel: 'noopener' }, 'open') : '') },
+    ], pubblicati)), {
+    nota: 'Last 30 days. Views, watch time, likes, comments and shares are read from Meta every morning; installs and activated players come from the Play referrer with the same content ID (utm_content). «Watched» = average watch time / clip length.',
+  });
+}
+
 /* ------------------------------------------------------------ il calendario (G8, 0092) */
 
 const CANALI = { tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook', youtube: 'YouTube' };
@@ -287,7 +344,8 @@ function calendario(ctx, cal, clip) {
   return scheda('Content calendar', h('div', {},
     h('p', { class: 'nota', style: { marginTop: '0' } },
       'Two concepts a day, each on several channels. Every link carries the content ID (utm_content) so installs can be traced back to the post. ',
-      h('strong', {}, 'Nothing is marked published until it is approved here.')),
+      h('strong', {}, 'Nothing is published until it is approved here.'),
+      ' Approved Facebook and Instagram rows are published automatically at their time (Rome); TikTok and YouTube wait for their API reviews.'),
     h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '6px 0 10px' } },
       pill(`${conti.proposte ?? 0} proposed`, 'ambra'), pill(`${conti.approvate ?? 0} approved`, 'cielo'),
       pill(`${conti.pubblicate ?? 0} published`, 'verde'), conti.scartate ? pill(`${conti.scartate} rejected`, 'rosso') : null,
@@ -316,6 +374,7 @@ function concetto(ctx, id, canali, pronte) {
     },
     h('span', {}, CANALI[c.canale] ?? c.canale), statoContenuto(c.stato),
     c.stato === 'pubblicata' && c.pubblicato_url ? h('a', { href: c.pubblicato_url, target: '_blank', rel: 'noopener' }, 'open') : null,
+    c.stato === 'pubblicata' && brevi(c.metriche) ? h('span', { class: 'nota' }, brevi(c.metriche)) : null,
     c.link ? h('a', { href: c.link, target: '_blank', rel: 'noopener', title: c.link }, 'link') : null,
     c.stato === 'approvata' ? h('button', { class: 'bottone piccolo', type: 'button', onclick: () => segnaPubblicato(ctx, c) }, 'Mark published') : null))));
 }
