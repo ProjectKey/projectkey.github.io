@@ -351,7 +351,10 @@ export async function rispondi(azione, a) {
         { k: 'video', peso: 30, perche: '5 video premiati in un giorno' }, { k: 'riallineati', peso: 20, perche: '4200 monete arrivate da riallineamenti del telefono' }] },
       { id: GIOCATORI[1].id, nome: 'Marta88', livello: 9, punti: 15, escluso: false, visto: istante(300), motivi: [{ k: 'rimborsi', peso: 15, perche: '1 acquisti rimborsati' }] },
     ] };
-    case 'giochi': return { ok: true, persone: 14, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
+    case 'giochi': return { ok: true, persone: 14,
+      delGiorno: { periodo: { attivi: 21, giochini: 5, mano: 2, bauli: 14 }, mensole: { persone: 24, bauli: 59, fermi: 48, personeConFermi: 22, inApertura: 11 },
+        perGiorno: [['2026-10-05', 7, 2, 0, 5, 2, 3], ['2026-10-06', 7, 1, 0, 3, 2, 5], ['2026-10-07', 11, 3, 1, 5, 3, 3], ['2026-10-08', 7, 3, 2, 3, 2, 2]]
+          .map(([giorno, attivi, g, mano, avviano, aprono, aperti]) => ({ giorno, attivi, giochini: g, ruota: g, carta: g, tre: g, mano, manoGiuste: mano, avviano, aprono, aperti, conGemme: 0 })) }, nomi: { scopa: 'Scopa', scientifico: 'Scopone scientifico', assopiglia: 'Asso piglia tutto', bugiarda: 'Scopa bugiarda' },
       giochi: [
         { gioco: 'scopa', partite: 469, persone: 12, perPersona: 39.1, secondi: 104, vinte: 260, online: 456, torneo: 3, giorni: 9, abbandoni: 7, tornati: 6 },
         { gioco: 'scientifico', partite: 53, persone: 4, perPersona: 13.3, secondi: 280, vinte: 25, online: 44, torneo: 0, giorni: 4, abbandoni: 2, tornati: 2 },
