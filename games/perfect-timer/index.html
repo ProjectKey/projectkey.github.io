@@ -1,12 +1,15 @@
 <!doctype html>
-<html lang="it"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Perfect Timer · gioca gratis · SetteGames</title>
-<meta name="description" content="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.">
+<title>Perfect Timer · free online game · SetteGames</title>
+<meta name="sg-title-it" content="Perfect Timer · gioca gratis · SetteGames">
+<meta name="description" content="Stop the timer at exactly 10 seconds. Easy, until the timer disappears.">
 <link rel="canonical" href="https://settegames.com/games/perfect-timer/">
-<meta property="og:type" content="website"><meta property="og:title" content="Perfect Timer · gioca gratis · SetteGames"><meta property="og:description" content="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce."><meta property="og:url" content="https://settegames.com/games/perfect-timer/">
+<meta property="og:type" content="website"><meta property="og:title" content="Perfect Timer · free online game · SetteGames"><meta property="og:description" content="Stop the timer at exactly 10 seconds. Easy, until the timer disappears."><meta property="og:url" content="https://settegames.com/games/perfect-timer/">
 <meta property="og:image" content="https://settegames.com/games/perfect-timer/cover.png"><meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#00D1FF"><link rel="icon" href="/img/favicon-32.png">
+<script>(function(){var q=new URLSearchParams(location.search).get('lang');var it=q?q==='it':((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase().indexOf('it')===0;
+window.SG_IT=it;if(!it)return;document.documentElement.lang='it';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-it]').forEach(function(e){e.innerHTML=e.getAttribute('data-it')});var t=document.querySelector('meta[name=sg-title-it]');if(t)document.title=t.content;});})();</script>
 <style>
 @font-face{font-family:Titan;src:url(/games/assets/TitanOne-Regular.ttf) format("truetype");font-display:swap}
 @font-face{font-family:Baloo;src:url(/games/assets/Baloo2-ExtraBold-latin.ttf) format("truetype");font-display:swap}
@@ -36,28 +39,28 @@ footer{margin-top:44px;font-size:13px;opacity:.85;clear:both}
 @media (prefers-reduced-motion:reduce){.btn{transition:none}}
 </style></head>
 <body><main>
-<a class="brand" href="/games/">SETTEGAMES · MINI-GIOCHI</a>
-<img class="shot" src="cover.png" alt="Schermata di Perfect Timer" width="240" height="520">
-<h1>Perfect Timer</h1>
-<p class="lead">Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.</p>
+<a class="brand" href="/games/">SETTEGAMES · <span data-it="MINI-GIOCHI">MINI-GAMES</span></a>
+<img class="shot" src="cover.png" alt="Perfect Timer" width="240" height="520">
+<h1 data-it="Perfect Timer">Perfect Timer</h1>
+<p class="lead" data-it="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.">Stop the timer at exactly 10 seconds. Easy, until the timer disappears.</p>
 <div id="challenge" class="challenge" hidden></div>
-<div class="row"><a id="play" class="btn" href="play/">GIOCA ORA</a><button id="share" class="btn secondary" type="button">SFIDA UN AMICO</button></div>
-<p>Gratis, senza registrazione, direttamente nel browser. Anche su Telegram: <a href="https://t.me/SetteGamesBot?startapp=perfect-timer">@SetteGamesBot</a>.</p>
-<h2>Classifica della settimana</h2>
-<table id="board"><tr><td colspan="2">Gioca per entrare in classifica.</td></tr></table>
-
-<h2>Dagli stessi creatori</h2><div class="games">
-<a class="card app" href="/settebello/"><b>Settebello</b><span>Scopa e scopone online, dagli stessi creatori</span></a>
-<a class="card app" href="/lastsheep/"><b>Last Sheep Royale</b><span>La pecora che sopravvive a tutti</span></a></div>
-<h2>Domande</h2>
-<details><summary>Come si gioca?</summary><p>Tocca per far partire il cronometro e toccalo di nuovo quando la lancetta torna in cima. Più sei vicino al tempo esatto, più punti fai. In modalità Alla cieca il quadrante si spegne dopo pochi secondi: devi contare a mente.</p></details>
-<details><summary>Devo registrarmi?</summary><p>No. In classifica compari con un nome anonimo (un animale e un numero). Non raccogliamo dati personali.</p></details>
-<details><summary>È gratis?</summary><p>Sì, si gioca gratis.</p></details>
-<footer>SetteGames · PK - PROJECT KEY S.R.L. · P. IVA IT15538561000 · Via Città della Pieve 76, 00191 Roma · <a href="/games/privacy.html">Privacy dei mini-giochi</a> · <a href="mailto:supporto@settegames.com">supporto@settegames.com</a></footer>
-</main><script>
-var q=new URLSearchParams(location.search),c=q.get('challenge');
-if(c&&/^c\d{1,7}_[a-z0-9_]{2,21}$/.test(c)){var s=c.slice(1).split('_')[0];var el=document.getElementById('challenge');el.textContent='Un amico ti sfida: batti '+Number(s).toLocaleString('it')+' punti!';el.hidden=false;document.getElementById('play').href='play/?challenge='+c;}
-document.getElementById('share').onclick=function(){var d={title:"Perfect Timer",text:'Gioca a '+"Perfect Timer"+' su SetteGames',url:location.origin+location.pathname};if(navigator.share)navigator.share(d).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(d.url).then(function(){alert('Link copiato!')});};
-var A=['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo'];
+<div class="row"><a id="play" class="btn" href="play/"><span data-it="GIOCA ORA">PLAY NOW</span></a><button id="share" class="btn secondary" type="button"><span data-it="SFIDA UN AMICO">CHALLENGE A FRIEND</span></button></div>
+<p data-it="Gratis, senza registrazione, direttamente nel browser. Anche su Telegram: &lt;a href=&quot;https://t.me/SetteGamesBot?startapp=perfect-timer&quot;&gt;@SetteGamesBot&lt;/a&gt;.">Free, no sign-up, right in your browser. Also on Telegram: <a href="https://t.me/SetteGamesBot?startapp=perfect-timer">@SetteGamesBot</a>.</p>
+<h2 data-it="Classifica della settimana">Weekly leaderboard</h2>
+<table id="board"><tr><td colspan="2"><span data-it="Gioca per entrare in classifica.">Play to get on the leaderboard.</span></td></tr></table>
+<h2 data-it="Giochi simili">More games</h2><div class="games"><a class="card" href="/games/tre-secondi/"><b data-it="Tre Secondi Netti">Tre Secondi Netti</b><span data-it="Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.">Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.</span></a><a class="card" href="/games/sette-secondi/"><b data-it="Sette Secondi">Sette Secondi</b><span data-it="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.">Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.</span></a></div>
+<h2 data-it="Dagli stessi creatori">From the same team</h2><div class="games">
+<a class="card app" href="/settebello/"><b>Settebello</b><span data-it="Scopa e scopone online, dagli stessi creatori">Classic Italian card games online, from the same team</span></a>
+<a class="card app" href="/lastsheep/"><b>Last Sheep Royale</b><span data-it="La pecora che sopravvive a tutti">The last sheep standing wins</span></a></div>
+<h2 data-it="Domande">FAQ</h2>
+<details><summary><span data-it="Come si gioca?">How do I play?</span></summary><p data-it="Tocca per far partire il cronometro e toccalo di nuovo quando la lancetta torna in cima. Più sei vicino al tempo esatto, più punti fai. In modalità Alla cieca il quadrante si spegne dopo pochi secondi: devi contare a mente.">Tap to start the timer and tap again when the hand is back on top. The closer you get to the exact time, the more points you score. In Blind mode the dial goes dark after a few seconds: you have to count in your head.</p></details>
+<details><summary><span data-it="Devo registrarmi?">Do I need an account?</span></summary><p data-it="No. In classifica compari con un nome anonimo (un animale e un numero). Non raccogliamo dati personali.">No. On the leaderboard you appear with an anonymous name (an animal and a number). We do not collect personal data.</p></details>
+<details><summary><span data-it="È gratis?">Is it free?</span></summary><p data-it="Sì, si gioca gratis.">Yes, it is free to play.</p></details>
+<footer>SetteGames · PK - PROJECT KEY S.R.L. · P. IVA IT15538561000 · Via Città della Pieve 76, 00191 Roma · <a href="/games/privacy.html"><span data-it="Privacy dei mini-giochi">Mini-games privacy</span></a> · <a href="mailto:supporto@settegames.com">supporto@settegames.com</a></footer>
+</main><script>var A=window.SG_IT?['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo']:['Fox','Lynx','Falcon','Owl','Wolf','Panda','Tiger','Koala','Hedgehog','Dolphin','Bear','Cat','Otter','Penguin','Chameleon','Cheetah'];
 function nm(s){return A[s%A.length]+' #'+String(Math.floor(s/A.length)%10000).padStart(4,'0')}
-fetch("https://jvmpwhoosojharlbmgsi.supabase.co/functions/v1/hub-api"+'/leaderboard?game_id=sg-perfect-timer&mode=classic&period=week&limit=10').then(function(r){return r.json()}).then(function(j){if(!j.ok||!j.rows.length)return;var t=document.getElementById('board');t.innerHTML='';j.rows.forEach(function(r){var tr=document.createElement('tr');var a=document.createElement('td');a.textContent=r.rank+'. '+nm(r.name_seed);var b=document.createElement('td');b.textContent=Number(r.score).toLocaleString('it');tr.appendChild(a);tr.appendChild(b);t.appendChild(tr);});}).catch(function(){});</script></body></html>
+function num(n){return Number(n).toLocaleString(window.SG_IT?'it':'en')}
+var q=new URLSearchParams(location.search),c=q.get('challenge'),NAME=window.SG_IT?"Perfect Timer":"Perfect Timer";
+if(c&&/^c\d{1,7}_[a-z0-9_]{2,21}$/.test(c)){var s=c.slice(1).split('_')[0];var el=document.getElementById('challenge');el.textContent=window.SG_IT?'Un amico ti sfida: batti '+num(s)+' punti!':'A friend dares you: beat '+num(s)+' points!';el.hidden=false;document.getElementById('play').href='play/?challenge='+c;}
+document.getElementById('share').onclick=function(){var d={title:NAME,text:(window.SG_IT?'Gioca a ':'Play ')+NAME+(window.SG_IT?' su SetteGames':' on SetteGames'),url:location.origin+location.pathname};if(navigator.share)navigator.share(d).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(d.url).then(function(){alert(window.SG_IT?'Link copiato!':'Link copied!')});};
+fetch("https://jvmpwhoosojharlbmgsi.supabase.co/functions/v1/hub-api"+'/leaderboard?game_id=sg-perfect-timer&mode=classic&period=week&limit=10').then(function(r){return r.json()}).then(function(j){if(!j.ok||!j.rows.length)return;var t=document.getElementById('board');t.innerHTML='';j.rows.forEach(function(r){var tr=document.createElement('tr');var a=document.createElement('td');a.textContent=r.rank+'. '+nm(r.name_seed);var b=document.createElement('td');b.textContent=num(r.score);tr.appendChild(a);tr.appendChild(b);t.appendChild(tr);});}).catch(function(){});</script></body></html>
