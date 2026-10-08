@@ -1,5 +1,12 @@
 [
   {
+    "slug": "tre-secondi",
+    "game_id": "sg-tre-secondi",
+    "name": "Tre Secondi Netti",
+    "description": "Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "sette-secondi",
     "game_id": "sg-sette-secondi",
     "name": "Sette Secondi",

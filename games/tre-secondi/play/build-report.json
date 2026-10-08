@@ -1,0 +1,21 @@
+{
+  "slug": "tre-secondi",
+  "source_hash": "a7425a3a3c8c8d3e",
+  "game_id": "sg-tre-secondi",
+  "version": "1.0.0",
+  "manifest_hash": "b941af11035192fc",
+  "template": "reaction",
+  "engine": "cocos-3.8.8",
+  "git_commit": "e8bdda94619a63e4aa2eec78f8f66f500a6e9326",
+  "git_dirty": false,
+  "built_at": "2026-10-08T17:15:24.527Z",
+  "duration_ms": 13659,
+  "output_dir": "dist/games/tre-secondi",
+  "files": 25,
+  "bytes": 1997417,
+  "gzip_bytes": 540621,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "db2583b09c64784c",
+  "log_file": ".factory/builds/tre-secondi/2026-10-08T17-15-10-871Z.log"
+}
