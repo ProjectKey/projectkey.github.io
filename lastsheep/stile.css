@@ -1,211 +1,167 @@
 /*
-  IL FOGLIO DI STILE DELLE PAGINE INTERNE (SetteGames, 1 ottobre 2026)
-  ===================================================================
+  LE PAGINE INTERNE DI SETTEGAMES — POP RIOT (8 ottobre 2026)
+  ===========================================================
 
-  Le pagine dei giochi e quelle di legge (privacy, termini, eliminazione
-  dell'account, FAQ, invito). Stesso stile della home (`home.css`): POP come le
-  app, viola acceso, angoli tondi, ombre colorate, Titan One per i titoli e
-  Baloo 2 per i tasti. Il testo lungo resta nel carattere del sistema, su
-  carta bianca: le informative si devono leggere, non guardare.
+  Pagine dei giochi, guide, documenti di legge, inviti. Si appoggia a
+  `/pop.css` (token, testata, piede, tasti: la stessa grammatica della home)
+  e aggiunge solo la lettura: fascia antracite col titolo, poi carta chiara.
 
-  **Lo stesso file sta anche in `lastsheep/stile.css`**, identico: per questo i
-  caratteri hanno percorsi assoluti (`/font/...`). La sorgente di quella copia è
-  nel progetto di Last Sheep (`BattleRoyale2D/sito/lastsheep/stile.css`):
-  cambiandolo qui, va cambiato anche là, se no la loro prossima pubblicazione
-  riporta lo stile vecchio.
+  La testata, il piede e `/pop.css` li mette nelle pagine lo strumento
+  `docs/brand/settegames-pop-riot/strumenti/testata.py` (nel repository di
+  Settebello): si rilancia dopo aver aggiunto o cambiato una pagina.
+
+  **`lastsheep/stile.css` è una copia identica** di questo file (la sorgente
+  delle pagine di Last Sheep sta anche in `BattleRoyale2D/sito/lastsheep/`).
+  Cambiandolo qui, va copiato là.
+
+  I nomi vecchi (--ink, --viola, --oro…) restano come alias dei colori nuovi:
+  le guide e le pagine che li usano nei loro stili si adeguano da sole.
 */
-@font-face { font-family: 'Titan One'; src: url('/font/TitanOne-Regular.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Baloo 2'; src: url('/font/Baloo2-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
-
 :root {
-  --ground: #f4f0ff;
-  --carta: #ffffff;
-  --carta2: #efe9ff;
-  --ink: #24124f;
-  --ink2: #4a3d72;
-  --ink3: #7a6fa0;
-  --filo: #e6ddff;
-  --viola: #6a3cf5;
-  --viola-chiaro: #9a6bff;
-  --viola-scuro: #5b2ee0;
-  --oro: #ffc93c;
-  --oro-scuro: #f59e0b;
-  --rosa: #ff3d8b;
-  --rosso: #d62a4a;
-  --ombra: 0 2px 0 var(--filo), 0 18px 46px rgba(91, 46, 224, .12);
+  --ground: var(--carta);
+  --ink: #131313;
+  --ink2: #3b3b36;
+  --ink3: #5f5f58;
+  --filo: #e3e3dc;
+  --carta2: #eeeee7;
+  --viola: #131313;
+  --viola-chiaro: #2b2b2b;
+  --viola-scuro: #131313;
+  --oro: var(--lime);
+  --oro-scuro: #c8da2c;
+  --rosa: var(--magenta);
+  --rosso: #c81e45;
+  --ombra: 0 1px 0 var(--filo), 0 14px 34px rgba(19, 19, 19, 0.07);
 }
+/* `--carta` in pop.css è il grigio chiaro delle sezioni; qui il foglio è bianco. */
+body.pagina { --foglio: #ffffff; background: var(--carta); color: var(--ink); overflow-x: clip; }
+[hidden] { display: none !important; }
 
-[hidden] { display: none !important; }   /* se no un display:flex lo batte */
-* { box-sizing: border-box; }
+/* Testata e piede restano antracite anche sulla carta chiara. */
+body.pagina .testata { background: var(--antracite); border-bottom-color: var(--antracite); }
+body.pagina .piede { background: var(--antracite); color: var(--grigio-su-scuro); border-top: 0; }
+body.pagina .piede a { color: inherit; }
+body.pagina .piede nav a { color: #e9e9e4; }
 
-body {
-  margin: 0;
-  background: var(--ground);
-  color: var(--ink);
-  font: 17px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+body.pagina main { max-width: 880px; margin: 0 auto; padding: 0 var(--gutter) 88px; }
+body.pagina main a:not(.tasto) { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--magenta); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+body.pagina main a:not(.tasto):hover { text-decoration-color: var(--ink); }
+
+/* --- la fascia antracite in cima: briciole e cappello, a tutta larghezza --- */
+.briciole { font-size: 0.875rem; margin: 0 0 22px; color: var(--ink3); }
+body.pagina main > .briciole:first-child,
+body.pagina .cappello {
+  background: var(--antracite); color: var(--bianco);
+  box-shadow: 0 0 0 100vmax var(--antracite); clip-path: inset(0 -100vmax);
 }
-/* La fascia viola in cima, coi raggi: la stessa della home, in piccolo. */
-body::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 300px; z-index: -1;
-  background:
-    repeating-conic-gradient(from 0deg at 50% 0%, rgba(255,255,255,.08) 0 6deg, transparent 6deg 15deg),
-    linear-gradient(160deg, var(--viola-chiaro), var(--viola) 50%, var(--viola-scuro));
-  border-radius: 0 0 50% 50% / 0 0 36px 36px;
-}
-
-main { max-width: 880px; margin: 0 auto; padding: 18px 18px 80px; }
-
-a { color: var(--viola-scuro); font-weight: 600; text-underline-offset: 3px; }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
-
-/* Le briciole in cima stanno sulla fascia viola: pastiglie chiare. Quelle in
-   fondo alle pagine di legge stanno sulla carta: restano testo. */
-.briciole { font-size: 15px; margin: 0 0 22px; color: var(--ink3); }
-main > .briciole:first-child {
+body.pagina main > .briciole:first-child {
   display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
-  color: rgba(255,255,255,.6); margin: 0 0 22px;
+  margin: 0; padding: 22px 0 0; color: var(--grigio-su-scuro);
 }
-main > .briciole:first-child a {
-  font: 800 15px/1 'Baloo 2', system-ui; color: #fff; text-decoration: none;
-  background: rgba(255,255,255,.16); padding: 9px 13px 7px; border-radius: 999px;
+body.pagina main > .briciole:first-child a {
+  color: #e9e9e4; text-decoration: none; font-weight: 600; font-size: 0.875rem;
+  padding: 7px 12px; border-radius: 999px; border: 1px solid var(--filo-scuro);
 }
-main > .briciole:first-child a:first-child {
-  font: 21px/1 'Titan One', system-ui; background: none; padding: 4px 6px 4px 0;
-  color: var(--oro); text-shadow: 0 2px 0 rgba(36,18,79,.35);
-}
-main > .briciole:first-child a:hover { background: rgba(255,255,255,.28); }
-main > .briciole:first-child a:first-child:hover { background: none; }
+body.pagina main > .briciole:first-child a:hover { border-color: var(--bianco); color: var(--bianco); }
 
-/* --- il cappello: la carta viola coi raggi, come le app --- */
-.cappello {
-  border-radius: 30px; padding: 40px 32px 38px; margin-top: 6px;
-  position: relative; overflow: hidden; color: #fff;
-  background: linear-gradient(150deg, #8c5cff, var(--viola-scuro));
-  box-shadow: 0 6px 0 #4520b8, 0 22px 50px rgba(36, 18, 79, .3);
-}
-.cappello::before {
-  content: ""; position: absolute; inset: -45%; pointer-events: none;
-  background: repeating-conic-gradient(from -90deg at 50% 32%,
-    rgba(255,255,255,.1) 0deg 5deg, rgba(255,255,255,0) 5deg 10deg);
-}
-.cappello > * { position: relative; }
+.cappello { position: relative; display: flow-root; padding: 36px 0 52px; margin: -1px 0 8px; }
 .cappello h1 {
-  font: clamp(34px, 6vw, 54px)/1.02 'Titan One', system-ui; margin: 0; letter-spacing: .5px;
-  color: var(--oro); text-wrap: balance;
-  text-shadow: 0 3px 0 var(--oro-scuro), 0 5px 0 #2a1170, 0 12px 24px rgba(20,4,70,.4);
+  margin: 0; font-weight: 800; font-size: clamp(2.3rem, 6vw, 4rem); line-height: 0.98;
+  letter-spacing: -0.03em; color: var(--lime); text-wrap: balance;
 }
-.cappello p { color: rgba(255,255,255,.95); max-width: 58ch; margin: 16px 0 0; font-size: 18px; }
-.cappello .occhiello {
-  display: inline-block; font: 800 13px/1 'Baloo 2', system-ui; letter-spacing: 1.2px; text-transform: uppercase;
-  background: var(--rosa); color: #fff; padding: 8px 13px 6px; border-radius: 999px; margin-bottom: 14px;
-  box-shadow: 0 6px 16px rgba(255,61,139,.4);
+body.pagina .cappello p { color: #dcdcd6; max-width: 58ch; margin: 18px 0 0; font-size: 1.125rem; }
+.cappello .occhiello, body.pagina .occhiello {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px;
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grigio-su-scuro);
 }
+.cappello .occhiello::before { content: ""; width: 10px; height: 10px; background: var(--magenta); }
+.cappello a:not(.tasto) { color: var(--bianco) !important; }
 
-/* Le sezioni delle pagine dei giochi: carte bianche, una dopo l'altra. */
-main:not(.legge):not(.invito) section {
-  background: var(--carta); border-radius: 26px; padding: 26px 28px 14px; margin-top: 20px;
-  box-shadow: var(--ombra);
+/* --- le sezioni delle pagine dei giochi e delle guide: fogli bianchi --- */
+body.pagina main:not(.legge):not(.invito) section {
+  background: var(--foglio); border: 1px solid var(--filo); border-radius: var(--r-pannello);
+  padding: 28px 30px 16px; margin-top: 20px;
 }
-section { padding-top: 40px; }
-h2 {
-  font: clamp(24px, 3.4vw, 30px)/1.1 'Titan One', system-ui; margin: 0 0 12px; letter-spacing: .3px;
-  color: var(--ink); text-wrap: balance;
+body.pagina h2 {
+  margin: 0 0 12px; font-weight: 800; font-size: clamp(1.45rem, 3vw, 1.9rem); line-height: 1.1;
+  letter-spacing: -0.025em; color: var(--ink); text-wrap: balance;
 }
-h3 { font: 800 19px/1.25 'Baloo 2', system-ui; margin: 0 0 6px; color: var(--ink); }
-p { margin: 0 0 14px; color: var(--ink2); max-width: 68ch; }
-p strong, li strong { color: var(--ink); }
-ul, ol { color: var(--ink2); padding-left: 22px; }
-li { margin-bottom: 8px; }
-hr { border: 0; border-top: 2px dashed var(--filo); }
+body.pagina h3 { margin: 0 0 6px; font-weight: 700; font-size: 1.125rem; line-height: 1.3; color: var(--ink); }
+body.pagina main p { margin: 0 0 14px; color: var(--ink2); max-width: 68ch; }
+body.pagina main p strong, body.pagina main li strong { color: var(--ink); }
+body.pagina main ul, body.pagina main ol { color: var(--ink2); padding-left: 22px; }
+body.pagina main li { margin-bottom: 8px; }
+body.pagina main li::marker { color: var(--magenta); }
+body.pagina main hr { border: 0; border-top: 1px solid var(--filo); }
+code { background: var(--carta2); color: var(--ink); border-radius: 6px; padding: 1px 7px; font-size: 0.875rem; }
+.minore { font-size: 0.9375rem; color: var(--ink3); }
 
-footer {
-  max-width: 880px; margin: 0 auto; padding: 26px 18px 60px; color: var(--ink3); font-size: 14px;
+/* --- i documenti di legge e le FAQ: un foglio solo, si legge di fila --- */
+body.pagina main.legge { overflow-wrap: anywhere; }
+body.pagina main.legge > .briciole:first-child { padding-bottom: 22px; }
+.legge > .briciole:first-child + h1,
+body.pagina main.legge > h1:first-child {
+  background: var(--antracite); color: var(--lime);
+  box-shadow: 0 0 0 100vmax var(--antracite); clip-path: inset(0 -100vmax);
+  margin: -1px 0 32px; padding: 14px 0 44px;
+  font-weight: 800; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance;
 }
-footer p { color: var(--ink3); font-size: 14px; max-width: none; line-height: 1.75; }
-footer strong { color: var(--ink2); }
-
-/* --- le pagine di legge: privacy, termini, eliminazione, FAQ ---
-   Un foglio bianco solo, appoggiato sulla fascia viola: si legge di fila. */
-main.legge {
-  background: var(--carta); border-radius: 30px; margin-top: 26px; padding: 30px 38px 40px;
-  box-shadow: 0 6px 0 var(--filo), 0 26px 60px rgba(36, 18, 79, .18);
-}
-/* Indirizzi e codici lunghi vanno a capo, le tabelle larghe scorrono dentro
-   al foglio: niente deve allargare la pagina oltre lo schermo. */
-main.legge { overflow-wrap: anywhere; }
-.legge table { display: block; overflow-x: auto; }
-/* Sul foglio bianco le briciole in cima sono pastiglie lilla, non bianche. */
-main.legge > .briciole:first-child { color: var(--ink3); }
-main.legge > .briciole:first-child a { background: var(--carta2); color: var(--viola-scuro); }
-main.legge > .briciole:first-child a:first-child { color: var(--viola); text-shadow: none; background: none; }
-main.legge > .briciole:first-child a:hover { background: var(--filo); }
-.legge h1 {
-  font: clamp(30px, 5vw, 44px)/1.08 'Titan One', system-ui; letter-spacing: .3px;
-  color: var(--ink); margin: 6px 0 10px; text-wrap: balance;
-}
+.legge h1 { font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.05; letter-spacing: -0.03em; margin: 8px 0 12px; color: var(--ink); }
 .legge .data {
-  display: inline-block; color: var(--viola-scuro); font: 800 14px/1 'Baloo 2', system-ui;
-  background: var(--carta2); padding: 8px 12px 6px; border-radius: 999px; margin: 0 0 22px;
+  display: inline-block; margin: 0 0 22px; padding: 7px 14px; border-radius: 12px; line-height: 1.4;
+  background: var(--antracite); color: var(--lime); font-size: 0.8125rem; font-weight: 700;
 }
-.legge h2 {
-  font: clamp(21px, 3vw, 25px)/1.15 'Titan One', system-ui; color: var(--viola-scuro);
-  margin: 34px 0 10px; padding-top: 0; border: 0;
-}
+.legge h2 { font-size: clamp(1.25rem, 2.6vw, 1.55rem); margin: 38px 0 10px; padding-top: 0; border: 0; }
 .legge .box {
-  background: var(--carta2); border: 0; border-left: 5px solid var(--viola);
-  border-radius: 16px; padding: 14px 18px; margin: 16px 0;
+  background: var(--foglio); border: 1px solid var(--filo); border-left: 4px solid var(--magenta);
+  border-radius: 12px; padding: 14px 18px; margin: 16px 0;
 }
 .legge .box p:last-child { margin-bottom: 0; }
-.legge table {
-  width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 15px;
-  background: var(--carta); border: 2px solid var(--filo); border-radius: 16px; overflow: hidden;
+.legge table, .tabella {
+  width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 0.9375rem;
+  background: var(--foglio); border: 1px solid var(--filo); border-radius: var(--r-card); overflow: hidden;
+  display: block; overflow-x: auto;
 }
 .legge th, .legge td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--filo); vertical-align: top; }
-.legge th { color: var(--viola-scuro); background: var(--carta2); font: 800 13px/1.3 'Baloo 2', system-ui; text-transform: uppercase; letter-spacing: .06em; }
+.legge th { background: var(--antracite); color: var(--bianco); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .legge tbody tr:last-child th, .legge tbody tr:last-child td { border-bottom: 0; }
-code { background: var(--carta2); color: var(--ink); border-radius: 7px; padding: 1px 7px; font-size: 14px; }
+/* Il link «torna su» in fondo ai documenti: testo, non pastiglia. */
+.legge > .briciole:not(:first-child) { margin-top: 40px; }
 
-/* Il sottotesto di una voce in elenco: non sotto ai 14 punti. */
-.minore { font-size: 15px; color: var(--ink3); }
-
-/* --- i tasti e i riquadri delle pagine che fanno qualcosa: delete e invito ---
-   Area da dito 48 punti, come nelle app. */
-.tasto {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 50px; padding: 13px 24px 11px; border: 0; border-radius: 16px;
-  background: var(--viola); color: #fff;
-  font: 800 17px/1 'Baloo 2', system-ui; letter-spacing: .02em; text-decoration: none;
-  cursor: pointer; box-shadow: 0 5px 0 var(--viola-scuro), 0 12px 24px rgba(106,60,245,.3);
-  transition: transform .12s ease;
-}
-.tasto:hover { transform: translateY(-1px); }
-.tasto:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--viola-scuro); }
-.tasto.rosso { background: var(--rosso); box-shadow: 0 5px 0 #a51c37, 0 12px 24px rgba(214,42,74,.3); }
-.tasto.grande { font-size: 20px; min-height: 58px; padding: 16px 40px 14px; }
-.tasto.piano { background: #fff; color: var(--viola-scuro); box-shadow: 0 5px 0 var(--filo); border: 0; }
-.tasto[disabled] { opacity: .55; cursor: default; transform: none; }
+/* --- tasti delle pagine che fanno qualcosa (eliminazione, invito, guide) --- */
+body.pagina main .tasto { background: var(--lime); color: var(--antracite); }
+body.pagina main .tasto:hover { background: #f3ff8f; }
+body.pagina main .tasto.rosso { background: var(--rosso); color: var(--bianco); }
+body.pagina main .tasto.rosso:hover { background: #a9163a; }
+body.pagina main .tasto.fantasma { background: transparent; color: var(--bianco); border-color: var(--filo-scuro); }
+body.pagina main .tasto.fantasma:hover { border-color: var(--bianco); }
+body.pagina main .tasto.piano { background: var(--foglio); color: var(--ink); border-color: var(--ink); }
+body.pagina main .tasto.grande { min-height: 60px; padding: 0 38px; font-size: 1.125rem; }
+body.pagina main .tasto[disabled] { opacity: 0.5; cursor: default; transform: none; }
 .tasti { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
 .passo { font-weight: 700; color: var(--ink); }
 .errore { color: var(--rosso); font-weight: 600; }
 .codice-grande {
   display: inline-block; margin: 6px 0 10px; padding: 10px 18px;
   font: 700 clamp(32px, 10vw, 48px)/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .16em; color: var(--ink);
-  background: var(--carta2); border-radius: 16px; box-shadow: inset 0 0 0 2px var(--filo);
-}
-.invito { text-align: center; }
-.invito p { margin-left: auto; margin-right: auto; }
-.invito img { width: 144px; height: 144px; border-radius: 32px; box-shadow: 0 18px 40px rgba(36,18,79,.35); margin: 28px auto 6px; display: block; }
-.invito h1 {
-  font: clamp(28px, 7vw, 40px)/1.12 'Titan One', system-ui; color: #fff; margin: 14px 0 6px; overflow-wrap: anywhere;
-  text-shadow: 0 3px 0 rgba(36,18,79,.35);
+  letter-spacing: 0.16em; color: var(--ink); background: var(--foglio); border-radius: var(--r-card); border: 2px solid var(--ink);
 }
 
+/* --- gli inviti (s/, lastsheep/i.html): tutto scuro, al centro --- */
+body.pagina:has(main.invito) { background: var(--antracite); color: var(--bianco); }
+main.invito { text-align: center; padding-top: 40px !important; }
+main.invito p { margin-left: auto; margin-right: auto; color: #dcdcd6 !important; }
+main.invito img { width: 144px; height: 144px; border-radius: 32px; margin: 18px auto 6px; display: block; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5); }
+main.invito h1 { font-weight: 800; font-size: clamp(1.8rem, 7vw, 2.6rem); line-height: 1.08; letter-spacing: -0.03em; color: var(--lime); margin: 14px 0 8px; overflow-wrap: anywhere; }
+main.invito a:not(.tasto) { color: var(--bianco) !important; }
+main.invito .tasto { margin-bottom: 18px; }
+main.invito .codice-grande { background: var(--rialzo); color: var(--bianco); border-color: var(--lime); }
+
+/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+.negozi { margin: 16px 0 4px; }
+.badge-store { display: inline-block; flex-shrink: 0; }
+
 @media (max-width: 560px) {
-  main { padding: 14px 16px 64px; }
-  main.legge { margin: 16px 12px 40px; padding: 22px 20px 30px; border-radius: 24px; }
-  .cappello { padding: 30px 22px 28px; border-radius: 26px; }
-  main:not(.legge):not(.invito) section { padding: 22px 20px 10px; border-radius: 22px; }
+  body.pagina main:not(.legge):not(.invito) section { padding: 22px 20px 10px; }
+  .cappello { padding: 28px 0 40px; }
 }

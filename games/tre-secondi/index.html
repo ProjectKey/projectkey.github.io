@@ -7,57 +7,93 @@
 <link rel="canonical" href="https://settegames.com/games/tre-secondi/">
 <meta property="og:type" content="website"><meta property="og:title" content="Three Seconds Flat · free online game · SetteGames"><meta property="og:description" content="Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second."><meta property="og:url" content="https://settegames.com/games/tre-secondi/">
 <meta property="og:image" content="https://settegames.com/games/tre-secondi/cover.png"><meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#00D1FF"><link rel="icon" href="/img/favicon-32.png">
+<meta name="theme-color" content="#131313"><link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="preload" href="/font/sora-800.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var q=new URLSearchParams(location.search).get('lang');var it=q?q==='it':((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase().indexOf('it')===0;
 window.SG_IT=it;if(!it)return;document.documentElement.lang='it';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-it]').forEach(function(e){e.innerHTML=e.getAttribute('data-it')});var t=document.querySelector('meta[name=sg-title-it]');if(t)document.title=t.content;});})();</script>
+<link rel="stylesheet" href="/pop.css"><link rel="stylesheet" href="/stile.css">
 <style>
-@font-face{font-family:Titan;src:url(/games/assets/TitanOne-Regular.ttf) format("truetype");font-display:swap}
-@font-face{font-family:Baloo;src:url(/games/assets/Baloo2-ExtraBold-latin.ttf) format("truetype");font-display:swap}
-:root{--field:#00D1FF;--ink:#1A0B4B;--surface:#F4F6FF;--primary:#FF2D8B;--accent:#FFC83D}
-*{box-sizing:border-box}html,body{margin:0;background:var(--field);color:var(--ink);font:600 18px/1.45 Baloo,system-ui,sans-serif}
-main{max-width:720px;margin:0 auto;padding:20px 16px 48px}
-a{color:var(--ink)}h1,h2,.btn,.brand{font-family:Titan,Baloo,system-ui,sans-serif;font-weight:400}
-.brand{font-size:15px;letter-spacing:.08em;text-decoration:none;display:inline-block;margin-bottom:12px}
-h1{font-size:clamp(44px,12vw,76px);line-height:1;margin:6px 0 14px;color:var(--surface);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
-h2{font-size:26px;margin:36px 0 12px}
-.lead{font-size:20px;max-width:56ch}
-.btn{display:inline-block;padding:16px 30px;border:5px solid var(--ink);border-radius:22px;background:var(--primary);color:var(--surface);
- font-size:26px;text-decoration:none;box-shadow:0 9px 0 var(--ink);transition:transform .08s,box-shadow .08s;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill}
-.btn:active{transform:translateY(7px);box-shadow:0 2px 0 var(--ink)}
-.btn.secondary{background:var(--surface);color:var(--ink);-webkit-text-stroke:0;font-size:20px;padding:12px 22px}
-.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:22px 0}
-.challenge{background:var(--accent);border:5px solid var(--ink);border-radius:20px;padding:12px 18px;font-family:Titan,sans-serif;font-size:22px;box-shadow:0 7px 0 var(--ink)}
-.shot{float:right;width:min(42%,240px);margin:0 0 16px 18px;border:6px solid var(--ink);border-radius:26px;box-shadow:0 10px 0 var(--ink);background:var(--surface)}
-table{width:100%;border-collapse:collapse;background:var(--surface);border:5px solid var(--ink);border-radius:18px;overflow:hidden}
-td{padding:10px 14px;border-top:2px solid rgba(26,11,75,.15)}td:last-child{text-align:right;font-family:Titan,sans-serif}
-.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;margin:16px 0;clear:both}
-.card{display:block;text-decoration:none;background:var(--surface);border:5px solid var(--ink);border-radius:24px;padding:16px;box-shadow:0 9px 0 var(--ink)}
-.card b{font-family:Titan,sans-serif;font-weight:400;font-size:24px;display:block}.card span{font-size:15px}
-.card.app{background:var(--accent)}
-details{background:var(--surface);border:4px solid var(--ink);border-radius:16px;padding:10px 14px;margin:10px 0}summary{cursor:pointer;font-weight:800}
-footer{margin-top:44px;font-size:13px;opacity:.85;clear:both}
-@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+.cappello .tasti{margin-top:26px}
+.cappello .tasto.fantasma{color:#fff}
+.shot{float:right;width:min(38%,220px);margin:0 0 16px 24px;border-radius:28px;border:8px solid #131313;box-shadow:12px 12px 0 var(--magenta);background:#131313;transform:rotate(2deg)}
+.challenge{display:inline-block;margin-top:18px;background:var(--lime);color:var(--antracite);border-radius:999px;padding:10px 18px;font-weight:800}
+.lead{font-size:1.2rem}
+#board{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden}
+#board td{padding:12px 16px;border-top:1px solid var(--filo);color:var(--ink)}#board tr:first-child td{border-top:0}
+#board td:last-child{text-align:right;font-weight:800}#board td[colspan]{text-align:left;font-weight:400;color:var(--ink3)}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:16px 0;clear:both}
+.card{display:flex;flex-direction:column;text-decoration:none!important;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden;color:var(--ink)!important;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(19,19,19,.12)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 0;background:#131313}
+.card b{display:block;padding:14px 16px 2px;font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.card>span{display:block;padding:0 16px 16px;font-weight:400;font-size:.92rem;color:var(--ink3)}
+.card.app{background:var(--antracite);border-color:var(--antracite)}.card.app b{color:var(--lime);padding-top:18px}.card.app>span{color:#dcdcd6}
+details{background:#fff;border:1px solid var(--filo);border-radius:14px;padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;color:var(--ink)}details p{margin:10px 0 0!important}
+body.pagina main:not(.legge) section{clear:both}
+@media (max-width:560px){.shot{float:none;display:block;width:min(64%,240px);margin:24px auto 0}}
 </style></head>
-<body><main>
-<a class="brand" href="/games/">SETTEGAMES · <span data-it="MINI-GIOCHI">MINI-GAMES</span></a>
-<h1 data-it="Tre Secondi Netti">Three Seconds Flat</h1>
+<body class="pagina"><svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata"><div class="dentro">
+  <a class="marchio" href="/" aria-label="SetteGames"><svg aria-hidden="true"><use href="#sette"/></svg><span class="parola">Sette<b>Games</b></span></a>
+  <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg> Menu</button>
+  <nav class="menu" id="menu" aria-label="Sections">
+    <div class="voce-giochi">
+      <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi"><span data-it="Giochi">Games</span> <svg aria-hidden="true"><use href="#giu"/></svg></button>
+      <ul class="sottomenu" id="sottomenu-giochi" hidden>
+        <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+        <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+        <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b><span data-it="Minigiochi">Minigames</span></b><small><span data-it="Nel browser">In your browser</span></small></span></a></li>
+        <li class="tutti"><a href="/#catalogo"><span data-it="Tutti i giochi">All games</span> <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+      </ul>
+    </div>
+    <a href="/#chi-siamo"><span data-it="Chi siamo">About</span></a>
+    <a class="tasto primario piccolo" href="/#giochi"><span data-it="Scopri i giochi">Discover the games</span></a>
+  </nav>
+</div></header>
+<main>
+<p class="briciole"><a href="/">SetteGames</a> <a href="/games/"><span data-it="Minigiochi">Minigames</span></a></p>
+<header class="cappello">
 <img class="shot" src="cover.png" alt="Three Seconds Flat" width="240" height="520">
+<p class="occhiello"><span data-it="Minigioco · gratis nel browser">Minigame · free in your browser</span></p>
+<h1 data-it="Tre Secondi Netti">Three Seconds Flat</h1>
 <p class="lead" data-it="Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.">Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.</p>
 <div id="challenge" class="challenge" hidden></div>
-<div class="row"><a id="play" class="btn" href="play/"><span data-it="GIOCA ORA">PLAY NOW</span></a><button id="share" class="btn secondary" type="button"><span data-it="SFIDA UN AMICO">CHALLENGE A FRIEND</span></button></div>
+<div class="tasti"><a id="play" class="tasto primario" href="play/"><svg aria-hidden="true" width="18" height="18"><use href="#gioca"/></svg> <span data-it="Gioca ora">Play now</span></a><button id="share" class="tasto fantasma" type="button"><span data-it="Sfida un amico">Challenge a friend</span></button></div>
 <p data-it="Gratis, senza registrazione, direttamente nel browser. Anche su Telegram: &lt;a href=&quot;https://t.me/SetteGamesBot?startapp=tre-secondi&quot;&gt;@SetteGamesBot&lt;/a&gt;.">Free, no sign-up, right in your browser. Also on Telegram: <a href="https://t.me/SetteGamesBot?startapp=tre-secondi">@SetteGamesBot</a>.</p>
-<h2 data-it="Classifica della settimana">Weekly leaderboard</h2>
-<table id="board"><tr><td colspan="2"><span data-it="Gioca per entrare in classifica.">Play to get on the leaderboard.</span></td></tr></table>
-<h2 data-it="Giochi simili">More games</h2><div class="games"><a class="card" href="/games/sette-secondi/"><b data-it="Sette Secondi">Seven Seconds</b><span data-it="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.">Stop the timer at exactly 7 seconds. Three rounds, and the dial goes dark halfway.</span></a><a class="card" href="/games/perfect-timer/"><b data-it="Perfect Timer">Perfect Timer</b><span data-it="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.">Stop the timer at exactly 10 seconds. Easy, until the timer disappears.</span></a></div>
-<h2 data-it="Dagli stessi creatori">From the same team</h2><div class="games">
+</header>
+<section><h2 data-it="Classifica della settimana">Weekly leaderboard</h2>
+<table id="board"><tr><td colspan="2"><span data-it="Gioca per entrare in classifica.">Play to get on the leaderboard.</span></td></tr></table></section>
+<section><h2 data-it="Giochi simili">More games</h2><div class="games"><a class="card" href="/games/sette-secondi/"><img src="/games/sette-secondi/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="Sette Secondi">Seven Seconds</b><span data-it="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.">Stop the timer at exactly 7 seconds. Three rounds, and the dial goes dark halfway.</span></a><a class="card" href="/games/perfect-timer/"><img src="/games/perfect-timer/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="Perfect Timer">Perfect Timer</b><span data-it="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.">Stop the timer at exactly 10 seconds. Easy, until the timer disappears.</span></a></div></section>
+<section><h2 data-it="Dagli stessi creatori">From the same team</h2><div class="games">
 <a class="card app" href="/settebello/"><b>Settebello</b><span data-it="Scopa e scopone online, dagli stessi creatori">Classic Italian card games online, from the same team</span></a>
-<a class="card app" href="/lastsheep/"><b>Last Sheep Royale</b><span data-it="La pecora che sopravvive a tutti">The last sheep standing wins</span></a></div>
-<h2 data-it="Domande">FAQ</h2>
+<a class="card app" href="/lastsheep/"><b>Last Sheep Royale</b><span data-it="La pecora che sopravvive a tutti">The last sheep standing wins</span></a></div></section>
+<section><h2 data-it="Domande">FAQ</h2>
 <details><summary><span data-it="Come si gioca?">How do I play?</span></summary><p data-it="Tocca per far partire il cronometro e toccalo di nuovo quando la lancetta torna in cima. Più sei vicino al tempo esatto, più punti fai. In modalità Alla cieca il quadrante si spegne dopo pochi secondi: devi contare a mente.">Tap to start the timer and tap again when the hand is back on top. The closer you get to the exact time, the more points you score. In Blind mode the dial goes dark after a few seconds: you have to count in your head.</p></details>
 <details><summary><span data-it="Devo registrarmi?">Do I need an account?</span></summary><p data-it="No. In classifica compari con un nome anonimo (un animale e un numero). Non raccogliamo dati personali.">No. On the leaderboard you appear with an anonymous name (an animal and a number). We do not collect personal data.</p></details>
-<details><summary><span data-it="È gratis?">Is it free?</span></summary><p data-it="Sì, si gioca gratis.">Yes, it is free to play.</p></details>
-<footer>SetteGames · PK - PROJECT KEY S.R.L. · P. IVA IT15538561000 · Via Città della Pieve 76, 00191 Roma · <a href="/games/privacy.html"><span data-it="Privacy dei mini-giochi">Mini-games privacy</span></a> · <a href="mailto:supporto@settegames.com">supporto@settegames.com</a></footer>
-</main><script>var A=window.SG_IT?['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo']:['Fox','Lynx','Falcon','Owl','Wolf','Panda','Tiger','Koala','Hedgehog','Dolphin','Bear','Cat','Otter','Penguin','Chameleon','Cheetah'];
+<details><summary><span data-it="È gratis?">Is it free?</span></summary><p data-it="Sì, si gioca gratis.">Yes, it is free to play.</p></details></section>
+</main>
+<footer class="piede"><div class="dentro">
+  <div>
+    <a class="marchio" href="/" aria-label="SetteGames"><svg aria-hidden="true"><use href="#sette"/></svg><span class="parola">Sette<b>Games</b></span></a>
+    <p class="firma">PLAY DIFFERENT<span>.</span></p>
+    <p><span data-it="SetteGames è un marchio di">SetteGames is a brand of</span> <strong>PK - PROJECT KEY S.R.L.</strong></p>
+    <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+    <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+    <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+  </div>
+  <nav aria-label="Documents">
+    <a href="/games/privacy.html"><span data-it="Privacy dei minigiochi">Minigames privacy</span></a>
+    <a href="/settebello/privacy.html">Privacy Settebello</a>
+    <a href="/lastsheep/privacy.html">Privacy Last Sheep</a>
+  </nav>
+</div></footer>
+<script src="/sito.js" defer></script><script>var A=window.SG_IT?['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo']:['Fox','Lynx','Falcon','Owl','Wolf','Panda','Tiger','Koala','Hedgehog','Dolphin','Bear','Cat','Otter','Penguin','Chameleon','Cheetah'];
 function nm(s){return A[s%A.length]+' #'+String(Math.floor(s/A.length)%10000).padStart(4,'0')}
 function num(n){return Number(n).toLocaleString(window.SG_IT?'it':'en')}
 var q=new URLSearchParams(location.search),c=q.get('challenge'),NAME=window.SG_IT?"Tre Secondi Netti":"Three Seconds Flat";

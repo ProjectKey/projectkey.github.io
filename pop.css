@@ -1,0 +1,275 @@
+/*
+ * SetteGames — POP RIOT / PLAY DIFFERENT.
+ * I token vengono da docs/brand/settegames-pop-riot/design-tokens.json:
+ * qui sono l'unica copia usata dal sito. Il lime non va mai come testo
+ * piccolo su bianco (contrasto 1.1:1): su chiaro si usa l'antracite.
+ */
+@font-face {
+  font-family: "Sora";
+  src: url("font/sora.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+/* L'ExtraBold dei titoli è una copia di Sora 800 con la Y ridisegnata: in
+   quella originale i bracci sporgono dall'asta e l'incavo ha uno scalino.
+   Sorgente e script in docs/brand/settegames-pop-riot/logo/. */
+@font-face {
+  font-family: "Sora";
+  src: url("font/sora-800.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+:root {
+  --lime: #ebff55;
+  --magenta: #f53eb5;
+  --antracite: #131313;
+  --rialzo: #202020;
+  --bianco: #ffffff;
+  --carta: #f5f5f2;
+  --filo-scuro: #454545;
+  --filo-chiaro: #e6e6e6;
+  --grigio-su-scuro: #b8b8b2;
+  --grigio-su-chiaro: #55554f;
+
+  --font: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-card: 16px;
+  --r-pannello: 20px;
+  --max: 1280px;
+  --gutter: clamp(16px, 3vw, 32px);
+  --veloce: 150ms;
+  --normale: 220ms;
+  --curva: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--antracite);
+  color: var(--bianco);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--magenta); outline-offset: 3px; border-radius: 6px; }
+
+.dentro { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.visivo-nascosto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Bozza ---------- */
+.bozza { background: var(--magenta); color: var(--antracite); font-size: 0.875rem; font-weight: 600; text-align: center; padding: 8px 16px; }
+.bozza a { font-weight: 800; }
+
+/* ---------- Pulsanti ---------- */
+.tasto {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 26px; border-radius: 999px;
+  font: 700 1rem/1 var(--font); text-decoration: none; white-space: nowrap;
+  border: 2px solid transparent; cursor: pointer;
+  transition: transform var(--veloce) var(--curva), background-color var(--veloce) var(--curva), border-color var(--veloce) var(--curva);
+}
+.tasto:hover { transform: translateY(-2px); }
+.tasto:active { transform: translateY(0); }
+.tasto svg { width: 18px; height: 18px; flex: none; }
+.tasto.primario { background: var(--lime); color: var(--antracite); }
+.tasto.primario:hover { background: #f3ff8f; }
+.tasto.fantasma { border-color: var(--filo-scuro); color: var(--bianco); }
+.tasto.fantasma:hover { border-color: var(--bianco); }
+.tasto.scuro { background: var(--antracite); color: var(--bianco); }
+.tasto.scuro:hover { background: #2b2b2b; }
+.tasto.contorno-scuro { border-color: var(--antracite); color: var(--antracite); }
+.tasto.piccolo { min-height: 44px; padding: 0 18px; font-size: 0.9375rem; }
+
+/* ---------- Marchio ---------- */
+.marchio { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.marchio svg { width: 40px; height: 40px; flex: none; }
+.marchio .parola { font-weight: 800; font-size: 1.375rem; letter-spacing: -0.03em; color: var(--bianco); }
+.marchio .parola b { color: var(--lime); font-weight: 800; }
+
+/* ---------- Testata ---------- */
+.testata { position: sticky; top: 0; z-index: 20; background: rgba(19, 19, 19, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #262626; }
+.testata .dentro { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 72px; }
+.menu { display: flex; align-items: center; gap: 4px; }
+.menu a:not(.tasto) { padding: 10px 14px; border-radius: 999px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; color: #e9e9e4; transition: background-color var(--veloce) var(--curva); }
+.menu a:not(.tasto):hover { background: var(--rialzo); color: var(--bianco); }
+.menu .tasto { margin-left: 12px; }
+.apri-menu { display: none; }
+
+
+/* ---------- Sottomenu dei giochi ---------- */
+.voce-giochi { position: relative; }
+.apri-giochi { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border: 0; border-radius: 999px; background: none; color: #e9e9e4; font: 600 0.9375rem/1 var(--font); cursor: pointer; transition: background-color var(--veloce) var(--curva); }
+.apri-giochi:hover, .apri-giochi[aria-expanded="true"] { background: var(--rialzo); color: var(--bianco); }
+.apri-giochi svg { width: 16px; height: 16px; transition: transform var(--veloce) var(--curva); }
+.apri-giochi[aria-expanded="true"] svg { transform: rotate(180deg); }
+.sottomenu { position: absolute; top: calc(100% + 10px); left: 0; z-index: 30; min-width: 300px; margin: 0; padding: 8px; list-style: none; background: var(--rialzo); border: 1px solid #2f2f2f; border-radius: var(--r-card); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+.sottomenu[hidden] { display: none; }
+.sottomenu a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; text-decoration: none; color: var(--bianco); }
+.sottomenu a:hover { background: #2b2b2b; }
+.sottomenu img, .sottomenu .icona-mini { width: 40px; height: 40px; flex: none; border-radius: 10px; }
+.sottomenu .icona-mini { display: inline-flex; align-items: center; justify-content: center; background: var(--lime); color: var(--antracite); }
+.sottomenu .icona-mini svg { width: 18px; height: 18px; }
+.sottomenu b { display: block; font-weight: 700; font-size: 0.9375rem; }
+.sottomenu small { display: block; font-size: 0.8125rem; color: var(--grigio-su-scuro); }
+.sottomenu .tutti { border-top: 1px solid #2f2f2f; margin-top: 6px; padding-top: 6px; }
+.sottomenu .tutti a { justify-content: space-between; font-weight: 700; font-size: 0.9375rem; color: var(--lime); }
+.sottomenu .tutti svg { width: 18px; height: 18px; }
+
+/* ---------- Lingua ---------- */
+.lingua { display: inline-flex; margin-left: 8px; padding: 3px; border: 1px solid var(--filo-scuro); border-radius: 999px; }
+.lingua a { min-width: 40px; min-height: 34px; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px !important; border-radius: 999px; font-size: 0.8125rem !important; font-weight: 700 !important; letter-spacing: 0.06em; text-decoration: none; color: var(--grigio-su-scuro) !important; }
+.lingua a[aria-current] { background: var(--bianco); color: var(--antracite) !important; }
+.lingua a:not([aria-current]):hover { color: var(--bianco) !important; background: none !important; }
+
+/* ---------- Dove trovarci ---------- */
+.trovaci { border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 28px 0; }
+.trovaci .dentro { display: flex; align-items: center; gap: 20px 40px; flex-wrap: wrap; }
+.trovaci h2 { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #8d8d87; white-space: nowrap; }
+.loghi { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 26px; margin: 0; padding: 0; list-style: none; flex: 1; }
+.loghi a, .loghi .presto { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; text-decoration: none; color: #8d8d87; transition: color var(--veloce) var(--curva); }
+.loghi a:hover { color: var(--bianco); }
+.loghi svg { width: 24px; height: 24px; flex: none; }
+.loghi small { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid #3a3a3a; }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; padding: clamp(40px, 6vw, 88px) 0 clamp(56px, 7vw, 104px); }
+.hero .dentro { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.occhiello { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 22px; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grigio-su-scuro); }
+.occhiello::before { content: ""; width: 10px; height: 10px; background: var(--magenta); }
+.hero h1 { margin: 0; font-weight: 800; font-size: clamp(3.5rem, 7vw, 7.2rem); line-height: 0.92; letter-spacing: -0.012em; font-kerning: none; }
+.hero h1 > span { display: block; }
+.hero h1 .lime { color: var(--lime); }
+.punto { color: var(--magenta); }
+.hero .lead { margin: 28px 0 0; font-size: clamp(1.25rem, 1.8vw, 1.5rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.hero .supporto { margin: 12px 0 0; max-width: 34em; font-size: 1.0625rem; color: var(--grigio-su-scuro); }
+.hero .tasti { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+.scena { position: relative; display: flex; align-items: center; justify-content: center; }
+.sette-grande { width: min(100%, 520px); height: auto; aspect-ratio: 1; overflow: visible; }
+.sette-grande .quadrato { fill: var(--magenta); }
+
+/* ---------- Titoli di sezione ---------- */
+.sezione { padding: clamp(64px, 8vw, 112px) 0; }
+.testa-sezione { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: clamp(28px, 4vw, 44px); }
+.testa-sezione h2, .sezione h2 { margin: 0; font-weight: 800; font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 1.02; letter-spacing: -0.04em; }
+.testa-sezione p { margin: 10px 0 0; max-width: 36em; color: var(--grigio-su-scuro); font-size: 1.0625rem; }
+
+/* ---------- Giochi in primo piano ---------- */
+.coppia { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.gioco {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--rialzo); border: 1px solid #2c2c2c; border-radius: var(--r-pannello);
+  transition: transform var(--normale) var(--curva), border-color var(--normale) var(--curva);
+}
+.gioco:hover { transform: translateY(-4px); border-color: var(--filo-scuro); }
+.gioco .copertina { aspect-ratio: 1024 / 500; width: 100%; object-fit: cover; }
+.gioco .corpo { display: flex; flex-direction: column; gap: 12px; padding: 26px 28px 28px; flex-grow: 1; }
+.etichette { display: flex; flex-wrap: wrap; gap: 8px; }
+.etichetta { display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--filo-scuro); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #dcdcd6; }
+.gioco h3 { margin: 4px 0 0; font-size: clamp(1.6rem, 2.4vw, 2.1rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; }
+.gioco h3 small { display: block; margin-top: 6px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0; color: var(--lime); }
+.gioco p { margin: 0; color: var(--grigio-su-scuro); }
+.gioco .tasti { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 10px; }
+
+/* ---------- Minigiochi (fascia lime) ---------- */
+.fascia-lime { background: var(--lime); color: var(--antracite); }
+.fascia-lime .dentro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.fascia-lime h2 { font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: 0.95; }
+.fascia-lime p { margin: 20px 0 0; max-width: 30em; font-size: 1.125rem; font-weight: 500; }
+.fascia-lime .fatti { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+.fascia-lime .fatti li { padding: 6px 14px; border-radius: 999px; background: var(--antracite); color: var(--lime); font-size: 0.875rem; font-weight: 700; }
+.fascia-lime .tasti { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.telefono { position: relative; justify-self: center; width: min(300px, 78%); aspect-ratio: 390 / 844; padding: 10px; border-radius: 44px; background: var(--antracite); box-shadow: 14px 14px 0 var(--magenta); transform: rotate(3deg); }
+.telefono img { width: 100%; height: 100%; object-fit: cover; border-radius: 34px; }
+
+/* ---------- Tutti i giochi (chiara) ---------- */
+.chiara { background: var(--carta); color: var(--antracite); }
+.chiara .testa-sezione p { color: var(--grigio-su-chiaro); }
+.griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.tessera a { display: flex; flex-direction: column; height: 100%; overflow: hidden; text-decoration: none; background: var(--bianco); border: 1px solid var(--filo-chiaro); border-radius: var(--r-card); transition: transform var(--normale) var(--curva), box-shadow var(--normale) var(--curva); }
+.tessera a:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(19, 19, 19, 0.12); }
+.tessera .figura { aspect-ratio: 4 / 3; overflow: hidden; background: var(--antracite); }
+.tessera .figura img { width: 100%; height: 100%; object-fit: cover; }
+.tessera .figura.verticale img { object-position: 50% 0%; }
+.tessera .testo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 18px; }
+.tessera .nome { display: block; font-weight: 800; font-size: 1.1875rem; letter-spacing: -0.02em; }
+.tessera .dove { display: block; margin-top: 2px; font-size: 0.875rem; color: var(--grigio-su-chiaro); }
+.tessera .freccia { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--antracite); color: var(--lime); transition: transform var(--veloce) var(--curva); }
+.tessera a:hover .freccia { transform: translateX(3px); }
+.tessera .freccia svg { width: 18px; height: 18px; }
+
+/* ---------- Chi siamo ---------- */
+.chi .dentro { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
+.chi .intro { margin: 18px 0 0; font-size: 1.125rem; color: var(--grigio-su-scuro); max-width: 30em; }
+.patti { display: grid; gap: 14px; margin: 0; }
+.patti div { padding: 22px 24px; border-radius: var(--r-card); background: var(--rialzo); border: 1px solid #2c2c2c; }
+.patti dt { font-weight: 800; font-size: 1.125rem; letter-spacing: -0.02em; }
+.patti dt::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 10px; border-radius: 50%; background: var(--magenta); vertical-align: 2px; }
+.patti dd { margin: 6px 0 0; color: var(--grigio-su-scuro); }
+.contatti { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.contatti p { margin: 0; max-width: 32em; color: var(--grigio-su-scuro); }
+.contatti a:not(.tasto) { color: var(--lime); font-weight: 600; }
+
+/* ---------- Piede ---------- */
+.piede { border-top: 1px solid #262626; padding: 48px 0 calc(40px + env(safe-area-inset-bottom)); font-size: 0.875rem; color: var(--grigio-su-scuro); }
+.piede .dentro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; }
+.piede .firma { margin: 14px 0 18px; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.03em; color: var(--bianco); }
+.piede .firma span { color: var(--magenta); }
+.piede p { margin: 2px 0; }
+.piede nav { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.piede nav a { padding: 6px 0; text-decoration: none; color: #e9e9e4; font-weight: 600; }
+.piede nav a:hover { color: var(--lime); }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1023px) {
+  .hero .dentro { grid-template-columns: minmax(0, 1fr); }
+  .scena { display: none; }
+  .chi .dentro { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Telefono ---------- */
+@media (max-width: 860px) {
+  .apri-menu {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--filo-scuro);
+    background: none; color: var(--bianco); font: 700 0.9375rem/1 var(--font); cursor: pointer;
+  }
+  .apri-menu svg { width: 18px; height: 18px; }
+  .menu {
+    position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; align-items: stretch; gap: 2px;
+    padding: 12px var(--gutter) 20px; background: var(--antracite); border-bottom: 1px solid #262626;
+  }
+  .menu[hidden] { display: none; }
+  .menu a:not(.tasto) { padding: 14px 12px; font-size: 1.0625rem; }
+  .menu .tasto { margin: 10px 0 0; }
+  .voce-giochi { display: flex; flex-direction: column; }
+  .apri-giochi { justify-content: space-between; padding: 14px 12px; font-size: 1.0625rem; border-radius: 12px; }
+  .sottomenu { position: static; min-width: 0; margin: 2px 0 6px; box-shadow: none; }
+  .lingua { margin: 10px 0 0; align-self: flex-start; }
+  .trovaci .dentro { flex-direction: column; align-items: flex-start; }
+  .loghi { gap: 4px 24px; }
+  .coppia { grid-template-columns: minmax(0, 1fr); }
+  .fascia-lime .dentro { grid-template-columns: minmax(0, 1fr); }
+  .telefono { width: min(240px, 66%); margin-top: 8px; }
+  .testa-sezione { flex-direction: column; align-items: flex-start; }
+  .piede .dentro { grid-template-columns: minmax(0, 1fr); }
+}
+@media (min-width: 861px) { .menu[hidden] { display: flex; } }
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: clamp(2.9rem, 15vw, 4.4rem); }
+  .hero .tasti .tasto { flex: 1 1 100%; }
+  .gioco .corpo { padding: 22px 20px 22px; }
+  .gioco .tasti .tasto { flex: 1 1 100%; }
+  .fascia-lime .tasti .tasto { flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

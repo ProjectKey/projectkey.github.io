@@ -16,9 +16,46 @@
   Rev 06/10/2026: Google Play Games collega l'account da solo, senza permessi
   (strada B: niente piu' schermata di Google); «un Google» → «un Play Games».
 -->
+<!--sg:testa-->
+<link rel="stylesheet" href="/pop.css">
+<link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
+<!--/sg:testa-->
 <link rel="stylesheet" href="stile.css">
 </head>
-<body>
+<body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/" aria-label="SetteGames, home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sections">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Games <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigames</b><small>In your browser</small></span></a></li>
+          <li class="tutti"><a href="/#catalogo">All games <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/#chi-siamo">About</a>
+      <a class="tasto primario piccolo" href="/#giochi">Discover the games</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
 <main class="legge">
 
 <p class="briciole">
@@ -289,5 +326,31 @@ del luogo in cui risiedi; negli altri casi il foro competente è quello di
 </p>
 
 </main>
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/" aria-label="SetteGames, home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames is a brand of <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documents">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Terms</a>
+      <a href="/games/privacy.html">Minigames privacy</a>
+      <a href="/lastsheep/privacy.html">Last Sheep privacy</a>
+      <a href="/settebello/elimina-account.html">Delete your account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
 </body>
 </html>
