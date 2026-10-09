@@ -1,5 +1,14 @@
 [
   {
+    "slug": "solitaire",
+    "game_id": "sg-solitaire",
+    "name": "Solitaire",
+    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
+    "name_it": "Solitario",
+    "description_it": "Il solitario Klondike classico. Tocca una carta e salta dove va.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "snake",
     "game_id": "sg-snake",
     "name": "Snake",
@@ -24,15 +33,6 @@
     "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
     "name_it": "Sudoku",
     "description_it": "Il sudoku classico 9×9 con un puzzle nuovo a ogni partita. Tre livelli, note a matita, sfida il tempo.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "solitaire",
-    "game_id": "sg-solitaire",
-    "name": "Solitaire",
-    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
-    "name_it": "Solitario",
-    "description_it": "Il solitario Klondike classico. Tocca una carta e salta dove va.",
     "version": "1.0.0"
   },
   {
