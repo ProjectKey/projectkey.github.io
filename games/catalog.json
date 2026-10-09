@@ -1,5 +1,14 @@
 [
   {
+    "slug": "2048",
+    "game_id": "sg-2048",
+    "name": "2048",
+    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
+    "name_it": "2048",
+    "description_it": "Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "perfect-timer",
     "game_id": "sg-perfect-timer",
     "name": "Perfect Timer",
@@ -61,15 +70,6 @@
     "name_it": "Sette Secondi",
     "description_it": "Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.",
     "version": "1.3.0"
-  },
-  {
-    "slug": "2048",
-    "game_id": "sg-2048",
-    "name": "2048",
-    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
-    "name_it": "2048",
-    "description_it": "Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.",
-    "version": "1.0.0"
   },
   {
     "slug": "reaction-time-test",
