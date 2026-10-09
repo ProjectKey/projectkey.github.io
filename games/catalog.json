@@ -1,5 +1,14 @@
 [
   {
+    "slug": "2048",
+    "game_id": "sg-2048",
+    "name": "2048",
+    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
+    "name_it": "2048",
+    "description_it": "Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "sudoku",
     "game_id": "sg-sudoku",
     "name": "Sudoku",
@@ -33,15 +42,6 @@
     "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
     "name_it": "Snake",
     "description_it": "Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "2048",
-    "game_id": "sg-2048",
-    "name": "2048",
-    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
-    "name_it": "2048",
-    "description_it": "Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.",
     "version": "1.0.0"
   },
   {
