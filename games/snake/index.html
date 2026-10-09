@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Play Snake online – Free Online · SetteGames</title>
+<meta name="sg-title-it" content="Gioca a Snake online – Gratis Online · SetteGames">
+<meta name="description" content="Snake is the classic arcade game: steer a hungry snake around the grid, eat food to grow longer and try not to crash into the walls or your own tail. Every bi">
+<link rel="canonical" href="https://settegames.com/games/snake/">
+<meta property="og:type" content="website"><meta property="og:title" content="Play Snake online – Free Online · SetteGames"><meta property="og:description" content="Snake is the classic arcade game: steer a hungry snake around the grid, eat food to grow longer and try not to crash into the walls or your own tail. Every bi"><meta property="og:url" content="https://settegames.com/games/snake/">
+<meta property="og:image" content="https://settegames.com/games/snake/cover.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#131313"><link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg"><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="preload" href="/font/sora-800.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var q=new URLSearchParams(location.search).get('lang');var it=q?q==='it':((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase().indexOf('it')===0;
+window.SG_IT=it;if(!it)return;document.documentElement.lang='it';document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-it]').forEach(function(e){e.innerHTML=e.getAttribute('data-it')});var t=document.querySelector('meta[name=sg-title-it]');if(t)document.title=t.content;});})();</script>
+<link rel="stylesheet" href="/pop.css"><link rel="stylesheet" href="/stile.css">
+<style>
+.cappello .tasti{margin-top:26px}
+.cappello .tasto.fantasma{color:#fff}
+.shot{float:right;width:min(38%,220px);margin:0 0 16px 24px;border-radius:28px;border:8px solid #131313;box-shadow:12px 12px 0 var(--magenta);background:#131313;transform:rotate(2deg)}
+.challenge{display:inline-block;margin-top:18px;background:var(--lime);color:var(--antracite);border-radius:999px;padding:10px 18px;font-weight:800}
+.lead{font-size:1.2rem}
+#board{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden}
+#board td{padding:12px 16px;border-top:1px solid var(--filo);color:var(--ink)}#board tr:first-child td{border-top:0}
+#board td:last-child{text-align:right;font-weight:800}#board td[colspan]{text-align:left;font-weight:400;color:var(--ink3)}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:16px 0;clear:both}
+.card{display:flex;flex-direction:column;text-decoration:none!important;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden;color:var(--ink)!important;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(19,19,19,.12)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 0;background:#131313}
+.card b{display:block;padding:14px 16px 2px;font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.card>span{display:block;padding:0 16px 16px;font-weight:400;font-size:.92rem;color:var(--ink3)}
+.card.app{background:var(--antracite);border-color:var(--antracite)}.card.app b{color:var(--lime);padding-top:18px}.card.app>span{color:#dcdcd6}
+details{background:#fff;border:1px solid var(--filo);border-radius:14px;padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;color:var(--ink)}details p{margin:10px 0 0!important}
+body.pagina main:not(.legge) section{clear:both}
+@media (max-width:560px){.shot{float:none;display:block;width:min(64%,240px);margin:24px auto 0}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Snake","url":"https://settegames.com/games/snake/","description":"Snake is the classic arcade game: steer a hungry snake around the grid, eat food to grow longer and try not to crash into the walls or your own tail. Every bite makes the snake a little faster. Play the Classic mode with solid walls or the Portal mode, where the edges wrap around. Free in your browser and on Telegram, no download and no sign-up.","image":"https://settegames.com/games/snake/cover.png","genre":"arcade","applicationCategory":"Game","operatingSystem":"Any (web browser)","gamePlatform":["Web browser","Telegram"],"inLanguage":["en","it"],"isAccessibleForFree":true,"playMode":"SinglePlayer","keywords":"snake game, play snake online, snake game online free, classic snake game, snake game no download, snake game for mobile, arcade snake, gioco del serpente","offers":{"@type":"Offer","price":0,"priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"PK - PROJECT KEY S.R.L.","brand":"SetteGames","url":"https://settegames.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this snake game free?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can play every mode for free in your browser or on Telegram. The only optional purchase is a pack of color themes, which is purely cosmetic and never changes your score."}},{"@type":"Question","name":"Do I need to download anything?","acceptedAnswer":{"@type":"Answer","text":"No. The game runs in any modern browser on phones, tablets and computers. No app and no account are needed."}},{"@type":"Question","name":"How do I control the snake?","acceptedAnswer":{"@type":"Answer","text":"Swipe in the direction you want to go. You can swipe twice quickly to queue two turns. On a keyboard, use the arrow keys or W, A, S, D. The snake can never turn straight back on itself."}},{"@type":"Question","name":"What is the difference between Classic and Portal?","acceptedAnswer":{"@type":"Answer","text":"In Classic the edges of the grid are walls and touching them ends the game. In Portal the edges wrap around, so you can only lose by biting your own tail."}},{"@type":"Question","name":"Any tips for a higher score?","acceptedAnswer":{"@type":"Answer","text":"Stay close to the walls and move in wide loops so your tail leaves open space behind you. Plan your next turn early, because the snake speeds up with every bite. Go for the golden treat only when the path is safe."}},{"@type":"Question","name":"Is there a leaderboard?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every game is checked on our server and the best scores of the week appear on the result screen. You can also send a challenge link to a friend."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. On the leaderboard you appear with an anonymous name (an animal and a number). We do not collect personal data."}},{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is free to play. Inside Telegram you can optionally buy cosmetic color themes, which never change scores."}}]}</script></head>
+<body class="pagina"><svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata"><div class="dentro">
+  <a class="marchio" href="/" aria-label="SetteGames"><svg aria-hidden="true"><use href="#sette"/></svg><span class="parola">Sette<b>Games</b></span></a>
+  <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg> Menu</button>
+  <nav class="menu" id="menu" aria-label="Sections">
+    <div class="voce-giochi">
+      <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi"><span data-it="Giochi">Games</span> <svg aria-hidden="true"><use href="#giu"/></svg></button>
+      <ul class="sottomenu" id="sottomenu-giochi" hidden>
+        <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+        <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+        <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b><span data-it="Minigiochi">Minigames</span></b><small><span data-it="Nel browser">In your browser</span></small></span></a></li>
+        <li class="tutti"><a href="/#catalogo"><span data-it="Tutti i giochi">All games</span> <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+      </ul>
+    </div>
+    <a href="/#chi-siamo"><span data-it="Chi siamo">About</span></a>
+    <a class="tasto primario piccolo" href="/#giochi"><span data-it="Scopri i giochi">Discover the games</span></a>
+  </nav>
+</div></header>
+<main>
+<p class="briciole"><a href="/">SetteGames</a> <a href="/games/"><span data-it="Minigiochi">Minigames</span></a></p>
+<header class="cappello">
+<img class="shot" src="cover.png" alt="Snake" width="240" height="520">
+<p class="occhiello"><span data-it="Minigioco · gratis nel browser">Minigame · free in your browser</span></p>
+<h1 data-it="Gioca a Snake online">Play Snake online</h1>
+<p class="lead" data-it="Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.">Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.</p>
+<div id="challenge" class="challenge" hidden></div>
+<div class="tasti"><a id="play" class="tasto primario" href="play/"><svg aria-hidden="true" width="18" height="18"><use href="#gioca"/></svg> <span data-it="Gioca ora">Play now</span></a><button id="share" class="tasto fantasma" type="button"><span data-it="Sfida un amico">Challenge a friend</span></button></div>
+<p data-it="Gratis, senza registrazione, direttamente nel browser. Anche su Telegram: &lt;a href=&quot;https://t.me/SetteGamesBot?startapp=snake&quot;&gt;@SetteGamesBot&lt;/a&gt;.">Free, no sign-up, right in your browser. Also on Telegram: <a href="https://t.me/SetteGamesBot?startapp=snake">@SetteGamesBot</a>.</p>
+</header>
+<section><h2 data-it="Classifica della settimana">Weekly leaderboard</h2>
+<table id="board"><tr><td colspan="2"><span data-it="Gioca per entrare in classifica.">Play to get on the leaderboard.</span></td></tr></table></section>
+<section><h2 data-it="Giochi simili">More games</h2><div class="games"><a class="card" href="/games/2048/"><img src="/games/2048/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="2048">2048</b><span data-it="Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.">Swipe, merge equal tiles and build 2048. One more move, always.</span></a><a class="card" href="/games/tre-secondi/"><img src="/games/tre-secondi/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="Tre Secondi Netti">Three Seconds Flat</b><span data-it="Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.">Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.</span></a><a class="card" href="/games/sette-secondi/"><img src="/games/sette-secondi/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="Sette Secondi">Seven Seconds</b><span data-it="Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.">Stop the timer at exactly 7 seconds. Three rounds, and the dial goes dark halfway.</span></a><a class="card" href="/games/perfect-timer/"><img src="/games/perfect-timer/cover.png" alt="" width="390" height="844" loading="lazy"><b data-it="Perfect Timer">Perfect Timer</b><span data-it="Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.">Stop the timer at exactly 10 seconds. Easy, until the timer disappears.</span></a></div></section>
+<section><h2 data-it="Come si gioca a Snake">How to play Snake</h2>
+<p data-it="Snake è il classico gioco arcade: guida un serpente affamato sulla griglia, mangia per allungarti e non sbattere contro i muri o contro la tua coda. Ogni boccone lo rende un po' più veloce. Gioca in modalità Classica, con i muri, o Portale, dove i bordi fanno il giro. Gratis nel browser e su Telegram, senza download e senza registrazione.">Snake is the classic arcade game: steer a hungry snake around the grid, eat food to grow longer and try not to crash into the walls or your own tail. Every bite makes the snake a little faster. Play the Classic mode with solid walls or the Portal mode, where the edges wrap around. Free in your browser and on Telegram, no download and no sign-up.</p>
+<ol><li data-it="Scorri in un punto qualsiasi dello schermo per far girare il serpente (al computer usa le frecce o WASD).">Swipe anywhere on the screen to turn the snake (on a computer use the arrow keys or WASD).</li><li data-it="Mangia il cibo bianco per crescere: ogni boccone vale 10 punti.">Eat the white food to grow: every bite is worth 10 points.</li><li data-it="Ogni cinque bocconi compare per poco un premio d'oro: prendilo prima che sparisca, vale 50 punti.">Every fifth bite a golden treat appears for a short time: grab it for 50 points before it fades.</li><li data-it="In modalità Classica i muri sono letali; in modalità Portale esci dal lato opposto.">In Classic mode the walls are deadly; in Portal mode you come out on the opposite side.</li><li data-it="La partita finisce quando il serpente sbatte contro un muro o si morde. Poi batti il tuo record o sfida un amico.">The game ends when the snake hits a wall or bites its own body. Then beat your best or challenge a friend.</li></ol></section>
+<section><h2 data-it="Domande">FAQ</h2>
+<details><summary><span data-it="Questo gioco del serpente è gratis?">Is this snake game free?</span></summary><p data-it="Sì. Tutte le modalità sono gratis nel browser o su Telegram. L'unico acquisto facoltativo è un pacchetto di temi colore, solo estetico, che non cambia mai il punteggio.">Yes. You can play every mode for free in your browser or on Telegram. The only optional purchase is a pack of color themes, which is purely cosmetic and never changes your score.</p></details>
+<details><summary><span data-it="Devo scaricare qualcosa?">Do I need to download anything?</span></summary><p data-it="No. Il gioco funziona in qualsiasi browser recente su telefono, tablet e computer. Non servono app né account.">No. The game runs in any modern browser on phones, tablets and computers. No app and no account are needed.</p></details>
+<details><summary><span data-it="Come si controlla il serpente?">How do I control the snake?</span></summary><p data-it="Scorri nella direzione in cui vuoi andare. Puoi scorrere due volte di fila per preparare due svolte. Con la tastiera usa le frecce oppure W, A, S, D. Il serpente non può mai tornare indietro su se stesso.">Swipe in the direction you want to go. You can swipe twice quickly to queue two turns. On a keyboard, use the arrow keys or W, A, S, D. The snake can never turn straight back on itself.</p></details>
+<details><summary><span data-it="Che differenza c'è fra Classica e Portale?">What is the difference between Classic and Portal?</span></summary><p data-it="In Classica i bordi della griglia sono muri e toccarli chiude la partita. In Portale i bordi fanno il giro, quindi si perde solo mordendosi la coda.">In Classic the edges of the grid are walls and touching them ends the game. In Portal the edges wrap around, so you can only lose by biting your own tail.</p></details>
+<details><summary><span data-it="Qualche consiglio per fare più punti?">Any tips for a higher score?</span></summary><p data-it="Resta vicino ai bordi e muoviti a larghe curve, così la coda ti lascia spazio libero. Prepara la svolta in anticipo, perché il serpente accelera a ogni boccone. Punta al premio d'oro solo se la strada è sicura.">Stay close to the walls and move in wide loops so your tail leaves open space behind you. Plan your next turn early, because the snake speeds up with every bite. Go for the golden treat only when the path is safe.</p></details>
+<details><summary><span data-it="C'è una classifica?">Is there a leaderboard?</span></summary><p data-it="Sì. Ogni partita viene verificata sul nostro server e i migliori punteggi della settimana compaiono nella schermata finale. Puoi anche mandare una sfida a un amico.">Yes. Every game is checked on our server and the best scores of the week appear on the result screen. You can also send a challenge link to a friend.</p></details>
+<details><summary><span data-it="Devo registrarmi?">Do I need an account?</span></summary><p data-it="No. In classifica compari con un nome anonimo (un animale e un numero). Non raccogliamo dati personali.">No. On the leaderboard you appear with an anonymous name (an animal and a number). We do not collect personal data.</p></details>
+<details><summary><span data-it="È gratis?">Is it free?</span></summary><p data-it="Sì, si gioca gratis. Dentro Telegram si possono comprare, se vuoi, temi colore estetici (non cambiano mai i punteggi): vedi i &lt;a href=&quot;/games/terms.html&quot;&gt;Termini&lt;/a&gt;.">Yes, it is free to play. Inside Telegram you can optionally buy cosmetic color themes (they never change scores): see the <a href="/games/terms.html">Terms</a>.</p></details></section>
+</main>
+<footer class="piede"><div class="dentro">
+  <div>
+    <a class="marchio" href="/" aria-label="SetteGames"><svg aria-hidden="true"><use href="#sette"/></svg><span class="parola">Sette<b>Games</b></span></a>
+    <p class="firma">PLAY DIFFERENT<span>.</span></p>
+    <p><span data-it="SetteGames è un marchio di">SetteGames is a brand of</span> <strong>PK - PROJECT KEY S.R.L.</strong></p>
+    <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+    <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+    <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+  </div>
+  <nav aria-label="Documents">
+    <a href="/games/privacy.html"><span data-it="Privacy dei minigiochi">Minigames privacy</span></a>
+    <a href="/games/terms.html"><span data-it="Termini dei minigiochi">Minigames terms</span></a>
+    <a href="/settebello/privacy.html">Privacy Settebello</a>
+    <a href="/lastsheep/privacy.html">Privacy Last Sheep</a>
+  </nav>
+</div></footer>
+<script src="/sito.js" defer></script><script>var A=window.SG_IT?['Volpe','Lince','Falco','Gufo','Lupo','Panda','Tigre','Koala','Riccio','Delfino','Orso','Gatto','Lontra','Pinguino','Camaleonte','Ghepardo']:['Fox','Lynx','Falcon','Owl','Wolf','Panda','Tiger','Koala','Hedgehog','Dolphin','Bear','Cat','Otter','Penguin','Chameleon','Cheetah'];
+function nm(s){return A[s%A.length]+' #'+String(Math.floor(s/A.length)%10000).padStart(4,'0')}
+function num(n){return Number(n).toLocaleString(window.SG_IT?'it':'en')}
+var q=new URLSearchParams(location.search),c=q.get('challenge'),NAME=window.SG_IT?"Snake":"Snake";
+if(c&&/^c\d{1,7}_[a-z0-9_]{2,21}$/.test(c)){var s=c.slice(1).split('_')[0];var el=document.getElementById('challenge');el.textContent=window.SG_IT?'Un amico ti sfida: batti '+num(s)+' punti!':'A friend dares you: beat '+num(s)+' points!';el.hidden=false;document.getElementById('play').href='play/?challenge='+c;}
+document.getElementById('share').onclick=function(){var d={title:NAME,text:(window.SG_IT?'Gioca a ':'Play ')+NAME+(window.SG_IT?' su SetteGames':' on SetteGames'),url:location.origin+location.pathname};if(navigator.share)navigator.share(d).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(d.url).then(function(){alert(window.SG_IT?'Link copiato!':'Link copied!')});};
+fetch("https://jvmpwhoosojharlbmgsi.supabase.co/functions/v1/hub-api"+'/leaderboard?game_id=sg-snake&mode=classic&period=week&limit=10').then(function(r){return r.json()}).then(function(j){if(!j.ok||!j.rows.length)return;var t=document.getElementById('board');t.innerHTML='';j.rows.forEach(function(r){var tr=document.createElement('tr');var a=document.createElement('td');a.textContent=r.rank+'. '+nm(r.name_seed);var b=document.createElement('td');b.textContent=num(r.score);tr.appendChild(a);tr.appendChild(b);t.appendChild(tr);});}).catch(function(){});</script></body></html>

@@ -1,0 +1,21 @@
+{
+  "slug": "snake",
+  "source_hash": "8c6a31440727e273",
+  "game_id": "sg-snake",
+  "version": "1.0.0",
+  "manifest_hash": "02ab16562046b763",
+  "template": "snake",
+  "engine": "cocos-3.8.8",
+  "git_commit": "481a7f92127b860558c0ac8dc6580077df7f41e9",
+  "git_dirty": false,
+  "built_at": "2026-10-09T08:25:16.095Z",
+  "duration_ms": 86017,
+  "output_dir": "dist/games/snake",
+  "files": 25,
+  "bytes": 2025915,
+  "gzip_bytes": 551138,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "4ea98370c6141094",
+  "log_file": ".factory/builds/snake/2026-10-09T08-23-50-096Z.log"
+}
