@@ -1,5 +1,14 @@
 [
   {
+    "slug": "snake",
+    "game_id": "sg-snake",
+    "name": "Snake",
+    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
+    "name_it": "Snake",
+    "description_it": "Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "2048",
     "game_id": "sg-2048",
     "name": "2048",
@@ -33,15 +42,6 @@
     "description": "Clear the field without touching a mine. Numbers tell you how many are hiding next door.",
     "name_it": "Campo minato",
     "description_it": "Ripulisci il campo senza toccare una mina. I numeri ti dicono quante se ne nascondono accanto.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "snake",
-    "game_id": "sg-snake",
-    "name": "Snake",
-    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
-    "name_it": "Snake",
-    "description_it": "Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.",
     "version": "1.0.0"
   },
   {
