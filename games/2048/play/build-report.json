@@ -1,0 +1,21 @@
+{
+  "slug": "2048",
+  "source_hash": "6d7d8012d7d379a9",
+  "game_id": "sg-2048",
+  "version": "1.0.0",
+  "manifest_hash": "9faf96b618579628",
+  "template": "merge",
+  "engine": "cocos-3.8.8",
+  "git_commit": "02fe6d287ceb23fd355ee4582146ef920cba27fc",
+  "git_dirty": true,
+  "built_at": "2026-10-09T08:22:01.990Z",
+  "duration_ms": 62256,
+  "output_dir": "dist/games/2048",
+  "files": 25,
+  "bytes": 2023495,
+  "gzip_bytes": 549614,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "c136083525b9b877",
+  "log_file": ".factory/builds/2048/2026-10-09T08-20-59-774Z.log"
+}
