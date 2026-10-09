@@ -1,5 +1,14 @@
 [
   {
+    "slug": "sudoku",
+    "game_id": "sg-sudoku",
+    "name": "Sudoku",
+    "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
+    "name_it": "Sudoku",
+    "description_it": "Il sudoku classico 9×9 con un puzzle nuovo a ogni partita. Tre livelli, note a matita, sfida il tempo.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "solitaire",
     "game_id": "sg-solitaire",
     "name": "Solitaire",
@@ -60,15 +69,6 @@
     "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
     "name_it": "2048",
     "description_it": "Scorri, unisci le tessere uguali e arriva a 2048. Sempre una mossa in più.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "sudoku",
-    "game_id": "sg-sudoku",
-    "name": "Sudoku",
-    "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
-    "name_it": "Sudoku",
-    "description_it": "Il sudoku classico 9×9 con un puzzle nuovo a ogni partita. Tre livelli, note a matita, sfida il tempo.",
     "version": "1.0.0"
   },
   {
