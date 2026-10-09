@@ -1,0 +1,21 @@
+{
+  "slug": "reaction-time-test",
+  "source_hash": "c153e4ca9d959400",
+  "game_id": "sg-reaction-time-test",
+  "version": "1.0.0",
+  "manifest_hash": "369cb14fbcf5a6d1",
+  "template": "reflex",
+  "engine": "cocos-3.8.8",
+  "git_commit": "fdbe048e7acbdef5b49e6bb5b2467094870f8e5f",
+  "git_dirty": false,
+  "built_at": "2026-10-09T09:24:56.520Z",
+  "duration_ms": 41925,
+  "output_dir": "dist/games/reaction-time-test",
+  "files": 25,
+  "bytes": 2050116,
+  "gzip_bytes": 557575,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "0fdc114dafa415cd",
+  "log_file": ".factory/builds/reaction-time-test/2026-10-09T09-24-14-609Z.log"
+}

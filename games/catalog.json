@@ -1,5 +1,14 @@
 [
   {
+    "slug": "reaction-time-test",
+    "game_id": "sg-reaction-time-test",
+    "name": "Reaction Time Test",
+    "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
+    "name_it": "Test dei riflessi",
+    "description_it": "Aspetta il verde e tocca più in fretta che puoi. Cinque tentativi, un tempo in millisecondi.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "minesweeper",
     "game_id": "sg-minesweeper",
     "name": "Minesweeper",
