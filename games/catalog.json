@@ -1,5 +1,14 @@
 [
   {
+    "slug": "perfect-timer",
+    "game_id": "sg-perfect-timer",
+    "name": "Perfect Timer",
+    "description": "Stop the timer at exactly 10 seconds. Easy, until the timer disappears.",
+    "name_it": "Perfect Timer",
+    "description_it": "Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.",
+    "version": "1.3.0"
+  },
+  {
     "slug": "solitaire",
     "game_id": "sg-solitaire",
     "name": "Solitaire",
@@ -51,15 +60,6 @@
     "description": "Stop the timer at exactly 7 seconds. Three rounds, and the dial goes dark halfway.",
     "name_it": "Sette Secondi",
     "description_it": "Ferma il cronometro esattamente a 7 secondi. Tre round, e a metà strada il quadrante si spegne.",
-    "version": "1.3.0"
-  },
-  {
-    "slug": "perfect-timer",
-    "game_id": "sg-perfect-timer",
-    "name": "Perfect Timer",
-    "description": "Stop the timer at exactly 10 seconds. Easy, until the timer disappears.",
-    "name_it": "Perfect Timer",
-    "description_it": "Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.",
     "version": "1.3.0"
   },
   {
