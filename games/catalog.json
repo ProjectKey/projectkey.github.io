@@ -1,5 +1,14 @@
 [
   {
+    "slug": "sudoku",
+    "game_id": "sg-sudoku",
+    "name": "Sudoku",
+    "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
+    "name_it": "Sudoku",
+    "description_it": "Il sudoku classico 9×9 con un puzzle nuovo a ogni partita. Tre livelli, note a matita, sfida il tempo.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "reaction-time-test",
     "game_id": "sg-reaction-time-test",
     "name": "Reaction Time Test",

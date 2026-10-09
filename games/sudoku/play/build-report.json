@@ -1,0 +1,21 @@
+{
+  "slug": "sudoku",
+  "source_hash": "8b89bbdccf1bade4",
+  "game_id": "sg-sudoku",
+  "version": "1.0.0",
+  "manifest_hash": "57cd89a1b3d1cd56",
+  "template": "sudoku",
+  "engine": "cocos-3.8.8",
+  "git_commit": "fdbe048e7acbdef5b49e6bb5b2467094870f8e5f",
+  "git_dirty": false,
+  "built_at": "2026-10-09T09:27:13.337Z",
+  "duration_ms": 45316,
+  "output_dir": "dist/games/sudoku",
+  "files": 25,
+  "bytes": 2064555,
+  "gzip_bytes": 562926,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "4847553bfd8b41c9",
+  "log_file": ".factory/builds/sudoku/2026-10-09T09-26-28-040Z.log"
+}
