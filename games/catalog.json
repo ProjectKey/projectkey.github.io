@@ -1,5 +1,14 @@
 [
   {
+    "slug": "tre-secondi",
+    "game_id": "sg-tre-secondi",
+    "name": "Three Seconds Flat",
+    "description": "Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.",
+    "name_it": "Tre Secondi Netti",
+    "description_it": "Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.",
+    "version": "1.3.0"
+  },
+  {
     "slug": "sette-secondi",
     "game_id": "sg-sette-secondi",
     "name": "Seven Seconds",
@@ -61,14 +70,5 @@
     "name_it": "Test dei riflessi",
     "description_it": "Aspetta il verde e tocca più in fretta che puoi. Cinque tentativi, un tempo in millisecondi.",
     "version": "1.0.0"
-  },
-  {
-    "slug": "tre-secondi",
-    "game_id": "sg-tre-secondi",
-    "name": "Three Seconds Flat",
-    "description": "Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.",
-    "name_it": "Tre Secondi Netti",
-    "description_it": "Ferma il cronometro esattamente a 3 secondi. Cinque round veloci, e alla cieca il quadrante si spegne dopo 1 secondo.",
-    "version": "1.3.0"
   }
 ]
