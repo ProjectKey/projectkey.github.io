@@ -1,0 +1,21 @@
+{
+  "slug": "solitaire",
+  "source_hash": "08118776d2da4409",
+  "game_id": "sg-solitaire",
+  "version": "1.0.0",
+  "manifest_hash": "1d094c7ae97513e6",
+  "template": "cards",
+  "engine": "cocos-3.8.8",
+  "git_commit": "fd37cd99cc9ad2910ed7eb9ff62d4fea50b6aaa5",
+  "git_dirty": false,
+  "built_at": "2026-10-09T09:45:11.235Z",
+  "duration_ms": 13540,
+  "output_dir": "dist/games/solitaire",
+  "files": 25,
+  "bytes": 2064977,
+  "gzip_bytes": 564031,
+  "max_gzip_kb": 1200,
+  "within_budget": true,
+  "content_hash": "9972adeb160f373a",
+  "log_file": ".factory/builds/solitaire/2026-10-09T09-44-57-700Z.log"
+}
