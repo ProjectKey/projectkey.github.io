@@ -1,5 +1,14 @@
 [
   {
+    "slug": "minesweeper",
+    "game_id": "sg-minesweeper",
+    "name": "Minesweeper",
+    "description": "Clear the field without touching a mine. Numbers tell you how many are hiding next door.",
+    "name_it": "Campo minato",
+    "description_it": "Ripulisci il campo senza toccare una mina. I numeri ti dicono quante se ne nascondono accanto.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "snake",
     "game_id": "sg-snake",
     "name": "Snake",
@@ -33,15 +42,6 @@
     "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
     "name_it": "Test dei riflessi",
     "description_it": "Aspetta il verde e tocca più in fretta che puoi. Cinque tentativi, un tempo in millisecondi.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "minesweeper",
-    "game_id": "sg-minesweeper",
-    "name": "Minesweeper",
-    "description": "Clear the field without touching a mine. Numbers tell you how many are hiding next door.",
-    "name_it": "Campo minato",
-    "description_it": "Ripulisci il campo senza toccare una mina. I numeri ti dicono quante se ne nascondono accanto.",
     "version": "1.0.0"
   },
   {
