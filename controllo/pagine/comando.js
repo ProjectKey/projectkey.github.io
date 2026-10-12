@@ -51,6 +51,16 @@ export async function disegna(ctx) {
   const wau = buone.reduce((s, r) => s + (r.k.wau ?? 0), 0) || null;
   const mau = buone.reduce((s, r) => s + (r.k.mau ?? 0), 0) || null;
   const ret = buone.length === 1 ? buone[0].k.retention ?? {} : {};
+  // Gli iscritti (0106): gli account veri, col totale che cresce giorno per giorno.
+  const conIscritti = buone.filter((r) => r.k.iscritti);
+  const iscrittiGiorni = sommaSerie(conIscritti.map((r) => r.k.iscritti.giorni ?? [])).slice(-giorni);
+  const iscrittiTot = conIscritti.length ? conIscritti.reduce((s, r) => s + (r.k.iscritti.totale ?? 0), 0) : null;
+  const iscrittiNuovi = tot(iscrittiGiorni, 'nuovi');
+  const conIdentita = conIscritti.reduce((s, r) => s + (r.k.iscritti.con_identita ?? 0), 0);
+  const hannoGiocato = conIscritti.reduce((s, r) => s + (r.k.iscritti.hanno_giocato ?? 0), 0);
+  // «Attivi nel periodo»: 7 e 30 giorni sono WAU e MAU; per 90 giorni il conto del periodo intero.
+  const attiviPeriodo = giorni === 7 ? wau : giorni === 30 ? mau
+    : conIscritti.reduce((s, r) => s + (r.k.iscritti.attivi_nel_periodo ?? 0), 0) || null;
   const variazione = (a, b) => (a && b ? (a - b) / b : null);
   const etichette = periodo.map((g) => g.giorno.slice(5).split('-').reverse().join('/'));
 
@@ -69,15 +79,24 @@ export async function disegna(ctx) {
 
     h('h2', {}, 'Business'),
     h('div', { class: 'griglia g6' },
-      kpi('DAU oggi', num(ultimo.dau), `${pct(variazione(ultimo.dau, prima.dau))} su 7 g fa`, variazione(ultimo.dau, prima.dau)),
-      kpi('WAU', num(wau), 'ultimi 7 giorni'),
-      kpi('MAU', num(mau), 'ultimi 30 giorni'),
-      kpi('DAU/MAU', mau && ultimo.dau ? perc(ultimo.dau / mau) : '—', 'stickiness'),
-      kpi('Nuovi oggi', num(ultimo.nuovi), `${num(tot(periodo, 'nuovi'))} nel periodo`),
+      kpi('Iscritti in tutto', num(iscrittiTot), iscrittiTot === null ? 'il gioco non li conta ancora'
+        : `${num(conIdentita)} con account collegato · ${num(hannoGiocato)} hanno giocato`),
+      kpi(`Nuovi iscritti · ${giorni} g`, num(iscrittiNuovi), `${num(iscrittiGiorni.at(-1)?.nuovi)} oggi`),
+      kpi(`Attivi · ${giorni} g`, num(attiviPeriodo), 'telefoni che hanno aperto l\'app'),
+      kpi('Attivi oggi', num(ultimo.dau), `${pct(variazione(ultimo.dau, prima.dau))} su 7 g fa`, variazione(ultimo.dau, prima.dau)),
+      kpi('WAU · MAU', `${num(wau)} · ${num(mau)}`, mau && ultimo.dau ? `oggi ${perc(ultimo.dau / mau)} del mese` : 'ultimi 7 · 30 giorni'),
       kpi('Retention D1', perc(ret.d1), buone.length > 1 ? 'scegli un\'app' : `D7 ${perc(ret.d7)} · D30 ${perc(ret.d30)}`)),
 
     h('div', { class: 'griglia g2' },
-      scheda('Utenti attivi al giorno', grafico('line', { etichette, serie: [{ nome: 'DAU', valori: periodo.map((g) => g.dau) }, { nome: 'Nuovi', valori: periodo.map((g) => g.nuovi) }] })),
+      scheda('Iscritti nel tempo', grafico('line', { etichette: iscrittiGiorni.map((g) => g.giorno.slice(5).split('-').reverse().join('/')),
+        serie: [{ nome: 'Iscritti in tutto', valori: iscrittiGiorni.map((g) => g.totale) }] }),
+        { nota: 'account veri: senza amministratori, robot e account di prova' }),
+      scheda('Nuovi iscritti al giorno', grafico('bar', { etichette: iscrittiGiorni.map((g) => g.giorno.slice(5).split('-').reverse().join('/')),
+        serie: [{ nome: 'Nuovi iscritti', valori: iscrittiGiorni.map((g) => g.nuovi) }] }))),
+
+    h('div', { class: 'griglia g2' },
+      scheda('Attivi al giorno', grafico('line', { etichette, serie: [{ nome: 'Attivi', valori: periodo.map((g) => g.dau) }, { nome: 'Telefoni nuovi', valori: periodo.map((g) => g.nuovi) }] }),
+        { nota: 'telefoni che hanno aperto l\'app quel giorno, e quelli che la aprivano per la prima volta' }),
       scheda('Entrate al giorno', grafico('bar', { etichette, soldi: true, serie: [{ nome: 'Lorde', valori: periodo.map((g) => g.entrate_lorde) }, { nome: 'Nette', valori: periodo.map((g) => g.entrate_nette) }] }),
         { nota: 'nette = senza IVA e commissione' })),
 
@@ -92,10 +111,10 @@ export async function disegna(ctx) {
 
     h('h2', {}, 'Gioco'),
     h('div', { class: 'griglia g6' },
-      kpi('Partite oggi', num(ultimo.partite_iniziate), `${num(ultimo.partite_finite)} finite`),
-      kpi('Completamento', ultimo.partite_iniziate ? perc(ultimo.partite_finite / ultimo.partite_iniziate) : '—', 'finite / iniziate'),
-      kpi('Abbandoni oggi', num(ultimo.abbandoni), ultimo.partite_iniziate ? `${perc(ultimo.abbandoni / ultimo.partite_iniziate)} delle partite` : ''),
-      kpi('Partite per utente', ultimo.dau ? (ultimo.partite_iniziate / ultimo.dau).toLocaleString('it-IT', { maximumFractionDigits: 1 }) : '—', 'oggi'),
+      kpi(`Partite · ${giorni} g`, num(tot(periodo, 'partite_iniziate')), `${num(ultimo.partite_iniziate)} oggi · ${num(tot(periodo, 'partite_con_persone'))} con altre persone`),
+      kpi('Completamento', tot(periodo, 'partite_iniziate') ? perc(tot(periodo, 'partite_finite') / tot(periodo, 'partite_iniziate')) : '—', `finite / iniziate, ${giorni} g`),
+      kpi(`Abbandoni · ${giorni} g`, num(tot(periodo, 'abbandoni')), `${num(ultimo.abbandoni)} oggi`),
+      kpi('Partite per attivo', tot(periodo, 'dau') ? (tot(periodo, 'partite_iniziate') / tot(periodo, 'dau')).toLocaleString('it-IT', { maximumFractionDigits: 1 }) : '—', `al giorno, media ${giorni} g`),
       kpi('Sessioni per utente', ultimo.dau && ultimo.sessioni ? (ultimo.sessioni / ultimo.dau).toLocaleString('it-IT', { maximumFractionDigits: 1 }) : '—', 'oggi'),
       kpi('Live Ops', '—', 'eventi: fase 2')),
 

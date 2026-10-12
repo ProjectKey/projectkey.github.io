@@ -10,7 +10,7 @@
 import * as api from '../api.js';
 import { tastoRimborsa } from './monetizzazione.js';
 import {
-  h, svuota, metti, scheda, tabella, pill, kpi, num, soldi, perc, data, ora, giornoDi, fa,
+  h, svuota, metti, scheda, tabella, pill, kpi, num, soldi, perc, data, ora, giornoDi, fa, giorniFa,
   confermaConMotivo, avvisa, caricamento, erroreBox, nonDisponibile, memoria,
 } from '../ui.js';
 
@@ -40,7 +40,7 @@ export async function disegna(ctx) {
     metti(svuota(esiti),
       errori.length && q.value.trim() ? erroreBox(new Error(errori.join(' · '))) : null,
       errori.length && !q.value.trim() ? h('p', { class: 'nota', style: { color: 'var(--ink3)', fontSize: '13px' } }, `Senza ricerca non rispondono: ${errori.join(' · ')}. Scrivi un nome o un ID per cercare anche lì.`) : null,
-      scheda(cercato ? `Risultati per «${cercato}» (${righe.length})` : `Ultimi giocatori visti (${righe.length})`, tabella([
+      scheda(cercato ? `Risultati per «${cercato}» (${righe.length})` : `Gli ultimi ${righe.length} visti`, tabella([
         { titolo: 'Nome', cella: (g) => h('strong', {}, g.nome ?? '—') },
         { titolo: 'ID', cella: (g) => h('span', { class: 'mono' }, g.id) },
         { titolo: 'App', cella: (g) => g.app.nome },
@@ -51,7 +51,25 @@ export async function disegna(ctx) {
       ], righe, { vuoto: 'Nessun giocatore trovato.', clic: (g) => ctx.vai(`#/giocatori/${g.app.id}/${g.id}`) }),
       { nota: cercato ? '' : 'a ricerca vuota: gli ultimi 50 per app, senza amministratori e account di prova' }));
   };
+  // Quanti sono, prima della lista (12 ott 2026): la lista ne mostra al massimo 50 per app.
+  const conti = h('div', {});
+  void Promise.all((ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'kpi'))
+    .map((a) => api.kpi(a.id, giorniFa(29), giorniFa(0)).then((k) => k.iscritti ?? null, () => null)))
+    .then((tutti) => {
+      const v = tutti.filter(Boolean);
+      if (!v.length) return;
+      const s = (k) => v.reduce((t, x) => t + (Number(x[k]) || 0), 0);
+      const nuovi = (n) => v.reduce((t, x) => t + (x.giorni ?? []).slice(-n).reduce((u, g) => u + (g.nuovi ?? 0), 0), 0);
+      metti(svuota(conti), h('div', { class: 'griglia g6' },
+        kpi('Iscritti in tutto', num(s('totale')), 'account veri, senza prove e amministratori'),
+        kpi('Nuovi oggi', num(nuovi(1))),
+        kpi('Nuovi · 7 g', num(nuovi(7))),
+        kpi('Nuovi · 30 g', num(nuovi(30))),
+        kpi('Hanno giocato', num(s('hanno_giocato')), s('totale') ? `${perc(s('hanno_giocato') / s('totale'))} degli iscritti` : ''),
+        kpi('Account collegato', num(s('con_identita')), 'Google, Facebook o Apple; gli altri sono anonimi')));
+    });
   const nodi = [
+    conti,
     scheda(null, h('form', { class: 'filtri', onsubmit: (e) => { e.preventDefault(); void cerca(); } },
       q, h('button', { class: 'bottone primario', type: 'submit' }, 'Cerca'))),
     esiti,
