@@ -1,5 +1,14 @@
 [
   {
+    "slug": "snake",
+    "game_id": "sg-snake",
+    "name": "Snake",
+    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
+    "name_it": "Snake",
+    "description_it": "Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "minesweeper",
     "game_id": "sg-minesweeper",
     "name": "Minesweeper",
@@ -60,15 +69,6 @@
     "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
     "name_it": "Solitario",
     "description_it": "Il solitario Klondike classico. Tocca una carta e salta dove va.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "snake",
-    "game_id": "sg-snake",
-    "name": "Snake",
-    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
-    "name_it": "Snake",
-    "description_it": "Scorri per sterzare, mangia per crescere, non morderti la coda. Il classico gioco del serpente, più veloce a ogni boccone.",
     "version": "1.0.0"
   },
   {
