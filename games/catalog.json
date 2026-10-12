@@ -1,5 +1,14 @@
 [
   {
+    "slug": "solitaire",
+    "game_id": "sg-solitaire",
+    "name": "Solitaire",
+    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
+    "name_it": "Solitario",
+    "description_it": "Il solitario Klondike classico. Tocca una carta e salta dove va.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "snake",
     "game_id": "sg-snake",
     "name": "Snake",
@@ -61,15 +70,6 @@
     "name_it": "Perfect Timer",
     "description_it": "Ferma il cronometro esattamente a 10 secondi. Sembra facile, finché il tempo non sparisce.",
     "version": "1.3.0"
-  },
-  {
-    "slug": "solitaire",
-    "game_id": "sg-solitaire",
-    "name": "Solitaire",
-    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
-    "name_it": "Solitario",
-    "description_it": "Il solitario Klondike classico. Tocca una carta e salta dove va.",
-    "version": "1.0.0"
   },
   {
     "slug": "sudoku",
