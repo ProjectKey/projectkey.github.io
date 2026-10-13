@@ -1,5 +1,12 @@
 [
   {
+    "slug": "reaction-time-test",
+    "game_id": "sg-reaction-time-test",
+    "name": "Reaction Time Pop",
+    "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "minesweeper",
     "game_id": "sg-minesweeper",
     "name": "Minesweeper Pop",
@@ -54,12 +61,5 @@
     "name": "Perfect Timer",
     "description": "Stop the timer at exactly 10 seconds. Easy, until the timer disappears.",
     "version": "1.3.0"
-  },
-  {
-    "slug": "reaction-time-test",
-    "game_id": "sg-reaction-time-test",
-    "name": "Reaction Time Test",
-    "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
-    "version": "1.0.0"
   }
 ]
