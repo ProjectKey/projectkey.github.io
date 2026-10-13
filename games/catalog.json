@@ -1,5 +1,12 @@
 [
   {
+    "slug": "solitaire",
+    "game_id": "sg-solitaire",
+    "name": "Solitaire Pop",
+    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "sudoku",
     "game_id": "sg-sudoku",
     "name": "Sudoku Pop",
@@ -39,13 +46,6 @@
     "game_id": "sg-reaction-time-test",
     "name": "Reaction Time Test",
     "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "solitaire",
-    "game_id": "sg-solitaire",
-    "name": "Solitaire",
-    "description": "Classic Klondike solitaire. Tap a card and it jumps where it fits.",
     "version": "1.0.0"
   },
   {
