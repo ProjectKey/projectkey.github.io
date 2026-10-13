@@ -1,5 +1,12 @@
 [
   {
+    "slug": "tre-secondi",
+    "game_id": "sg-tre-secondi",
+    "name": "Three Seconds Flat",
+    "description": "Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.",
+    "version": "1.3.0"
+  },
+  {
     "slug": "sette-secondi",
     "game_id": "sg-sette-secondi",
     "name": "Seven Seconds",
@@ -11,13 +18,6 @@
     "game_id": "sg-perfect-timer",
     "name": "Perfect Timer",
     "description": "Stop the timer at exactly 10 seconds. Easy, until the timer disappears.",
-    "version": "1.3.0"
-  },
-  {
-    "slug": "tre-secondi",
-    "game_id": "sg-tre-secondi",
-    "name": "Three Seconds Flat",
-    "description": "Stop the timer at exactly 3 seconds. Five quick rounds, and in Blind mode the dial goes dark after 1 second.",
     "version": "1.3.0"
   },
   {
