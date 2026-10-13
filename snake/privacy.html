@@ -8,13 +8,16 @@
 <!--
   L'INFORMATIVA DI SNAKE 100 BATTLE ROYALE (com.settegames.snake)
   ===============================================================
+  Rev 13/10/2026: statistiche anonime ed errori accesi (TELEMETRIA in config.ts,
+  APP §10; legittimo interesse come Last Sheep, senza interruttore in app).
   Rev 12/10/2026, versione 1.1.0 di prova. Pubblicata il 13/10/2026; sorgente in
   sito/snake/privacy.html, si pubblica copiandola in snake/ del repo del sito
   (TOOLS «GitHub — codice e sito»: rilanciare lo script della testata, che
   aggiunge Snake al menu «Games» e al piede, e alzare sitemap.xml).
   Scritta leggendo il codice, non a memoria:
-  apps/snake/src/schermate/config.ts (PROVA_LOCALE = true: conto, telemetria,
-  config remota ed errori restano sul telefono; servizi.ts avviaTutto),
+  apps/snake/src/schermate/config.ts (PROVA_LOCALE = true: conto e config
+  remota restano sul telefono; TELEMETRIA = true: eventi ed errori vanno a
+  `eventi`, gioco 'snake'; servizi.ts avviaTutto, Radice.tsx corsa.fine),
   apps/snake/src/partita/online.ts (ONLINE_ACCESO = false), shared/servizi/
   annunci.ts (AdMob + UMP, consenso dopo il benvenuto: Radice.tsx), cassa.ts
   (Google Play Billing: senza server non accredita), notifiche.ts (locali),
@@ -79,12 +82,13 @@
 </p>
 
 <h1>Snake 100 Battle Royale — Privacy policy</h1>
-<p class="data">Last updated: 12 October 2026 · version 1.1.0 (test version)</p>
+<p class="data">Last updated: 13 October 2026 · version 1.1.0 (test version)</p>
 
 <div class="box">
   <p><strong>In short.</strong> In this version of the game <strong>your progress stays on your
-  phone</strong>: there is no account on our server, no sign-in, and the game sends
-  <strong>nothing about you or your matches to us</strong>. The other snakes in a match are
+  phone</strong>: there is no account on our server and no sign-in. The game sends us only
+  <strong>anonymous gameplay statistics and error reports</strong>, tied to a random
+  installation ID, never to you. The other snakes in a match are
   played by your phone. <strong>Google</strong> shows ads (with your consent where the law
   requires it) and handles payments; <strong>Expo</strong> delivers small game updates. We
   don't sell data. To erase your game, uninstall the app or clear its data.</p>
@@ -108,11 +112,39 @@ storage. They are not sent to us:</p>
   <li>your <strong>settings</strong>: sound, music, vibration, alerts, controls, Training
   difficulty;</li>
   <li>an <strong>installation ID</strong>: a random number created on first launch, shown in
-  Settings. It is not your device ID or your advertising ID.</li>
+  Settings. It is not your device ID or your advertising ID. It travels with the
+  statistics (next section).</li>
 </ul>
-<p>If something in the app breaks, the error is noted on the phone; it is not sent
-anywhere. Uninstalling the app, or clearing its data in Android settings, erases
-all of the above. We can't restore it, because we don't have a copy.</p>
+<p>Uninstalling the app, or clearing its data in Android settings, erases all of the
+above. We can't restore your game, because we don't have a copy.</p>
+
+<h2 id="stats">Anonymous gameplay statistics</h2>
+<p>To see whether the game is fun, too hard or broken, and how many players come back,
+the game sends our server statistics tied <strong>only to the installation ID</strong>.
+They carry no name, no email, no account and no advertising ID.</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Gameplay events</strong>: app installed and opened, sessions and their
+      length, and at the end of each match the mode, your placement, how long you
+      lasted, eliminations, your biggest size and whether you won; the app version</td>
+      <td>To balance the game and count how many players come back</td>
+      <td>Legitimate interest</td>
+    </tr>
+    <tr>
+      <td><strong>Error reports</strong>: when something in the app breaks, the type of
+      error, a shortened message and where in the code it happened, the screen and the
+      app version. Names, codes and emails are removed from the message before it leaves
+      the phone. <strong>No third-party crash service</strong></td>
+      <td>To find and fix crashes</td>
+      <td>Legitimate interest</td>
+    </tr>
+  </tbody>
+</table>
+<p>They are stored on our server at <strong>Supabase</strong>, in the <strong>European Union
+(Ireland)</strong>, for <strong>24 months</strong>. You can object at any time: send us the
+installation ID shown in Settings and we delete its statistics.</p>
 
 <h2>If you write to us</h2>
 <p>In the game, <strong>Settings → CONTACT US</strong> and <strong>REPORT A PROBLEM</strong> open an
@@ -180,14 +212,16 @@ vitals).</p>
 <h2>What we don't collect</h2>
 <p>No account, name, email (unless you write to us), phone number, contacts, photos,
 microphone, camera or precise location. The app doesn't ask for those permissions,
-and they are explicitly blocked in its configuration. No gameplay statistics leave
-your phone in this version, and no third-party crash service is used.</p>
+and they are explicitly blocked in its configuration. The gameplay statistics carry no
+name, account or advertising ID, and no third-party crash service is used.</p>
 
 <h2 id="delete">Deleting your data</h2>
 <div class="box">
   <p><strong>Your game</strong> is only on your phone: uninstall the app, or clear its data
   (Android settings → Apps → Snake 100 → Storage → Clear data). There is no account
   on our server to delete in this version.</p>
+  <p><strong>Statistics:</strong> send us the installation ID shown in Settings and we
+  delete its statistics within thirty days.</p>
   <p><strong>Ads:</strong> reset or delete your advertising ID in your phone's settings;
   change your consent in <strong>Settings → AD PRIVACY</strong>.</p>
   <p><strong>Emails you sent us:</strong> ask us at
@@ -221,12 +255,13 @@ is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Snake 100 Battle Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 12 ottobre 2026 · versione 1.1.0 (versione di prova)</p>
+<p class="data">Ultimo aggiornamento: 13 ottobre 2026 · versione 1.1.0 (versione di prova)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> In questa versione del gioco <strong>i tuoi progressi restano
-  sul telefono</strong>: niente account sul nostro server, niente accesso, e il gioco
-  <strong>non ci manda niente di te né delle tue partite</strong>. Gli altri serpenti in
+  sul telefono</strong>: niente account sul nostro server, niente accesso. Il gioco ci manda
+  solo <strong>statistiche di gioco anonime e segnalazioni di errore</strong>, legate a un
+  identificativo d'installazione casuale, mai a te. Gli altri serpenti in
   partita li gioca il tuo telefono. <strong>Google</strong> mostra la pubblicità (col tuo
   consenso, dove la legge lo richiede) e gestisce i pagamenti; <strong>Expo</strong>
   consegna i piccoli aggiornamenti del gioco. Non vendiamo dati. Per cancellare il
@@ -253,12 +288,41 @@ dell'app. Non ci vengono mandate:</p>
   del Training;</li>
   <li>un <strong>identificativo d'installazione</strong>: un numero casuale creato al primo
   avvio, visibile nelle impostazioni. Non è l'ID del dispositivo né l'ID
-  pubblicità.</li>
+  pubblicità. Viaggia con le statistiche (sezione seguente).</li>
 </ul>
-<p>Se qualcosa nell'app si rompe, l'errore resta annotato sul telefono e non va da
-nessuna parte. Disinstallare l'app, o cancellarne i dati dalle impostazioni di
-Android, cancella tutto questo. Non possiamo ripristinarlo, perché una copia non
+<p>Disinstallare l'app, o cancellarne i dati dalle impostazioni di Android, cancella
+tutto questo. Non possiamo ripristinare la tua partita, perché una copia non
 l'abbiamo.</p>
+
+<h2 id="statistiche">Statistiche di gioco anonime</h2>
+<p>Per capire se il gioco diverte, se è troppo difficile o se si rompe, e quanti
+giocatori tornano, il gioco manda al nostro server statistiche legate <strong>solo
+all'identificativo d'installazione</strong>. Non contengono nomi, email, account né ID
+pubblicità.</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Eventi di gioco</strong>: app installata e aperta, sessioni e loro durata, e
+      alla fine di ogni partita la modalità, il piazzamento, quanto sei durato, le
+      eliminazioni, la lunghezza massima e se hai vinto; la versione dell'app</td>
+      <td>Bilanciare il gioco e contare quanti giocatori tornano</td>
+      <td>Legittimo interesse</td>
+    </tr>
+    <tr>
+      <td><strong>Segnalazioni di errore</strong>: quando qualcosa nell'app si rompe, il tipo
+      di errore, un messaggio accorciato e il punto del codice, la schermata e la
+      versione dell'app. Nomi, codici ed email vengono tolti dal messaggio prima che
+      esca dal telefono. <strong>Nessun servizio di crash di terzi</strong></td>
+      <td>Trovare e correggere gli errori</td>
+      <td>Legittimo interesse</td>
+    </tr>
+  </tbody>
+</table>
+<p>Stanno sul nostro server su <strong>Supabase</strong>, nell'<strong>Unione europea
+(Irlanda)</strong>, per <strong>24 mesi</strong>. Puoi opporti in qualunque momento: mandaci
+l'identificativo d'installazione che vedi nelle impostazioni e cancelliamo le sue
+statistiche.</p>
 
 <h2>Se ci scrivi</h2>
 <p>Nel gioco, <strong>Settings → CONTACT US</strong> e <strong>REPORT A PROBLEM</strong> aprono una
@@ -328,15 +392,17 @@ Android, Google Play può mostrarci statistiche anonime degli arresti anomali
 <h2>Cosa non raccogliamo</h2>
 <p>Nessun account, nome, email (a meno che tu non ci scriva), numero di telefono,
 rubrica, foto, microfono, fotocamera o posizione precisa. L'app non chiede quei
-permessi, e nella sua configurazione sono bloccati esplicitamente. In questa versione
-nessuna statistica di gioco esce dal telefono, e non c'è nessun servizio di crash di
-terzi.</p>
+permessi, e nella sua configurazione sono bloccati esplicitamente. Le statistiche di
+gioco non contengono nomi, account né ID pubblicità, e non c'è nessun servizio di crash
+di terzi.</p>
 
 <h2 id="cancellazione">Cancellare i tuoi dati</h2>
 <div class="box">
   <p><strong>La tua partita</strong> sta solo sul telefono: disinstalla l'app, o cancellane i
   dati (Impostazioni di Android → App → Snake 100 → Spazio di archiviazione → Cancella
   dati). In questa versione sul nostro server non c'è nessun account da cancellare.</p>
+  <p><strong>Statistiche:</strong> mandaci l'identificativo d'installazione che vedi nelle
+  impostazioni e cancelliamo le sue statistiche entro trenta giorni.</p>
   <p><strong>Pubblicità:</strong> reimposta o cancella l'ID pubblicità dalle impostazioni del
   telefono; cambia il consenso in <strong>Settings → AD PRIVACY</strong>.</p>
   <p><strong>Le email che ci hai mandato:</strong> chiedilo a
