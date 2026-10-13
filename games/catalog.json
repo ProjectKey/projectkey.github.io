@@ -1,5 +1,12 @@
 [
   {
+    "slug": "sudoku",
+    "game_id": "sg-sudoku",
+    "name": "Sudoku Pop",
+    "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "2048",
     "game_id": "sg-2048",
     "name": "2048 Pop",
@@ -26,13 +33,6 @@
     "name": "Perfect Timer",
     "description": "Stop the timer at exactly 10 seconds. Easy, until the timer disappears.",
     "version": "1.3.0"
-  },
-  {
-    "slug": "sudoku",
-    "game_id": "sg-sudoku",
-    "name": "Sudoku",
-    "description": "Classic 9×9 sudoku with a fresh puzzle every game. Three levels, pencil notes, beat the clock.",
-    "version": "1.0.0"
   },
   {
     "slug": "reaction-time-test",
