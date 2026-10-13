@@ -536,3 +536,12 @@ export const contenutoMetriche = (id, metriche, motivo = 'Numeri del post') => c
 export const comunita = () => chiama('social.comunita');
 export const comunitaAggiorna = (id, campi, motivo = 'Aggiornata la scheda della community') => chiama('social.comunita.aggiorna', { id, ...campi, motivo });
 export const concorrenti = (giorni = 28) => chiama('social.concorrenti', { giorni });
+
+/* ------------------------------------------------------------ lo Studio OS, M1 (0109, `controllo/studio.ts`) */
+
+/** La pagina Portafoglio: una colonna per gioco (rilasci, metriche con la qualità, scheda) e le somme dello studio. */
+export const portafoglio = async () => sbusta(await chiama('studio.portafoglio'));
+/** Avvia la raccolta (in background sul server): `{ rifai: N, rilasci: true }`. Risponde quanti giorni sono in coda. */
+export const studioRaccogli = (x = {}) => chiama('studio.raccogli', x);
+export const studioScheda = (app, campi, motivo) => chiama('studio.scheda.salva', { app, ...campi, motivo });
+export const studioRilascio = (app, piattaforma, campi, motivo) => chiama('studio.rilascio.salva', { app, piattaforma, ...campi, motivo });

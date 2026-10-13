@@ -13,6 +13,8 @@ import { h, svuota, metti, memoria, avvisa, erroreBox, caricamento } from './ui.
 const MENU = [
   { gruppo: 'Panoramica', voci: [
     { k: 'comando', nome: 'Command Center', ico: '◎' },
+    // Studio OS M1 (13 ott 2026, 0109): i giochi affiancati, con la qualità di ogni numero.
+    { k: 'portafoglio', nome: 'Portafoglio', ico: '▥' },
     { k: 'apps', nome: 'App', ico: '▦' },
   ] },
   { gruppo: 'Giocatori', voci: [
@@ -76,6 +78,7 @@ const voceDi = (k) => VOCI.find((v) => v.k === k) ?? VOCI[0];
 /** Quale modulo disegna quale pagina (caricati solo quando servono). */
 const PAGINE = {
   comando: () => import('./pagine/comando.js'),
+  portafoglio: () => import('./pagine/portafoglio.js'),
   apps: () => import('./pagine/apps.js'),
   giocatori: () => import('./pagine/giocatori.js'),
   partite: () => import('./pagine/partite.js'),

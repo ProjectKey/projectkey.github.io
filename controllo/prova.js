@@ -103,6 +103,64 @@ const TEMI_FINTI = [
   { id: 'bug', nome: 'Si blocca, crash, non funziona', recensioni: 9, quota: 14, risposta: 'Stabilità misurata e scritta nella scheda', concorrenti: ['Concorrente C'], esempi: [] },
 ];
 
+/** Il portafoglio dello Studio OS (M1): la forma di `studio.portafoglio`, con numeri FINTI. */
+function PORTAFOGLIO_FINTO() {
+  const ieri = giorno(1);
+  const v = (valore, qualita = 'verificato', nota = null) => ({ valore: qualita === 'mancante' ? null : valore, qualita, fonte: 'prova', nota, giorno: ieri });
+  const manca = (nota) => v(null, 'mancante', nota);
+  const ril = (stato, versione = null, manuale = false, nota = null) => ({ stato, versione, manuale, nota, fonte: 'prova', verificato_il: istante(600) });
+  const gioco = (app, nome, famiglia, x) => ({
+    app, nome, famiglia, registrata: x.registrata ?? true, adattatore: x.registrata ?? true, nota: x.nota ?? null,
+    ultimo_giorno: x.registrata === false ? null : ieri, in_ritardo: false,
+    metriche: x.metriche, somme: x.somme, rilasci: x.rilasci,
+    scheda: { problemi: x.problemi ?? '', prossima_azione: x.prossima ?? '', aggiornata_il: istante(90), aggiornata_da: 'audit 13/10' },
+    raccolta: null, problemi_automatici: x.auto ?? [],
+  });
+  const tutteMancanti = (nota) => Object.fromEntries(['uap_giorno', 'uap_7', 'uap_30', 'uap_cumulativi', 'uap_nuovi', 'uap_ritorno', 'attivi_giorno', 'attivi_30', 'retention_d1', 'retention_d7', 'retention_d30'].map((k) => [k, manca(nota)]));
+  const sommeMancanti = (nota) => Object.fromEntries(['uap_nuovi_7', 'uap_nuovi_30', 'entrate_lorde_30', 'entrate_nette_30', 'entrate_pubblicita_30', 'acquisti_30'].map((k) => [k, manca(nota)]));
+  const nonConf = { ios: ril('NOT_CONFIGURED', null, true), web: ril('NOT_CONFIGURED', null, true), telegram: ril('NOT_CONFIGURED', null, true), crazygames: ril('NOT_CONFIGURED', null, true) };
+  const giochi = [
+    gioco('settebello-scopa', 'Scopa Online', 'Settebello', {
+      metriche: { uap_giorno: v(3), uap_7: v(27), uap_30: v(41), uap_cumulativi: v(212), uap_nuovi: v(1), uap_ritorno: v(2), attivi_giorno: v(4), attivi_30: v(53),
+        retention_d1: v(0.264), retention_d7: v(0.25), retention_d30: manca('coorte troppo giovane') },
+      somme: { uap_nuovi_7: v(9), uap_nuovi_30: v(38), entrate_lorde_30: v(0), entrate_nette_30: v(0), entrate_pubblicita_30: manca('AdMob non collegato'), acquisti_30: v(0) },
+      rilasci: { android: ril('LIVE', '1.0.9'), ...nonConf }, problemi: 'Volume quasi nullo.', prossima: 'Scheda Play in inglese.',
+      auto: ['Nessun ricavo dagli acquisti in 30 giorni.'],
+    }),
+    gioco('settebello-briscola', 'Briscola Online', 'Settebello', {
+      metriche: { ...tutteMancanti('nessuna installazione ha ancora detto «briscola»'), uap_giorno: v(1, 'stimato', 'solo partite finite') },
+      somme: { ...sommeMancanti('non ancora misurato'), entrate_lorde_30: v(0), acquisti_30: v(0) },
+      rilasci: { android: ril('TESTING', '1.0.0', false, 'canale «Test chiuso»'), ...nonConf }, prossima: 'Produzione su Play.',
+    }),
+    gioco('last-sheep-royale', 'Last Sheep Royale', 'Arcade (100 BR)', {
+      metriche: { uap_giorno: v(2, 'stimato', 'stima dall\'alto'), uap_7: v(10, 'stimato'), uap_30: v(78, 'stimato'), uap_cumulativi: v(301, 'stimato'), uap_nuovi: v(2, 'stimato'), uap_ritorno: v(1, 'stimato'),
+        attivi_giorno: v(3), attivi_30: v(78), retention_d1: v(0.039), retention_d7: v(0.015), retention_d30: manca('coorte troppo giovane') },
+      somme: { uap_nuovi_7: v(11, 'stimato'), uap_nuovi_30: v(78, 'stimato'), entrate_lorde_30: v(0), entrate_nette_30: v(0), entrate_pubblicita_30: manca('AdMob non collegato'), acquisti_30: v(0) },
+      rilasci: { android: ril('LIVE', '1.3.1'), ...nonConf }, prossima: 'Correggere il primo avvio.',
+      auto: ['D1 al 3,9%: perde quasi tutti al primo giorno.'],
+    }),
+    gioco('snake-100', 'Snake 100 Battle Royale', 'Arcade (100 BR)', {
+      registrata: false, nota: 'Non ancora nel pannello: l\'adattatore lo prepara la sessione di BattleRoyale2D.',
+      metriche: tutteMancanti('non è ancora nel pannello (manca l\'adattatore)'), somme: sommeMancanti('non è ancora nel pannello (manca l\'adattatore)'),
+      rilasci: { android: ril('IN_REVIEW', '1.1.0', true), ...nonConf }, prossima: 'Tester, poi CrazyGames.',
+      auto: ['Non è nel pannello: manca l\'adattatore, i numeri non si possono raccogliere.'],
+    }),
+    gioco('settegames-minigiochi', 'Minigiochi', 'Minigiochi «Pop»', {
+      metriche: { uap_giorno: v(0, 'stimato'), uap_7: v(2, 'stimato'), uap_30: v(12, 'stimato'), uap_cumulativi: manca('l\'adattatore non dà le installazioni da sempre'), uap_nuovi: v(0, 'stimato'), uap_ritorno: v(0, 'stimato'),
+        attivi_giorno: v(0), attivi_30: v(12), retention_d1: v(0.1), retention_d7: v(0), retention_d30: manca('coorte troppo giovane') },
+      somme: { uap_nuovi_7: v(1, 'stimato'), uap_nuovi_30: v(12, 'stimato'), entrate_lorde_30: v(0), entrate_nette_30: v(0), entrate_pubblicita_30: manca('AdSense non collegato'), acquisti_30: v(0) },
+      rilasci: { android: ril('NOT_CONFIGURED', null, true), ios: ril('NOT_CONFIGURED', null, true), web: ril('LIVE', '9 giochi'), telegram: ril('LIVE', '9 giochi'), crazygames: ril('IN_REVIEW', null, true, 'Perfect Timer') },
+      prossima: 'Gli altri 8 su CrazyGames.',
+    }),
+  ];
+  return {
+    ok: true, oggi: giorno(0), ieri, fuso: 'Europe/Rome', valuta: 'EUR', giochi,
+    studio: { uap_giorno: v(6, 'stimato', 'somma senza deduplica'), uap_7: v(39, 'stimato'), uap_30: v(131, 'stimato'), uap_cumulativi: v(513, 'stimato'), uap_nuovi_30: v(128, 'stimato'), entrate_lorde_30: v(0, 'stimato', '1 giochi senza il dato') },
+    raccolta: { in_coda: 0, ultima: istante(300) },
+    stati: ['NOT_CONFIGURED', 'READY_FOR_BUILD', 'BUILDING', 'TESTING', 'READY_FOR_SUBMISSION', 'SUBMITTED', 'IN_REVIEW', 'REJECTED', 'APPROVED', 'LIVE', 'PAUSED', 'ROLLBACK_REQUIRED'],
+  };
+}
+
 export async function rispondi(azione, a) {
   await new Promise((r) => setTimeout(r, 120));
   seme = 7;
@@ -110,6 +168,9 @@ export async function rispondi(azione, a) {
   switch (azione) {
     case 'io': return { ok: true, email: 'supporto.applicazioni@gmail.com', ruolo: 'Super Admin', permessi: ['*'] };
     case 'app.elenco': return { ok: true, apps: APPS };
+    case 'studio.portafoglio': return PORTAFOGLIO_FINTO();
+    case 'studio.raccogli': return { ok: true, avviata: true, in_coda: 0 };
+    case 'studio.scheda.salva': case 'studio.rilascio.salva': return { ok: true };
     case 'app.crea': case 'app.clona': return { ok: true };
     case 'social.stato': return {
       ok: true, configurato: true, post: [{ id: 1, clip: 'domanda-1', titolo: 'Tu cosa giocheresti? 👇', privacy: 'SELF_ONLY', stato: 'PUBLISH_COMPLETE', chi: 'supporto.applicazioni@gmail.com', creato: istante(-30) }],
