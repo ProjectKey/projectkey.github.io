@@ -1,5 +1,12 @@
 [
   {
+    "slug": "2048",
+    "game_id": "sg-2048",
+    "name": "2048 Pop",
+    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "tre-secondi",
     "game_id": "sg-tre-secondi",
     "name": "Three Seconds Flat",
@@ -32,13 +39,6 @@
     "game_id": "sg-reaction-time-test",
     "name": "Reaction Time Test",
     "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "2048",
-    "game_id": "sg-2048",
-    "name": "2048",
-    "description": "Swipe, merge equal tiles and build 2048. One more move, always.",
     "version": "1.0.0"
   },
   {
