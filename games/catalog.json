@@ -1,5 +1,12 @@
 [
   {
+    "slug": "minesweeper",
+    "game_id": "sg-minesweeper",
+    "name": "Minesweeper Pop",
+    "description": "Clear the field without touching a mine. Numbers tell you how many are hiding next door.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "snake",
     "game_id": "sg-snake",
     "name": "Snake Pop",
@@ -53,13 +60,6 @@
     "game_id": "sg-reaction-time-test",
     "name": "Reaction Time Test",
     "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "minesweeper",
-    "game_id": "sg-minesweeper",
-    "name": "Minesweeper",
-    "description": "Clear the field without touching a mine. Numbers tell you how many are hiding next door.",
     "version": "1.0.0"
   }
 ]
