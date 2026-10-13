@@ -1,0 +1,125 @@
+/*
+  LA PAGINA DI BRISCOLA E LE SUE GUIDE (13 ottobre 2026)
+  ======================================================
+  Sopra `/pop.css`, `/stile.css` e `/settebello/guide.css` (carte, tabelle,
+  riquadro «gioca», elenco delle guide): qui solo quello che è di Briscola.
+
+  **L'allegria** (Giorgio, 9 ott 2026: Briscola deve «trasmettere allegria»)
+  viene dai sette colori delle modalità, gli stessi dell'app
+  (`src/app/briscola/tinte.ts`): la chiara per i fondi, la scura per i numeri.
+  Sul chiaro il testo resta antracite, così il contrasto non dipende dal colore.
+*/
+:root {
+  --classica: #b6ff3d;  --classica-s: #3f7400;
+  --dado: #ffd84d;      --dado-s: #8a6500;
+  --tre: #8ceeff;       --tre-s: #00708f;
+  --quattro: #ff9bcb;   --quattro-s: #b0105c;
+  --chiamata: #ff9f1a;  --chiamata-s: #a44d00;
+  --scoperta: #c9b6ff;  --scoperta-s: #6a4bd6;
+  --perdere: #7cf0c8;   --perdere-s: #0b7754;
+  --entra: cubic-bezier(0.23, 1, 0.32, 1);
+}
+::selection { background: var(--lime); color: var(--antracite); }
+
+/* --- il cappello della pagina del gioco: copertina, titolo, Play, le sette briscole --- */
+.cappello.gioco-b { display: grid; gap: 22px 36px; align-items: center; }
+.gioco-b .copertina-b {
+  width: 100%; height: auto; aspect-ratio: 1024 / 500; border-radius: var(--r-pannello);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+@media (min-width: 780px) {
+  .cappello.gioco-b { grid-template-columns: 1.15fr 1fr; }
+  .gioco-b .copertina-b { grid-column: 2; grid-row: 1; }
+  .gioco-b .testo-b { grid-column: 1; grid-row: 1; }
+}
+.gioco-b .testo-b > :first-child { margin-top: 0; }
+
+/* Le sette briscole: pastiglie coi colori dell'app, portano alla modalità. */
+body.pagina main .sette { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; grid-column: 1 / -1; }
+.cappello .sette a[href] {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px;
+  background: var(--t); color: var(--antracite) !important; font-weight: 700; font-size: 0.9375rem;
+  text-decoration: none !important;
+  transition: transform var(--veloce) var(--entra);
+}
+.cappello .sette a[href]:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) { .cappello .sette a[href]:hover { transform: translateY(-2px) rotate(-2deg); } }
+/* L'unico momento animato: le sette entrano una dopo l'altra, come carte date. */
+@media (prefers-reduced-motion: no-preference) {
+  .sette li { animation: data 420ms var(--entra) both; animation-delay: calc(var(--i) * 55ms + 120ms); }
+  @keyframes data { from { opacity: 0; transform: translateY(10px) scale(0.94); } }
+}
+
+/* --- il badge di Google Play e il suo «presto»: li accende /briscola/play.js --- */
+.presto {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 20px 0 0 !important;
+  padding: 12px 18px; border-radius: 18px; background: var(--rialzo); border: 1px solid var(--filo-scuro);
+}
+.presto strong { color: var(--lime) !important; font-size: 1rem; }
+.presto span { color: var(--grigio-su-scuro); font-size: 0.9375rem; }
+.gioca .presto { margin: 0 !important; }
+
+/* --- le schermate: una fila che scorre col dito --- */
+.vetrina {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(62vw, 232px); gap: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  margin: 26px calc(var(--gutter) * -1) 0; padding: 4px var(--gutter) 16px; scroll-padding: 0 var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--ink3) transparent;
+}
+.vetrina figure { margin: 0; scroll-snap-align: start; }
+.vetrina img {
+  width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 18px; background: #3ac5fa;
+  box-shadow: 0 2px 0 rgba(19, 19, 19, 0.08), 0 12px 26px rgba(19, 19, 19, 0.14);
+}
+.vetrina:focus-visible { outline-offset: -3px; }
+
+/* --- le sette modalità: tessere coi colori dell'app --- */
+.modi { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 6px 0 14px; }
+/* Sette tessere senza buchi: la classica («Gioca subito») prende tutta la riga, le altre sei a coppie o a terne. */
+@media (min-width: 560px) { .modi { grid-template-columns: repeat(2, 1fr); } .modo.t-classica { grid-column: span 2; } }
+@media (min-width: 900px) { .modi { grid-template-columns: repeat(3, 1fr); } .modo.t-classica { grid-column: span 3; } }
+.modo {
+  position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr; gap: 2px 14px; align-content: start;
+  background: var(--t); border-radius: var(--r-card); padding: 16px 18px 16px 16px; scroll-margin-top: 90px;
+}
+.modo .n {
+  grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px;
+  background: var(--s); color: var(--bianco); font-weight: 800; font-size: 1.375rem; line-height: 1;
+}
+.modo .n small { display: block; font-size: 0.625rem; font-weight: 700; letter-spacing: 0.04em; margin-top: 2px; }
+.modo h3 { margin: 2px 0 2px !important; font-size: 1.125rem; }
+body.pagina main .modo p { margin: 0; color: var(--antracite); font-size: 0.9375rem; line-height: 1.45; }
+.modo .di-casa {
+  display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; vertical-align: 2px;
+  background: var(--antracite); color: var(--lime); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.modo:target { box-shadow: 0 0 0 3px var(--antracite); }
+
+/* Le tinte, per nome: valgono per le pastiglie e per le tessere. */
+.t-classica { --t: var(--classica); --s: var(--classica-s); }
+.t-dado { --t: var(--dado); --s: var(--dado-s); }
+.t-tre { --t: var(--tre); --s: var(--tre-s); }
+.t-quattro { --t: var(--quattro); --s: var(--quattro-s); }
+.t-chiamata { --t: var(--chiamata); --s: var(--chiamata-s); }
+.t-scoperta { --t: var(--scoperta); --s: var(--scoperta-s); }
+.t-perdere { --t: var(--perdere); --s: var(--perdere-s); }
+
+/* --- cosa c'è dentro: righe brevi, senza scatole --- */
+.dentro-app { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 4px 26px; margin: 4px 0 12px; padding: 0; list-style: none; }
+body.pagina main .dentro-app li { margin: 0; padding: 12px 0; border-top: 1px solid var(--filo); color: var(--ink2); }
+.dentro-app b { display: block; color: var(--ink); }
+
+/* --- le guide: l'indice coi colori, e la carta della briscola in evidenza --- */
+.briscola-girata figcaption { color: var(--ink) !important; }
+.briscola-girata .carta-g { box-shadow: 0 0 0 3px var(--classica), 0 8px 18px rgba(19, 19, 19, 0.16); transform: rotate(90deg); margin: 0 26px; }
+.tabella td.forte { font-weight: 800; color: var(--ink); }
+.riquadro {
+  background: var(--t, var(--carta2)); border-radius: var(--r-card); padding: 14px 18px; margin: 4px 0 16px;
+}
+body.pagina main .riquadro p { color: var(--antracite); margin: 0; }
+body.pagina main .riquadro p + p { margin-top: 8px; }
+
+@media (max-width: 560px) {
+  .cappello .sette a[href] { min-height: 38px; padding: 0 13px; font-size: 0.875rem; }
+  .modo { padding: 14px; }
+}
