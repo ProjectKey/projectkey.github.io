@@ -1,5 +1,12 @@
 [
   {
+    "slug": "snake",
+    "game_id": "sg-snake",
+    "name": "Snake Pop",
+    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
+    "version": "1.0.0"
+  },
+  {
     "slug": "solitaire",
     "game_id": "sg-solitaire",
     "name": "Solitaire Pop",
@@ -46,13 +53,6 @@
     "game_id": "sg-reaction-time-test",
     "name": "Reaction Time Test",
     "description": "Wait for green, then tap as fast as you can. Five tries, one time in milliseconds.",
-    "version": "1.0.0"
-  },
-  {
-    "slug": "snake",
-    "game_id": "sg-snake",
-    "name": "Snake",
-    "description": "Swipe to steer, eat to grow, never bite your own tail. The classic snake game, faster with every bite.",
     "version": "1.0.0"
   },
   {
