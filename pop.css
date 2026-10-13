@@ -115,6 +115,8 @@ a { color: inherit; }
 .sottomenu .icona-mini svg { width: 18px; height: 18px; }
 .sottomenu b { display: block; font-weight: 700; font-size: 0.9375rem; }
 .sottomenu small { display: block; font-size: 0.8125rem; color: var(--grigio-su-scuro); }
+.sottomenu .gruppo { padding: 12px 12px 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grigio-su-scuro); }
+.sottomenu .gruppo:first-child { padding-top: 6px; }
 .sottomenu .tutti { border-top: 1px solid #2f2f2f; margin-top: 6px; padding-top: 6px; }
 .sottomenu .tutti a { justify-content: space-between; font-weight: 700; font-size: 0.9375rem; color: var(--lime); }
 .sottomenu .tutti svg { width: 18px; height: 18px; }
@@ -162,8 +164,8 @@ a { color: inherit; }
 .coppia { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .gioco {
   display: flex; flex-direction: column; overflow: hidden;
-  background: var(--rialzo); border: 1px solid #2c2c2c; border-radius: var(--r-pannello);
-  transition: transform var(--normale) var(--curva), border-color var(--normale) var(--curva);
+  background: var(--rialzo); color: var(--bianco); border: 1px solid #2c2c2c; border-radius: var(--r-pannello);
+  transition: transform var(--normale) var(--curva), border-color var(--normale) var(--curva), box-shadow var(--normale) var(--curva);
 }
 .gioco:hover { transform: translateY(-4px); border-color: var(--filo-scuro); }
 .gioco .copertina { aspect-ratio: 1024 / 500; width: 100%; object-fit: cover; }
@@ -174,10 +176,25 @@ a { color: inherit; }
 .gioco h3 small { display: block; margin-top: 6px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0; color: var(--lime); }
 .gioco p { margin: 0; color: var(--grigio-su-scuro); }
 .gioco .tasti { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 10px; }
+/* Un gioco che non è ancora sullo store: niente tasto (non porta da nessuna parte), solo il cartello. */
+.gioco .arriva { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; min-height: 52px; margin-top: auto; padding: 0 22px; border: 2px dashed var(--lime); border-radius: 999px; font-weight: 700; color: var(--lime); }
+.gioco .arriva svg { width: 18px; height: 18px; flex: none; }
+
+/* ---------- Collezioni ---------- */
+/* Battle Royale: le schede in fila, copertina a sinistra (un impianto diverso dalla coppia di Settebello). */
+.file { display: grid; gap: 24px; }
+.gioco.largo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.gioco.largo .copertina { height: 100%; }
+.gioco.largo .corpo { justify-content: center; padding: 30px 32px; }
+.gioco.largo .tasti, .gioco.largo .arriva { margin-top: 8px; }
+.chiara .gioco:hover { border-color: var(--antracite); box-shadow: 0 18px 36px rgba(19, 19, 19, 0.18); }
 
 /* ---------- Minigiochi (fascia lime) ---------- */
 .fascia-lime { background: var(--lime); color: var(--antracite); }
-.fascia-lime .dentro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.fascia-lime .mini-testa { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.fascia-lime .griglia { margin-top: clamp(48px, 6vw, 80px); }
+.fascia-lime .tessera a { border-color: rgba(19, 19, 19, 0.14); }
+.fascia-lime .tessera a:hover { box-shadow: 0 14px 30px rgba(19, 19, 19, 0.18); }
 .fascia-lime h2 { font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: 0.95; }
 .fascia-lime p { margin: 20px 0 0; max-width: 30em; font-size: 1.125rem; font-weight: 500; }
 .fascia-lime .fatti { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
@@ -254,7 +271,10 @@ a { color: inherit; }
   .trovaci .dentro { flex-direction: column; align-items: flex-start; }
   .loghi { gap: 4px 24px; }
   .coppia { grid-template-columns: minmax(0, 1fr); }
-  .fascia-lime .dentro { grid-template-columns: minmax(0, 1fr); }
+  .fascia-lime .mini-testa { grid-template-columns: minmax(0, 1fr); }
+  .gioco.largo { grid-template-columns: minmax(0, 1fr); }
+  .gioco.largo .copertina { height: auto; }
+  .gioco.largo .corpo { padding: 26px 28px 28px; }
   .telefono { width: min(240px, 66%); margin-top: 8px; }
   .testa-sezione { flex-direction: column; align-items: flex-start; }
   .piede .dentro { grid-template-columns: minmax(0, 1fr); }
@@ -266,6 +286,8 @@ a { color: inherit; }
   .hero .tasti .tasto { flex: 1 1 100%; }
   .gioco .corpo { padding: 22px 20px 22px; }
   .gioco .tasti .tasto { flex: 1 1 100%; }
+  .gioco .arriva { align-self: stretch; justify-content: center; }
+  .gioco.largo .corpo { padding: 22px 20px 22px; }
   .fascia-lime .tasti .tasto { flex: 1 1 100%; }
 }
 
