@@ -19,6 +19,10 @@
  * chi ha aperto l'app: chi fa la ruota, la carta alta e la busta, chi gioca la
  * mano del giorno, chi avvia e apre i bauli. E quanti bauli sono fermi sulle
  * mensole senza essere mai stati avviati. Qui persone = profili.
+ *
+ * **Briscola** (13 ott 2026, 0107): le modalità vengono dalle partite
+ * dell'arbitro, non dagli eventi; al posto di bauli e giochi del giorno (i cui
+ * registri non dicono il gioco) c'è il **Quiz del giorno** di Briscola (`quiz`).
  */
 import * as api from '../api.js';
 import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
@@ -49,6 +53,7 @@ export async function disegna(ctx) {
   for (const x of r.perGiorno ?? []) conta[`${x.giorno}|${x.gioco}`] = x.partite;
 
   const dg = r.delGiorno;
+  const q = r.quiz;
   const pg = dg?.periodo ?? {};
   const quota = (n, su) => `${num(n)} (${perc(n / (su || 1))})`;
   const etichetta = (g) => g.slice(5).split('-').reverse().join('/');
@@ -106,6 +111,18 @@ export async function disegna(ctx) {
       kpi('Persone con bauli fermi', num(dg.mensole.personeConFermi), perc(dg.mensole.personeConFermi / (dg.mensole.persone || 1))),
       kpi('In apertura', num(dg.mensole.inApertura), 'timer partito')), {
       nota: 'Un baule mai avviato è un premio che nessuno ha visto: se sono tanti, il baule non si nota o non si capisce che va avviato.',
+    }) : null,
+    q ? h('h2', {}, 'Quiz del giorno') : null,
+    q ? h('div', { class: 'griglia g4' },
+      kpi('Persone', num(q.persone), 'l\'hanno fatto almeno una volta'),
+      kpi('Quiz fatti', num(q.giocate), `${f.da} → ${f.a}`),
+      kpi('Presi', perc(q.giuste / (q.giocate || 1)), `${num(q.giuste)} risposte giuste`)) : null,
+    q ? scheda('Quiz, giorno per giorno', tabella([
+      { titolo: 'Giorno', cella: (x) => h('strong', {}, etichetta(x.giorno)) },
+      { titolo: 'Fatti', num: true, cella: (x) => num(x.giocate) },
+      { titolo: 'Giusti', num: true, cella: (x) => quota(x.giuste, x.giocate) },
+    ], [...(q.perGiorno ?? [])].filter((x) => x.giocate).reverse(), { vuoto: 'Nessun quiz in questo periodo.' }), {
+      nota: 'Persone = profili, senza Giorgio, robot e prove. Un tentativo al giorno a testa (B-06).',
     }) : null,
   ].filter(Boolean);
 }
