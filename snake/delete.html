@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Snake 100 Battle Royale · Delete your data</title>
+<meta name="description" content="How to delete your Snake 100 Battle Royale data.">
+<!--
+  LA CANCELLAZIONE DI SNAKE 100. Oggi solo ospite locale: niente da cancellare sul server, si spiega come togliere tutto dal telefono e a chi scrivere (come delete.html di Last Sheep, sezione 3). La apre Settings → DELETE ACCOUNT (LEGALI.cancella). Il giorno del server va riscritta sul modello di sito/lastsheep/delete.html, ed e' anche l'URL di cancellazione per la Sicurezza dei dati (docs/store-snake/CONTENUTI_APP.md, tabella B).
+  Rev 12/10/2026, versione 1.1.0 di prova. Pubblicata il 13/10/2026; si ripubblica con
+  privacy.html, copiandole in snake/ del repo del sito (TOOLS «GitHub — codice e sito»).
+  Stile e testata come sito/snake/privacy.html.
+-->
+<!--sg:testa-->
+<link rel="stylesheet" href="/pop.css">
+<link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
+<!--/sg:testa-->
+<link rel="stylesheet" href="/stile.css">
+</head>
+<body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/" aria-label="SetteGames, home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sections">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Games <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigames</b><small>In your browser</small></span></a></li>
+          <li class="tutti"><a href="/#catalogo">All games <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/#chi-siamo">About</a>
+      <a class="tasto primario piccolo" href="/#giochi">Discover the games</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
+<main class="legge">
+
+<p class="briciole">
+  <a href="../">SetteGames</a> &nbsp;·&nbsp;
+  <span>Snake 100 Battle Royale</span> &nbsp;·&nbsp;
+  <a href="privacy.html#delete">Privacy policy</a> &nbsp;·&nbsp;
+  <a href="#it" hreflang="it">Italiano</a>
+</p>
+
+<h1>Delete your Snake 100 data</h1>
+<p class="data">Version 1.1.0 (test version) · last updated 12 October 2026</p>
+
+<div class="box">
+  <p><strong>In this version there is no account on our server.</strong> You play as a guest,
+  and your game (snake name, coins, gems, items, progress, settings) is stored
+  <strong>only on your phone</strong>. We don't have a copy, so there is nothing for us to
+  delete: removing it from the phone removes it for good, including anything bought
+  with real money.</p>
+</div>
+
+<h2>1 · Clear the game's data</h2>
+<p>On your phone: <strong>Settings → Apps → Snake 100 → Storage → Clear storage</strong>
+(the names change a little between phones). The game starts again from zero the
+next time you open it.</p>
+
+<h2>2 · Or uninstall the game</h2>
+<p>Long-press the Snake 100 icon → <strong>Uninstall</strong>, or uninstall it from the
+Google Play Store. This deletes the game and everything it stored on the phone.</p>
+
+<h2>3 · Ads</h2>
+<p>Ads are served by Google AdMob, which uses your phone's advertising ID. To change
+your ad consent: in the game, <strong>Settings → AD PRIVACY</strong> (shown when Google's
+consent form applies to you). To reset or delete the advertising ID: your phone's
+<strong>Settings → Google → Ads</strong> (or <strong>Privacy → Ads</strong>). Details in the
+<a href="privacy.html#ads">privacy policy</a>.</p>
+
+<h2>4 · Anything else: write to us</h2>
+<p>If you emailed our support (for example with <strong>CONTACT US</strong>), we have your
+email address and what you wrote. To have it deleted, or for any other request
+about your data, email
+<a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20delete%20my%20data">supporto@settegames.com</a>,
+from the same address if you can. We answer within thirty days.</p>
+
+<h2>Later versions</h2>
+<p>When the game starts saving progress on our server, this page will explain how to
+delete that account too, in the app and by email. We'll tell you in the app before
+it happens.</p>
+
+<hr style="border:0;border-top:1px solid var(--filo);margin:48px 0 8px">
+
+<div lang="it" id="it">
+
+<h1>Cancellare i tuoi dati di Snake 100</h1>
+<p class="data">Versione 1.1.0 (versione di prova) · aggiornato il 12 ottobre 2026</p>
+
+<div class="box">
+  <p><strong>In questa versione sul nostro server non c'è nessun account.</strong> Giochi come
+  ospite, e la tua partita (nome del serpente, monete, gemme, oggetti, progressi,
+  impostazioni) sta <strong>solo sul telefono</strong>. Noi non ne abbiamo una copia, quindi
+  non c'è niente che dobbiamo cancellare: toglierla dal telefono la cancella per
+  sempre, anche quello che hai comprato con soldi veri.</p>
+</div>
+
+<h2>1 · Cancella i dati del gioco</h2>
+<p>Sul telefono: <strong>Impostazioni → App → Snake 100 → Spazio di archiviazione →
+Cancella dati</strong> (i nomi cambiano un po' da telefono a telefono). Alla prossima
+apertura il gioco riparte da zero.</p>
+
+<h2>2 · Oppure disinstalla il gioco</h2>
+<p>Tieni premuta l'icona di Snake 100 → <strong>Disinstalla</strong>, o disinstallalo dal
+Play Store. Si cancellano il gioco e tutto quello che aveva salvato sul telefono.</p>
+
+<h2>3 · Pubblicità</h2>
+<p>Gli annunci li serve Google AdMob, che usa l'ID pubblicità del telefono. Per
+cambiare il consenso: nel gioco, <strong>Settings → AD PRIVACY</strong> (compare quando il
+modulo di consenso di Google vale per te). Per reimpostare o cancellare l'ID
+pubblicità: <strong>Impostazioni → Google → Annunci</strong> (o <strong>Privacy → Annunci</strong>)
+del telefono. I dettagli nell'<a href="privacy.html#pubblicita">informativa
+privacy</a>.</p>
+
+<h2>4 · Per tutto il resto, scrivici</h2>
+<p>Se hai scritto al nostro supporto (per esempio con <strong>CONTACT US</strong>), abbiamo il
+tuo indirizzo email e quello che hai scritto. Per farli cancellare, o per qualunque
+altra richiesta sui tuoi dati, scrivi a
+<a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20cancella%20i%20miei%20dati">supporto@settegames.com</a>,
+se puoi dallo stesso indirizzo. Rispondiamo entro trenta giorni.</p>
+
+<h2>Le prossime versioni</h2>
+<p>Quando il gioco salverà i progressi sul nostro server, questa pagina spiegherà come
+cancellare anche quell'account, nell'app e per email. Te lo diremo nell'app prima
+che succeda.</p>
+
+</div>
+
+</main>
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/" aria-label="SetteGames, home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames is a brand of <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documents">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Terms</a>
+      <a href="/games/privacy.html">Minigames privacy</a>
+      <a href="/lastsheep/privacy.html">Last Sheep privacy</a>
+      <a href="/settebello/elimina-account.html">Delete your account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
+</body>
+</html>
