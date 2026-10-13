@@ -2,9 +2,10 @@
  * SOCIAL (G8, 7 ottobre 2026)
  * ===========================
  *
- * Le nostre clip sui nostri account, per primo TikTok (@settegames), con Login
- * Kit e Content Posting API (Direct Post). Il server sta in
- * `server/funzioni/controllo/tiktok.ts`.
+ * Le nostre clip sui nostri account, per primo TikTok (@settegames). Login Kit e
+ * Content Posting API (`server/funzioni/controllo/tiktok.ts`) sono spenti: TikTok
+ * non approva gli strumenti interni (13 ott 2026), e le clip si pubblicano da
+ * TikTok Studio nel browser (`tiktokStudio` qui sotto).
  *
  * **La pagina è in inglese** perché la guardano i revisori di TikTok nel video
  * dimostrativo, e segue alla lettera le loro regole per chi pubblica via API
@@ -71,11 +72,8 @@ export async function disegna(ctx) {
 
   return [
     collegamento ? erroreBox(collegamento) : null,
-    r.configurato ? null : h('div', { class: 'avviso ambra' }, h('span', { class: 'ico' }, 'ⓘ'),
-      h('div', {}, h('strong', {}, 'TikTok is not configured yet. '), 'The function secrets TIKTOK_CLIENT_KEY and TIKTOK_CLIENT_SECRET are missing.')),
-    scheda('TikTok account', tt ? account(ctx, tt) : collega(r.configurato), { nota: 'Login Kit · user.info.basic' }),
-    tt ? scheda('Post a video to TikTok', modulo(ctx, tt, clip), { nota: 'Content Posting API · video.publish (Direct Post)' }) : null,
-    scheda('Recent posts', tabella([
+    scheda('TikTok', tiktokStudio(fatti), { nota: 'TikTok Studio · @settegames' }),
+    (r.post ?? []).length === 0 ? null : scheda('Recent posts (API)', tabella([
       { titolo: 'When', cella: (p) => data(p.creato) },
       { titolo: 'Clip', cella: (p) => p.clip ?? '—' },
       { titolo: 'Caption', cella: (p) => h('span', { title: p.titolo ?? '' }, (p.titolo ?? '').slice(0, 60)) },
@@ -91,6 +89,27 @@ export async function disegna(ctx) {
     com instanceof Error ? scheda('Communities', erroreBox(com)) : comunita(ctx, com.comunita ?? []),
     conc instanceof Error ? scheda('Competitor reviews', erroreBox(conc)) : concorrenti(conc),
   ].filter(Boolean);
+}
+
+/**
+ * TikTok non approva l'app (13 ott 2026, «internal company use»): le righe tiktok approvate del calendario le
+ * pubblica Claude da TikTok Studio, nel browser (`.tools_and_configs/scripts/tiktok-studio.mjs`), e le segna
+ * pubblicate con l'indirizzo. Qui si vede cosa aspetta. Login Kit e Direct Post restano nel codice, spenti.
+ */
+function tiktokStudio(cal) {
+  const ora = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Rome' }).slice(0, 16);
+  const attesa = cal instanceof Error ? [] : (cal.contenuti ?? [])
+    .filter((c) => c.canale === 'tiktok' && c.stato === 'approvata')
+    .sort((a, b) => `${a.giorno} ${a.ora ?? ''}`.localeCompare(`${b.giorno} ${b.ora ?? ''}`));
+  return h('div', {},
+    h('p', { class: 'nota', style: { marginTop: '0' } },
+      'TikTok did not approve API posting for internal tools, so approved TikTok rows are posted from TikTok Studio in the browser by Claude, then marked published here with the post link.'),
+    attesa.length === 0 ? h('p', {}, 'Nothing approved is waiting for TikTok.') : tabella([
+      { titolo: 'When', cella: (c) => `${giornoLungo(c.giorno)} ${(c.ora ?? '').slice(0, 5)}` },
+      { titolo: 'Clip', cella: (c) => c.contenuto },
+      { titolo: 'Caption', cella: (c) => (c.didascalia ?? '').slice(0, 60) },
+      { titolo: '', cella: (c) => (`${c.giorno} ${(c.ora ?? '12:00').slice(0, 5)}` <= ora ? pill('due', 'ambra') : pill('scheduled', 'cielo')) },
+    ], attesa));
 }
 
 const statoPill = (s) => { const [t, c] = STATI[s] ?? [s, '']; return pill(t, c); };
@@ -345,7 +364,7 @@ function calendario(ctx, cal, clip) {
     h('p', { class: 'nota', style: { marginTop: '0' } },
       'Two concepts a day, each on several channels. Every link carries the content ID (utm_content) so installs can be traced back to the post. ',
       h('strong', {}, 'Nothing is published until it is approved here.'),
-      ' Approved Facebook and Instagram rows are published automatically at their time (Rome); TikTok and YouTube wait for their API reviews.'),
+      ' Approved Facebook and Instagram rows are published automatically at their time (Rome); TikTok rows are posted from TikTok Studio (see above); YouTube waits for its API audit.'),
     h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '6px 0 10px' } },
       pill(`${conti.proposte ?? 0} proposed`, 'ambra'), pill(`${conti.approvate ?? 0} approved`, 'cielo'),
       pill(`${conti.pubblicate ?? 0} published`, 'verde'), conti.scartate ? pill(`${conti.scartate} rejected`, 'rosso') : null,
