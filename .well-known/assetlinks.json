@@ -9,5 +9,16 @@
         "4D:95:CA:08:BB:B5:AC:3E:58:58:DA:67:FE:B8:EF:D0:55:39:29:9A:90:1F:5B:E2:3C:92:29:F0:F8:49:6A:06"
       ]
     }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "it.settebello.briscola",
+      "sha256_cert_fingerprints": [
+        "7F:53:DF:A9:AF:46:78:B0:DE:AE:FF:D3:97:02:87:4C:CE:A7:E5:9B:C7:63:2C:7C:BE:2C:C9:E8:0C:BB:E1:30",
+        "BE:E8:E7:AA:35:B6:A2:69:4E:1C:86:C8:D9:3B:70:15:BF:01:FE:13:A6:37:EA:B1:76:E7:A5:32:85:7F:82:51"
+      ]
+    }
   }
 ]
