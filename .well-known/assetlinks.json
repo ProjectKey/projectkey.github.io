@@ -20,5 +20,15 @@
         "BE:E8:E7:AA:35:B6:A2:69:4E:1C:86:C8:D9:3B:70:15:BF:01:FE:13:A6:37:EA:B1:76:E7:A5:32:85:7F:82:51"
       ]
     }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lastsheep.game",
+      "sha256_cert_fingerprints": [
+        "9D:6D:72:A7:76:0F:4E:2D:72:51:7C:FF:40:BD:B3:B9:87:CA:3F:4C:F2:34:B0:09:29:48:B4:1B:CF:1D:42:13"
+      ]
+    }
   }
 ]
