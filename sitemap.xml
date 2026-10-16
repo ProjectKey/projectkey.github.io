@@ -1,47 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://settegames.com/</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://settegames.com/settebello/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/settebello/regole/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/punteggio/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/varianti/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/mazzi/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/strategie/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/scopone-scientifico/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/asso-piglia-tutto/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/domande-frequenti/</loc><lastmod>2026-10-08</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://settegames.com/</loc><lastmod>2026-10-16</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://settegames.com/"/><xhtml:link rel="alternate" hreflang="it" href="https://settegames.com/it/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://settegames.com/"/></url>
+  <url><loc>https://settegames.com/it/</loc><lastmod>2026-10-16</lastmod><xhtml:link rel="alternate" hreflang="en" href="https://settegames.com/"/><xhtml:link rel="alternate" hreflang="it" href="https://settegames.com/it/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://settegames.com/"/></url>
+  <url><loc>https://settegames.com/settebello/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/settebello/regole/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/punteggio/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/strategie/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/varianti/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/scopone-scientifico/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/asso-piglia-tutto/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://settegames.com/settebello/scopa-a-tre/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://settegames.com/settebello/scopa-in-coppia/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://settegames.com/settebello/scopa-a-quindici/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://settegames.com/settebello/napola/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/settebello/primiera/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/mano-del-giorno/</loc><lastmod>2026-10-07</lastmod></url>
-  <url><loc>https://settegames.com/settebello/privacy.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://settegames.com/settebello/termini.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://settegames.com/settebello/elimina-account.html</loc><lastmod>2026-10-02</lastmod></url>
+  <url><loc>https://settegames.com/settebello/primiera/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/mano-del-giorno/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/mazzi/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://settegames.com/settebello/domande-frequenti/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://settegames.com/briscola/</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://settegames.com/briscola/regole/</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://settegames.com/briscola/punteggio/</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://settegames.com/briscola/chiamata/</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://settegames.com/briscola/strategie/</loc><lastmod>2026-10-13</lastmod></url>
-  <url><loc>https://settegames.com/lastsheep/</loc><lastmod>2026-10-14</lastmod></url>
-  <url><loc>https://settegames.com/lastsheep/faq.html</loc><lastmod>2026-10-01</lastmod></url>
-  <url><loc>https://settegames.com/lastsheep/privacy.html</loc><lastmod>2026-10-01</lastmod></url>
-  <url><loc>https://settegames.com/lastsheep/termini.html</loc><lastmod>2026-10-01</lastmod></url>
-  <url><loc>https://settegames.com/lastsheep/delete.html</loc><lastmod>2026-10-01</lastmod></url>
-  <url><loc>https://settegames.com/snake/faq.html</loc><lastmod>2026-10-13</lastmod></url>
-  <url><loc>https://settegames.com/snake/privacy.html</loc><lastmod>2026-10-13</lastmod></url>
-  <url><loc>https://settegames.com/snake/termini.html</loc><lastmod>2026-10-13</lastmod></url>
-  <url><loc>https://settegames.com/snake/delete.html</loc><lastmod>2026-10-13</lastmod></url>
-  <url><loc>https://settegames.com/games/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/games/perfect-timer/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/games/sette-secondi/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/games/tre-secondi/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/it/</loc><lastmod>2026-10-08</lastmod></url>
-  <url><loc>https://settegames.com/games/2048/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://settegames.com/games/snake/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://settegames.com/games/minesweeper/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://settegames.com/games/reaction-time-test/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://settegames.com/games/sudoku/</loc><lastmod>2026-10-09</lastmod></url>
-  <url><loc>https://settegames.com/games/solitaire/</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://settegames.com/lastsheep/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/lastsheep/faq.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/snake/faq.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/reaction-time-test/</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://settegames.com/games/minesweeper/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/snake/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/solitaire/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/sudoku/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/2048/</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://settegames.com/games/tre-secondi/</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://settegames.com/games/sette-secondi/</loc><lastmod>2026-10-13</lastmod></url>
+  <url><loc>https://settegames.com/games/perfect-timer/</loc><lastmod>2026-10-13</lastmod></url>
 </urlset>
