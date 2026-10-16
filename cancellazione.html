@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; connect-src https://jvmpwhoosojharlbmgsi.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<title>SetteGames · Stato della cancellazione</title>
+<!--
+  LO STATO DI UNA CANCELLAZIONE CHIESTA DA FACEBOOK (16 ott 2026)
+  ===============================================================
+  È la pagina che Meta mostra con il codice di conferma: `?c=<codice>`.
+  La richiesta arriva alla Edge `facebook-cancella` di Settebello, che cancella
+  Scopa e Briscola e passa la stessa richiesta firmata a quella di Last Sheep;
+  la ricevuta col codice sta nel progetto di Last Sheep (`cancellazioni`), e la
+  si legge con la RPC anon `stato_cancellazione(p_codice)` → chiesta | fatta |
+  sconosciuta. Il codice esiste solo quando tutti e due i progetti hanno finito.
+  La chiave è quella pubblicabile di Last Sheep (la stessa di lastsheep/delete.html).
+-->
+<!--sg:testa-->
+<link rel="stylesheet" href="/pop.css">
+<link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
+<!--/sg:testa-->
+<link rel="stylesheet" href="stile.css">
+</head>
+<body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sezioni">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Giochi <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigiochi</b><small>Nel browser</small></span></a></li>
+          <li class="tutti"><a href="/it/#catalogo">Tutti i giochi <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/it/#chi-siamo">Chi siamo</a>
+      <a class="tasto primario piccolo" href="/it/#giochi">Scopri i giochi</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
+<main class="legge">
+<p class="briciole">
+  <a href="/it/">SetteGames</a> &nbsp;·&nbsp;
+  <a href="privacy.html#cancellare">Come cancellare i dati</a>
+</p>
+<h1>Stato della cancellazione</h1>
+<p lang="en" class="data">Deletion status</p>
+<div class="box">
+  <p>Codice / Code: <strong id="codice">—</strong></p>
+  <p id="stato">Scrivi qui il codice che ti ha dato Facebook. · Enter the code Facebook gave you.</p>
+</div>
+<form id="modulo" onsubmit="return false">
+  <p><label for="campo">Codice di conferma · Confirmation code</label><br>
+  <input id="campo" name="c" autocomplete="off" maxlength="64" spellcheck="false">
+  <button class="tasto primario piccolo" type="submit" id="vai">Controlla · Check</button></p>
+</form>
+<p>Una richiesta da Facebook cancella l'account collegato a quel Facebook in tutti i giochi SetteGames.
+Per qualunque dubbio: <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>.</p>
+<p lang="en">A request from Facebook deletes the account linked to that Facebook in all SetteGames games.
+Questions: <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>.</p>
+</main>
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames è un marchio di <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documenti">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Termini</a>
+      <a href="/games/privacy.html">Privacy dei minigiochi</a>
+      <a href="/lastsheep/privacy.html">Privacy di Last Sheep</a>
+      <a href="/settebello/elimina-account.html">Elimina l'account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
+<script>
+(function () {
+  var URL_SB = 'https://jvmpwhoosojharlbmgsi.supabase.co';
+  var CHIAVE = 'sb_publishable_PzbVFWJgMp5XS1hhePEJHA_e-OlN32h';
+  var TESTI = {
+    chiesta: 'Ricevuta: stiamo cancellando. · Received: we are deleting your data.',
+    fatta: 'Fatto: account e dati di gioco cancellati in tutti i giochi. · Done: your account and game data are deleted in all games.',
+    sconosciuta: 'Nessuna richiesta con questo codice. · We have no request with this code.',
+    storto: 'Questo codice non è valido. · This code is not valid.',
+    rete: 'Non riusciamo a controllare ora: riprova più tardi. · Can\'t check right now: try again later.'
+  };
+  function $(id) { return document.getElementById(id); }
+  function controlla(c) {
+    c = (c || '').trim().toUpperCase();
+    if (!c) return;
+    $('codice').textContent = c;
+    if (!/^[A-Za-z0-9_-]{4,64}$/.test(c)) { $('stato').textContent = TESTI.storto; return; }
+    $('stato').textContent = '…';
+    history.replaceState(null, '', location.pathname + '?c=' + encodeURIComponent(c));
+    fetch(URL_SB + '/rest/v1/rpc/stato_cancellazione', {
+      method: 'POST',
+      headers: { 'apikey': CHIAVE, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_codice: c })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      if (Array.isArray(d)) d = d[0];
+      var stato = d && typeof d === 'object' ? d.stato : d;
+      $('stato').textContent = TESTI[stato] || TESTI.sconosciuta;
+    }).catch(function () { $('stato').textContent = TESTI.rete; });
+  }
+  $('modulo').addEventListener('submit', function () { controlla($('campo').value); });
+  var c = new URLSearchParams(location.search).get('c');
+  if (c) { $('campo').value = c; controlla(c); }
+})();
+</script>
+</body>
+</html>

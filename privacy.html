@@ -3,28 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Informativa privacy di Settebello</title>
+<title>SetteGames · Informativa privacy</title>
+<meta name="description" content="Chi tratta i dati nei giochi SetteGames, cosa riceviamo con l'accesso con Facebook e come si cancella tutto.">
 <!--
-  QUESTA PAGINA SI È SPOSTATA, E NON PUÒ SPARIRE.
-  ===============================================
-  Il sito adesso ospita più giochi, e i documenti di Settebello stanno in
-  `settebello/`. Ma questo indirizzo è **già stato dato a terzi** e non si può
-  ritirare con un rinomino:
-
-  · `privacy.html` è registrato **su Meta** come URL per l'eliminazione dei
-    dati utente (vedi TOOLS.md, sezione Supabase → Accesso social);
-  · gli stessi indirizzi possono essere già dentro alla scheda della Play
-    Console e dentro a build già distribuite.
-
-  Un 404 su uno di questi due posti non è un link rotto: è una configurazione
-  che smette di funzionare, e nel caso di Meta è l'accesso con Facebook.
-
-  GitHub Pages è statico e non fa redirect veri: questo è il modo che c'è —
-  `canonical` per i motori di ricerca, `refresh` per chi arriva col browser,
-  e un link scritto per chi ha JavaScript spento.
+  L'INFORMATIVA DELL'AZIENDA (16 ott 2026)
+  ========================================
+  Prima era un rimando a settebello/privacy.html. Dal 16/10/2026 l'accesso con
+  Facebook di tutti i giochi passa da un'app Meta sola, «SetteGames»
+  (1076056531999261), e questo è l'URL dell'informativa registrato su Meta:
+  copre l'azienda, l'accesso con Facebook e la cancellazione chiesta da
+  Facebook. Ogni gioco tiene la sua informativa completa, linkata qui.
+  L'indirizzo NON si toglie e NON torna un rimando: è su Meta, e può essere in
+  build e schede vecchie (allora puntava a Settebello, che è linkato in cima).
+  Scritta leggendo: Settebello/server/funzioni/facebook-cancella (+ 0112),
+  BattleRoyale2D/supabase/functions/facebook-cancella, le informative dei giochi.
+  Se cambia la cancellazione, si riscrive questa pagina nello stesso giro.
 -->
-<link rel="canonical" href="https://settegames.com/settebello/privacy.html">
-<meta http-equiv="refresh" content="0; url=settebello/privacy.html">
+<link rel="canonical" href="https://settegames.com/privacy.html">
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
 <link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
@@ -32,11 +27,237 @@
 <link rel="stylesheet" href="stile.css">
 </head>
 <body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sezioni">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Giochi <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigiochi</b><small>Nel browser</small></span></a></li>
+          <li class="tutti"><a href="/it/#catalogo">Tutti i giochi <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/it/#chi-siamo">Chi siamo</a>
+      <a class="tasto primario piccolo" href="/it/#giochi">Scopri i giochi</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
 <main class="legge">
-  <h1>Questa pagina si è spostata</h1>
-  <p>I documenti di Settebello stanno in una loro area:
-  <a href="settebello/privacy.html"><strong>Informativa privacy di Settebello</strong></a>.</p>
-  <p>Se non vieni portato lì da solo, tocca il collegamento qui sopra.</p>
+<p class="briciole">
+  <a href="/it/">SetteGames</a> &nbsp;·&nbsp;
+  <a href="termini.html">Termini</a> &nbsp;·&nbsp;
+  <a href="cancellazione.html">Stato di una cancellazione</a> &nbsp;·&nbsp;
+  <a href="#en">English</a>
+</p>
+<h1>Informativa privacy di SetteGames</h1>
+<p class="data">Ultimo aggiornamento: 16 ottobre 2026</p>
+
+<div class="box">
+  <p><strong>In breve.</strong> I giochi SetteGames sono di <strong>PK - PROJECT KEY S.R.L.</strong>
+  Se entri con Facebook riceviamo il tuo identificativo Facebook per l'app «SetteGames», il tuo nome
+  e la foto del profilo e, se lo permetti, la tua email. Mai la password. Non vendiamo dati.
+  Se togli «SetteGames» dal tuo Facebook e chiedi di cancellare i dati, cancelliamo il tuo account
+  in tutti i nostri giochi.</p>
+</div>
+
+<h2>Ogni gioco ha la sua informativa</h2>
+<p>Questa pagina vale per tutti i giochi e per l'accesso con Facebook. Cosa raccoglie ogni gioco, e
+perché, lo dice per intero la sua informativa:</p>
+<ul>
+  <li><a href="settebello/privacy.html"><strong>Scopa Online e Briscola Online</strong></a> (Settebello)</li>
+  <li><a href="lastsheep/privacy.html"><strong>Last Sheep Royale</strong></a></li>
+  <li><a href="snake/privacy.html"><strong>Snake 100</strong></a></li>
+  <li><a href="games/privacy.html"><strong>I minigiochi nel browser</strong></a></li>
+</ul>
+
+<h2>Chi tratta i dati</h2>
+<p>Il titolare è <strong>PK - PROJECT KEY S.R.L.</strong>, Via Città della Pieve 76, 00191 Roma (RM),
+Italia — partita IVA e codice fiscale 15538561000, REA Roma 1597981. Per qualunque richiesta scrivi a
+<a href="mailto:supporto@settegames.com">supporto@settegames.com</a>: rispondiamo entro trenta giorni.</p>
+
+<h2>L'accesso con Facebook</h2>
+<p>Entrare con Facebook è facoltativo e serve a ritrovare il tuo account su un altro telefono. Tutti i
+nostri giochi usano la stessa app Meta, «SetteGames». Il login avviene sulla pagina di Facebook. Riceviamo
+e conserviamo con il tuo account:</p>
+<ul>
+  <li>il tuo <strong>identificativo Facebook per l'app «SetteGames»</strong> (un numero che Facebook
+  crea solo per quest'app: non è il tuo profilo);</li>
+  <li><strong>nome e foto del profilo</strong>, come li dà Facebook (permesso <code>public_profile</code>);</li>
+  <li>la tua <strong>email</strong>, solo se la lasci spuntata sulla schermata di Facebook (permesso
+  <code>email</code>). La usiamo per riconoscere il tuo account e per risponderti, mai per pubblicità;</li>
+  <li>in Last Sheep Royale, solo se lo permetti: quali tuoi amici di Facebook giocano anche loro, per
+  farli diventare amici nel gioco.</li>
+</ul>
+<p>Non conserviamo il token di Facebook e non pubblichiamo niente sul tuo Facebook. Base giuridica:
+l'esecuzione del contratto (farti giocare e ritrovare il tuo account). Quello che fa Meta con il tuo
+login lo dice <a href="https://www.facebook.com/privacy/policy/" rel="noopener">l'informativa di Meta</a>.</p>
+
+<h2>Dove stanno i dati, e chi altro li tratta</h2>
+<ul>
+  <li><strong>Supabase</strong> (server, database e accesso) tratta i dati per nostro conto, come
+  responsabile del trattamento. I server sono nell'Unione Europea, in Irlanda: uno per Scopa e
+  Briscola, uno per Last Sheep Royale e Snake 100.</li>
+  <li><strong>Meta</strong> tratta i dati del login con Facebook come titolare autonomo.</li>
+  <li>Pubblicità, pagamenti e gli altri accessi (Google, Apple) sono descritti nell'informativa di
+  ogni gioco.</li>
+</ul>
+<p>Non vendiamo né cediamo dati a terzi per marketing.</p>
+
+<h2 id="cancellare">Come cancellare i tuoi dati</h2>
+<ul>
+  <li><strong>Dal gioco</strong>: ogni gioco ha il suo «Cancella l'account» (le istruzioni sono
+  nell'informativa del gioco). Cancella l'account di quel gioco (Last Sheep Royale e Snake 100 hanno un
+  account solo, e si cancella per tutti e due).</li>
+  <li><strong>Da Facebook</strong>: Impostazioni e privacy → Impostazioni → <em>App e siti web</em> →
+  «SetteGames» → Rimuovi, e chiedi di eliminare i dati. Facebook ci manda una richiesta firmata e noi
+  cancelliamo <strong>l'account collegato a quel Facebook in tutti i nostri giochi</strong>, con quello
+  che contiene (progressi, monete, oggetti). Facebook ti mostra un <strong>codice di conferma</strong>:
+  con quello, alla pagina <a href="cancellazione.html">stato di una cancellazione</a> vedi a che punto è.</li>
+  <li><strong>Per email</strong>: scrivi a <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>
+  dall'indirizzo con cui sei entrato. Cancelliamo entro trenta giorni.</li>
+</ul>
+<p>La cancellazione è definitiva. Cosa resta per obbligo di legge o perché è anche di altri (per esempio
+le ricevute degli acquisti, o le partite già giocate con altre persone, senza il tuo nome) lo dice
+l'informativa di ogni gioco.</p>
+
+<h2>I tuoi diritti</h2>
+<p>Puoi chiedere di accedere ai tuoi dati, correggerli, cancellarli, limitarne il trattamento, riceverli
+in un formato leggibile da una macchina e opporti al trattamento. Scrivi a
+<a href="mailto:supporto@settegames.com">supporto@settegames.com</a>. Se pensi che sbagliamo puoi
+rivolgerti al Garante per la protezione dei dati personali
+(<a href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
+
+<h2>Se cambia qualcosa</h2>
+<p>La data in cima dice quando è stata scritta l'ultima versione. Se un cambio conta per te, te lo diciamo
+nel gioco.</p>
+
+<hr>
+
+<section id="en" lang="en">
+<h1>SetteGames privacy policy</h1>
+<p class="data">Last updated: 16 October 2026</p>
+
+<div class="box">
+  <p><strong>In short.</strong> SetteGames games belong to <strong>PK - PROJECT KEY S.R.L.</strong>
+  If you log in with Facebook we receive your Facebook ID for the «SetteGames» app, your name and
+  profile picture and, if you allow it, your email. Never your password. We don't sell data.
+  If you remove «SetteGames» from your Facebook and ask to delete your data, we delete your account in
+  all our games.</p>
+</div>
+
+<h2>Each game has its own policy</h2>
+<p>This page covers all games and Facebook Login. What each game collects, and why, is in its own policy:
+<a href="settebello/privacy.html">Scopa Online and Briscola Online</a> (Italian),
+<a href="lastsheep/privacy.html">Last Sheep Royale</a>,
+<a href="snake/privacy.html">Snake 100</a>,
+<a href="games/privacy.html">browser mini-games</a>.</p>
+
+<h2>Who is responsible</h2>
+<p>The data controller is <strong>PK - PROJECT KEY S.R.L.</strong>, Via Città della Pieve 76, 00191 Roma
+(RM), Italy — VAT and tax code 15538561000, REA Roma 1597981. Write to
+<a href="mailto:supporto@settegames.com">supporto@settegames.com</a>: we answer within thirty days.</p>
+
+<h2>Facebook Login</h2>
+<p>Logging in with Facebook is optional: it lets you get your account back on a new phone. All our games
+use the same Meta app, «SetteGames». The login happens on Facebook's page. We receive and keep with your
+account:</p>
+<ul>
+  <li>your <strong>Facebook ID for the «SetteGames» app</strong> (a number Facebook creates only for this
+  app, not your profile);</li>
+  <li>your <strong>name and profile picture</strong>, as Facebook gives them (<code>public_profile</code>);</li>
+  <li>your <strong>email</strong>, only if you leave it ticked on Facebook's screen (<code>email</code>).
+  We use it to identify your account and to answer you, never for marketing;</li>
+  <li>in Last Sheep Royale, only if you allow it: which of your Facebook friends also play, to make them
+  your friends in the game.</li>
+</ul>
+<p>We don't keep your Facebook token and we never post on your Facebook. Legal basis: performance of the
+contract (letting you play and recover your account). What Meta does with your login is in
+<a href="https://www.facebook.com/privacy/policy/" rel="noopener">Meta's privacy policy</a>.</p>
+
+<h2>Where the data is, and who else handles it</h2>
+<ul>
+  <li><strong>Supabase</strong> (servers, database, login) processes the data on our behalf, as our
+  processor. The servers are in the European Union, in Ireland: one for Scopa and Briscola, one for Last
+  Sheep Royale and Snake 100.</li>
+  <li><strong>Meta</strong> handles your Facebook login as an independent controller.</li>
+  <li>Ads, payments and the other logins (Google, Apple) are described in each game's policy.</li>
+</ul>
+<p>We don't sell or hand over data to anyone for marketing.</p>
+
+<h2>How to delete your data</h2>
+<ul>
+  <li><strong>In the game</strong>: each game has its own «Delete account» (see the game's policy). It
+  deletes your account in that game (Last Sheep Royale and Snake 100 share one account, deleted for
+  both).</li>
+  <li><strong>From Facebook</strong>: Settings &amp; privacy → Settings → <em>Apps and websites</em> →
+  «SetteGames» → Remove, and ask to delete your data. Facebook sends us a signed request and we delete
+  <strong>the account linked to that Facebook in all our games</strong>, with what it holds (progress,
+  coins, items). Facebook shows you a <strong>confirmation code</strong>: with it, the
+  <a href="cancellazione.html">deletion status page</a> tells you where it stands.</li>
+  <li><strong>By email</strong>: write to <a href="mailto:supporto@settegames.com">supporto@settegames.com</a>
+  from the address you logged in with. We delete within thirty days.</li>
+</ul>
+<p>Deletion is final. What stays because the law requires it or because it belongs to others too (for
+example purchase receipts, or matches already played with other people, without your name) is in each
+game's policy.</p>
+
+<h2>Your rights</h2>
+<p>You can ask to access, correct or delete your data, restrict its processing, receive it in a
+machine-readable format and object to its processing. Write to
+<a href="mailto:supporto@settegames.com">supporto@settegames.com</a>. You can also complain to the Italian
+data protection authority (<a href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>)
+or the one where you live.</p>
+
+<h2>Changes</h2>
+<p>The date at the top says when this version was written. If a change matters to you, we tell you in the
+game.</p>
+</section>
+
+<p class="data">PK - PROJECT KEY S.R.L. · Via Città della Pieve 76, 00191 Roma (RM) · P. IVA 15538561000 · REA Roma 1597981</p>
 </main>
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames è un marchio di <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documenti">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Termini</a>
+      <a href="/games/privacy.html">Privacy dei minigiochi</a>
+      <a href="/lastsheep/privacy.html">Privacy di Last Sheep</a>
+      <a href="/settebello/elimina-account.html">Elimina l'account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
 </body>
 </html>

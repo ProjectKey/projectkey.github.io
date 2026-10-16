@@ -3,28 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Termini e condizioni di Settebello</title>
+<title>SetteGames · Termini dei giochi</title>
+<meta name="description" content="I termini e condizioni di ogni gioco SetteGames.">
 <!--
-  QUESTA PAGINA SI È SPOSTATA, E NON PUÒ SPARIRE.
-  ===============================================
-  Il sito adesso ospita più giochi, e i documenti di Settebello stanno in
-  `settebello/`. Ma questo indirizzo è **già stato dato a terzi** e non si può
-  ritirare con un rinomino:
-
-  · `privacy.html` è registrato **su Meta** come URL per l'eliminazione dei
-    dati utente (vedi TOOLS.md, sezione Supabase → Accesso social);
-  · gli stessi indirizzi possono essere già dentro alla scheda della Play
-    Console e dentro a build già distribuite.
-
-  Un 404 su uno di questi due posti non è un link rotto: è una configurazione
-  che smette di funzionare, e nel caso di Meta è l'accesso con Facebook.
-
-  GitHub Pages è statico e non fa redirect veri: questo è il modo che c'è —
-  `canonical` per i motori di ricerca, `refresh` per chi arriva col browser,
-  e un link scritto per chi ha JavaScript spento.
+  I TERMINI DI TUTTI I GIOCHI (16 ott 2026)
+  =========================================
+  Prima era un rimando a settebello/termini.html. Termini «dell'azienda» non ce
+  ne sono: ogni gioco ha i suoi. Questa pagina li elenca, ed è l'URL delle
+  condizioni d'uso registrato sull'app Meta «SetteGames» (l'accesso con
+  Facebook di tutti i giochi). Non si toglie: è su Meta e può essere in build e
+  schede vecchie (allora puntava a Settebello, che è il primo dell'elenco).
 -->
-<link rel="canonical" href="https://settegames.com/settebello/termini.html">
-<meta http-equiv="refresh" content="0; url=settebello/termini.html">
+<link rel="canonical" href="https://settegames.com/termini.html">
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
 <link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
@@ -32,11 +22,93 @@
 <link rel="stylesheet" href="stile.css">
 </head>
 <body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sezioni">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Giochi <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigiochi</b><small>Nel browser</small></span></a></li>
+          <li class="tutti"><a href="/it/#catalogo">Tutti i giochi <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/it/#chi-siamo">Chi siamo</a>
+      <a class="tasto primario piccolo" href="/it/#giochi">Scopri i giochi</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
 <main class="legge">
-  <h1>Questa pagina si è spostata</h1>
-  <p>I documenti di Settebello stanno in una loro area:
-  <a href="settebello/termini.html"><strong>Termini e condizioni di Settebello</strong></a>.</p>
-  <p>Se non vieni portato lì da solo, tocca il collegamento qui sopra.</p>
+<p class="briciole">
+  <a href="/it/">SetteGames</a> &nbsp;·&nbsp;
+  <a href="privacy.html">Privacy</a> &nbsp;·&nbsp;
+  <a href="#en">English</a>
+</p>
+<h1>Termini dei giochi SetteGames</h1>
+<p class="data">Ultimo aggiornamento: 16 ottobre 2026</p>
+<p>Ogni gioco ha i suoi termini e condizioni. Valgono quelli del gioco a cui giochi:</p>
+<ul>
+  <li><a href="settebello/termini.html"><strong>Scopa Online e Briscola Online</strong></a> (Settebello)</li>
+  <li><a href="lastsheep/termini.html"><strong>Last Sheep Royale</strong></a></li>
+  <li><a href="snake/termini.html"><strong>Snake 100</strong></a></li>
+</ul>
+<p>L'accesso con Facebook, comune a tutti i giochi, e la cancellazione dei dati sono descritti
+nell'<a href="privacy.html">informativa privacy di SetteGames</a>.</p>
+
+<section id="en" lang="en">
+<h2>SetteGames terms of service</h2>
+<p>Each game has its own terms of service, and the ones of the game you play apply:
+<a href="settebello/termini.html">Scopa Online and Briscola Online</a> (Italian),
+<a href="lastsheep/termini.html">Last Sheep Royale</a>,
+<a href="snake/termini.html">Snake 100</a>.
+Facebook Login, shared by all games, and data deletion are described in the
+<a href="privacy.html#en">SetteGames privacy policy</a>.</p>
+</section>
+
+<p class="data">I giochi SetteGames sono di PK - PROJECT KEY S.R.L. · Via Città della Pieve 76, 00191 Roma (RM) · P. IVA 15538561000 · <a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
 </main>
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/it/" aria-label="SetteGames, la home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames è un marchio di <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documenti">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Termini</a>
+      <a href="/games/privacy.html">Privacy dei minigiochi</a>
+      <a href="/lastsheep/privacy.html">Privacy di Last Sheep</a>
+      <a href="/settebello/elimina-account.html">Elimina l'account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
 </body>
 </html>
