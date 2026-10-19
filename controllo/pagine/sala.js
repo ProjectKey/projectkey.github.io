@@ -33,6 +33,19 @@ export function opportunita(p) {
   return Math.round(100 * (p.volume / 5) * (p.rilevanza / 5) * ((6 - p.difficolta) / 5) * spazio);
 }
 
+/**
+ * Come si legge una parola senza posizione (0113, 19 ott 2026): Play taglia la lista delle parole
+ * grandi (per «scopa» a 9), e lì non esserci vuol dire «oltre il 9º», non «fuori». Il server manda
+ * `lettura`; per le righe di un adattatore di prima, la regola si rifà da `quanti`.
+ */
+export function letturaParola(p) {
+  if (p.oggi) return `${p.oggi}º`;
+  if (p.lettura) return p.lettura;
+  if (!p.quanti) return 'non compare';
+  return p.troncata || p.quanti < 20 ? `oltre il ${p.quanti}º` : `fuori dai primi ${p.quanti}`;
+}
+const tagliataDa = (p) => (p.limite_play ? `La pagina web di Play mostra solo ${p.limite_play} risultati per questa parola` : undefined);
+
 /** Lo stato del programma (§2): actual contro target al giorno di oggi. */
 export function statoDelPiano(attuale, target) {
   if (!target) return { k: 'preparazione', testo: 'In preparazione', colore: 'blu' };
@@ -83,6 +96,7 @@ export async function disegna(ctx) {
   const parole = (c.parole ?? []).map((p) => ({ ...p, score: opportunita(p) }));
   const inTop10 = parole.filter((p) => p.oggi && p.oggi <= 10).length;
   const comparsi = parole.filter((p) => p.oggi).length;
+  const oltre = parole.filter((p) => !p.oggi && letturaParola(p).startsWith('oltre'));
   // I rapporti di Play (G2-bis): ultimi 7 giorni disponibili. Le colonne hanno i nomi inglesi di Play.
   const pl = c.play?.righe ?? [];
   const somma = (rapporto, metrica, dim) => pl.filter((r) => r.rapporto.startsWith(rapporto) && r.metrica === metrica && (dim === undefined || r.dimensione === dim))
@@ -128,7 +142,8 @@ export async function disegna(ctx) {
       h('div', {}, h('strong', {}, 'Nuovi ieri: '), num(ieri.nuovi ?? 0), ' · ', h('strong', {}, 'media 7 giorni: '), media7.toLocaleString('it-IT', { maximumFractionDigits: 1 }),
         ' · ', h('strong', {}, 'attivati (7 giorni): '), num(attivati7), ' · ', h('strong', {}, 'stato: '), stato.testo),
       h('div', {}, h('strong', {}, 'Scheda: '), sc.voto ? `voto ${String(sc.voto).replace('.', ',')}, ${num(sc.recensioni)} recensioni` : 'nessun voto ancora', sc.fascia ? ` · ${sc.fascia} installazioni` : '',
-        ' · ', h('strong', {}, 'parole: '), `compariamo in ${comparsi} su ${parole.length}, ${inTop10} nei primi dieci`, migliore ? ` · la migliore: «${migliore.parola}» ${migliore.oggi}º` : ''),
+        ' · ', h('strong', {}, 'parole: '), `compariamo in ${comparsi} su ${parole.length}, ${inTop10} nei primi dieci`, migliore ? ` · la migliore: «${migliore.parola}» ${migliore.oggi}º` : '',
+        oltre.length ? ` · ${oltre.length} con la lista tagliata da Play (${oltre.map((p) => `«${p.parola}» ${letturaParola(p)}`).join(', ')})` : ''),
       problemi.length ? h('div', {}, h('strong', {}, 'Problemi: '), problemi.join(' · ')) : h('div', {}, 'Nessun problema sopra le soglie.'),
       ['at-risk', 'off-track'].includes(stato.k) ? h('div', {}, h('strong', {}, 'Azione: '), 'stato a rischio: più esperimenti in NOW e backlog da rivedere (§2).') : null),
     { azioni: [h('button', { class: 'bottone', onclick: raccogli }, 'Raccogli adesso')] }),
@@ -168,14 +183,14 @@ export async function disegna(ctx) {
     scheda(`Parole (${parole.length})`, tabella([
       { titolo: 'Parola', cella: (p) => h('strong', {}, p.parola) },
       { titolo: 'Cluster', cella: (p) => pill(p.cluster, '') },
-      { titolo: 'Oggi', num: true, cella: (p) => (p.oggi ? `${p.oggi}º` : h('span', { style: { color: 'var(--ink3)' } }, 'non compare')) },
-      { titolo: '7 gg fa', num: true, cella: (p) => (p.settimana_fa ? `${p.settimana_fa}º` : '—') },
+      { titolo: 'Oggi', num: true, cella: (p) => (p.oggi ? h('span', { title: tagliataDa(p) }, `${p.oggi}º`) : h('span', { style: { color: 'var(--ink3)' }, title: tagliataDa(p) }, letturaParola(p))) },
+      { titolo: '7 gg fa', num: true, cella: (p) => (p.settimana_fa ? `${p.settimana_fa}º` : p.settimana_fa_lettura ?? '—') },
       { titolo: 'Migliore', num: true, cella: (p) => (p.migliore ? `${p.migliore}º` : '—') },
       { titolo: 'Vol · Diff · Ril', cella: (p) => `${p.volume} · ${p.difficolta} · ${p.rilevanza}` },
       { titolo: 'Opportunità', num: true, cella: (p) => pill(String(p.score), p.score >= 50 ? 'verde' : p.score >= 25 ? 'ambra' : '') },
       { titolo: 'Primo nella ricerca', cella: (p) => h('span', { class: 'mono', style: { fontSize: '12px' } }, (p.primi ?? [])[0] ?? '—') },
     ], [...parole].sort((a, b) => b.score - a.score), { vuoto: 'Nessuna parola.' }),
-    { nota: 'Posizione nella ricerca pubblica di Google Play (Italia, italiano), letta ogni mattina. Volume, difficoltà e rilevanza sono stime da 1 a 5, da correggere coi termini di ricerca della Play Console. Opportunità = volume × rilevanza ÷ difficoltà, pesata dallo spazio da guadagnare.' }),
+    { nota: 'Posizione nella ricerca pubblica di Google Play (Italia, italiano), primi 30, letta ogni mattina. «Oltre il 9º» = Play ha tagliato la lista e non ci siamo fra quelli che mostra (non vuol dire «fuori»); «fuori dai primi 30» = lista piena, e non ci siamo. Volume, difficoltà e rilevanza sono stime da 1 a 5, da correggere coi termini di ricerca della Play Console. Opportunità = volume × rilevanza ÷ difficoltà, pesata dallo spazio da guadagnare.' }),
     scheda('Concorrenti', tabella([
       { titolo: 'App', cella: (x) => h('div', {}, h('strong', {}, x.nome ?? x.pacchetto), h('div', { class: 'mono', style: { fontSize: '11px', color: 'var(--ink3)' } }, x.pacchetto)) },
       { titolo: 'Sviluppatore', cella: (x) => x.sviluppatore ?? '—' },

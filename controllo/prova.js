@@ -366,7 +366,8 @@ export async function rispondi(azione, a) {
         scheda: { voto: 4.6, recensioni: 21, fascia: '100+', titolo: 'Scopa Online: Scopone e Carte' },
         parole: [
           { parola: 'scopone scientifico', cluster: 'varianti', volume: 4, difficolta: 3, rilevanza: 5, oggi: 9, settimana_fa: 14, migliore: 9, primi: ['com.digitalmoka.scopadalnegro'] },
-          { parola: 'scopa online', cluster: 'core', volume: 4, difficolta: 4, rilevanza: 5, oggi: null, settimana_fa: null, migliore: null, primi: ['com.WhatWapp.Scopa'] },
+          { parola: 'scopa online', cluster: 'core', volume: 4, difficolta: 4, rilevanza: 5, oggi: null, quanti: 30, troncata: false, limite_play: 16, lettura: 'fuori dai primi 30', settimana_fa: null, migliore: null, primi: ['com.WhatWapp.Scopa'] },
+          { parola: 'scopa', cluster: 'core', volume: 5, difficolta: 5, rilevanza: 5, oggi: null, quanti: 9, troncata: true, limite_play: 9, lettura: 'oltre il 9º', settimana_fa: 10, settimana_fa_lettura: '10º', migliore: 10, primi: ['com.epochalstorm.scopa'] },
           { parola: 'scopa bugiarda', cluster: 'varianti', volume: 1, difficolta: 1, rilevanza: 5, oggi: 1, settimana_fa: 2, migliore: 1, primi: ['it.settebello.app'] },
           { parola: 'carte napoletane', cluster: 'carte', volume: 3, difficolta: 4, rilevanza: 4, oggi: null, settimana_fa: null, migliore: null, primi: ['com.digitalmoka.briscoladalnegro'] }],
         concorrenti: [{ pacchetto: 'com.WhatWapp.Scopa', nome: 'Scopa: la Sfida - Online', sviluppatore: 'Whatwapp Entertainment', installazioni: 12342955, fascia: '10.000.000+', voto: 4.33, recensioni: 229524, aggiornata: '1 ott 2026' }],
