@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Snake 100 Battle Royale · Free Snake Game for Android</title>
+<meta name="description" content="100 snakes, one shrinking arena. Eat, grow and be the last snake alive. Free on Google Play.">
+<link rel="canonical" href="https://settegames.com/snake/">
+<!--
+  LA PAGINA DI SNAKE 100 (19 ottobre 2026). In produzione su Play dal 16-19 ott.
+  Modello: /lastsheep/ (inglese, poi la parte italiana in #it). Testi cortissimi:
+  la gente non legge. Il badge porta a Play col referrer
+  utm_source=settegames.com, utm_medium=sito, utm_campaign=pagina-snake.
+  Schermate: BattleRoyale2D/docs/store-snake/screenshot/ (le stesse della scheda),
+  in webp 960x540. Copertina e icona: /img/snake-*.webp (quelle della home).
+  Sorgente anche in BattleRoyale2D/sito/snake/index.html: cambiandola qui, va copiata là.
+-->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SetteGames">
+<meta property="og:title" content="Snake 100 Battle Royale">
+<meta property="og:description" content="100 snakes. One arena. Be the last one. Free on Android.">
+<meta property="og:url" content="https://settegames.com/snake/">
+<meta property="og:image" content="https://settegames.com/img/snake-copertina.webp">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="500">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Snake 100 Battle Royale", "url": "https://settegames.com/snake/", "image": "https://settegames.com/img/snake-copertina.webp", "description": "100 snakes, one shrinking arena. Eat, grow and be the last snake alive.", "inLanguage": "en", "genre": ["Action", "Battle royale", "Snake"], "gamePlatform": ["Android"], "operatingSystem": "Android", "applicationCategory": "Game", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "sameAs": ["https://play.google.com/store/apps/details?id=com.settegames.snake"], "publisher": {"@type": "Organization", "name": "PK - Project Key S.R.L.", "url": "https://settegames.com/"}}</script>
+<!--sg:testa-->
+<link rel="stylesheet" href="/pop.css">
+<link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
+<!--/sg:testa-->
+<link rel="stylesheet" href="/stile.css">
+<link rel="stylesheet" href="snake.css">
+</head>
+<body class="pagina">
+<!--sg:testata-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
+  <symbol id="freccia" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="gioca" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="giu" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<header class="testata">
+  <div class="dentro">
+    <a class="marchio" href="/" aria-label="SetteGames, home">
+      <svg aria-hidden="true"><use href="#sette"/></svg>
+      <span class="parola">Sette<b>Games</b></span>
+    </a>
+    <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Menu
+    </button>
+    <nav class="menu" id="menu" aria-label="Sections">
+      <div class="voce-giochi">
+        <button class="apri-giochi" type="button" aria-expanded="false" aria-controls="sottomenu-giochi">Games <svg aria-hidden="true"><use href="#giu"/></svg></button>
+        <ul class="sottomenu" id="sottomenu-giochi" hidden>
+          <li><a href="/settebello/"><img src="/img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Settebello</b><small>Scopa e Scopone · Android</small></span></a></li>
+          <li><a href="/briscola/"><img src="/img/briscola-icona.webp" alt="" width="40" height="40"><span><b>Briscola Online</b><small>Briscola · Android</small></span></a></li>
+          <li><a href="/lastsheep/"><img src="/img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/snake/"><img src="/img/snake-icona.webp" alt="" width="40" height="40"><span><b>Snake 100 Battle Royale</b><small>Battle royale · Android</small></span></a></li>
+          <li><a href="/games/"><span class="icona-mini" aria-hidden="true"><svg><use href="#gioca"/></svg></span><span><b>Minigames</b><small>In your browser</small></span></a></li>
+          <li class="tutti"><a href="/#catalogo">All games <svg aria-hidden="true"><use href="#freccia"/></svg></a></li>
+        </ul>
+      </div>
+      <a href="/#chi-siamo">About</a>
+      <a class="tasto primario piccolo" href="/#giochi">Discover the games</a>
+    </nav>
+  </div>
+</header>
+<!--/sg:testata-->
+
+<main>
+
+  <p class="briciole"><a href="../">SetteGames</a> &nbsp;·&nbsp; <a href="#it" hreflang="it">Italiano</a></p>
+
+  <header class="cappello gioco-s">
+    <img class="copertina-s" src="/img/snake-copertina.webp" alt="Snake 100 Battle Royale: a green snake with a crown above the logo, rival snakes in a neon arena" width="1024" height="500" fetchpriority="high">
+    <div class="testo-s">
+      <h1>Snake 100 Battle Royale</h1>
+      <p>100 snakes. One arena. Be the last one.</p>
+      <p class="negozi"><a class="badge-store" href="https://play.google.com/store/apps/details?id=com.settegames.snake&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dpagina-snake" aria-label="Get it on Google Play" data-evento="store_outbound_click" data-gioco="snake"><img src="/img/store/google-play-en.png" alt="Get it on Google Play" width="187" height="72"></a></p>
+    </div>
+  </header>
+
+  <div class="vetrina-s" role="region" aria-label="Screenshots" tabindex="0">
+    <figure><img src="img/01-arena.webp" alt="100 snakes, 1 winner: the arena with the zone shrinking" width="960" height="540"></figure>
+    <figure><img src="img/02-zona.webp" alt="Watch the zone: the safe circle closes in" width="960" height="540" loading="lazy"></figure>
+    <figure><img src="img/03-eliminazione.webp" alt="Eat, grow, survive: a snake bursts into energy" width="960" height="540" loading="lazy"></figure>
+    <figure><img src="img/04-vittoria.webp" alt="Victory: number 1 out of 100" width="960" height="540" loading="lazy"></figure>
+    <figure><img src="img/06-negozio.webp" alt="Unlock skins: neon, galaxy, lava, aurora" width="960" height="540" loading="lazy"></figure>
+    <figure><img src="img/07-teste.webp" alt="40 funny faces for your snake" width="960" height="540" loading="lazy"></figure>
+  </div>
+
+  <section>
+    <h2>How to play</h2>
+    <ul class="mosse">
+      <li><b>Eat.</b> Grow longer.</li>
+      <li><b>Cut in.</b> Make them crash into you.</li>
+      <li><b>Stay in the zone.</b> It shrinks.</li>
+    </ul>
+    <p>Matches last 2 to 4 minutes. One finger is enough.</p>
+    <p class="minore">The other snakes are computer-controlled. Free, with optional purchases: nothing for sale helps you win.</p>
+  </section>
+
+  <section>
+    <h2>Support</h2>
+    <p>Write to <a href="mailto:supporto@settegames.com?subject=Snake%20100">supporto@settegames.com</a>.
+    Quick answers: <a href="faq.html">FAQ</a>.</p>
+    <p class="minore"><a href="privacy.html">Privacy policy</a> · <a href="termini.html">Terms</a> · <a href="delete.html">Delete your account</a></p>
+  </section>
+
+  <hr style="border:0;border-top:1px solid var(--filo);margin:56px 0 0">
+
+  <div lang="it" id="it">
+  <section>
+    <h2>In italiano</h2>
+    <p>100 serpenti, un'arena che si stringe. Mangia, cresci, fai schiantare gli altri: vince l'ultimo rimasto.
+    Il gioco è in inglese.</p>
+    <p class="negozi"><a class="badge-store" href="https://play.google.com/store/apps/details?id=com.settegames.snake&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dpagina-snake" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="snake"><img src="/img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a></p>
+    <p class="minore">Assistenza: <a href="mailto:supporto@settegames.com?subject=Snake%20100">supporto@settegames.com</a> ·
+    <a href="privacy.html#it">Informativa privacy</a> · <a href="termini.html#it">Termini</a> · <a href="delete.html#it">Cancella l'account</a></p>
+  </section>
+  </div>
+
+</main>
+
+<!--sg:piede-->
+<footer class="piede">
+  <div class="dentro">
+    <div>
+      <a class="marchio" href="/" aria-label="SetteGames, home">
+        <svg aria-hidden="true"><use href="#sette"/></svg>
+        <span class="parola">Sette<b>Games</b></span>
+      </a>
+      <p class="firma">PLAY DIFFERENT<span>.</span></p>
+      <!-- Sede, registro delle imprese e REA (art. 2250 c.c.): non si tolgono. -->
+      <p>SetteGames is a brand of <strong>PK - PROJECT KEY S.R.L.</strong></p>
+      <p>Via Città della Pieve 76 — 00191 Roma (RM), Italia</p>
+      <p>P. IVA e C.F. 15538561000 · Registro delle imprese di Roma, REA 1597981</p>
+      <p><a href="mailto:supporto@settegames.com">supporto@settegames.com</a></p>
+    </div>
+    <nav aria-label="Documents">
+      <a href="/settebello/privacy.html">Privacy</a>
+      <a href="/settebello/termini.html">Terms</a>
+      <a href="/games/privacy.html">Minigames privacy</a>
+      <a href="/lastsheep/privacy.html">Last Sheep privacy</a>
+      <a href="/settebello/elimina-account.html">Delete your account</a>
+    </nav>
+  </div>
+</footer>
+<script src="/sito.js" defer></script>
+<!--/sg:piede-->
+</body>
+</html>

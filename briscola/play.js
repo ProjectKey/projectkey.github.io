@@ -20,7 +20,7 @@
  * `"sameAs": ["https://play.google.com/store/apps/details?id=it.settebello.briscola"]`
  * e togliere «Coming soon» dalla card della home.
  */
-const SU_PLAY = false;
+const SU_PLAY = true; // 19 ott 2026: Briscola in produzione, la pagina di Play risponde 200
 
 if (SU_PLAY) {
   for (const el of document.querySelectorAll('[data-play]')) el.hidden = false;

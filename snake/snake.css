@@ -1,0 +1,55 @@
+/*
+  LA PAGINA DI SNAKE 100 (19 ottobre 2026)
+  ========================================
+  Sopra `/pop.css` e `/stile.css`: qui solo il cappello con la copertina
+  (come Briscola) e la fila delle schermate, che per Snake sono orizzontali.
+  I colori del gioco stanno solo nelle immagini (HOW_TO_ADD_A_GAME.md).
+*/
+:root { --entra: cubic-bezier(0.23, 1, 0.32, 1); }
+::selection { background: var(--lime); color: var(--antracite); }
+
+/* --- il cappello: copertina, titolo, una riga, il badge --- */
+.cappello.gioco-s { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px 40px; align-items: center; }
+.gioco-s h1 { overflow-wrap: anywhere; }
+.gioco-s .copertina-s {
+  width: 100%; height: auto; aspect-ratio: 1024 / 500; border-radius: var(--r-pannello);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.gioco-s .testo-s > :first-child { margin-top: 0; }
+body.pagina .gioco-s p:not(.negozi) { font-size: 1.25rem; font-weight: 600; color: var(--bianco); margin-top: 14px; }
+@media (min-width: 780px) {
+  .cappello.gioco-s { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .gioco-s .copertina-s { grid-column: 2; grid-row: 1; }
+  .gioco-s .testo-s { grid-column: 1; grid-row: 1; }
+}
+
+/* Il badge: si sente premere. */
+.gioco-s .negozi { margin-top: 22px; }
+.badge-store img { display: block; height: 72px; width: auto; }
+.badge-store { border-radius: 12px; transition: transform var(--veloce) var(--entra); }
+.badge-store:active { transform: scale(0.97); }
+.badge-store:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .badge-store:hover { transform: translateY(-2px); } }
+
+/* --- le schermate: una fila orizzontale che scorre col dito --- */
+.vetrina-s {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(84vw, 440px); gap: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  margin: 26px calc(var(--gutter) * -1) 0; padding: 4px var(--gutter) 16px; scroll-padding: 0 var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--ink3) transparent;
+}
+.vetrina-s figure { margin: 0; scroll-snap-align: start; }
+.vetrina-s img {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 16px; background: #1d1440;
+  box-shadow: 0 2px 0 rgba(19, 19, 19, 0.08), 0 12px 26px rgba(19, 19, 19, 0.16);
+}
+/* Sul largo due schermate intere, senza tagli. */
+@media (min-width: 780px) {
+  .vetrina-s { grid-auto-columns: calc((100% - 14px) / 2); margin: 26px 0 0; padding: 4px 0 16px; scroll-padding: 0; }
+}
+.vetrina-s:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+
+/* --- come si gioca: tre righe, niente scatole --- */
+body.pagina main .mosse { list-style: none; padding: 0; margin: 4px 0 16px; }
+body.pagina main .mosse li { margin: 0; padding: 12px 0; border-top: 1px solid var(--filo); font-size: 1.125rem; color: var(--ink2); }
+.mosse b { color: var(--ink); }

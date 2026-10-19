@@ -30,5 +30,15 @@
         "9D:6D:72:A7:76:0F:4E:2D:72:51:7C:FF:40:BD:B3:B9:87:CA:3F:4C:F2:34:B0:09:29:48:B4:1B:CF:1D:42:13"
       ]
     }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.settegames.snake",
+      "sha256_cert_fingerprints": [
+        "34:89:34:D2:86:06:D9:0B:CF:9F:6E:E6:12:37:CC:61:79:23:C5:A0:8C:59:9D:E6:CF:A4:31:57:CB:F3:25:54"
+      ]
+    }
   }
 ]
