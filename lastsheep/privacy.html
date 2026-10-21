@@ -47,6 +47,11 @@
   giocatore di Play Games e lo conserva col conto (giocatori_play); niente piu'
   email ne' ID dell'account Google. L'email condivisa con la versione precedente
   (strada A) resta finche' esiste il conto e si cancella con lui.
+  Rev 20/10/2026, versione iOS (App Store): acquisti via Apple (StoreKit, la
+  transazione firmata verificata dal server; Apple non ci da' dati di pagamento),
+  Sign in with Apple (identificativo Apple per l'app, email anche nascosta via
+  relay; il token si revoca alla cancellazione dell'account), ATT prima di
+  AdMob (IDFA solo col permesso), SKAdNetwork. Niente Game Center.
 -->
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
@@ -101,7 +106,7 @@
 </p>
 
 <h1>Last Sheep Royale — Privacy policy</h1>
-<p class="data">Last updated: 6 October 2026 · version 1.3.0 (ads, Google Play Games)</p>
+<p class="data">Last updated: 20 October 2026 · Android and iPhone (App Store, Sign in with Apple)</p>
 
 <div class="box">
   <p><strong>In short.</strong> The game creates a <strong>guest account</strong> for you on first
@@ -114,8 +119,9 @@
   player ID</strong>, never your email, and we don't keep Google's tokens. Your
   friends in the game see your sheep's name, look, level, league, weekly coins
   and wins. Gameplay statistics stay <strong>anonymous</strong> and are not linked to your
-  account. <strong>Google</strong> shows ads (with your consent where the law requires
-  it) and handles payments. We don't sell data. You can
+  account. On iPhone you can also <strong>sign in with Apple</strong>. <strong>Google</strong> shows ads
+  (with your consent where the law requires it); <strong>Google Play</strong> or the
+  <strong>App Store</strong> handle payments. We don't sell data. You can
   <a href="#delete">delete your account</a> at any time.</p>
 </div>
 
@@ -271,6 +277,38 @@ won't sign you back in by itself. You can also remove the game's access from you
 Google Account (<a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>).
 To erase the data, <a href="#delete">delete the account</a>.</p>
 
+<h2 id="apple">If you sign in with Apple (iPhone)</h2>
+<p>On iPhone, <strong>Sign in with Apple</strong> is optional and works like Facebook: it saves
+your progress for a new phone. Apple asks you on its own screen; we never see your
+password. If that Apple ID already has an account and this phone has guest progress,
+you <strong>choose which one to keep</strong>.</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Apple user ID</strong>: an identifier Apple creates for our team only</td>
+      <td>To find your account again when you sign in with the same Apple ID</td>
+      <td>Contract (providing the game)</td>
+    </tr>
+    <tr>
+      <td><strong>Email address</strong>, only if Apple shares it: your real one, or a
+      private relay address if you choose <strong>Hide My Email</strong></td>
+      <td>To identify your account. Never for marketing</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Apple sign-in token</strong> (refresh token), kept on our server</td>
+      <td>Only to <strong>revoke</strong> the game's access at Apple when you delete the account</td>
+      <td>Legal obligation and contract</td>
+    </tr>
+  </tbody>
+</table>
+<p>We don't ask Apple for your name. When you delete the account we revoke the
+token at Apple, then delete everything with the account. You can also stop using
+Apple with this app in your iPhone settings (Apple ID → Sign-In &amp; Security →
+Sign in with Apple). Apple's rules:
+<a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+
 <h2>What your friends see</h2>
 <p>Your friends in the game see: your sheep's <strong>name and look</strong> (wool, face,
 hat), your <strong>level</strong>, <strong>league</strong>, <strong>coins won this week</strong> and
@@ -338,12 +376,14 @@ your phone, the app version and update channel, and — like any server — your
 they are not linked to your game account. Transfers to the USA are covered by
 the EU Standard Contractual Clauses.</p>
 <p><strong>Google and Meta.</strong> <strong>Google</strong> (Google Ireland Ltd and Google LLC:
-AdMob ads, Google Play Games sign-in, Google Play purchases) and <strong>Meta</strong>
+AdMob ads, Google Play Games sign-in, Google Play purchases), <strong>Apple</strong>
+(Apple Distribution International Ltd and Apple Inc.: App Store purchases, Sign in with
+Apple, on iPhone) and <strong>Meta</strong>
 (Meta Platforms Ireland Ltd, if you use Facebook Login) receive data directly from
 the app as <strong>independent controllers</strong>, under their own privacy policies:
 they are not our processors. They may process it in the <strong>USA</strong> and in other
 countries; those transfers are covered by the <strong>EU-US Data Privacy
-Framework</strong>, to which Google LLC and Meta Platforms, Inc. are certified, or by
+Framework</strong>, to which Google LLC, Apple Inc. and Meta Platforms, Inc. are certified, or by
 the EU Standard Contractual Clauses.</p>
 
 <h2>How long we keep it</h2>
@@ -389,8 +429,14 @@ choices in the form allow; otherwise you get no ads. You can
 in your phone's settings. Our own statistics never use the advertising ID. How
 Google uses data:
 <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
+<p><strong>On iPhone.</strong> Before any ad, after Google's form, the game shows Apple's
+<strong>tracking request</strong> (App Tracking Transparency). AdMob reads the
+advertising ID (IDFA) <strong>only if you tap Allow</strong>; if you don't, you get
+non-personalised ads and no IDFA. You can change it any time in
+Settings → Privacy &amp; Security → Tracking. Ad networks may also measure installs
+with Apple's <strong>SKAdNetwork</strong>, which gives them only aggregated, anonymous counts.</p>
 
-<h2>Purchases (Google Play)</h2>
+<h2>Purchases (Google Play and App Store)</h2>
 <p>Gem packs and No Ads are bought through <strong>Google Play</strong>. Google handles the
 payment: we never see your card or your Google account. The game receives the
 confirmation of the purchase (which pack, and a purchase code) and sends it to our
@@ -403,11 +449,17 @@ prevention). To limit abuse, the server keeps your IP address in memory only,
 for ten minutes. If you delete your account, we keep only the purchase code, the pack, Google's
 order number, the status and the dates, with no link to you or to your device:
 they stop the same purchase from being credited twice, and accounting needs them.</p>
+<p><strong>On iPhone</strong> you buy through the <strong>App Store</strong>: Apple handles the payment,
+and we never see your card or your Apple ID. The game gets Apple's signed receipt
+(which pack, the transaction ID) and our server checks Apple's signature before adding
+the gems. We keep the same things as for Google, with Apple's transaction ID as the
+order number. Apple tells our server about refunds, and the server takes back what the
+purchase gave. <strong>Restore Purchases</strong> in Settings gives back No Ads.</p>
 
 <h2>Notifications</h2>
 <p>Reminders (a chest is ready, the daily gift) are <strong>scheduled on your
 phone</strong>. No notification server is involved. You can turn each kind off in
-Settings, or all of them in Android settings.</p>
+Settings, or all of them in the phone's settings.</p>
 
 <h2>What we don't collect</h2>
 <p>No phone number, contacts from your phone, photos, microphone, camera or
@@ -434,6 +486,8 @@ Facebook posts.</p>
   <p><strong>Google Play Games:</strong> deleting the account removes the Play Games link,
   and your email if you had shared it. To also remove the game's access from your Google Account:
   <a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>.</p>
+  <p><strong>Sign in with Apple:</strong> deleting the account <strong>revokes</strong> the game's
+  access at Apple and removes the Apple link and its email.</p>
   <p>What stays: the purchase code, pack, Google order number, status and dates of a purchase, with no link to you or your device. The
   <strong>anonymous statistics</strong> are not linked to your account: to have them erased
   too, send us the <strong>installation ID</strong> shown in Settings under the credits. We
@@ -470,7 +524,7 @@ before it takes effect. The date at the top is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Last Sheep Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 6 ottobre 2026 · versione 1.3.0 (pubblicità, Google Play Games)</p>
+<p class="data">Ultimo aggiornamento: 20 ottobre 2026 · Android e iPhone (App Store, accesso con Apple)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account ospite</strong>,
@@ -483,8 +537,9 @@ before it takes effect. The date at the top is always the latest version.</p>
   Games</strong>, mai l'email, e non conserviamo i token di Google. I tuoi amici nel gioco
   vedono nome della pecora, aspetto, livello, lega, monete della settimana e
   vittorie. Le statistiche di gioco restano <strong>anonime</strong> e non sono legate
-  all'account. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
-  legge lo richiede) e gestisce i pagamenti. Non vendiamo dati. Puoi
+  all'account. Su iPhone puoi anche <strong>accedere con Apple</strong>. <strong>Google</strong> mostra
+  la pubblicità (col tuo consenso, dove la legge lo richiede); i pagamenti li gestiscono
+  <strong>Google Play</strong> o l'<strong>App Store</strong>. Non vendiamo dati. Puoi
   <a href="#cancellazione">cancellare l'account</a> quando vuoi.</p>
 </div>
 
@@ -646,6 +701,38 @@ da solo. Puoi anche togliere l'accesso del gioco dal tuo account Google
 (<a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>).
 Per cancellare i dati, <a href="#cancellazione">cancella l'account</a>.</p>
 
+<h2 id="apple-it">Se accedi con Apple (iPhone)</h2>
+<p>Su iPhone l'<strong>accesso con Apple</strong> è facoltativo e funziona come Facebook: salva i
+progressi per un telefono nuovo. Te lo chiede Apple nella sua schermata; la password
+non la vediamo mai. Se quell'ID Apple ha già un account e su questo telefono ci sono
+progressi da ospite, <strong>scegli quale tenere</strong>.</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>ID utente Apple</strong>: un identificativo che Apple crea solo per il nostro team</td>
+      <td>Per ritrovare il tuo account quando rientri con lo stesso ID Apple</td>
+      <td>Contratto (fornirti il gioco)</td>
+    </tr>
+    <tr>
+      <td><strong>Indirizzo email</strong>, solo se Apple lo condivide: quello vero, o un
+      indirizzo di inoltro privato se scegli <strong>Nascondi la mia email</strong></td>
+      <td>Per riconoscere l'account. Mai per marketing</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Token dell'accesso con Apple</strong> (refresh token), sul nostro server</td>
+      <td>Solo per <strong>revocare</strong> presso Apple l'accesso del gioco quando cancelli l'account</td>
+      <td>Obbligo legale e contratto</td>
+    </tr>
+  </tbody>
+</table>
+<p>Il tuo nome ad Apple non lo chiediamo. Quando cancelli l'account revochiamo il token
+presso Apple, poi cancelliamo tutto con l'account. Puoi anche smettere di usare Apple con
+quest'app dalle impostazioni dell'iPhone (ID Apple → Accesso e sicurezza → Accedi con
+Apple). Le regole di Apple:
+<a href="https://www.apple.com/it/legal/privacy/">apple.com/it/legal/privacy</a>.</p>
+
 <h2>Cosa vedono i tuoi amici</h2>
 <p>I tuoi amici nel gioco vedono: <strong>nome e aspetto</strong> della pecora (lana, viso,
 cappello), <strong>livello</strong>, <strong>lega</strong>, <strong>monete vinte questa settimana</strong>
@@ -717,12 +804,14 @@ solo per consegnare gli aggiornamenti; non sono legati al tuo account di gioco.
 Il trasferimento negli USA è coperto dalle Clausole contrattuali standard
 dell'UE.</p>
 <p><strong>Google e Meta.</strong> <strong>Google</strong> (Google Ireland Ltd e Google LLC:
-annunci AdMob, accesso con Google Play Games, acquisti su Google Play) e
+annunci AdMob, accesso con Google Play Games, acquisti su Google Play),
+<strong>Apple</strong> (Apple Distribution International Ltd e Apple Inc.: acquisti sull'App
+Store e accesso con Apple, su iPhone) e
 <strong>Meta</strong> (Meta Platforms Ireland Ltd, se usi l'accesso con Facebook)
 ricevono dati direttamente dall'app come <strong>titolari autonomi</strong> del
 trattamento, secondo le proprie informative: non sono nostri responsabili. Possono
 trattarli negli <strong>USA</strong> e in altri paesi; questi trasferimenti sono coperti
-dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC e Meta Platforms, Inc.
+dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC, Apple Inc. e Meta Platforms, Inc.
 aderiscono, o dalle Clausole contrattuali standard dell'UE.</p>
 
 <h2>Per quanto li teniamo</h2>
@@ -771,8 +860,15 @@ fatto prima. Puoi anche azzerare o eliminare l'identificativo pubblicitario dall
 telefono. Le nostre statistiche non usano mai l'identificativo pubblicitario.
 Come Google usa i dati:
 <a href="https://policies.google.com/technologies/partner-sites?hl=it">policies.google.com/technologies/partner-sites</a>.</p>
+<p><strong>Su iPhone.</strong> Prima di qualunque annuncio, dopo il modulo di Google, il gioco
+mostra la <strong>richiesta di tracciamento</strong> di Apple (App Tracking Transparency).
+AdMob legge l'identificativo pubblicitario (IDFA) <strong>solo se tocchi Consenti</strong>;
+altrimenti ricevi annunci non personalizzati e niente IDFA. Puoi cambiarlo quando vuoi
+da Impostazioni → Privacy e sicurezza → Tracciamento. Le reti pubblicitarie possono
+anche misurare le installazioni con <strong>SKAdNetwork</strong> di Apple, che dà loro solo
+conteggi aggregati e anonimi.</p>
 
-<h2>Acquisti (Google Play)</h2>
+<h2>Acquisti (Google Play e App Store)</h2>
 <p>I pacchetti di gemme e No Ads si comprano tramite <strong>Google Play</strong>. Il
 pagamento lo gestisce Google: non vediamo mai la tua carta né il tuo account
 Google. Il gioco riceve la conferma dell'acquisto (quale pacchetto e un codice
@@ -786,11 +882,18 @@ solo in memoria, per dieci minuti. Quando cancelli l'account, delle ricevute d'a
 solo il codice della ricevuta, il prodotto, il numero d'ordine, lo stato e le
 date, senza nessun collegamento a te né al tuo dispositivo: servono a impedire che
 la stessa ricevuta venga accreditata due volte e per la contabilità.</p>
+<p><strong>Su iPhone</strong> si compra dall'<strong>App Store</strong>: il pagamento lo gestisce Apple,
+e non vediamo mai la tua carta né il tuo ID Apple. Il gioco riceve la ricevuta firmata
+da Apple (quale pacchetto, l'ID della transazione) e il nostro server controlla la firma
+di Apple prima di aggiungere le gemme. Conserviamo le stesse cose che per Google, con
+l'ID della transazione di Apple come numero d'ordine. Apple avvisa il nostro server dei
+rimborsi, e il server riprende quello che l'acquisto aveva dato. <strong>Restore
+Purchases</strong> in Settings ti ridà No Ads.</p>
 
 <h2>Notifiche</h2>
 <p>I promemoria (un baule pronto, il regalo del giorno) sono <strong>programmati sul
 telefono</strong>. Non c'è un server di notifiche. Puoi spegnerli uno per uno nelle
-impostazioni del gioco, o tutti da quelle di Android.</p>
+impostazioni del gioco, o tutti da quelle del telefono.</p>
 
 <h2>Cosa non raccogliamo</h2>
 <p>Numero di telefono, rubrica del telefono, foto, microfono, fotocamera,
@@ -819,6 +922,8 @@ non leggiamo i tuoi post.</p>
   collegamento a Play Games e la tua email, se l'avevi condivisa. Per togliere anche l'accesso del gioco
   dal tuo account Google:
   <a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>.</p>
+  <p><strong>Accesso con Apple:</strong> cancellando l'account <strong>revochiamo</strong> presso Apple
+  l'accesso del gioco, e si cancellano il collegamento ad Apple e la sua email.</p>
   <p>Cosa resta: codice della ricevuta, prodotto, numero d'ordine, stato e date di un acquisto, senza legame con te né col tuo dispositivo. Le
   <strong>statistiche anonime</strong> non sono legate all'account: per far cancellare
   anche quelle, mandaci l'<strong>identificativo d'installazione</strong> che trovi in

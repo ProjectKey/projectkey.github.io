@@ -38,6 +38,11 @@
   Coerente con docs/store-snake/CONTENUTI_APP.md §2, tabella B.
   Lo stile: /stile.css e /pop.css della radice; testata e piede fra i commenti
   sg: come le altre.
+  Rev 20/10/2026, versione iOS (App Store): acquisti via Apple (StoreKit, la
+  transazione firmata verificata dal server, rimborsi dalle notifiche di Apple),
+  ATT prima di AdMob (IDFA solo col permesso), SKAdNetwork. Su iPhone si gioca
+  da ospite: niente Sign in with Apple (non c'e' un accesso di terzi), niente
+  Game Center.
 -->
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
@@ -93,7 +98,7 @@
 </p>
 
 <h1>Snake 100 Battle Royale — Privacy policy</h1>
-<p class="data">Last updated: 14 October 2026 · version 1.2.0 (test version)</p>
+<p class="data">Last updated: 20 October 2026 · Android and iPhone (App Store)</p>
 
 <div class="box">
   <p><strong>In short.</strong> On first launch the game creates a <strong>guest
@@ -103,7 +108,7 @@
   itself, <strong>without asking for any permission</strong>: we receive only your Play
   Games player ID, <strong>never your email or name</strong>. Gameplay statistics stay
   <strong>anonymous</strong>. <strong>Google</strong> shows ads (with your consent where the law
-  requires it) and handles payments; <strong>Expo</strong> delivers small game updates. We
+  requires it); <strong>Google Play</strong> or the <strong>App Store</strong> handle payments; <strong>Expo</strong> delivers small game updates. We
   don't sell data. You can <a href="#delete">delete your account</a> in the app at
   any time.</p>
 </div>
@@ -186,6 +191,8 @@ you back in on a new phone, our server may give your account an internal address
 a real email: no message can be sent to it. Legal basis: contract. Google provides
 Play Games under its own <a href="https://policies.google.com/privacy">privacy
 policy</a>.</p>
+<p><strong>On iPhone</strong> there is no Play Games and no sign-in: you play as a guest, and
+your account stays tied to that phone. We don't use Sign in with Apple or Game Center.</p>
 
 <h2 id="stats">Anonymous gameplay statistics</h2>
 <p>Separately from your account, the game sends statistics tied to an
@@ -276,8 +283,14 @@ can <strong>withdraw or change</strong> your consent at any time in
 affect what was done before. You can also reset or delete the advertising ID in
 your phone's settings. How Google uses data:
 <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
+<p><strong>On iPhone.</strong> Before any ad, after Google's form, the game shows Apple's
+<strong>tracking request</strong> (App Tracking Transparency). AdMob reads the
+advertising ID (IDFA) <strong>only if you tap Allow</strong>; if you don't, you get
+non-personalised ads and no IDFA. You can change it any time in
+Settings → Privacy &amp; Security → Tracking. Ad networks may also measure installs
+with Apple's <strong>SKAdNetwork</strong>, which gives them only aggregated, anonymous counts.</p>
 
-<h2>Purchases (Google Play)</h2>
+<h2>Purchases (Google Play and App Store)</h2>
 <p>Gem packs, the Starter Pack, the premium season pass and No Ads are bought through
 <strong>Google Play</strong>. Google handles the payment: we never see your card or your
 Google account. The game tells Google your account ID, so the purchase belongs to your
@@ -289,19 +302,28 @@ installation ID, your account, the status and the date, so that one purchase can
 used twice and so we can help if you report a problem (legitimate interest: fraud
 prevention). It keeps your IP address in memory only, for ten minutes, to limit
 abuse. If Google refunds a purchase, we take back what it gave.</p>
+<p><strong>On iPhone</strong> you buy through the <strong>App Store</strong>: Apple handles the payment,
+and we never see your card or your Apple ID. The game tells Apple your account ID
+(as a random code), gets Apple's signed receipt (which pack, the transaction ID), and
+our server checks Apple's signature before adding what you bought. We keep the same
+things as for Google, with Apple's transaction ID as the order number. Apple tells our
+server about refunds, and we take back what the purchase gave. <strong>Restore
+Purchases</strong> in Settings gives back No Ads and the Starter Pack.</p>
 
 <h2>Notifications</h2>
 <p>Reminders (a chest is ready, the daily gift) are <strong>scheduled on your
 phone</strong>. No notification server is involved. You can turn them off in Settings
-(ALERTS), or in Android settings.</p>
+(ALERTS), or in the phone's settings.</p>
 
-<h2>Google, as an independent controller</h2>
+<h2>Google and Apple, as independent controllers</h2>
 <p><strong>Google</strong> (Google Ireland Ltd and Google LLC: AdMob ads, Google Play Games,
 Google Play purchases and the Play Store) receives data directly from the app under
 its own <a href="https://policies.google.com/privacy">privacy policy</a>: it is not our
-processor. It may process data in the <strong>USA</strong> and other countries; those
+processor. On iPhone, <strong>Apple</strong> (Apple Distribution International Ltd and Apple
+Inc.: App Store and purchases) does the same, under its
+<a href="https://www.apple.com/legal/privacy/">privacy policy</a>. It may process data in the <strong>USA</strong> and other countries; those
 transfers are covered by the <strong>EU-US Data Privacy Framework</strong>, to which Google LLC
-is certified, or by the EU Standard Contractual Clauses. If the app crashes inside
+and Apple Inc. are certified, or by the EU Standard Contractual Clauses. If the app crashes inside
 Android itself, Google Play may show us anonymous crash statistics (Android
 vitals).</p>
 
@@ -319,7 +341,7 @@ player ID. No third-party crash service is used.</p>
   <p><strong>By email:</strong> write to
   <a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20delete%20my%20account">supporto@settegames.com</a>
   with the ID shown at the bottom of Settings and, if you bought something, the
-  Google Play order number (GPA.…). We delete the account within thirty days. More on
+  Google Play order number (GPA.…) or the App Store order ID. We delete the account within thirty days. More on
   the <a href="delete.html">delete page</a>.</p>
   <p><strong>What stays:</strong> the purchase code, pack, Google order number, status and
   dates of a purchase, with no link to you or your device. If Google refunded a
@@ -360,7 +382,7 @@ app. The date at the top is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Snake 100 Battle Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 14 ottobre 2026 · versione 1.2.0 (versione di prova)</p>
+<p class="data">Ultimo aggiornamento: 20 ottobre 2026 · Android e iPhone (App Store)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account
@@ -370,7 +392,8 @@ app. The date at the top is always the latest version.</p>
   <strong>senza chiederti alcun permesso</strong>: riceviamo solo l'ID giocatore di Play
   Giochi, <strong>mai la tua email o il tuo nome</strong>. Le statistiche di gioco restano
   <strong>anonime</strong>. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
-  legge lo richiede) e gestisce i pagamenti; <strong>Expo</strong> consegna i piccoli
+  legge lo richiede); i pagamenti li gestiscono <strong>Google Play</strong> o l'<strong>App
+  Store</strong>; <strong>Expo</strong> consegna i piccoli
   aggiornamenti. Non vendiamo dati. Puoi <a href="#cancellazione">cancellare
   l'account</a> dall'app quando vuoi.</p>
 </div>
@@ -453,6 +476,8 @@ su un telefono nuovo, il server può dare all'account un indirizzo interno come
 <code>pg-…@play.invalid</code>, ricavato da un codice cifrato dell'ID giocatore. Non è
 un'email vera: non ci si può scrivere. Base giuridica: contratto. Google fornisce Play
 Giochi secondo la sua <a href="https://policies.google.com/privacy">informativa</a>.</p>
+<p><strong>Su iPhone</strong> non c'è Play Giochi e non c'è un accesso: giochi da ospite, e
+l'account resta legato a quel telefono. Non usiamo l'accesso con Apple né Game Center.</p>
 
 <h2 id="statistiche">Statistiche di gioco anonime</h2>
 <p>A parte l'account, il gioco manda statistiche legate a un <strong>identificativo
@@ -547,8 +572,15 @@ annunci. Puoi <strong>revocare o cambiare</strong> il consenso quando vuoi in
 tocca quello che è stato fatto prima. Puoi anche reimpostare o cancellare l'ID
 pubblicità dalle impostazioni del telefono. Come Google usa i dati:
 <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>.</p>
+<p><strong>Su iPhone.</strong> Prima di qualunque annuncio, dopo il modulo di Google, il gioco
+mostra la <strong>richiesta di tracciamento</strong> di Apple (App Tracking Transparency).
+AdMob legge l'identificativo pubblicitario (IDFA) <strong>solo se tocchi Consenti</strong>;
+altrimenti ricevi annunci non personalizzati e niente IDFA. Puoi cambiarlo quando vuoi
+da Impostazioni → Privacy e sicurezza → Tracciamento. Le reti pubblicitarie possono
+anche misurare le installazioni con <strong>SKAdNetwork</strong> di Apple, che dà loro solo
+conteggi aggregati e anonimi.</p>
 
-<h2>Acquisti (Google Play)</h2>
+<h2>Acquisti (Google Play e App Store)</h2>
 <p>Pacchetti di gemme, Starter Pack, pass premium della stagione e No Ads si comprano
 con <strong>Google Play</strong>. Il pagamento lo gestisce Google: non vediamo mai la tua
 carta né il tuo account Google. Il gioco dice a Google l'ID del tuo account, così
@@ -560,19 +592,29 @@ identificativo d'installazione, account, stato e data, perché un acquisto non s
 due volte e per aiutarti se segnali un problema (legittimo interesse: prevenzione
 delle frodi). Tiene il tuo indirizzo IP solo in memoria, per dieci minuti, contro gli
 abusi. Se Google rimborsa un acquisto, togliamo quello che aveva dato.</p>
+<p><strong>Su iPhone</strong> si compra dall'<strong>App Store</strong>: il pagamento lo gestisce Apple,
+e non vediamo mai la tua carta né il tuo ID Apple. Il gioco dice ad Apple l'ID del tuo
+account (come codice casuale), riceve la ricevuta firmata da Apple (quale pacchetto,
+l'ID della transazione) e il nostro server controlla la firma di Apple prima di
+aggiungere quello che hai comprato. Teniamo le stesse cose che per Google, con l'ID
+della transazione di Apple come numero d'ordine. Apple avvisa il nostro server dei
+rimborsi, e togliamo quello che l'acquisto aveva dato. <strong>Restore Purchases</strong> in
+Settings ti ridà No Ads e lo Starter Pack.</p>
 
 <h2>Notifiche</h2>
 <p>I promemoria (un baule pronto, il regalo del giorno) sono <strong>programmati sul
 telefono</strong>. Nessun server di notifiche. Puoi spegnerli nelle impostazioni del
-gioco (ALERTS) o in quelle di Android.</p>
+gioco (ALERTS) o in quelle del telefono.</p>
 
-<h2>Google, titolare autonomo</h2>
+<h2>Google e Apple, titolari autonomi</h2>
 <p><strong>Google</strong> (Google Ireland Ltd e Google LLC: annunci AdMob, Google Play Giochi,
 acquisti e Play Store) riceve dati direttamente dall'app secondo la sua
 <a href="https://policies.google.com/privacy">informativa</a>: non è un nostro
-responsabile. Può trattarli negli <strong>USA</strong> e in altri paesi; quei trasferimenti
-sono coperti dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC è
-certificata, o dalle Clausole contrattuali tipo dell'UE. Se l'app si blocca dentro
+responsabile. Su iPhone fa lo stesso <strong>Apple</strong> (Apple Distribution International
+Ltd e Apple Inc.: App Store e acquisti), secondo la sua
+<a href="https://www.apple.com/it/legal/privacy/">informativa</a>. Può trattarli negli <strong>USA</strong> e in altri paesi; quei trasferimenti
+sono coperti dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC e
+Apple Inc. sono certificate, o dalle Clausole contrattuali tipo dell'UE. Se l'app si blocca dentro
 Android, Google Play può mostrarci statistiche anonime degli arresti anomali
 (Android vitals).</p>
 
@@ -590,7 +632,7 @@ l'ID giocatore. Nessun servizio di crash di terzi.</p>
   <p><strong>Per email:</strong> scrivi a
   <a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20cancella%20il%20mio%20account">supporto@settegames.com</a>
   con l'ID che vedi in fondo alle impostazioni e, se hai comprato qualcosa, il numero
-  d'ordine di Google Play (GPA.…). Cancelliamo l'account entro trenta giorni. Altro
+  d'ordine di Google Play (GPA.…) o dell'App Store. Cancelliamo l'account entro trenta giorni. Altro
   sulla <a href="delete.html#it">pagina della cancellazione</a>.</p>
   <p><strong>Cosa resta:</strong> codice d'acquisto, pacchetto, numero d'ordine Google, stato
   e date di un acquisto, senza legame con te o col telefono. Se Google ha rimborsato un
