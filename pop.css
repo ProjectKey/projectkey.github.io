@@ -206,7 +206,7 @@ a { color: inherit; }
 /* ---------- Tutti i giochi (chiara) ---------- */
 .chiara { background: var(--carta); color: var(--antracite); }
 .chiara .testa-sezione p { color: var(--grigio-su-chiaro); }
-.griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.griglia { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
 .tessera a { display: flex; flex-direction: column; height: 100%; overflow: hidden; text-decoration: none; background: var(--bianco); border: 1px solid var(--filo-chiaro); border-radius: var(--r-card); transition: transform var(--normale) var(--curva), box-shadow var(--normale) var(--curva); }
 .tessera a:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(19, 19, 19, 0.12); }
 .tessera .figura { aspect-ratio: 4 / 3; overflow: hidden; background: var(--antracite); }
@@ -218,6 +218,10 @@ a { color: inherit; }
 .tessera .freccia { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--antracite); color: var(--lime); transition: transform var(--veloce) var(--curva); }
 .tessera a:hover .freccia { transform: translateX(3px); }
 .tessera .freccia svg { width: 18px; height: 18px; }
+
+/* 9 minigiochi: file da 3, poi 2, poi 1 (Giorgio, 22/10/2026) */
+@media (max-width: 860px) { .griglia { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .griglia { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Chi siamo ---------- */
 .chi .dentro { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 80px); align-items: start; }

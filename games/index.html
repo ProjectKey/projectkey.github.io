@@ -18,7 +18,7 @@
 #board{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden}
 #board td{padding:12px 16px;border-top:1px solid var(--filo);color:var(--ink)}#board tr:first-child td{border-top:0}
 #board td:last-child{text-align:right;font-weight:800}#board td[colspan]{text-align:left;font-weight:400;color:var(--ink3)}
-.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:16px 0;clear:both}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:16px 0;clear:both}
 .card{display:flex;flex-direction:column;text-decoration:none!important;background:#fff;border:1px solid var(--filo);border-radius:16px;overflow:hidden;color:var(--ink)!important;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(19,19,19,.12)}
 .card img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 0;background:#131313}
@@ -29,6 +29,7 @@ details{background:#fff;border:1px solid var(--filo);border-radius:14px;padding:
 summary{cursor:pointer;font-weight:700;color:var(--ink)}details p{margin:10px 0 0!important}
 body.pagina main:not(.legge) section{clear:both}
 @media (max-width:560px){.shot{float:none;display:block;width:min(64%,240px);margin:24px auto 0}}
+@media (max-width:860px){.games{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:480px){.games{grid-template-columns:minmax(0,1fr)}}
 </style></head>
 <body class="pagina"><svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="sette" viewBox="0 0 100 100"><path d="M9.52 6.00 L90.48 6.00 L54.58 94.00 L14.45 94.00 L35.57 44.02 L9.52 44.02 Z" fill="#EBFF55"/><path d="M18.52 15.00 L77.09 15.00 L48.53 85.00 L28.02 85.00 L49.14 35.02 L18.52 35.02 Z M23.12 19.60 L70.24 19.60 L45.44 80.40 L34.96 80.40 L56.08 30.42 L23.12 30.42 Z" fill="#131313" fill-rule="evenodd"/></symbol>
