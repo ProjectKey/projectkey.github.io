@@ -21,6 +21,10 @@
   Niente modulo web (come Last Sheep senza Facebook). Si pubblica con
   privacy.html, copiandole in snake/ del repo del sito. Stile e testata come
   sito/snake/privacy.html.
+  Rev 22/10/2026, Facebook e Sign in with Apple (APP §24): DELETE ACCOUNT sta in
+  Settings → ACCOUNT; con Facebook/Apple l'utente auth e' di piattaforma, quindi
+  la cancellazione porta via anche Last Sheep; da Facebook la callback
+  facebook-cancella (ricevuta su /cancellazione.html); Apple: revoca del token.
 -->
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
@@ -74,19 +78,24 @@
 </p>
 
 <h1>Delete your Snake 100 account</h1>
-<p class="data">Version 1.2.0 (test version) · last updated 14 October 2026</p>
+<p class="data">Last updated 22 October 2026</p>
 
 <div class="box">
   <p><strong>Deleting is final.</strong> Your account, coins, gems, items, progress, Play
-  Games link and match records are deleted, also what you bought with real money.
+  Games, Facebook and Apple links and match records are deleted, also what you bought with real money.
   Only the purchase code, pack, Google order number, status and dates of a purchase
   stay, with no link to you (<a href="privacy.html#delete">details</a>).</p>
 </div>
 
 <h2>1 · In the app</h2>
-<p>Open the game → <strong>Settings → DELETE ACCOUNT → DELETE</strong>. It's done right
-away and you see a receipt code. The game starts again as a new guest. It works with
-or without Google Play Games.</p>
+<p>Open the game → <strong>Settings → ACCOUNT → DELETE ACCOUNT → DELETE</strong>. It's
+done right away and you see a receipt code. The game starts again as a new guest. It
+works with or without Google Play Games, Facebook or Apple. With Sign in with Apple we
+also revoke the game's access at Apple.</p>
+<p><strong>From Facebook:</strong> remove «SetteGames» in your Facebook settings (Apps and
+websites) and ask to delete your data. We delete the account linked to that Facebook
+in all our games; check it with the code Facebook gives you on the
+<a href="/cancellazione.html">deletion status page</a>.</p>
 
 <h2>2 · By email</h2>
 <p>If you can't use the app, email
@@ -110,29 +119,34 @@ PRIVACY</strong> (shown when Google's consent form applies to you); reset or del
 the advertising ID in your phone's <strong>Settings → Google → Ads</strong>.</p>
 
 <h2>Other SetteGames games</h2>
-<p>Each game has its own account. Deleting Snake 100 doesn't touch your Last Sheep
-Royale account, if you have one: delete that from
-<a href="/lastsheep/delete.html">its own page</a>.</p>
+<p>As a guest, each game has its own account: deleting Snake 100 doesn't touch Last
+Sheep Royale. <strong>With Facebook or Apple</strong> the two games share one account
+(progress kept per game): deleting it deletes your Last Sheep Royale progress too.</p>
 
 <hr style="border:0;border-top:1px solid var(--filo);margin:48px 0 8px">
 
 <div lang="it" id="it">
 
 <h1>Cancellare l'account di Snake 100</h1>
-<p class="data">Versione 1.2.0 (versione di prova) · aggiornato il 14 ottobre 2026</p>
+<p class="data">Aggiornato il 22 ottobre 2026</p>
 
 <div class="box">
   <p><strong>La cancellazione è definitiva.</strong> Si cancellano account, monete, gemme,
-  oggetti, progressi, collegamento a Play Giochi e partite registrate, anche quello che
+  oggetti, progressi, collegamenti a Play Giochi, Facebook e Apple e partite registrate, anche quello che
   hai comprato con soldi veri. Restano solo codice d'acquisto, pacchetto, numero
   d'ordine Google, stato e date di un acquisto, senza legame con te
   (<a href="privacy.html#cancellazione">dettagli</a>).</p>
 </div>
 
 <h2>1 · Nell'app</h2>
-<p>Apri il gioco → <strong>Settings → DELETE ACCOUNT → DELETE</strong>. È subito fatto e
-vedi un codice di ricevuta. Il gioco riparte con un ospite nuovo. Funziona con o senza
-Google Play Giochi.</p>
+<p>Apri il gioco → <strong>Settings → ACCOUNT → DELETE ACCOUNT → DELETE</strong>. È subito
+fatto e vedi un codice di ricevuta. Il gioco riparte con un ospite nuovo. Funziona con o
+senza Google Play Giochi, Facebook o Apple. Con Sign in with Apple revochiamo anche
+l'accesso del gioco presso Apple.</p>
+<p><strong>Da Facebook:</strong> togli «SetteGames» nelle impostazioni di Facebook (App e siti
+web) e chiedi di cancellare i dati. Cancelliamo l'account collegato a quel Facebook in
+tutti i nostri giochi; lo controlli col codice che ti dà Facebook alla
+<a href="/cancellazione.html">pagina dello stato della cancellazione</a>.</p>
 
 <h2>2 · Per email</h2>
 <p>Se non puoi usare l'app, scrivi a
@@ -157,9 +171,9 @@ reimposta o cancella l'ID pubblicità in <strong>Impostazioni → Google → Ann
 telefono.</p>
 
 <h2>Gli altri giochi SetteGames</h2>
-<p>Ogni gioco ha il suo account. Cancellare Snake 100 non tocca l'account di Last Sheep
-Royale, se ce l'hai: quello si cancella dalla <a href="/lastsheep/delete.html#it">sua
-pagina</a>.</p>
+<p>Da ospite ogni gioco ha il suo account: cancellare Snake 100 non tocca Last Sheep
+Royale. <strong>Con Facebook o Apple</strong> i due giochi hanno un account solo (progressi
+separati per gioco): cancellarlo cancella anche i progressi di Last Sheep Royale.</p>
 
 </div>
 

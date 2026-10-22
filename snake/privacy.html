@@ -42,7 +42,25 @@
   transazione firmata verificata dal server, rimborsi dalle notifiche di Apple),
   ATT prima di AdMob (IDFA solo col permesso), SKAdNetwork. Su iPhone si gioca
   da ospite: niente Sign in with Apple (non c'e' un accesso di terzi), niente
-  Game Center.
+  Game Center. [superata il 22/10]
+  Rev 22/10/2026, Facebook e Sign in with Apple (docs/SNAKE_100_APP.md §24).
+  Letti: shared/servizi/facebook.ts (PKCE via browser, permessi di serie
+  public_profile ma GoTrue aggiunge `email`; token di Facebook mai salvato;
+  scegliere e non unire, PICK ONE; LOG OUT solo con Facebook o Apple e con la
+  domanda; il segno `uscito` ferma l'accesso automatico di Play Games),
+  shared/servizi/apple.ts (requestedScopes: [] = nessun nome ne' email chiesti;
+  authorizationCode alla Edge accesso-apple per il refresh token, revocato da
+  cancella-account o parcheggiato in revoche_apple), apps/snake/src/schermate/
+  account.ts (amici: false: il token non va ad amici-facebook), Account.tsx
+  (Settings → ACCOUNT: SAVE WITH FACEBOOK / Log in, Apple solo iPhone, LOG OUT,
+  DELETE ACCOUNT; il nome di Facebook si vede solo li'), accessoAvvio.ts
+  (offerte: su iPhone Facebook solo accanto ad Apple), supabase/functions/
+  cancella-account/logica.ts (cancella l'utente auth: con Facebook/Apple e'
+  l'account di piattaforma, quindi anche Last Sheep) e facebook-cancella
+  (callback di Meta, ricevuta su settegames.com/cancellazione.html).
+  L'account con Facebook/Apple e' di piattaforma (Last Sheep e Snake, stesso
+  server), i conti sono per gioco (conti_gioco). Da ospite l'utente di Snake
+  resta suo. Coerente con docs/store-snake/CONTENUTI_APP.md, tabella C.
 -->
 <!--sg:testa-->
 <link rel="stylesheet" href="/pop.css">
@@ -98,7 +116,7 @@
 </p>
 
 <h1>Snake 100 Battle Royale — Privacy policy</h1>
-<p class="data">Last updated: 20 October 2026 · Android and iPhone (App Store)</p>
+<p class="data">Last updated: 22 October 2026 · Android and iPhone (App Store, Sign in with Apple)</p>
 
 <div class="box">
   <p><strong>In short.</strong> On first launch the game creates a <strong>guest
@@ -106,7 +124,10 @@
   kept on <strong>our server, in the EU</strong>, and purchases are checked there. If your
   phone uses <strong>Google Play Games</strong>, the game links your account to it by
   itself, <strong>without asking for any permission</strong>: we receive only your Play
-  Games player ID, <strong>never your email or name</strong>. Gameplay statistics stay
+  Games player ID. You can also <strong>log in with Facebook</strong> or, on iPhone,
+  <strong>with Apple</strong>, if you want: it saves your account for a new phone. With
+  Facebook we get your Facebook ID for our app, your name and picture and, if you allow
+  it, your email. With Apple only an Apple ID for our app. Gameplay statistics stay
   <strong>anonymous</strong>. <strong>Google</strong> shows ads (with your consent where the law
   requires it); <strong>Google Play</strong> or the <strong>App Store</strong> handle payments; <strong>Expo</strong> delivers small game updates. We
   don't sell data. You can <a href="#delete">delete your account</a> in the app at
@@ -128,7 +149,8 @@ months.</p>
 <h2>Your game account</h2>
 <p>Your progress lives on our server, so it can't be edited on the phone and isn't
 lost if something goes wrong there. The account is created on first launch: no name,
-email or password is asked. The phone keeps a copy of your game, and your settings
+email or password is asked. Logging in with Facebook or Apple is optional (see
+below). The phone keeps a copy of your game, and your settings
 (sound, music, vibration, alerts, controls, Training difficulty).</p>
 <table>
   <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
@@ -191,15 +213,85 @@ you back in on a new phone, our server may give your account an internal address
 a real email: no message can be sent to it. Legal basis: contract. Google provides
 Play Games under its own <a href="https://policies.google.com/privacy">privacy
 policy</a>.</p>
-<p><strong>On iPhone</strong> there is no Play Games and no sign-in: you play as a guest, and
-your account stays tied to that phone. We don't use Sign in with Apple or Game Center.</p>
+<p><strong>On iPhone</strong> there is no Play Games: you play as a guest, unless you log in
+with Apple or Facebook (below). We don't use Game Center.</p>
+
+<h2 id="facebook">If you log in with Facebook</h2>
+<p>It is <strong>optional</strong>: <strong>Settings → ACCOUNT → SAVE WITH FACEBOOK</strong>
+saves your account, so you get it back on a new phone (<strong>Log in</strong> there). The
+login happens on Facebook's page, in your browser: we never see your password. All our
+games use the same Meta app, «SetteGames». On iPhone, Facebook is offered only next to
+Sign in with Apple.</p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Facebook ID for our app</strong> (a number Facebook creates only for
+      «SetteGames», not your profile)</td>
+      <td>To find your account when you log in again</td>
+      <td>Contract (providing the game)</td>
+    </tr>
+    <tr>
+      <td><strong>Name and profile picture</strong>, as Facebook gives them
+      (<code>public_profile</code>)</td>
+      <td>The name is shown only to you, in Settings → ACCOUNT, so you see which Facebook
+      is linked. Other players never see it</td>
+      <td>Contract</td>
+    </tr>
+    <tr>
+      <td><strong>Email address</strong>, only if you leave it ticked on Facebook's screen</td>
+      <td>To identify your account and answer you. Never for marketing</td>
+      <td>Contract</td>
+    </tr>
+  </tbody>
+</table>
+<p>We <strong>don't keep your Facebook token</strong>, we don't ask for your friends, and we
+never post on Facebook. Meta handles the login as an independent controller, under
+<a href="https://www.facebook.com/privacy/policy/">its privacy policy</a>.</p>
+
+<h2 id="apple">If you sign in with Apple (iPhone)</h2>
+<p>It is <strong>optional</strong> and works like Facebook: <strong>Settings → ACCOUNT</strong>,
+then Apple's button. Apple asks you on its own screen; we never see your password.
+<strong>We don't ask Apple for your name or email.</strong></p>
+<table>
+  <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Apple user ID</strong>: an identifier Apple creates for our team only</td>
+      <td>To find your account when you sign in again</td>
+      <td>Contract (providing the game)</td>
+    </tr>
+    <tr>
+      <td><strong>Apple sign-in token</strong> (refresh token), kept on our server</td>
+      <td>Only to <strong>revoke</strong> the game's access at Apple when you delete the
+      account</td>
+      <td>Legal obligation and contract</td>
+    </tr>
+  </tbody>
+</table>
+<p>You can also stop using Apple with this app in your iPhone settings (Apple ID →
+Sign-In &amp; Security → Sign in with Apple). Apple's rules:
+<a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+
+<h2 id="one-account">One account, progress per game</h2>
+<p>With Facebook or Apple, your account is the same in the SetteGames games on this
+server (today <strong>Last Sheep Royale</strong> and <strong>Snake 100</strong>). Your progress
+stays <strong>separate for each game</strong>: coins, gems and items of Snake 100 stay in
+Snake 100.</p>
+<p>If that Facebook or Apple ID already has an account and this phone has guest
+progress, you <strong>pick one to keep</strong> (PICK ONE). The two are never merged. A
+guest that never played moves over without asking.</p>
+<p><strong>LOG OUT</strong> (Settings → ACCOUNT) appears only with Facebook or Apple linked,
+and asks first. The phone starts as a new guest; log back in with the same Facebook or
+Apple to get your account back. After LOG OUT, Play Games doesn't sign you in by
+itself.</p>
 
 <h2 id="stats">Anonymous gameplay statistics</h2>
 <p>Separately from your account, the game sends statistics tied to an
 <strong>installation ID</strong>: a random number created on first launch, shown at the
 bottom of Settings. It is not your device ID or your advertising ID. The statistics
-are <strong>not linked to your account</strong> and carry no name, email, Play Games ID or
-advertising ID.</p>
+are <strong>not linked to your account</strong> and carry no name, email, Play Games,
+Facebook or Apple ID, or advertising ID.</p>
 <table>
   <thead><tr><th>Data</th><th>Why</th><th>Legal basis</th></tr></thead>
   <tbody>
@@ -209,7 +301,8 @@ advertising ID.</p>
       the end of a match the mode, placement, how long you lasted, eliminations,
       biggest size and whether you won; reward videos started and finished; which pack
       you tried to buy (never the amount); server response times and network drops;
-      Play Games sign-in result and account deleted, without who; the app version</td>
+      Play Games, Facebook and Apple sign-in results, log out and account deleted,
+      without who; the app version</td>
       <td>To balance the game and count how many players come back</td>
       <td>Legitimate interest</td>
     </tr>
@@ -228,9 +321,10 @@ statistics.</p>
 
 <h2>Where the data is</h2>
 <p>Your account, your game and the statistics are on our server at
-<strong>Supabase</strong>, in the <strong>European Union (Ireland)</strong>. Other SetteGames
-games use the same server, but each game has its own account: your Snake 100 account
-is not shared with them.</p>
+<strong>Supabase</strong>, in the <strong>European Union (Ireland)</strong>. Last Sheep Royale
+uses the same server. As a guest, your Snake 100 account is only for Snake 100; with
+Facebook or Apple it is shared, with progress kept per game
+(<a href="#one-account">above</a>).</p>
 <p><strong>App updates (Expo).</strong> At every launch the game asks <strong>Expo</strong>
 (650 Industries, Inc., USA), the service that delivers small updates to the game,
 whether a new version is available. Expo receives a <strong>random ID created by the
@@ -243,7 +337,7 @@ Legal basis: our legitimate interest in keeping the game working.</p>
 <table>
   <thead><tr><th>Data</th><th>Kept for</th></tr></thead>
   <tbody>
-    <tr><td>Your account and game, Play Games player ID</td><td>Until you delete it.
+    <tr><td>Your account and game, Play Games player ID, Facebook and Apple data</td><td>Until you delete it.
     Guest accounts that never finished a match and never bought anything:
     <strong>30 days</strong>. Accounts not used for <strong>12 months</strong>, without
     purchases: deleted</td></tr>
@@ -315,29 +409,42 @@ Purchases</strong> in Settings gives back No Ads and the Starter Pack.</p>
 phone</strong>. No notification server is involved. You can turn them off in Settings
 (ALERTS), or in the phone's settings.</p>
 
-<h2>Google and Apple, as independent controllers</h2>
+<h2>Google, Apple and Meta, as independent controllers</h2>
 <p><strong>Google</strong> (Google Ireland Ltd and Google LLC: AdMob ads, Google Play Games,
 Google Play purchases and the Play Store) receives data directly from the app under
 its own <a href="https://policies.google.com/privacy">privacy policy</a>: it is not our
 processor. On iPhone, <strong>Apple</strong> (Apple Distribution International Ltd and Apple
-Inc.: App Store and purchases) does the same, under its
-<a href="https://www.apple.com/legal/privacy/">privacy policy</a>. It may process data in the <strong>USA</strong> and other countries; those
-transfers are covered by the <strong>EU-US Data Privacy Framework</strong>, to which Google LLC
-and Apple Inc. are certified, or by the EU Standard Contractual Clauses. If the app crashes inside
+Inc.: App Store, purchases and Sign in with Apple) does the same, under its
+<a href="https://www.apple.com/legal/privacy/">privacy policy</a>. If you log in with
+Facebook, <strong>Meta</strong> (Meta Platforms Ireland Ltd) does the same for the login. They may process data in the <strong>USA</strong> and other countries; those
+transfers are covered by the <strong>EU-US Data Privacy Framework</strong>, to which Google LLC,
+Apple Inc. and Meta Platforms, Inc. are certified, or by the EU Standard Contractual Clauses. If the app crashes inside
 Android itself, Google Play may show us anonymous crash statistics (Android
 vitals).</p>
 
 <h2>What we don't collect</h2>
-<p>No real name, email (unless you write to us), phone number, contacts, photos,
-microphone, camera or precise location. The app doesn't ask for those permissions,
-and they are explicitly blocked in its configuration. From Play Games we get only the
-player ID. No third-party crash service is used.</p>
+<p>No phone number, contacts, photos, microphone, camera or precise location. The app
+doesn't ask for those permissions, and they are explicitly blocked in its
+configuration. Your name and email reach us only if you log in with Facebook (and
+allow the email), or if you write to us. From Play Games we get only the player ID;
+from Apple only the Apple user ID. No Facebook friends, no Facebook token. No
+third-party crash service is used.</p>
 
 <h2 id="delete">Deleting your account and data</h2>
 <div class="box">
-  <p><strong>In the app:</strong> <strong>Settings → DELETE ACCOUNT → DELETE</strong>. Your
-  account, game, Play Games link and match records are deleted right away, and you get
-  a receipt code. The game starts again as a new guest.</p>
+  <p><strong>In the app:</strong> <strong>Settings → ACCOUNT → DELETE ACCOUNT → DELETE</strong>.
+  Your account, game, Play Games, Facebook and Apple links and match records are
+  deleted right away, and you get a receipt code. The game starts again as a new
+  guest. <strong>With Facebook or Apple</strong> the account is shared: deleting it also
+  deletes your Last Sheep Royale progress on that account.</p>
+  <p><strong>From Facebook:</strong> remove «SetteGames» in your Facebook settings (Apps and
+  websites) and ask to delete your data. Facebook tells us, we delete the account
+  linked to that Facebook in all our games, and Facebook gives you a code to check it
+  on our <a href="/cancellazione.html">deletion status page</a>
+  (<a href="/privacy.html">SetteGames privacy policy</a>).</p>
+  <p><strong>Sign in with Apple:</strong> deleting the account <strong>revokes</strong> the
+  game's access at Apple. If Apple doesn't answer, we keep only the token, without
+  your account, and retry the revocation.</p>
   <p><strong>By email:</strong> write to
   <a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20delete%20my%20account">supporto@settegames.com</a>
   with the ID shown at the bottom of Settings and, if you bought something, the
@@ -382,7 +489,7 @@ app. The date at the top is always the latest version.</p>
 <div lang="it" id="it">
 
 <h1>Snake 100 Battle Royale — Informativa privacy</h1>
-<p class="data">Ultimo aggiornamento: 20 ottobre 2026 · Android e iPhone (App Store)</p>
+<p class="data">Ultimo aggiornamento: 22 ottobre 2026 · Android e iPhone (App Store, Sign in with Apple)</p>
 
 <div class="box">
   <p><strong>In breve.</strong> Al primo avvio il gioco ti crea un <strong>account
@@ -390,7 +497,10 @@ app. The date at the top is always the latest version.</p>
   <strong>nostro server, nell'UE</strong>, e lì si controllano gli acquisti. Se il telefono
   usa <strong>Google Play Giochi</strong>, il gioco ci collega l'account da solo,
   <strong>senza chiederti alcun permesso</strong>: riceviamo solo l'ID giocatore di Play
-  Giochi, <strong>mai la tua email o il tuo nome</strong>. Le statistiche di gioco restano
+  Giochi. Se vuoi puoi anche <strong>entrare con Facebook</strong> o, su iPhone, <strong>con
+  Apple</strong>: salva l'account per un telefono nuovo. Con Facebook riceviamo il tuo ID
+  Facebook per la nostra app, nome e foto e, se lo permetti, l'email. Con Apple solo un
+  ID Apple per la nostra app. Le statistiche di gioco restano
   <strong>anonime</strong>. <strong>Google</strong> mostra la pubblicità (col tuo consenso, dove la
   legge lo richiede); i pagamenti li gestiscono <strong>Google Play</strong> o l'<strong>App
   Store</strong>; <strong>Expo</strong> consegna i piccoli
@@ -414,7 +524,7 @@ conversazione al massimo 24 mesi.</p>
 <h2>Il tuo account di gioco</h2>
 <p>I progressi stanno sul nostro server: non si possono modificare dal telefono e non
 si perdono se lì qualcosa va storto. L'account nasce al primo avvio: niente nome,
-email o password. Il telefono tiene una copia della partita e le impostazioni (suoni,
+email o password. Entrare con Facebook o Apple è facoltativo (vedi sotto). Il telefono tiene una copia della partita e le impostazioni (suoni,
 musica, vibrazione, avvisi, comandi, difficoltà del Training).</p>
 <table>
   <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
@@ -476,15 +586,83 @@ su un telefono nuovo, il server può dare all'account un indirizzo interno come
 <code>pg-…@play.invalid</code>, ricavato da un codice cifrato dell'ID giocatore. Non è
 un'email vera: non ci si può scrivere. Base giuridica: contratto. Google fornisce Play
 Giochi secondo la sua <a href="https://policies.google.com/privacy">informativa</a>.</p>
-<p><strong>Su iPhone</strong> non c'è Play Giochi e non c'è un accesso: giochi da ospite, e
-l'account resta legato a quel telefono. Non usiamo l'accesso con Apple né Game Center.</p>
+<p><strong>Su iPhone</strong> non c'è Play Giochi: giochi da ospite, a meno che tu non entri
+con Apple o Facebook (sotto). Non usiamo Game Center.</p>
+
+<h2 id="facebook-it">Se entri con Facebook</h2>
+<p>È <strong>facoltativo</strong>: <strong>Settings → ACCOUNT → SAVE WITH FACEBOOK</strong> salva
+l'account, così lo ritrovi su un telefono nuovo (lì, <strong>Log in</strong>). Il login avviene
+sulla pagina di Facebook, nel browser: non vediamo mai la tua password. Tutti i nostri
+giochi usano la stessa app Meta, «SetteGames». Su iPhone Facebook c'è solo accanto a
+Sign in with Apple.</p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>ID Facebook per la nostra app</strong> (un numero che Facebook crea solo per
+      «SetteGames», non è il tuo profilo)</td>
+      <td>Ritrovare il tuo account quando rientri</td>
+      <td>Contratto (fornire il gioco)</td>
+    </tr>
+    <tr>
+      <td><strong>Nome e foto del profilo</strong>, come li dà Facebook
+      (<code>public_profile</code>)</td>
+      <td>Il nome lo vedi solo tu, in Settings → ACCOUNT, per sapere quale Facebook è
+      collegato. Gli altri giocatori non lo vedono mai</td>
+      <td>Contratto</td>
+    </tr>
+    <tr>
+      <td><strong>Email</strong>, solo se la lasci spuntata sulla schermata di Facebook</td>
+      <td>Riconoscere il tuo account e risponderti. Mai per pubblicità</td>
+      <td>Contratto</td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Non teniamo il token di Facebook</strong>, non chiediamo i tuoi amici e non
+pubblichiamo mai niente su Facebook. Meta tratta il login come titolare autonomo,
+secondo <a href="https://www.facebook.com/privacy/policy/">la sua informativa</a>.</p>
+
+<h2 id="apple-it">Se entri con Apple (iPhone)</h2>
+<p>È <strong>facoltativo</strong> e funziona come Facebook: <strong>Settings → ACCOUNT</strong>, poi
+il tasto di Apple. Apple te lo chiede nella sua schermata; non vediamo mai la tua
+password. <strong>Non chiediamo ad Apple né il nome né l'email.</strong></p>
+<table>
+  <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>ID utente Apple</strong>: un identificativo che Apple crea solo per noi</td>
+      <td>Ritrovare il tuo account quando rientri</td>
+      <td>Contratto (fornire il gioco)</td>
+    </tr>
+    <tr>
+      <td><strong>Token di accesso di Apple</strong> (refresh token), sul nostro server</td>
+      <td>Solo per <strong>revocare</strong> l'accesso del gioco presso Apple quando cancelli
+      l'account</td>
+      <td>Obbligo di legge e contratto</td>
+    </tr>
+  </tbody>
+</table>
+<p>Puoi anche smettere di usare Apple con quest'app dalle impostazioni dell'iPhone (ID
+Apple → Accesso e sicurezza → Accedi con Apple). Le regole di Apple:
+<a href="https://www.apple.com/it/legal/privacy/">apple.com/it/legal/privacy</a>.</p>
+
+<h2 id="un-account">Un account, progressi per gioco</h2>
+<p>Con Facebook o Apple il tuo account è lo stesso nei giochi SetteGames di questo
+server (oggi <strong>Last Sheep Royale</strong> e <strong>Snake 100</strong>). I progressi restano
+<strong>separati per gioco</strong>: monete, gemme e oggetti di Snake 100 restano in Snake 100.</p>
+<p>Se quel Facebook o quell'ID Apple ha già un account e questo telefono ha progressi da
+ospite, <strong>scegli quale tenere</strong> (PICK ONE). I due non si uniscono mai. Un ospite
+che non ha mai giocato passa senza domande.</p>
+<p><strong>LOG OUT</strong> (Settings → ACCOUNT) c'è solo con Facebook o Apple collegati, e
+chiede prima. Il telefono riparte con un ospite nuovo; rientri con lo stesso Facebook o
+Apple per riavere l'account. Dopo il LOG OUT Play Giochi non ti fa rientrare da solo.</p>
 
 <h2 id="statistiche">Statistiche di gioco anonime</h2>
 <p>A parte l'account, il gioco manda statistiche legate a un <strong>identificativo
 d'installazione</strong>: un numero casuale creato al primo avvio, visibile in fondo alle
 impostazioni. Non è l'ID del dispositivo né l'ID pubblicità. Le statistiche
 <strong>non sono legate al tuo account</strong> e non contengono nome, email, ID di Play
-Giochi né ID pubblicità.</p>
+Giochi, Facebook o Apple, né ID pubblicità.</p>
 <table>
   <thead><tr><th>Dato</th><th>Perché</th><th>Base giuridica</th></tr></thead>
   <tbody>
@@ -494,8 +672,8 @@ Giochi né ID pubblicità.</p>
       di una partita modalità, piazzamento, durata, eliminazioni, lunghezza massima e
       se hai vinto; video con premio iniziati e finiti; quale pacchetto hai provato a
       comprare (mai l'importo); tempi di risposta del server e cadute di rete; esito
-      dell'accesso a Play Giochi e account cancellato, senza dire chi; la versione
-      dell'app</td>
+      degli accessi a Play Giochi, Facebook e Apple, uscite e account cancellato, senza
+      dire chi; la versione dell'app</td>
       <td>Bilanciare il gioco e contare quanti giocatori tornano</td>
       <td>Legittimo interesse</td>
     </tr>
@@ -514,9 +692,9 @@ sue statistiche.</p>
 
 <h2>Dove stanno i dati</h2>
 <p>Account, partita e statistiche stanno sul nostro server su <strong>Supabase</strong>,
-nell'<strong>Unione europea (Irlanda)</strong>. Lo stesso server serve anche altri giochi
-SetteGames, ma ogni gioco ha il suo account: quello di Snake 100 non è condiviso con
-loro.</p>
+nell'<strong>Unione europea (Irlanda)</strong>. Lo stesso server serve anche Last Sheep
+Royale. Da ospite l'account di Snake 100 è solo di Snake 100; con Facebook o Apple è
+condiviso, coi progressi tenuti per gioco (<a href="#un-account">sopra</a>).</p>
 <p><strong>Aggiornamenti dell'app (Expo).</strong> A ogni avvio il gioco chiede a
 <strong>Expo</strong> (650 Industries, Inc., USA), il servizio che consegna i piccoli
 aggiornamenti, se c'è una versione nuova. Expo riceve un <strong>identificativo casuale
@@ -530,7 +708,7 @@ interesse a tenere il gioco funzionante.</p>
 <table>
   <thead><tr><th>Dato</th><th>Per quanto</th></tr></thead>
   <tbody>
-    <tr><td>Account e partita, ID giocatore di Play Giochi</td><td>Finché non lo cancelli.
+    <tr><td>Account e partita, ID giocatore di Play Giochi, dati di Facebook e Apple</td><td>Finché non lo cancelli.
     Account ospite che non hanno mai finito una partita né comprato niente:
     <strong>30 giorni</strong>. Account non usati da <strong>12 mesi</strong>, senza acquisti:
     cancellati</td></tr>
@@ -606,29 +784,42 @@ Settings ti ridà No Ads e lo Starter Pack.</p>
 telefono</strong>. Nessun server di notifiche. Puoi spegnerli nelle impostazioni del
 gioco (ALERTS) o in quelle del telefono.</p>
 
-<h2>Google e Apple, titolari autonomi</h2>
+<h2>Google, Apple e Meta, titolari autonomi</h2>
 <p><strong>Google</strong> (Google Ireland Ltd e Google LLC: annunci AdMob, Google Play Giochi,
 acquisti e Play Store) riceve dati direttamente dall'app secondo la sua
 <a href="https://policies.google.com/privacy">informativa</a>: non è un nostro
 responsabile. Su iPhone fa lo stesso <strong>Apple</strong> (Apple Distribution International
-Ltd e Apple Inc.: App Store e acquisti), secondo la sua
-<a href="https://www.apple.com/it/legal/privacy/">informativa</a>. Può trattarli negli <strong>USA</strong> e in altri paesi; quei trasferimenti
-sono coperti dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC e
-Apple Inc. sono certificate, o dalle Clausole contrattuali tipo dell'UE. Se l'app si blocca dentro
+Ltd e Apple Inc.: App Store, acquisti e Sign in with Apple), secondo la sua
+<a href="https://www.apple.com/it/legal/privacy/">informativa</a>. Se entri con Facebook,
+fa lo stesso <strong>Meta</strong> (Meta Platforms Ireland Ltd) per il login. Possono trattarli negli <strong>USA</strong> e in altri paesi; quei trasferimenti
+sono coperti dall'<strong>EU-US Data Privacy Framework</strong>, a cui Google LLC,
+Apple Inc. e Meta Platforms, Inc. sono certificate, o dalle Clausole contrattuali tipo dell'UE. Se l'app si blocca dentro
 Android, Google Play può mostrarci statistiche anonime degli arresti anomali
 (Android vitals).</p>
 
 <h2>Cosa non raccogliamo</h2>
-<p>Nessun nome vero, email (a meno che tu non ci scriva), numero di telefono, rubrica,
-foto, microfono, fotocamera o posizione precisa. L'app non chiede quei permessi, e
-nella sua configurazione sono bloccati esplicitamente. Da Play Giochi riceviamo solo
-l'ID giocatore. Nessun servizio di crash di terzi.</p>
+<p>Nessun numero di telefono, rubrica, foto, microfono, fotocamera o posizione
+precisa. L'app non chiede quei permessi, e nella sua configurazione sono bloccati
+esplicitamente. Nome ed email ci arrivano solo se entri con Facebook (e permetti
+l'email), o se ci scrivi. Da Play Giochi riceviamo solo l'ID giocatore; da Apple solo
+l'ID utente Apple. Niente amici di Facebook, niente token di Facebook. Nessun servizio
+di crash di terzi.</p>
 
 <h2 id="cancellazione">Cancellare l'account e i dati</h2>
 <div class="box">
-  <p><strong>Nell'app:</strong> <strong>Settings → DELETE ACCOUNT → DELETE</strong>. Account,
-  partita, collegamento a Play Giochi e partite registrate si cancellano subito, e ricevi
-  un codice di ricevuta. Il gioco riparte con un ospite nuovo.</p>
+  <p><strong>Nell'app:</strong> <strong>Settings → ACCOUNT → DELETE ACCOUNT → DELETE</strong>.
+  Account, partita, collegamenti a Play Giochi, Facebook e Apple e partite registrate si
+  cancellano subito, e ricevi un codice di ricevuta. Il gioco riparte con un ospite
+  nuovo. <strong>Con Facebook o Apple</strong> l'account è condiviso: cancellarlo cancella anche
+  i progressi di Last Sheep Royale su quell'account.</p>
+  <p><strong>Da Facebook:</strong> togli «SetteGames» nelle impostazioni di Facebook (App e
+  siti web) e chiedi di cancellare i dati. Facebook ce lo dice, cancelliamo l'account
+  collegato a quel Facebook in tutti i nostri giochi, e Facebook ti dà un codice per
+  controllare alla <a href="/cancellazione.html">pagina dello stato della cancellazione</a>
+  (<a href="/privacy.html">informativa di SetteGames</a>).</p>
+  <p><strong>Sign in with Apple:</strong> cancellare l'account <strong>revoca</strong> l'accesso del
+  gioco presso Apple. Se Apple non risponde, teniamo solo il token, senza il tuo
+  account, e riproviamo la revoca.</p>
   <p><strong>Per email:</strong> scrivi a
   <a href="mailto:supporto@settegames.com?subject=Snake%20100%20-%20cancella%20il%20mio%20account">supporto@settegames.com</a>
   con l'ID che vedi in fondo alle impostazioni e, se hai comprato qualcosa, il numero
