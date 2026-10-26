@@ -133,6 +133,9 @@ export async function disegna(ctx) {
       h('strong', {}, `North Star: ${num(10000)} download in ${pr.giorni ?? 90} giorni. `),
       inCorso ? `Giorno ${giornoN} di ${pr.giorni ?? 90}, partito il ${data(pr.giorno1).slice(0, 10)}.` : `Il conto parte il ${data(pr.giorno1).slice(0, 10)} (giorno 1): questa è la settimana per rendere tutto misurabile.`,
       ' ', pill(stato.testo, stato.colore))),
+    // 0118: ogni numero dice la sua piattaforma. Download, attivati, ritorno e inviti vengono dal database (tutte e due).
+    h('p', { style: { margin: 0, color: 'var(--ink2)', fontSize: '12.5px' } },
+      h('strong', {}, 'Download, attivati, ritorno, inviti: Android + iOS.'), ' Recensioni, voto, parole, conversione e rapporti: solo Google Play (Android).'),
     h('div', { class: 'griglia g4' },
       kpi('Target ad oggi', num(targetOggi), inCorso ? `giorno ${giornoN}` : 'parte il giorno 1'),
       kpi('Actual', num(c.cumulato ?? 0), `${num(c.cumulato_attivati ?? 0)} attivati · ${num(c.prima_del_programma ?? 0)} prima del giorno 1`),
@@ -164,7 +167,7 @@ export async function disegna(ctx) {
       { titolo: '', cella: (r) => r.s },
       { titolo: 'Da dove', cella: (r) => h('span', { style: { color: 'var(--ink3)' } }, r.n) },
     ], [
-      { k: 'Download al giorno (7 gg)', a: media7.toLocaleString('it-IT', { maximumFractionDigits: 1 }), t: String(targetGiorno), s: semaforo(media7, targetGiorno, targetGiorno * 0.6), n: 'aperture nuove, senza prove e robot' },
+      { k: 'Download al giorno (7 gg)', a: media7.toLocaleString('it-IT', { maximumFractionDigits: 1 }), t: String(targetGiorno), s: semaforo(media7, targetGiorno, targetGiorno * 0.6), n: 'aperture nuove, Android + iOS, senza prove e robot' },
       { k: 'Attivati / settimana (North Star)', a: num(attivati7), t: String(Math.round(targetGiorno * 7 * 0.75)), s: semaforo(attivati7, targetGiorno * 7 * 0.75, targetGiorno * 7 * 0.45), n: 'prima partita vera finita' },
       { k: 'Attivazione (14 gg)', a: perc(att), t: '75%', s: semaforo(att, 0.75, 0.5), n: `${ret.attivazione?.[0] ?? 0} su ${ret.attivazione?.[1] ?? 0}` },
       { k: 'D1 (14 gg)', a: perc(d1), t: '35%', s: semaforo(d1, 0.35, 0.25), n: `${ret.d1?.[0] ?? 0} su ${ret.d1?.[1] ?? 0}` },
@@ -172,7 +175,7 @@ export async function disegna(ctx) {
       { k: 'CTR dell\'invito (14 gg)', a: ctr === null ? '—' : perc(ctr), t: '30%', s: ctr === null ? pill('—', '') : semaforo(ctr, 0.3, 0.15),
         n: `${num(inv.clic ?? 0)} clic sul link su ${num(inv.mandati_con_codice ?? 0)} inviti col link` },
       { k: 'Coefficiente K (14 gg)', a: k === null ? '—' : k.toLocaleString('it-IT', { maximumFractionDigits: 2 }), t: '0,1', s: semaforo(k, 0.1, 0.05), n: `${num(inv.mandati ?? 0)} inviti mandati, ${num(inv.account_invitati ?? 0)} account arrivati` },
-      { k: 'Recensioni', a: num(sc.recensioni ?? 0), t: '300–500 in 90 gg', s: semaforo(sc.recensioni ?? 0, Math.max(1, giornoN * 4), Math.max(1, giornoN * 2)), n: 'scheda Play, letta ogni mattina' },
+      { k: 'Recensioni', a: num(sc.recensioni ?? 0), t: '300–500 in 90 gg', s: semaforo(sc.recensioni ?? 0, Math.max(1, giornoN * 4), Math.max(1, giornoN * 2)), n: 'scheda Play (solo Android), letta ogni mattina' },
       { k: 'Voto', a: sc.voto ? String(sc.voto).replace('.', ',') : '—', t: '4,5', s: semaforo(sc.voto ?? null, 4.5, 4.2), n: '' },
       { k: 'Parole nei primi 10', a: `${inTop10} su ${parole.length}`, t: '—', s: semaforo(inTop10, 10, 4), n: 'ricerca Play, Italia' },
       { k: 'Conversione della scheda (7 gg)', a: cvr === null ? '—' : perc(cvr), t: '30%', s: cvr === null ? pill('—', '') : semaforo(cvr, 0.3, 0.2),

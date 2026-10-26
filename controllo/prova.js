@@ -27,7 +27,7 @@ const APPS = [
     stato: 'live', ambiente: 'production', ambienti: ['production'], paesi: ['IT', 'SM', 'CH'], lingue: ['it'],
     versioni: { android: { pubblicata: '1.0.8', ultima: '1.0.8', consigliata: '1.0.8', minima: '1.0.7' } },
     config: { manutenzione: { attiva: false, messaggio: '' }, versioneMinima: '1.0.7', interruttori: { online: true, torneo: true, lega: true }, pubblicita: false },
-    capacita: { versioneContratto: 1, azioni: TUTTE, moduli: ['carte'], valute: ['monete', 'gemme'] },
+    capacita: { versioneContratto: 1, azioni: TUTTE, moduli: ['carte'], valute: ['monete', 'gemme'], piattaforme: ['android', 'ios'] },
   },
   {
     id: 'last-sheep', nome: 'Last Sheep Royale', famiglia: 'Last Sheep', organizzazione: 'PK - Project Key',
@@ -113,6 +113,11 @@ function PORTAFOGLIO_FINTO() {
     app, nome, famiglia, registrata: x.registrata ?? true, adattatore: x.registrata ?? true, nota: x.nota ?? null,
     ultimo_giorno: x.registrata === false ? null : ieri, in_ritardo: false,
     metriche: x.metriche, somme: x.somme, rilasci: x.rilasci,
+    // 0118: Scopa divide i numeri (finti: Android tutto, iOS zero), gli altri no.
+    piattaforme: app === 'settebello-scopa'
+      ? { android: { divisa: true, ultimo_giorno: ieri, metriche: x.metriche, somme: x.somme }, ios: { divisa: true, ultimo_giorno: ieri, metriche: Object.fromEntries(Object.keys(x.metriche).map((k) => [k, v(0)])), somme: Object.fromEntries(Object.keys(x.somme).map((k) => [k, v(0)])) } }
+      : { android: { divisa: false }, ios: { divisa: false } },
+    testflight: app === 'settebello-scopa' ? v(12) : null,
     scheda: { problemi: x.problemi ?? '', prossima_azione: x.prossima ?? '', aggiornata_il: istante(90), aggiornata_da: 'audit 13/10' },
     raccolta: null, problemi_automatici: x.auto ?? [],
   });
@@ -183,8 +188,10 @@ export async function rispondi(azione, a) {
     case 'social.concorrenti': return { ok: true, giorni: 28, recensioni: 64, concorrenti: 9, temi: TEMI_FINTI };
     case 'app.aggiorna': return { ok: true, approvazione: { id: 'ap-99', stato: 'SCHEDULED', parte_il: istante(-10) } };
     case 'kpi': {
-      const giorni = serieKpi(a.app === 'last-sheep' ? .6 : 1);
-      return { ok: true, giorni, wau: 612, mau: 1540, retention: { d1: .41, d3: .27, d7: .18, d14: .12, d30: .07 }, crash_free_utenti: .996, crash_free_sessioni: .998 };
+      // 0118: con la piattaforma, una parte finta del totale (Android 90%, iOS 10%) e la piattaforma ripetuta.
+      const quota = a.piattaforma === 'android' ? .9 : a.piattaforma === 'ios' ? .1 : 1;
+      const giorni = serieKpi((a.app === 'last-sheep' ? .6 : 1) * quota);
+      return { ok: true, piattaforma: a.piattaforma ?? 'tutte', giorni, wau: Math.round(612 * quota), mau: Math.round(1540 * quota), retention: { d1: .41, d3: .27, d7: .18, d14: .12, d30: .07 }, crash_free_utenti: .996, crash_free_sessioni: .998, esclusi: { testflight: 12 } };
     }
     case 'giocatori.cerca': {
       const q = String(a.q ?? '').toLowerCase();

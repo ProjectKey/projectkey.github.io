@@ -145,6 +145,8 @@ export async function apps() {
         const c = sbusta(await chiama('app.capacita', { app: a.id }));
         a.capacita = {
           versioneContratto: c.versioneContratto, azioni: c.azioni ?? [], moduli: c.moduli ?? [], note: c.note ?? {},
+          // 0118: le piattaforme che `kpi` sa dividere (Android, iOS). Vuoto = solo il totale.
+          piattaforme: Array.isArray(c.piattaforme) ? c.piattaforme : [],
           valute: (c.valute ?? []).map((v) => (typeof v === 'string' ? { codice: v, nome: v } : { ...v, codice: v.codice ?? v.k ?? v.id })),
         };
         delete a.erroreAdattatore;
@@ -184,8 +186,9 @@ export const appCrea = ({ nome, famiglia, pacchetto, adattatore, clonaDa }, moti
 
 /* ------------------------------------------------------------ i numeri */
 
-export async function kpi(app, da, a) {
-  const j = await chiama('kpi', { app, da, a });
+/** `piattaforma` (0118): «tutte» (di serie), «android» o «ios». */
+export async function kpi(app, da, a, piattaforma = 'tutte') {
+  const j = await chiama('kpi', { app, da, a, ...(piattaforma === 'tutte' ? {} : { piattaforma }) });
   if (inProva()) return j;
   const x = diApp(j, app);
   const t = x.totali ?? {};
@@ -515,6 +518,9 @@ export async function allarmi() {
   return (j.allarmi ?? []).map((a) => ({ ...a, severita: String(a.severita).toUpperCase(), quando: a.aperto_il, stato: a.chiuso_il ? 'chiuso' : 'aperto' }));
 }
 export const chiudiAllarme = (id, motivo) => chiama('allarmi.chiudi', { id, motivo });
+
+/** Sa dividere i numeri per questa piattaforma? (0118; «tutte» sempre) */
+export const divide = (app, piattaforma) => piattaforma === 'tutte' || (app?.capacita?.piattaforme ?? []).includes(piattaforma);
 
 /** Può quest'app fare quest'azione? Lo dice il suo adattatore (`capacita`). */
 export const sa = (app, azione) => !app || (app.capacita?.azioni ?? []).includes(NOMI[azione] ?? azione);

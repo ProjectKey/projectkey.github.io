@@ -54,7 +54,7 @@ export async function disegna(ctx) {
       class: 'filtri', onsubmit: (e) => { e.preventDefault(); memoria.scrivi('crescita.periodo', { da: da.value, a: a.value, giorno: giorniFa(0) }); ctx.vai(`#/crescita?${Date.now()}`); },
     }, h('label', { class: 'campo' }, h('span', {}, 'Dal'), da), h('label', { class: 'campo' }, h('span', {}, 'al'), a),
     h('button', { class: 'bottone primario', type: 'submit' }, 'Applica'),
-    h('span', { style: { color: 'var(--ink3)' } }, 'Senza i tuoi telefoni, i robot di Google e le prove.'))),
+    h('span', { style: { color: 'var(--ink3)' } }, 'Android + iOS. Le fonti le dà Google Play: gli iPhone stanno in «non si sa». Senza i tuoi telefoni, i robot e le prove.'))),
     h('div', { class: 'griglia g4' },
       kpi('Telefoni nuovi', num(r.nati), `${f.da} → ${f.a}`),
       kpi('Al giorno', (r.nati / Math.max(1, giorni.length)).toLocaleString('it-IT', { maximumFractionDigits: 1 }), 'nel periodo'),

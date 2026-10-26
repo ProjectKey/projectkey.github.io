@@ -14,9 +14,17 @@
  * (`studio.metriche_giorno`), non dagli adattatori in diretta: la pagina si
  * apre in un attimo anche se un gioco tace. Il selettore dell'app non conta qui:
  * il portafoglio è sempre tutto lo studio.
+ *
+ * **Totale · Android · iOS** (0118, Giorgio 26 ott 2026): ogni numero dice da
+ * dove viene. Un gioco che non divide i numeri dice «non diviso», mai il totale
+ * al posto di una piattaforma. Gli iPhone di TestFlight sono fuori da tutto,
+ * contati a parte.
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, pill, num, soldi, perc, data, fa, kpi, erroreBox, avvisa, finestra, confermaConMotivo } from '../ui.js';
+import {
+  h, scheda, tabella, pill, num, soldi, perc, data, fa, kpi, erroreBox, avvisa, finestra, confermaConMotivo,
+  DETTO_PIATTAFORMA, FUORI_DAI_CONTI, piattaformaScelta, sceltaPiattaforma,
+} from '../ui.js';
 
 const COLORE_STATO = {
   LIVE: 'verde', TESTING: 'cielo', APPROVED: 'cielo', IN_REVIEW: 'ambra', SUBMITTED: 'ambra',
@@ -40,8 +48,12 @@ const QUALITA = {
 const giornoCorto = (g) => (g ? g.slice(5).split('-').reverse().join('/') : '—');
 const pallino = (q) => h('span', { class: 'pallino', 'aria-hidden': 'true', style: { color: (QUALITA[q] ?? QUALITA.mancante).colore, flex: '0 0 auto' } });
 
+/** Un gioco che non divide i numeri per piattaforma: si dice, non è un buco del gioco. */
+const NON_DIVISO = { valore: null, qualita: 'mancante', fonte: null, nota: 'questo gioco non divide i numeri per piattaforma', nonDiviso: true };
+
 /** Un numero con la sua qualità: «≈» per le stime, «manca» per i buchi, e il perché nel suggerimento. */
 function valore(v, formato = num) {
+  if (v?.nonDiviso) return h('span', { title: v.nota, style: { color: 'var(--ink3)', whiteSpace: 'nowrap' } }, 'non diviso');
   const q = v?.qualita ?? 'mancante';
   const titolo = [`${QUALITA[q]?.parola ?? q}`, v?.fonte ? `fonte: ${v.fonte}` : null, v?.giorno ? `al ${giornoCorto(v.giorno)}` : null, v?.nota].filter(Boolean).join(' · ');
   return h('span', { title: titolo, 'aria-label': `${q === 'mancante' ? 'manca' : formato(v.valore)} (${QUALITA[q]?.parola ?? q})`, style: { display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' } },
@@ -61,6 +73,13 @@ export async function disegna(ctx) {
   try { p = await api.portafoglio(); } catch (e) { return [erroreBox(e)]; }
   const giochi = p.giochi ?? [];
   const ricarica = () => ctx.vai(`#/portafoglio?${Date.now()}`);
+  // 0118: i numeri del totale, di Android o di iOS.
+  const pt = piattaformaScelta('portafoglio.piattaforma');
+  const numeri = (g) => {
+    if (pt === 'tutte') return g;
+    const x = g.piattaforme?.[pt];
+    return x?.divisa ? x : null;
+  };
 
   const colonne = (titoloVoce, celle) => [
     { titolo: titoloVoce, cella: (r) => h('span', { style: { fontWeight: 600 }, title: r.aiuto ?? '' }, r.nome) },
@@ -106,8 +125,8 @@ export async function disegna(ctx) {
   const righePiattaforme = PIATTAFORME.map(([k, nome]) => ({ k, nome }));
 
   /* ------------------------------------------------------------ i numeri */
-  const m = (k) => (g) => g.metriche?.[k];
-  const s = (k) => (g) => g.somme?.[k];
+  const m = (k) => (g) => (numeri(g) ? numeri(g).metriche?.[k] : NON_DIVISO);
+  const s = (k) => (g) => (numeri(g) ? numeri(g).somme?.[k] : NON_DIVISO);
   const righeGiocatori = [
     { nome: 'Attivati ieri', aiuto: 'UAP del giorno: giocatori che hanno avviato almeno una partita', v: m('uap_giorno') },
     { nome: 'Attivati 7 giorni', v: m('uap_7') },
@@ -119,6 +138,12 @@ export async function disegna(ctx) {
     { nome: 'Di ritorno ieri', aiuto: 'attivati quel giorno che avevano già giocato prima', v: m('uap_ritorno') },
     { nome: 'Aperture ieri (DAU)', aiuto: 'installazioni che hanno aperto il gioco: non sono giocatori attivati', v: m('attivi_giorno') },
     { nome: 'Aperture 30 giorni (MAU)', v: m('attivi_30') },
+    {
+      nome: 'iPhone di prova (fuori)', aiuto: 'TestFlight e simulatori: non contano in nessun numero',
+      cella: (g) => (g.testflight?.valore === null || g.testflight?.valore === undefined
+        ? h('span', { style: { color: 'var(--ink3)' } }, '—')
+        : h('span', { title: g.testflight.nota ?? '', style: { color: 'var(--ink2)', fontVariantNumeric: 'tabular-nums' } }, num(g.testflight.valore))),
+    },
   ];
   const righeRitorno = [
     { nome: 'Tornano il giorno dopo (D1)', aiuto: 'coorti nate nei 30 giorni fino a ieri', v: m('retention_d1'), f: perc },
@@ -181,7 +206,7 @@ export async function disegna(ctx) {
   ];
 
   /* ------------------------------------------------------------ in cima: lo studio */
-  const t = p.studio ?? {};
+  const t = (pt === 'tutte' ? p.studio : p.studio_piattaforme?.[pt]) ?? {};
   const kpiQ = (etichetta, v, formato = num) => kpi(etichetta,
     v?.valore === null || v?.valore === undefined ? '—' : `${v.qualita === 'stimato' ? '≈ ' : ''}${formato(v.valore)}`,
     v?.qualita === 'mancante' || !v ? 'manca' : v.qualita === 'stimato' ? `stima${v.nota ? ` · ${v.nota}` : ''}` : 'verificato');
@@ -197,7 +222,9 @@ export async function disegna(ctx) {
   const statoDati = {
     nome: 'Numeri al',
     cella: (g) => h('div', { style: { display: 'grid', gap: '2px', fontSize: '12px', whiteSpace: 'normal', minWidth: '130px' } },
-      h('span', { style: { color: g.in_ritardo ? 'var(--rosso)' : 'var(--ink2)', fontWeight: 600 } }, g.ultimo_giorno ? giornoCorto(g.ultimo_giorno) : 'mai raccolti'),
+      pt !== 'tutte' && !numeri(g)
+        ? h('span', { style: { color: 'var(--ink3)' } }, 'non diviso')
+        : h('span', { style: { color: g.in_ritardo ? 'var(--rosso)' : 'var(--ink2)', fontWeight: 600 } }, (numeri(g) ?? g).ultimo_giorno ? giornoCorto((numeri(g) ?? g).ultimo_giorno) : 'mai raccolti'),
       g.raccolta?.errore ? h('span', { style: { color: 'var(--rosso)' }, title: g.raccolta.errore }, `raccolta fallita il ${giornoCorto(g.raccolta.giorno)}`) : null,
       g.nota ? h('span', { style: { color: 'var(--ink3)' } }, g.nota) : null),
   };
@@ -208,9 +235,12 @@ export async function disegna(ctx) {
         `${giochi.length} prodotti · fuso di Roma · euro · ultima raccolta ${p.raccolta?.ultima ? fa(p.raccolta.ultima) : 'mai'}`,
         p.raccolta?.in_coda ? ` · ${p.raccolta.in_coda} giorni in coda` : ''),
       h('div', { class: 'azioni' },
+        sceltaPiattaforma('portafoglio.piattaforma', pt, ricarica),
         h('button', { class: 'bottone piccolo', onclick: raccogli({ rilasci: true }, 'Raccolta avviata'), title: 'Raccoglie i giorni mancanti e riverifica gli stati di rilascio' }, 'Raccogli adesso'),
         h('button', { class: 'bottone piccolo', onclick: raccogli({ rifai: 30, rilasci: true }, 'Rifaccio 30 giorni'), title: 'Rimette in coda gli ultimi 30 giorni (riscrive le stesse righe)' }, 'Rifai 30 giorni'))),
 
+    h('p', { style: { margin: 0, color: 'var(--ink2)', fontSize: '12.5px' } },
+      h('strong', {}, `${DETTO_PIATTAFORMA[pt]}.`), ` ${FUORI_DAI_CONTI}`),
     h('div', { class: 'griglia g6' },
       kpiQ('Attivati ieri', t.uap_giorno), kpiQ('Attivati 7 giorni', t.uap_7), kpiQ('Attivati 30 giorni', t.uap_30),
       kpiQ('Attivati da sempre', t.uap_cumulativi), kpiQ('Nuovi 30 giorni', t.uap_nuovi_30), kpiQ('Entrate 30 giorni', t.entrate_lorde_30, soldi)),

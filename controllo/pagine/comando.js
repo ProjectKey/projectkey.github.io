@@ -8,14 +8,22 @@
  * restano «—» con la ragione scritta: un riquadro a zero direbbe il falso.
  */
 import * as api from '../api.js';
-import { h, kpi, num, soldi, perc, grafico, scheda, tabella, pill, giorniFa, memoria, erroreBox, fa } from '../ui.js';
+import {
+  h, kpi, num, soldi, perc, grafico, scheda, tabella, pill, giorniFa, memoria, erroreBox, fa,
+  DETTO_PIATTAFORMA, FUORI_DAI_CONTI, piattaformaScelta, sceltaPiattaforma,
+} from '../ui.js';
 
 const PERIODI = [{ g: 7, t: '7 giorni' }, { g: 30, t: '30 giorni' }, { g: 90, t: '90 giorni' }];
 
 export async function disegna(ctx) {
   ctx.ricordaRecente('Command Center');
   const giorni = memoria.leggi('comando.periodo', 30);
-  const bersagli = (ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'kpi'));
+  // 0118: Totale, Android o iOS. Un gioco che non divide i numeri resta fuori, e lo si dice.
+  const piattaforma = piattaformaScelta('comando.piattaforma');
+  const conKpi = (ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'kpi'));
+  const bersagli = conKpi.filter((a) => api.divide(a, piattaforma));
+  const nonDivisi = conKpi.filter((a) => !api.divide(a, piattaforma));
+  const soloTotale = piattaforma !== 'tutte';
 
   const scelta = h('div', { class: 'azioni' }, PERIODI.map((p) => h('button', {
     class: `bottone piccolo${p.g === giorni ? ' primario' : ''}`,
@@ -28,7 +36,7 @@ export async function disegna(ctx) {
   const da = [giorniFa(giorni - 1), primoMeseScorso].sort()[0];
 
   const risposte = await Promise.all(bersagli.map(async (app) => {
-    try { return { app, k: await api.kpi(app.id, da, oggi) }; } catch (e) { return { app, errore: e }; }
+    try { return { app, k: await api.kpi(app.id, da, oggi, piattaforma) }; } catch (e) { return { app, errore: e }; }
   }));
   const buone = risposte.filter((r) => r.k);
   const [salute, allarmi] = await Promise.all([
@@ -64,12 +72,19 @@ export async function disegna(ctx) {
   const variazione = (a, b) => (a && b ? (a - b) / b : null);
   const etichette = periodo.map((g) => g.giorno.slice(5).split('-').reverse().join('/'));
 
+  const testflight = buone.reduce((s, r) => s + (Number(r.k.esclusi?.testflight) || 0), 0);
+  const sceltaP = sceltaPiattaforma('comando.piattaforma', piattaforma, () => ctx.vai(`#/comando?${Date.now()}`));
+
   const aperti = allarmi.filter((a) => a.stato !== 'chiuso' && (!ctx.app || !a.app || a.app === ctx.app.id));
 
   return [
     h('div', { class: 'azioni', style: { justifyContent: 'space-between' } },
       h('span', { style: { color: 'var(--ink3)' } }, `${ctx.app ? ctx.app.nome : `${bersagli.length} app`} · fuso di Roma · euro`),
-      scelta),
+      h('div', { class: 'azioni' }, sceltaP, scelta)),
+    h('p', { style: { margin: 0, color: 'var(--ink2)', fontSize: '12.5px' } },
+      h('strong', {}, `${DETTO_PIATTAFORMA[piattaforma]}.`), ` ${FUORI_DAI_CONTI}`,
+      testflight ? ` iPhone di prova fuori: ${num(testflight)}.` : '',
+      nonDivisi.length ? ` Non diviso: ${nonDivisi.map((a) => a.nome).join(', ')} (solo nel Totale).` : ''),
     ...risposte.filter((r) => r.errore).map((r) => erroreBox(new Error(`${r.app.nome}: ${r.errore.message}`))),
 
     aperti.length ? h('div', { class: `avviso ${aperti.some((a) => a.severita === 'CRITICAL') ? 'rosso' : 'ambra'}` },
@@ -79,9 +94,9 @@ export async function disegna(ctx) {
 
     h('h2', {}, 'Business'),
     h('div', { class: 'griglia g6' },
-      kpi('Iscritti in tutto', num(iscrittiTot), iscrittiTot === null ? 'il gioco non li conta ancora'
+      kpi('Iscritti in tutto', num(iscrittiTot), soloTotale ? 'account: solo nel Totale' : iscrittiTot === null ? 'il gioco non li conta ancora'
         : `${num(conIdentita)} con account collegato · ${num(hannoGiocato)} hanno giocato`),
-      kpi(`Nuovi iscritti · ${giorni} g`, num(iscrittiNuovi), `${num(iscrittiGiorni.at(-1)?.nuovi)} oggi`),
+      kpi(`Nuovi iscritti · ${giorni} g`, soloTotale ? '—' : num(iscrittiNuovi), soloTotale ? 'account: solo nel Totale' : `${num(iscrittiGiorni.at(-1)?.nuovi)} oggi`),
       kpi(`Attivi · ${giorni} g`, num(attiviPeriodo), 'telefoni che hanno aperto l\'app'),
       kpi('Attivi oggi', num(ultimo.dau), `${pct(variazione(ultimo.dau, prima.dau))} su 7 g fa`, variazione(ultimo.dau, prima.dau)),
       kpi('WAU · MAU', `${num(wau)} · ${num(mau)}`, mau && ultimo.dau ? `oggi ${perc(ultimo.dau / mau)} del mese` : 'ultimi 7 · 30 giorni'),
@@ -132,7 +147,7 @@ export async function disegna(ctx) {
 
     h('h2', {}, 'Acquisizione'),
     h('div', { class: 'avviso ambra' }, h('span', { class: 'ico' }, 'ⓘ'),
-      h('div', {}, 'Installazioni, CPI, ROAS e organico/paid richiedono uno strumento di attribuzione (AppsFlyer, Adjust o simili) e i costi delle campagne: oggi non ce n\'è nessuno collegato. Le installazioni dagli store arriveranno dai report di Google Play.')),
+      h('div', {}, 'Installazioni, CPI, ROAS e organico/paid richiedono uno strumento di attribuzione (AppsFlyer, Adjust o simili) e i costi delle campagne: oggi non ce n\'è nessuno collegato. I report di Google Play (pagina Crescita) sono solo Android.')),
 
     !ctx.app && buone.length > 1 ? [h('h2', {}, 'Confronto fra le app'), scheda(null, tabella([
       { titolo: 'App', cella: (r) => h('a', { href: '#/comando', onclick: (e) => { e.preventDefault(); memoria.scrivi('app', r.app.id); location.reload(); } }, r.app.nome) },

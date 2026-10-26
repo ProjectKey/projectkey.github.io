@@ -177,6 +177,26 @@ export function kpi(etichetta, valore, sotto, tendenza) {
 
 export const pill = (testo, colore = '') => h('span', { class: `pill ${colore}` }, testo);
 
+/* ------------------------------------------------------------ la piattaforma (0118) */
+
+/** Ogni numero dice da dove viene (Giorgio, 26 ott 2026): il totale, Android o iOS. */
+export const PIATTAFORME_NUMERI = [['tutte', 'Totale'], ['android', 'Android'], ['ios', 'iOS']];
+export const DETTO_PIATTAFORMA = { tutte: 'Totale = Android + iOS', android: 'Solo telefoni Android', ios: 'Solo iPhone' };
+export const FUORI_DAI_CONTI = 'Fuori: TestFlight, simulatori, robot, telefoni di casa.';
+
+/** La scelta salvata (una chiave per pagina), sempre una delle tre. */
+export const piattaformaScelta = (chiave) => {
+  const p = memoria.leggi(chiave, 'tutte');
+  return PIATTAFORME_NUMERI.some(([k]) => k === p) ? p : 'tutte';
+};
+
+/** Tre bottoni: Totale · Android · iOS. */
+export const sceltaPiattaforma = (chiave, attuale, alCambio) => h('div', { class: 'azioni', role: 'group', 'aria-label': 'Piattaforma' },
+  PIATTAFORME_NUMERI.map(([k, t]) => h('button', {
+    class: `bottone piccolo${k === attuale ? ' primario' : ''}`, 'aria-pressed': String(k === attuale),
+    onclick: () => { memoria.scrivi(chiave, k); alCambio(k); },
+  }, t)));
+
 export function tabella(colonne, righe, { vuoto = 'Niente da mostrare.', clic } = {}) {
   return h('div', { class: 'tabella-scorre' }, h('table', {},
     h('thead', {}, h('tr', {}, colonne.map((c) => h('th', { class: c.num ? 'num' : '' }, c.titolo)))),
