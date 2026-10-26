@@ -19,6 +19,11 @@
  * dove viene. Un gioco che non divide i numeri dice «non diviso», mai il totale
  * al posto di una piattaforma. Gli iPhone di TestFlight sono fuori da tutto,
  * contati a parte.
+ *
+ * **I negozi affiancati** (0119, Giorgio 26 ott 2026: «la divisione tra gli app
+ * store»): per ogni gioco Google Play | App Store | totale con i numeri che sa
+ * solo il negozio (installazioni, visite alla scheda, conversione, sessioni,
+ * crash), ognuno con la sua fonte nel suggerimento.
  */
 import * as api from '../api.js';
 import {
@@ -155,6 +160,27 @@ export async function disegna(ctx) {
     { nome: 'Acquisti 30 giorni', v: s('acquisti_30') },
   ];
 
+  /* ------------------------------------------------------------ i negozi (0119) */
+  const tasso = (n) => (n === null || n === undefined ? '—' : `${(n * 100).toFixed(2).replace('.', ',')}%`);
+  const VOCI_NEGOZI = [
+    { k: 'installazioni', nome: 'Installazioni 7 g', aiuto: 'Play: utenti nuovi · App Store: primi download' },
+    { k: 'visite', nome: 'Visite alla scheda 7 g', aiuto: 'Play: visitatori della scheda · App Store: visite alla pagina' },
+    { k: 'conversione', nome: 'Conversione', aiuto: 'installazioni dalla scheda ÷ visite', f: perc },
+    { k: 'sessioni', nome: 'Sessioni 7 g', aiuto: 'solo App Store; per Android guarda «Aperture» nei Giocatori' },
+    { k: 'crash', nome: 'Crash', aiuto: 'Play: tasso di crash percepiti (Android Vitals) · App Store: numero di crash', fPlay: tasso },
+  ];
+  const schedaNegozi = (g) => {
+    const n = g.negozi;
+    const fino = [n.fino_play ? `Play al ${giornoCorto(n.fino_play)}` : 'Play: nessun dato', n.fino_app_store ? `App Store al ${giornoCorto(n.fino_app_store)}` : 'App Store: ancora niente'].join(' · ');
+    return scheda(g.nome, tabella([
+      { titolo: '', cella: (r) => h('span', { style: { fontWeight: 600 }, title: r.aiuto ?? '' }, r.nome) },
+      { titolo: 'Google Play', cella: (r) => valore(n.google_play?.[r.k], r.fPlay ?? r.f ?? num) },
+      { titolo: 'App Store', cella: (r) => valore(n.app_store?.[r.k], r.f ?? num) },
+      { titolo: 'Totale', cella: (r) => valore(n.totale?.[r.k], r.f ?? num) },
+    ], VOCI_NEGOZI, {}), { nota: fino });
+  };
+  const conNegozi = giochi.filter((g) => g.negozi);
+
   /* ------------------------------------------------------------ problemi e prossima azione */
   const modificaScheda = async (g) => {
     const problemi = h('textarea', { maxlength: 2000, 'aria-label': 'Problemi principali' }, g.scheda?.problemi ?? '');
@@ -250,6 +276,10 @@ export async function disegna(ctx) {
 
     scheda('Dove si gioca', tabella(colonne('Piattaforma', (r, g) => cellaRilascio(g, r.k)), [...righePiattaforme], {}),
       { nota: 'stati del §17.3 · LIVE solo con la pagina pubblica verificata' }),
+    conNegozi.length ? h('h3', { style: { margin: '8px 0 0', fontSize: '15px' } }, 'Negozi: Google Play · App Store · totale') : null,
+    conNegozi.length ? h('p', { style: { margin: 0, color: 'var(--ink3)', fontSize: '12.5px' } },
+      'I numeri che sa solo il negozio, sugli stessi 7 giorni (l\'ultimo che hanno tutti e due). Apple dà numeri solo per le app uscite sull\'App Store (TestFlight non conta).') : null,
+    conNegozi.length ? h('div', { class: 'griglia g2' }, ...conNegozi.map(schedaNegozi)) : null,
     scheda('Giocatori', tabella(colonne('', (r, g) => (r.cella ? r.cella(g) : valore(r.v(g), r.f ?? num))), [statoDati, ...righeGiocatori], {}),
       { nota: 'attivato = ha avviato almeno una partita (§3.1)' }),
     scheda('Ritorno e ricavi', tabella(colonne('', (r, g) => valore(r.v(g), r.f ?? num)), righeRitorno, {}),

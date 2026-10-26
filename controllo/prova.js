@@ -118,6 +118,13 @@ function PORTAFOGLIO_FINTO() {
       ? { android: { divisa: true, ultimo_giorno: ieri, metriche: x.metriche, somme: x.somme }, ios: { divisa: true, ultimo_giorno: ieri, metriche: Object.fromEntries(Object.keys(x.metriche).map((k) => [k, v(0)])), somme: Object.fromEntries(Object.keys(x.somme).map((k) => [k, v(0)])) } }
       : { android: { divisa: false }, ios: { divisa: false } },
     testflight: app === 'settebello-scopa' ? v(12) : null,
+    // 0119: i negozi affiancati (finti). Apple senza dati: com'è prima dell'uscita sull'App Store.
+    negozi: app === 'settegames-minigiochi' ? null : {
+      fino: giorno(5), fino_play: giorno(5), fino_app_store: null,
+      google_play: { installazioni: v(tra(3, 30)), visite: v(tra(20, 90)), conversione: v(0.21), sessioni: manca('Play non dà le sessioni'), crash: manca('Android Vitals senza dati: Play non li dà con pochi utenti al giorno') },
+      app_store: Object.fromEntries(['installazioni', 'visite', 'conversione', 'sessioni', 'crash'].map((k) => [k, manca('Apple non ha ancora dati')])),
+      totale: { installazioni: v(tra(3, 30), 'stimato', 'solo Google Play'), visite: v(tra(20, 90), 'stimato', 'solo Google Play'), conversione: manca('serve la conversione di tutti e due'), sessioni: manca('Play non dà le sessioni'), crash: manca('tasso e numero: non si sommano') },
+    },
     scheda: { problemi: x.problemi ?? '', prossima_azione: x.prossima ?? '', aggiornata_il: istante(90), aggiornata_da: 'audit 13/10' },
     raccolta: null, problemi_automatici: x.auto ?? [],
   });
