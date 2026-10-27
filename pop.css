@@ -180,6 +180,25 @@ a { color: inherit; }
 .gioco .arriva { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; min-height: 52px; margin-top: auto; padding: 0 22px; border: 2px dashed var(--lime); border-radius: 999px; font-weight: 700; color: var(--lime); }
 .gioco .arriva svg { width: 18px; height: 18px; flex: none; }
 
+/* ---------- Badge ufficiali degli store (27 ott 2026) ----------
+   Mai modificati: i file sono quelli di Google e di Apple. Il PNG di Google ha il
+   margine dentro il file (canvas alto 250, badge visibile 190 in italiano e 168 in
+   inglese); l'SVG di Apple no. Il badge Apple prende quindi l'altezza visibile di
+   quello di Google: i due sembrano alti uguali, e lo spazio fra loro (16 px) supera
+   il quarto dell'altezza che Apple chiede come margine. Sul telefono --badge scende
+   a 56 px (60 in inglese, così il badge Apple resta sopra i 40 px minimi). */
+.negozi { --badge: 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.badge-store { display: inline-block; flex-shrink: 0; line-height: 0; }
+.badge-store img { display: block; width: auto; height: var(--badge); }
+.badge-store img[src$="app-store-it.svg"] { height: calc(var(--badge) * 190 / 250); }
+.badge-store img[src$="app-store-en.svg"] { height: calc(var(--badge) * 168 / 250); }
+.negozi[hidden], .badge-store[hidden], [data-ios][hidden], [data-ios-presto][hidden] { display: none !important; }
+.gioco .negozi { flex-basis: 100%; margin: 0; }
+@media (max-width: 480px) {
+  .negozi { --badge: 56px; gap: 8px 12px; }
+  .negozi:has(img[src$="-en.png"]) { --badge: 60px; }
+}
+
 /* ---------- Collezioni ---------- */
 /* Battle Royale: le schede in fila, copertina a sinistra (un impianto diverso dalla coppia di Settebello). */
 .file { display: grid; gap: 24px; }

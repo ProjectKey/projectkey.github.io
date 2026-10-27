@@ -157,9 +157,9 @@ main.invito a:not(.tasto) { color: var(--bianco) !important; }
 main.invito .tasto { margin-bottom: 18px; }
 main.invito .codice-grande { background: var(--rialzo); color: var(--bianco); border-color: var(--lime); }
 
-/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+/* I badge ufficiali degli store (Google Play dal 7 ott 2026, App Store dal 27 ott):
+   sempre quelli, mai un tasto nostro. Misure e allineamento in /pop.css. */
 .negozi { margin: 16px 0 4px; }
-.badge-store { display: inline-block; flex-shrink: 0; }
 
 @media (max-width: 560px) {
   body.pagina main:not(.legge):not(.invito) section { padding: 22px 20px 10px; }

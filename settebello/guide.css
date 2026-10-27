@@ -40,12 +40,13 @@
   margin-top: 22px; border-radius: var(--r-pannello); padding: 28px 30px; color: var(--bianco);
   background: var(--antracite); display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
 }
-.gioca img { width: 72px; height: 72px; border-radius: 18px; }
+.gioca > img { width: 72px; height: 72px; border-radius: 18px; }
 .gioca div { flex: 1 1 260px; }
 .gioca h2 { color: var(--lime) !important; margin: 0 0 6px; }
 .gioca p { color: #dcdcd6 !important; margin: 0; }
 .gioca .tasto { background: var(--lime); color: var(--antracite); }
 .gioca a:not(.tasto) { color: var(--bianco) !important; }
+.gioca .negozi { margin: 0; }
 
 .altre { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 6px 0 12px; }
 .altre a {
@@ -96,6 +97,6 @@
   .seme .carte { gap: 5px; }
 }
 
-/* Il badge ufficiale di Google Play (7 ott 2026): sempre quello, mai un tasto nostro. */
+/* I badge ufficiali degli store (Google Play dal 7 ott 2026, App Store dal 27 ott):
+   sempre quelli, mai un tasto nostro. Misure e allineamento in /pop.css. */
 .negozi { margin: 16px 0 4px; }
-.badge-store { display: inline-block; flex-shrink: 0; }

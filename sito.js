@@ -37,4 +37,22 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sm.hidden) { chiudiGiochi(); tg.focus(); } });
     sm.addEventListener('click', function (e) { if (e.target.closest('a')) chiudiGiochi(); });
   }
+
+  /*
+   * L'INTERRUTTORE DELL'APP STORE (27 ott 2026)
+   * Ogni gioco si accende il giorno in cui Apple lo pubblica: `true` qui sotto, poi si
+   * pubblica il sito. Prima, https://apps.apple.com/app/id<numero> deve rispondere 200.
+   * Nelle pagine [data-ios="gioco"] nasce `hidden` (badge, «iPhone» nei testi) e compare
+   * col gioco acceso; [data-ios-presto="gioco"] è il «presto» che sparisce. Il menu dei
+   * giochi aggiunge «· iPhone». Senza JavaScript resta il «presto»: mai un link rotto.
+   */
+  var SU_APP_STORE = { settebello: false, briscola: false, lastsheep: false, snake: false };
+  var acceso = function (el, attributo) { return SU_APP_STORE[el.getAttribute(attributo)] === true; };
+  [].forEach.call(document.querySelectorAll('[data-ios]'), function (el) { el.hidden = !acceso(el, 'data-ios'); });
+  [].forEach.call(document.querySelectorAll('[data-ios-presto]'), function (el) { el.hidden = acceso(el, 'data-ios-presto'); });
+  [].forEach.call(document.querySelectorAll('.sottomenu a'), function (a) {
+    var g = (a.pathname.match(/^\/(settebello|briscola|lastsheep|snake)\/$/) || [])[1];
+    var riga = a.querySelector('small');
+    if (g && riga && SU_APP_STORE[g] === true) riga.textContent += ' · iPhone';
+  });
 })();

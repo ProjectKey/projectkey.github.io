@@ -114,8 +114,9 @@
     <div class="dentro">
       <h2 id="s-trovaci">Ci trovi su</h2>
       <ul class="loghi">
-        <li><a href="https://play.google.com/store/apps/developer?id=PK+-+Project+Key+Srl" rel="noopener" data-evento="store_outbound_click"><svg aria-hidden="true"><use href="#ic-googleplay"/></svg>Google Play</a></li>
-        <li><span class="presto"><svg aria-hidden="true"><use href="#ic-appstore"/></svg>App Store <small>presto</small></span></li>
+        <li><a href="https://play.google.com/store/apps/developer?id=PK+-+Project+Key+Srl" rel="noopener" data-evento="store_outbound_click" data-store="google_play"><svg aria-hidden="true"><use href="#ic-googleplay"/></svg>Google Play</a></li>
+        <li data-ios-presto="settebello"><span class="presto"><svg aria-hidden="true"><use href="#ic-appstore"/></svg>App Store <small>presto</small></span></li>
+        <li data-ios="settebello" hidden><a href="https://apps.apple.com/app/id6824975423" rel="noopener" data-evento="store_outbound_click" data-gioco="settebello" data-store="app_store"><svg aria-hidden="true"><use href="#ic-appstore"/></svg>App Store</a></li>
         <li><a href="https://www.tiktok.com/@settegames" rel="noopener"><svg aria-hidden="true"><use href="#ic-tiktok"/></svg>TikTok</a></li>
         <li><a href="https://www.instagram.com/sette_games/" rel="noopener"><svg aria-hidden="true"><use href="#ic-instagram"/></svg>Instagram</a></li>
         <li><a href="https://www.facebook.com/profile.php?id=61595166023488" rel="noopener"><svg aria-hidden="true"><use href="#ic-facebook"/></svg>Facebook</a></li>
@@ -138,11 +139,14 @@
         <article class="gioco">
           <img class="copertina" src="../img/settebello-copertina.webp" alt="Settebello: Scopa e Scopone, tre carte napoletane sopra il logo" width="1024" height="500" loading="lazy">
           <div class="corpo">
-            <div class="etichette"><span class="etichetta">Gioco di carte</span><span class="etichetta">Android</span></div>
+            <div class="etichette"><span class="etichetta">Gioco di carte</span><span class="etichetta">Android<span data-ios="settebello" hidden>&nbsp;· iOS</span></span></div>
             <h3>Scopa Online <small>Scopa e Scopone</small></h3>
             <p>Scopa, Scopone e altri quattro giochi di carte italiani, con mazzi napoletani, piacentini e bergamaschi. Contro il computer o con gli amici.</p>
             <div class="tasti">
-              <a class="tasto primario" href="https://play.google.com/store/apps/details?id=it.settebello.app&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" rel="noopener" data-evento="store_outbound_click" data-gioco="settebello">Scarica su Google Play <svg aria-hidden="true"><use href="#esterno"/></svg></a>
+              <p class="negozi">
+                <a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.app&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" rel="noopener" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="settebello" data-store="google_play"><img src="../img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+                <a class="badge-store" data-ios="settebello" hidden href="https://apps.apple.com/app/id6824975423" rel="noopener" aria-label="Scarica su App Store" data-evento="store_outbound_click" data-gioco="settebello" data-store="app_store"><img src="../img/store/app-store-it.svg" alt="Scarica su App Store" width="164" height="55"></a>
+              </p>
               <a class="tasto fantasma" href="../settebello/" data-evento="game_card_click" data-gioco="settebello">Scopri il gioco</a>
             </div>
           </div>
@@ -150,11 +154,14 @@
         <article class="gioco" id="briscola">
           <img class="copertina" src="../img/briscola-copertina.webp" alt="Settebello Briscola: tre carte napoletane e una corona sopra il logo, coriandoli nel cielo azzurro" width="1024" height="500" loading="lazy">
           <div class="corpo">
-            <div class="etichette"><span class="etichetta">Gioco di carte</span><span class="etichetta">Android</span></div>
+            <div class="etichette"><span class="etichetta">Gioco di carte</span><span class="etichetta">Android<span data-ios="briscola" hidden>&nbsp;· iOS</span></span></div>
             <h3>Briscola Online <small>Sette modi di giocare</small></h3>
             <p>Classica, col dado, a coppie, Chiamata in cinque e altre ancora. Contro il computer o online.</p>
             <div class="tasti">
-              <a class="tasto primario" href="https://play.google.com/store/apps/details?id=it.settebello.briscola&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" rel="noopener" data-evento="store_outbound_click" data-gioco="briscola">Scarica su Google Play <svg aria-hidden="true"><use href="#esterno"/></svg></a>
+              <p class="negozi">
+                <a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.briscola&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" rel="noopener" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="briscola" data-store="google_play"><img src="../img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+                <a class="badge-store" data-ios="briscola" hidden href="https://apps.apple.com/app/id6824986710" rel="noopener" aria-label="Scarica su App Store" data-evento="store_outbound_click" data-gioco="briscola" data-store="app_store"><img src="../img/store/app-store-it.svg" alt="Scarica su App Store" width="164" height="55"></a>
+              </p>
               <a class="tasto fantasma" href="../briscola/" data-evento="game_card_click" data-gioco="briscola">Scopri il gioco</a>
             </div>
           </div>
@@ -175,11 +182,14 @@
         <article class="gioco largo">
           <img class="copertina" src="../img/lastsheep-copertina.webp" alt="Last Sheep Royale: il lupo e la pecora sopra il logo, il gregge colorato in corsa" width="1024" height="500" loading="lazy">
           <div class="corpo">
-            <div class="etichette"><span class="etichetta">Corsa · Battle royale</span><span class="etichetta">Android</span></div>
+            <div class="etichette"><span class="etichetta">Corsa · Battle royale</span><span class="etichetta">Android<span data-ios="lastsheep" hidden>&nbsp;· iOS</span></span></div>
             <h3>Last Sheep Royale <small>100 pecore, un solo vincitore</small></h3>
             <p>Cento pecore attraversano lo stesso prato mentre arriva il branco di lupi. Salti, dai il turbo: vince l'ultima pecora rimasta.</p>
             <div class="tasti">
-              <a class="tasto primario" href="https://play.google.com/store/apps/details?id=com.lastsheep.game&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dhome" rel="noopener" data-evento="store_outbound_click" data-gioco="lastsheep">Scarica su Google Play <svg aria-hidden="true"><use href="#esterno"/></svg></a>
+              <p class="negozi">
+                <a class="badge-store" href="https://play.google.com/store/apps/details?id=com.lastsheep.game&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dhome" rel="noopener" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="lastsheep" data-store="google_play"><img src="../img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+                <a class="badge-store" data-ios="lastsheep" hidden href="https://apps.apple.com/app/id6824988008" rel="noopener" aria-label="Scarica su App Store" data-evento="store_outbound_click" data-gioco="lastsheep" data-store="app_store"><img src="../img/store/app-store-it.svg" alt="Scarica su App Store" width="164" height="55"></a>
+              </p>
               <a class="tasto fantasma" href="../lastsheep/" data-evento="game_card_click" data-gioco="lastsheep">Scopri il gioco</a>
             </div>
           </div>
@@ -187,11 +197,14 @@
         <article class="gioco largo" id="snake-100">
           <img class="copertina" src="../img/snake-copertina.webp" alt="Snake 100 Battle Royale: un serpente verde con la corona sopra il logo, i rivali in un'arena al neon" width="1024" height="500" loading="lazy">
           <div class="corpo">
-            <div class="etichette"><span class="etichetta">Battle royale</span><span class="etichetta">Android</span></div>
+            <div class="etichette"><span class="etichetta">Battle royale</span><span class="etichetta">Android<span data-ios="snake" hidden>&nbsp;· iOS</span></span></div>
             <h3>Snake 100 Battle Royale <small>100 serpenti, un'arena</small></h3>
             <p>Mangia, cresci, fai schiantare gli altri. L'arena si stringe: vince l'ultimo serpente rimasto.</p>
             <div class="tasti">
-              <a class="tasto primario" href="https://play.google.com/store/apps/details?id=com.settegames.snake&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dhome" rel="noopener" data-evento="store_outbound_click" data-gioco="snake">Scarica su Google Play <svg aria-hidden="true"><use href="#esterno"/></svg></a>
+              <p class="negozi">
+                <a class="badge-store" href="https://play.google.com/store/apps/details?id=com.settegames.snake&amp;referrer=utm_source%3Dsettegames.com%26utm_medium%3Dsito%26utm_campaign%3Dhome" rel="noopener" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="snake" data-store="google_play"><img src="../img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+                <a class="badge-store" data-ios="snake" hidden href="https://apps.apple.com/app/id6824987979" rel="noopener" aria-label="Scarica su App Store" data-evento="store_outbound_click" data-gioco="snake" data-store="app_store"><img src="../img/store/app-store-it.svg" alt="Scarica su App Store" width="164" height="55"></a>
+              </p>
               <a class="tasto fantasma" href="../snake/" data-evento="game_card_click" data-gioco="snake">Scopri il gioco</a>
             </div>
           </div>

@@ -25,7 +25,6 @@ body.pagina .gioco-s p:not(.negozi) { font-size: 1.25rem; font-weight: 600; colo
 
 /* Il badge: si sente premere. */
 .gioco-s .negozi { margin-top: 22px; }
-.badge-store img { display: block; height: 72px; width: auto; }
 .badge-store { border-radius: 12px; transition: transform var(--veloce) var(--entra); }
 .badge-store:active { transform: scale(0.97); }
 .badge-store:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
