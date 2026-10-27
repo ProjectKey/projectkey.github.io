@@ -168,8 +168,18 @@ code, .mono { font-family: var(--mono); font-size: 12.5px; }
   border-bottom: 1px solid var(--filo);
 }
 .testata .menu-apri { display: none; }
-.selettore { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.selettore select { max-width: 240px; }
+/* la scelta del gioco (27/10/2026): un bottone per gioco, una riga sola che scorre */
+.barra-giochi { padding: 10px 24px 0; }
+.scelta-gioco { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.scelta-gioco::-webkit-scrollbar { display: none; }
+.scelta-gioco .gioco {
+  flex: none; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--filo);
+  background: transparent; color: var(--ink2); font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  white-space: nowrap;
+}
+.scelta-gioco .gioco:hover { color: var(--ink); border-color: var(--ink3); }
+.scelta-gioco .gioco.attivo { background: var(--viola); border-color: var(--viola); color: #fff; }
+.scelta-gioco .gioco:focus-visible { outline: 2px solid var(--viola); outline-offset: 2px; }
 .cerca-globale { position: relative; flex: 1; max-width: 520px; min-width: 120px; }
 .cerca-globale input[type="search"] { width: 100%; padding-left: 32px; }
 .cerca-globale::before {
@@ -219,7 +229,7 @@ code, .mono { font-family: var(--mono); font-size: 12.5px; }
   box-shadow: var(--ombra); padding: 16px; min-width: 0;
 }
 .scheda > header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.scheda > header h2 { flex: 1; min-width: 0; }
+.scheda > header h2 { flex: 1 1 auto; min-width: min(16em, 100%); } /* il titolo non si stringe a una parola per riga: va a capo la nota */
 .scheda > header .nota { color: var(--ink3); font-size: 12px; }
 
 .griglia { display: grid; gap: 14px; }
@@ -404,7 +414,7 @@ dl.dati dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 640px) {
   .g3, .g4, .g6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cerca-globale { order: 5; max-width: none; flex-basis: 100%; }
-  .selettore select { max-width: 150px; }
+  .barra-giochi { padding: 10px 16px 0; }
   dl.dati { grid-template-columns: minmax(0, 1fr); }
   dl.dati dt { margin-top: 6px; }
   .diff .r { grid-template-columns: minmax(0, 1fr); }

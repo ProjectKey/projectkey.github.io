@@ -519,6 +519,16 @@ export async function allarmi() {
 }
 export const chiudiAllarme = (id, motivo) => chiama('allarmi.chiudi', { id, motivo });
 
+/** Il nome corto di un gioco, per la scelta in alto e i grafici (Giorgio, 27/10/2026: «la scelta del gioco è
+ *  diventata troppo incasinata»). L'ordine è quello in cui si mostrano. */
+const CORTI = [['settebello-scopa', 'Scopa'], ['settebello-briscola', 'Briscola'], ['last-sheep-royale', 'Last Sheep'],
+  ['snake-100', 'Snake 100'], ['settegames-minigiochi', 'Minigiochi']];
+export const nomeCorto = (app) => CORTI.find(([id]) => id === app?.id)?.[1] ?? app?.nome ?? '';
+export const inOrdine = (apps) => [...apps].sort((a, b) => {
+  const i = (x) => { const k = CORTI.findIndex(([id]) => id === x.id); return k < 0 ? 99 : k; };
+  return i(a) - i(b) || String(a.nome).localeCompare(String(b.nome));
+});
+
 /** Sa dividere i numeri per questa piattaforma? (0118; «tutte» sempre) */
 export const divide = (app, piattaforma) => piattaforma === 'tutte' || (app?.capacita?.piattaforme ?? []).includes(piattaforma);
 

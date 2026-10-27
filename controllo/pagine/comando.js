@@ -35,10 +35,17 @@ export async function disegna(ctx) {
   const primoMeseScorso = (() => { const d = new Date(`${oggi}T12:00:00`); d.setDate(1); d.setMonth(d.getMonth() - 1); return d.toISOString().slice(0, 10); })();
   const da = [giorniFa(giorni - 1), primoMeseScorso].sort()[0];
 
+  // 27/10/2026, Giorgio: «non sono riuscito a vedere la differenza tra utenti iOS e Android». Col Totale si
+  // chiedono anche le due parti, e si mostrano affiancate: si vede subito quanto vale ognuna.
+  const divisiP = piattaforma === 'tutte' ? Promise.all(bersagli.filter((a) => api.divide(a, 'ios')).map(async (app) => {
+    const [an, io] = await Promise.all(['android', 'ios'].map((pt) => api.kpi(app.id, giorniFa(giorni - 1), oggi, pt).catch(() => null)));
+    return { app, android: an?.giorni ?? null, ios: io?.giorni ?? null };
+  })) : Promise.resolve([]);
   const risposte = await Promise.all(bersagli.map(async (app) => {
     try { return { app, k: await api.kpi(app.id, da, oggi, piattaforma) }; } catch (e) { return { app, errore: e }; }
   }));
   const buone = risposte.filter((r) => r.k);
+  const divisi = await divisiP;
   const [salute, allarmi] = await Promise.all([
     Promise.all((ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'salute')).map(async (a) => ({ app: a, s: await api.salute(a.id).catch(() => null) }))),
     api.allarmi().catch(() => []),
@@ -92,6 +99,8 @@ export async function disegna(ctx) {
       h('div', {}, h('strong', {}, `${aperti.length} ${aperti.length === 1 ? 'allarme aperto' : 'allarmi aperti'}: `),
         aperti.slice(0, 3).map((a) => a.titolo).join(' · '), ' ', h('a', { href: '#/tecnica' }, 'Vedi'))) : null,
 
+    divisi.length ? perPiattaforma(divisi, giorni) : null,
+
     h('h2', {}, 'Business'),
     h('div', { class: 'griglia g6' },
       kpi('Iscritti in tutto', num(iscrittiTot), soloTotale ? 'account: solo nel Totale' : iscrittiTot === null ? 'il gioco non li conta ancora'
@@ -134,7 +143,8 @@ export async function disegna(ctx) {
       kpi('Live Ops', '—', 'eventi: fase 2')),
 
     h('div', { class: 'griglia g2' },
-      scheda('Partite al giorno', grafico('line', { etichette, serie: [{ nome: 'Iniziate', valori: periodo.map((g) => g.partite_iniziate) }, { nome: 'Finite', valori: periodo.map((g) => g.partite_finite) }, { nome: 'Abbandoni', valori: periodo.map((g) => g.abbandoni), colore: '--rosso' }] }, false)),
+      scheda('Partite al giorno', grafico('bar', { etichette, serie: [{ nome: 'Iniziate', valori: periodo.map((g) => g.partite_iniziate) }, { nome: 'Finite', valori: periodo.map((g) => g.partite_finite) }, { nome: 'Abbandoni', valori: periodo.map((g) => g.abbandoni), colore: '--rosso' }] }, false),
+        { nota: 'ogni barra è un giorno solo, non sommato ai giorni prima' }),
       scheda('Tecnica', [
         h('div', { class: 'griglia g2', style: { marginBottom: '12px' } },
           kpi('Crash-free utenti', buone.length === 1 ? perc(buone[0].k.crash_free_utenti) : '—', buone.length === 1 ? 'obiettivo 99,5%' : 'scegli un\'app'),
@@ -150,7 +160,7 @@ export async function disegna(ctx) {
       h('div', {}, 'Installazioni, CPI, ROAS e organico/paid richiedono uno strumento di attribuzione (AppsFlyer, Adjust o simili) e i costi delle campagne: oggi non ce n\'è nessuno collegato. I report di Google Play (pagina Crescita) sono solo Android.')),
 
     !ctx.app && buone.length > 1 ? [h('h2', {}, 'Confronto fra le app'), scheda(null, tabella([
-      { titolo: 'App', cella: (r) => h('a', { href: '#/comando', onclick: (e) => { e.preventDefault(); memoria.scrivi('app', r.app.id); location.reload(); } }, r.app.nome) },
+      { titolo: 'Gioco', cella: (r) => h('a', { href: '#/comando', onclick: (e) => { e.preventDefault(); memoria.scrivi('app', r.app.id); location.reload(); } }, api.nomeCorto(r.app)) },
       { titolo: 'DAU oggi', num: true, cella: (r) => num(r.k.giorni?.at(-1)?.dau) },
       { titolo: 'MAU', num: true, cella: (r) => num(r.k.mau) },
       { titolo: 'D1', num: true, cella: (r) => perc(r.k.retention?.d1) },
@@ -159,12 +169,50 @@ export async function disegna(ctx) {
       { titolo: `Entrate ${giorni} g`, num: true, cella: (r) => soldi((r.k.giorni ?? []).slice(-giorni).reduce((s, g) => s + (g.entrate_lorde ?? 0), 0)) },
       { titolo: 'Crash-free', num: true, cella: (r) => perc(r.k.crash_free_utenti) },
     ], buone)),
-    scheda('DAU per app', grafico('line', {
-      etichette, serie: buone.map((r) => ({ nome: r.app.nome, valori: (r.k.giorni ?? []).slice(-giorni).map((g) => g.dau) })),
-    }, false))] : null,
+    h('div', { class: 'griglia g2' },
+      scheda('Partite al giorno, per gioco', grafico('bar', {
+        etichette, pila: true, serie: buone.map((r) => ({ nome: api.nomeCorto(r.app), valori: allinea(r.k.giorni, periodo).map((g) => g?.partite_iniziate ?? null) })),
+      }), { nota: 'partite iniziate quel giorno; ogni colore è un gioco' }),
+      scheda('Giocatori al giorno, per gioco', grafico('bar', {
+        etichette, pila: true, serie: buone.map((r) => ({ nome: api.nomeCorto(r.app), valori: allinea(r.k.giorni, periodo).map((g) => g?.dau ?? null) })),
+      }), { nota: 'telefoni che hanno aperto il gioco quel giorno' }))] : null,
 
     bersagli.length === 0 ? h('div', { class: 'avviso ambra' }, 'Nessuna app selezionata sa dare i KPI: il suo adattatore non espone ancora `kpi`.') : null,
     h('p', { style: { color: 'var(--ink3)', fontSize: '12px', margin: 0 } }, `Aggiornato ${fa(new Date())}. «Attivo» = ha aperto l'app quel giorno.`),
+  ];
+}
+
+/** Le righe di un gioco, giorno per giorno sulle date del periodo (un giorno che manca resta vuoto). */
+function allinea(giorni, periodo) {
+  const m = new Map((giorni ?? []).map((g) => [g.giorno, g]));
+  return periodo.map((p) => m.get(p.giorno) ?? null);
+}
+
+/**
+ * **Android e iOS affiancati** (27/10/2026): per ogni gioco attivi e partite di oggi e del periodo, nelle due
+ * piattaforme. Se gli iPhone sono tutti a zero lo si dice, perché «Totale» e «Android» sembrerebbero uguali
+ * per sbaglio: gli iPhone di prova (TestFlight) non contano, e finché un gioco non è sull'App Store resta 0.
+ */
+/** «Android · iOS» in una casella, l'iOS più chiaro. */
+const due = (an, io) => h('span', {}, an, h('span', { style: { color: 'var(--ink3)' } }, ` · ${io}`));
+
+function perPiattaforma(divisi, giorni) {
+  // una chiamata fallita resta «—», mai 0
+  const somma = (serie, k) => (serie ? serie.reduce((t, g) => t + (g[k] ?? 0), 0) : null);
+  const oggi = (serie, k) => serie?.at(-1)?.[k] ?? null;
+  const risposteIos = divisi.filter((d) => d.ios);
+  const zeroIos = risposteIos.length > 0 && risposteIos.every((d) => !somma(d.ios, 'dau'));
+  return [
+    h('h2', {}, 'Android e iOS'),
+    zeroIos ? h('div', { class: 'avviso ambra' }, h('span', { class: 'ico' }, 'ⓘ'),
+      h('div', {}, h('strong', {}, 'iPhone: ancora zero, '), 'quindi «Totale» e «Android» coincidono. Gli iPhone di prova (TestFlight) non contano.')) : null,
+    scheda('Android · iOS', tabella([
+      { titolo: 'Gioco', cella: (d) => api.nomeCorto(d.app) },
+      { titolo: 'Attivi oggi', num: true, cella: (d) => due(num(oggi(d.android, 'dau')), num(oggi(d.ios, 'dau'))) },
+      { titolo: `Nuovi · ${giorni} g`, num: true, cella: (d) => due(num(somma(d.android, 'nuovi')), num(somma(d.ios, 'nuovi'))) },
+      { titolo: 'Partite oggi', num: true, cella: (d) => due(num(oggi(d.android, 'partite_iniziate')), num(oggi(d.ios, 'partite_iniziate'))) },
+      { titolo: `Entrate · ${giorni} g`, num: true, cella: (d) => due(soldi(somma(d.android, 'entrate_lorde')), soldi(somma(d.ios, 'entrate_lorde'))) },
+    ], divisi), { nota: 'in ogni casella: prima Android, poi iOS' }),
   ];
 }
 

@@ -145,13 +145,14 @@ export async function avvia(radice, { email, token }) {
   const corpo = h('main', { class: 'contenuto', id: 'contenuto' });
   const guscio = h('div', { class: 'guscio' });
 
-  const selettore = h('select', {
-    'aria-label': 'App selezionata',
-    onchange: () => { stato.appId = selettore.value; memoria.scrivi('app', stato.appId); disegna(); },
-  }, h('option', { value: '*' }, 'Tutte le app'),
-  ...raggruppaPerFamiglia(apps).map(([fam, lista]) => h('optgroup', { label: fam },
-    lista.map((a) => h('option', { value: a.id }, a.nome)))));
-  selettore.value = stato.appId;
+  // La scelta del gioco: un bottone per gioco, nomi corti, sempre nello stesso ordine (27/10/2026).
+  const selettore = h('div', { class: 'scelta-gioco', role: 'group', 'aria-label': 'Gioco' });
+  const scegli = (id) => { stato.appId = id; memoria.scrivi('app', id); disegnaScelta(); disegna(); };
+  function disegnaScelta() {
+    metti(svuota(selettore), [['*', 'Tutti'], ...api.inOrdine(apps).map((a) => [a.id, api.nomeCorto(a)])].map(([id, nome]) =>
+      h('button', { class: `gioco${stato.appId === id ? ' attivo' : ''}`, 'aria-pressed': String(stato.appId === id), onclick: () => scegli(id) }, nome)));
+  }
+  disegnaScelta();
 
   const ricerca = cercaGlobale(stato);
   const tema = h('button', {
@@ -167,7 +168,6 @@ export async function avvia(radice, { email, token }) {
 
   const testata = h('header', { class: 'testata' },
     h('button', { class: 'bottone piccolo menu-apri', 'aria-label': 'Apri il menu', onclick: () => guscio.classList.toggle('menu-aperto') }, '☰'),
-    h('div', { class: 'selettore' }, selettore),
     ricerca,
     h('div', { class: 'spazio' }),
     tema,
@@ -178,7 +178,7 @@ export async function avvia(radice, { email, token }) {
 
   metti(guscio, menuNodo, h('div', { class: 'principale' },
     api.inProva() ? h('div', { class: 'fascia-prova' }, 'DATI DI PROVA — niente di quello che vedi è vero') : null,
-    testata, corpo));
+    testata, h('div', { class: 'barra-giochi' }, selettore), corpo));
   metti(svuota(radice), guscio);
 
   function disegnaMenu(attiva) {
@@ -264,12 +264,6 @@ export async function avvia(radice, { email, token }) {
     }
   });
   await disegna();
-}
-
-function raggruppaPerFamiglia(apps) {
-  const m = new Map();
-  for (const a of apps) m.set(a.famiglia ?? 'Altre', [...(m.get(a.famiglia ?? 'Altre') ?? []), a]);
-  return [...m.entries()];
 }
 
 /* ------------------------------------------------------------ la ricerca */
