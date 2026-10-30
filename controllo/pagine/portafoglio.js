@@ -24,6 +24,10 @@
  * store»): per ogni gioco Google Play | App Store | totale con i numeri che sa
  * solo il negozio (installazioni, visite alla scheda, conversione, sessioni,
  * crash), ognuno con la sua fonte nel suggerimento.
+ *
+ * **Il semaforo crash e la fluidità** (31 ott 2026, post-mortem del 30/10): un pallino accanto al nome di ogni
+ * gioco e, in cima a «Problemi e prossima azione», le sessioni morte degli ultimi 3 giorni (giocatori veri e, a
+ * parte, le prove di TestFlight) e i fotogrammi per piattaforma. Rosso = niente invii ad Apple né OTA.
  */
 import * as api from '../api.js';
 import {
@@ -49,6 +53,19 @@ const QUALITA = {
   stimato: { colore: 'var(--ambra)', parola: 'stimato' },
   mancante: { colore: 'var(--ink3)', parola: 'mancante' },
 };
+
+/** I colori del semaforo crash (quality-gates.yaml → semaforo_crash). Grigio = non letto: non è verde. */
+const SEMAFORO = {
+  verde: { colore: 'var(--verde)', pill: 'verde', parola: 'verde' },
+  giallo: { colore: 'var(--ambra)', pill: 'ambra', parola: 'giallo' },
+  rosso: { colore: 'var(--rosso)', pill: 'rosso', parola: 'rosso' },
+  grigio: { colore: 'var(--ink3)', pill: '', parola: 'non letto' },
+};
+const pallinoSemaforo = (c, titolo = '') => h('span', {
+  class: 'pallino', role: 'img', title: titolo, 'aria-label': `semaforo crash ${(SEMAFORO[c] ?? SEMAFORO.grigio).parola}`,
+  style: { color: (SEMAFORO[c] ?? SEMAFORO.grigio).colore, flex: '0 0 auto' },
+});
+const percento = (x) => (x === null || x === undefined ? '—' : `${(x * 100).toFixed(1).replace('.', ',')}%`);
 
 const giornoCorto = (g) => (g ? g.slice(5).split('-').reverse().join('/') : '—');
 const pallino = (q) => h('span', { class: 'pallino', 'aria-hidden': 'true', style: { color: (QUALITA[q] ?? QUALITA.mancante).colore, flex: '0 0 auto' } });
@@ -86,9 +103,12 @@ export async function disegna(ctx) {
     return x?.divisa ? x : null;
   };
 
+  // Il nome di ogni gioco porta il pallino del semaforo crash (31 ott 2026).
+  const nomeGioco = (g) => h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: '6px' } },
+    g.semaforo_crash ? pallinoSemaforo(g.semaforo_crash.colore, (g.semaforo_crash.motivi ?? []).join(' · ') || 'nessun problema') : null, g.nome);
   const colonne = (titoloVoce, celle) => [
     { titolo: titoloVoce, cella: (r) => h('span', { style: { fontWeight: 600 }, title: r.aiuto ?? '' }, r.nome) },
-    ...giochi.map((g) => ({ titolo: g.nome, cella: (r) => celle(r, g) })),
+    ...giochi.map((g) => ({ titolo: nomeGioco(g), cella: (r) => celle(r, g) })),
   ];
 
   /* ------------------------------------------------------------ dove si gioca */
@@ -214,7 +234,42 @@ export async function disegna(ctx) {
   const elenco = (voci, colore) => voci.length
     ? h('ul', { style: { margin: 0, paddingLeft: '16px', display: 'grid', gap: '3px' } }, voci.map((t) => h('li', { style: colore ? { color: colore } : {} }, t)))
     : null;
+  /* Il semaforo crash di un gioco: colore, sessioni morte, motivi, il peggiore; poi le prove di TestFlight. */
+  const cellaSemaforo = (g) => {
+    const sc = g.semaforo_crash;
+    if (!sc) return h('span', { style: { color: 'var(--ink3)' } }, 'non letto');
+    const x = SEMAFORO[sc.colore] ?? SEMAFORO.grigio;
+    const conti = (s) => (s ? `${s.morte ?? 0} morte su ${s.chiuse ?? 0}` : '—');
+    const pr = sc.prova;
+    const peggiore = sc.peggiori?.modello?.[0] ?? sc.peggiori?.build?.[0] ?? pr?.peggiori?.modello?.[0] ?? pr?.peggiori?.build?.[0];
+    return h('div', { style: { display: 'grid', gap: '4px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal' } },
+      h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center' } }, pill(x.parola.toUpperCase(), x.pill),
+        sc.sessioni ? h('span', { style: { fontVariantNumeric: 'tabular-nums' } }, `giocatori: ${conti(sc.sessioni)} · ${percento(sc.tasso_morte)}`) : null),
+      elenco(sc.motivi ?? [], sc.colore === 'rosso' ? 'var(--rosso)' : 'var(--ink2)'),
+      peggiore ? h('span', { style: { fontSize: '12px', color: 'var(--ink2)' } }, `peggiore: ${peggiore.os ?? ''} ${peggiore.modello ?? peggiore.build ?? ''} (${peggiore.morte} morte)`) : null,
+      pr ? h('span', { style: { fontSize: '12px', color: pr.colore === 'rosso' ? 'var(--rosso)' : 'var(--ink3)' }, title: (pr.motivi ?? []).join(' · ') },
+        `prove (TestFlight, casa): ${(SEMAFORO[pr.colore] ?? SEMAFORO.grigio).parola} · ${conti(pr.sessioni)}`) : null,
+      sc.ios ? h('span', { style: { fontSize: '11.5px', color: 'var(--ink3)' } }, `ultime ${sc.ore ?? 72} ore · iOS conta ${sc.ios.conta === 'reali' ? 'i giocatori' : 'TestFlight'}: ${sc.ios.sessioni ?? 0} sessioni`) : null);
+  };
+  /* La fluidità: thread UI P50 e fotogrammi oltre 25 ms, per piattaforma (5_ios_pronta.b). */
+  const cellaFluidita = (g) => {
+    const f = g.fluidita;
+    if (!f || !f.reali) return h('span', { style: { color: 'var(--ink3)' }, title: f?.nota ?? '' }, 'non letta');
+    const riga = (gr, pt, nome) => {
+      const x = f[gr]?.[pt];
+      if (!x || x.esito === 'senza dati') return null;
+      return h('span', { style: { color: x.esito === 'sopra' ? 'var(--rosso)' : 'var(--ink)' }, title: (x.motivi ?? []).join(' · ') || 'dentro le soglie' },
+        `${nome}: UI ${x.ui_p50 ?? '—'} ms · oltre 25 ms ${percento(x.oltre_25)}${x.esito === 'sopra' ? ' ✕' : ' ✓'} (${x.misure})`);
+    };
+    const righe = [riga('reali', 'ios', 'iOS'), riga('reali', 'android', 'Android'), riga('prova', 'ios', 'iOS prove'), riga('prova', 'android', 'Android prove')].filter(Boolean);
+    return h('div', { style: { display: 'grid', gap: '3px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal', fontSize: '12.5px', fontVariantNumeric: 'tabular-nums' } },
+      ...(righe.length ? righe : [h('span', { style: { color: 'var(--ink3)' } }, 'nessuna misura in 3 giorni')]),
+      h('span', { style: { fontSize: '11.5px', color: 'var(--ink3)' } },
+        `soglie ${f.genere}: iOS ≤ ${f.soglie?.ios?.ui_p50} ms e ≤ ${percento(f.soglie?.ios?.oltre_25)} · Android ≤ ${f.soglie?.android?.ui_p50} ms e ≤ ${percento(f.soglie?.android?.oltre_25)}`));
+  };
   const righeDecisioni = [
+    { nome: 'Semaforo crash', aiuto: 'sessioni morte senza fine (crash nativi) negli ultimi 3 giorni: quality-gates.yaml → semaforo_crash', cella: cellaSemaforo },
+    { nome: 'Fluidità', aiuto: 'thread UI P50 e fotogrammi oltre 25 ms negli ultimi 3 giorni: quality-gates.yaml → 5_ios_pronta.b', cella: cellaFluidita },
     {
       nome: 'Problemi principali',
       cella: (g) => h('div', { style: { display: 'grid', gap: '6px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal' } },
@@ -285,7 +340,7 @@ export async function disegna(ctx) {
     scheda('Ritorno e ricavi', tabella(colonne('', (r, g) => valore(r.v(g), r.f ?? num)), righeRitorno, {}),
       { nota: 'D1/D7/D30: «esattamente il giorno N», giorni di Roma' }),
     scheda('Problemi e prossima azione', tabella(colonne('', (r, g) => r.cella(g)), righeDecisioni, {}),
-      { nota: 'in rosso quelli che dicono i numeri da soli' }),
+      { nota: 'in cima il semaforo crash e la fluidità (ultimi 3 giorni, letti adesso); in rosso quelli che dicono i numeri da soli' }),
     h('p', { style: { color: 'var(--ink3)', fontSize: '12.5px' } },
       'Le definizioni (formula, finestra, fuso, duplicati, limiti) stanno in docs/studio/METRICS_DICTIONARY.md del repository SetteGames.'),
   ];

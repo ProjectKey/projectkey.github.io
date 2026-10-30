@@ -127,7 +127,34 @@ function PORTAFOGLIO_FINTO() {
     },
     scheda: { problemi: x.problemi ?? '', prossima_azione: x.prossima ?? '', aggiornata_il: istante(90), aggiornata_da: 'audit 13/10' },
     raccolta: null, problemi_automatici: x.auto ?? [],
+    // 31 ott 2026: il semaforo crash e la fluidità (finti). Last Sheep: prove rosse, come il 30/10.
+    semaforo_crash: semaforoFinto(app),
+    fluidita: {
+      genere: famiglia === 'Settebello' ? 'carte' : 'arcade', qualita: 'verificato', ore: 72,
+      soglie: famiglia === 'Settebello' ? { ios: { ui_p50: 18, oltre_25: 0.05 }, android: { ui_p50: 20, oltre_25: 0.1 } } : { ios: { ui_p50: 18, oltre_25: 0.1 }, android: { ui_p50: 20, oltre_25: 0.2 } },
+      reali: { android: { misure: 40, ui_p50: 16.7, oltre_25: 0.012, esito: 'ok', motivi: [] }, ios: { misure: 0, ui_p50: null, oltre_25: null, esito: 'senza dati', motivi: [] } },
+      prova: { android: { misure: 0, esito: 'senza dati', motivi: [] }, ios: app === 'settebello-briscola' ? { misure: 6, ui_p50: 21.4, oltre_25: 0.08, esito: 'sopra', motivi: ['thread UI P50 21,4 ms (soglia 18)'] } : { misure: 0, esito: 'senza dati', motivi: [] } },
+    },
   });
+  function semaforoFinto(app) {
+    const rossoProve = app === 'last-sheep-royale';
+    return {
+      colore: rossoProve ? 'rosso' : app === 'settegames-minigiochi' ? 'grigio' : 'giallo', qualita: 'verificato', ore: 72, ios_uscito: false,
+      motivi: [
+        ...(rossoProve ? ["iOS su TestFlight (il gioco non è ancora sull'App Store): 2 sessioni morte su 9 (22,2%, sopra il 3%)"] : []),
+        'iOS (non ancora sull\'App Store): 3 sessioni di TestFlight in 3 giorni, meno di 5 (dato insufficiente)',
+      ],
+      sessioni: { avviate: 4, finite: 3, morte: 0, sfondo: 0, chiuse: 4 }, tasso_morte: 0,
+      ios: { sessioni: 3, conta: 'prova' },
+      peggiori: { build: [], modello: [], sistema: [] },
+      prova: {
+        colore: rossoProve ? 'rosso' : 'giallo', motivi: rossoProve ? ['2 sessioni morte su 9 (22,2%, sopra il 3%)'] : [],
+        sessioni: { avviate: 9, finite: 1, morte: rossoProve ? 2 : 0, sfondo: 0, chiuse: 9 }, tasso_morte: rossoProve ? 0.2222 : 0,
+        peggiori: { build: [], modello: rossoProve ? [{ modello: 'iphone 390x844@3', os: 'ios', morte: 2, finite: 1, avviate: 4 }] : [], sistema: [] },
+      },
+      misure: { eventi: 2, prima: istante(120), ultima: istante(60) }, letto_il: istante(0),
+    };
+  }
   const tutteMancanti = (nota) => Object.fromEntries(['uap_giorno', 'uap_7', 'uap_30', 'uap_cumulativi', 'uap_nuovi', 'uap_ritorno', 'attivi_giorno', 'attivi_30', 'retention_d1', 'retention_d7', 'retention_d30'].map((k) => [k, manca(nota)]));
   const sommeMancanti = (nota) => Object.fromEntries(['uap_nuovi_7', 'uap_nuovi_30', 'entrate_lorde_30', 'entrate_nette_30', 'entrate_pubblicita_30', 'acquisti_30'].map((k) => [k, manca(nota)]));
   const nonConf = { ios: ril('NOT_CONFIGURED', null, true), web: ril('NOT_CONFIGURED', null, true), telegram: ril('NOT_CONFIGURED', null, true), crazygames: ril('NOT_CONFIGURED', null, true) };
