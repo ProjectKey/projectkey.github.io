@@ -249,9 +249,15 @@ export async function disegna(ctx) {
       peggiore ? h('span', { style: { fontSize: '12px', color: 'var(--ink2)' } }, `peggiore: ${peggiore.os ?? ''} ${peggiore.modello ?? peggiore.build ?? ''} (${peggiore.morte} morte)`) : null,
       pr ? h('span', { style: { fontSize: '12px', color: pr.colore === 'rosso' ? 'var(--rosso)' : 'var(--ink3)' }, title: (pr.motivi ?? []).join(' · ') },
         `prove (TestFlight, casa): ${(SEMAFORO[pr.colore] ?? SEMAFORO.grigio).parola} · ${conti(pr.sessioni)}`) : null,
+      // 31/10: i simulatori ed emulatori a parte. Si vedono, ma non fanno il colore.
+      sc.simulatori && (sc.simulatori.sessioni?.chiuse ?? 0) > 0
+        ? h('span', { style: { fontSize: '12px', color: 'var(--ink3)' }, title: sc.simulatori.nota ?? '' },
+          `simulatori (fuori dal colore): ${conti(sc.simulatori.sessioni)}`
+          + (sc.simulatori.peggiori?.modello?.[0] ? ` · ${sc.simulatori.peggiori.modello[0].modello}` : ''))
+        : null,
       sc.ios ? h('span', { style: { fontSize: '11.5px', color: 'var(--ink3)' } }, `ultime ${sc.ore ?? 72} ore · iOS conta ${sc.ios.conta === 'reali' ? 'i giocatori' : 'TestFlight'}: ${sc.ios.sessioni ?? 0} sessioni`) : null);
   };
-  /* La fluidità: thread UI P50 e fotogrammi oltre 25 ms, per piattaforma (5_ios_pronta.b). */
+  /* La fluidità: thread UI P50, fotogrammi oltre 25 ms (UI e JS), intervallo JS P95, per piattaforma (5_ios_pronta.b). */
   const cellaFluidita = (g) => {
     const f = g.fluidita;
     if (!f || !f.reali) return h('span', { style: { color: 'var(--ink3)' }, title: f?.nota ?? '' }, 'non letta');
@@ -259,17 +265,22 @@ export async function disegna(ctx) {
       const x = f[gr]?.[pt];
       if (!x || x.esito === 'senza dati') return null;
       return h('span', { style: { color: x.esito === 'sopra' ? 'var(--rosso)' : 'var(--ink)' }, title: (x.motivi ?? []).join(' · ') || 'dentro le soglie' },
-        `${nome}: UI ${x.ui_p50 ?? '—'} ms · oltre 25 ms ${percento(x.oltre_25)}${x.esito === 'sopra' ? ' ✕' : ' ✓'} (${x.misure})`);
+        `${nome}: UI ${x.ui_p50 ?? '—'} ms · oltre 25 ms ${percento(x.oltre_25)}`
+        + (x.js_oltre_25 != null ? ` · JS oltre 25 ms ${percento(x.js_oltre_25)}` : '')
+        + (x.intervallo_p95 != null ? ` · JS P95 ${x.intervallo_p95} ms` : '')
+        + `${x.esito === 'sopra' ? ' ✕' : ' ✓'} (${x.misure})`);
     };
-    const righe = [riga('reali', 'ios', 'iOS'), riga('reali', 'android', 'Android'), riga('prova', 'ios', 'iOS prove'), riga('prova', 'android', 'Android prove')].filter(Boolean);
+    const righe = [riga('reali', 'ios', 'iOS'), riga('reali', 'android', 'Android'), riga('prova', 'ios', 'iOS prove'), riga('prova', 'android', 'Android prove'),
+      riga('simulatore', 'ios', 'Simulatore iOS (non conta)'), riga('simulatore', 'android', 'Emulatore (non conta)')].filter(Boolean);
     return h('div', { style: { display: 'grid', gap: '3px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal', fontSize: '12.5px', fontVariantNumeric: 'tabular-nums' } },
       ...(righe.length ? righe : [h('span', { style: { color: 'var(--ink3)' } }, 'nessuna misura in 3 giorni')]),
       h('span', { style: { fontSize: '11.5px', color: 'var(--ink3)' } },
-        `soglie ${f.genere}: iOS ≤ ${f.soglie?.ios?.ui_p50} ms e ≤ ${percento(f.soglie?.ios?.oltre_25)} · Android ≤ ${f.soglie?.android?.ui_p50} ms e ≤ ${percento(f.soglie?.android?.oltre_25)}`));
+        `soglie ${f.genere}: iOS ≤ ${f.soglie?.ios?.ui_p50} ms e ≤ ${percento(f.soglie?.ios?.oltre_25)}${f.soglie?.ios?.intervallo_p95 ? `, JS P95 ≤ ${f.soglie.ios.intervallo_p95} ms` : ''}`
+        + ` · Android ≤ ${f.soglie?.android?.ui_p50} ms e ≤ ${percento(f.soglie?.android?.oltre_25)}${f.soglie?.android?.intervallo_p95 ? `, JS P95 ≤ ${f.soglie.android.intervallo_p95} ms` : ''}`));
   };
   const righeDecisioni = [
     { nome: 'Semaforo crash', aiuto: 'sessioni morte senza fine (crash nativi) negli ultimi 3 giorni: quality-gates.yaml → semaforo_crash', cella: cellaSemaforo },
-    { nome: 'Fluidità', aiuto: 'thread UI P50 e fotogrammi oltre 25 ms negli ultimi 3 giorni: quality-gates.yaml → 5_ios_pronta.b', cella: cellaFluidita },
+    { nome: 'Fluidità', aiuto: 'thread UI P50, fotogrammi oltre 25 ms (UI e JS), intervallo e lavoro JS al P95 negli ultimi 3 giorni: quality-gates.yaml → 5_ios_pronta.b', cella: cellaFluidita },
     {
       nome: 'Problemi principali',
       cella: (g) => h('div', { style: { display: 'grid', gap: '6px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal' } },

@@ -152,6 +152,12 @@ function PORTAFOGLIO_FINTO() {
         sessioni: { avviate: 9, finite: 1, morte: rossoProve ? 2 : 0, sfondo: 0, chiuse: 9 }, tasso_morte: rossoProve ? 0.2222 : 0,
         peggiori: { build: [], modello: rossoProve ? [{ modello: 'iphone 390x844@3', os: 'ios', morte: 2, finite: 1, avviate: 4 }] : [], sistema: [] },
       },
+      // 31/10: i simulatori a parte (Last Sheep: le 2 morte del simulatore di un agente, fuori dal colore).
+      simulatori: rossoProve ? {
+        installazioni: 1, sessioni: { avviate: 4, finite: 1, morte: 2, sfondo: 0, chiuse: 4 }, morte: 2, tasso_morte: 0.5,
+        peggiori: { build: [], modello: [{ modello: 'iphone 390x844@3', os: 'ios', morte: 2, finite: 1, avviate: 4 }], sistema: [] },
+        nota: 'simulatori ed emulatori: a parte, non decidono il colore',
+      } : null,
       misure: { eventi: 2, prima: istante(120), ultima: istante(60) }, letto_il: istante(0),
     };
   }
