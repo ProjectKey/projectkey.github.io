@@ -201,6 +201,26 @@ export async function disegna(ctx) {
   };
   const conNegozi = giochi.filter((g) => g.negozi);
 
+  /* ------------------------------------------------------------ Search Console, pagine /games/* (31 ott 2026) */
+  const sc = p.search_console;
+  const schedaSearchConsole = () => {
+    if (!sc) return null;
+    if (sc.qualita !== 'verificato') {
+      return scheda('Google: pagine /games/* (minigiochi)', h('p', { style: { margin: 0, color: 'var(--ink3)' } }, `Search Console non letta: ${sc.nota ?? '—'}`));
+    }
+    const cifra = (x, k) => (x?.[k] === null || x?.[k] === undefined ? '—' : k === 'ctr' ? perc(x[k]) : num(x[k]));
+    const righe = [{ pagina: 'Tutte le pagine /games/*', ...sc.totale, totale: true }, ...(sc.pagine ?? [])];
+    return scheda('Google: pagine /games/* (minigiochi)', tabella([
+      { titolo: 'Pagina', cella: (r) => h('span', { style: { fontWeight: r.totale ? 600 : 400 } }, r.pagina) },
+      { titolo: 'Clic 7 g', cella: (r) => cifra(r['7'], 'clic') },
+      { titolo: 'Impressioni 7 g', cella: (r) => cifra(r['7'], 'impressioni') },
+      { titolo: 'Clic 28 g', cella: (r) => cifra(r['28'], 'clic') },
+      { titolo: 'Impressioni 28 g', cella: (r) => cifra(r['28'], 'impressioni') },
+      { titolo: 'CTR 28 g', cella: (r) => cifra(r['28'], 'ctr') },
+      { titolo: 'Posizione 28 g', cella: (r) => cifra(r['28'], 'posizione') },
+    ], righe, {}), { nota: `Search Console fino al ${giornoCorto(sc.fino)} · giorni del fuso del Pacifico (non di Roma) · 2–3 giorni di ritardo · le pagine senza impressioni non compaiono` });
+  };
+
   /* ------------------------------------------------------------ problemi e prossima azione */
   const modificaScheda = async (g) => {
     const problemi = h('textarea', { maxlength: 2000, 'aria-label': 'Problemi principali' }, g.scheda?.problemi ?? '');
@@ -243,7 +263,8 @@ export async function disegna(ctx) {
     const pr = sc.prova;
     const peggiore = sc.peggiori?.modello?.[0] ?? sc.peggiori?.build?.[0] ?? pr?.peggiori?.modello?.[0] ?? pr?.peggiori?.build?.[0];
     return h('div', { style: { display: 'grid', gap: '4px', minWidth: '200px', maxWidth: '280px', whiteSpace: 'normal' } },
-      h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center' } }, pill(x.parola.toUpperCase(), x.pill),
+      // 31/10: 0 sessioni = «senza dati» detto in chiaro (giallo: non è verde, ma l'adattatore ha risposto).
+      h('span', { style: { display: 'inline-flex', gap: '6px', alignItems: 'center' } }, pill(sc.senza_dati ? 'SENZA DATI' : x.parola.toUpperCase(), x.pill),
         sc.sessioni ? h('span', { style: { fontVariantNumeric: 'tabular-nums' } }, `giocatori: ${conti(sc.sessioni)} · ${percento(sc.tasso_morte)}`) : null),
       elenco(sc.motivi ?? [], sc.colore === 'rosso' ? 'var(--rosso)' : 'var(--ink2)'),
       peggiore ? h('span', { style: { fontSize: '12px', color: 'var(--ink2)' } }, `peggiore: ${peggiore.os ?? ''} ${peggiore.modello ?? peggiore.build ?? ''} (${peggiore.morte} morte)`) : null,
@@ -346,6 +367,7 @@ export async function disegna(ctx) {
     conNegozi.length ? h('p', { style: { margin: 0, color: 'var(--ink3)', fontSize: '12.5px' } },
       'I numeri che sa solo il negozio, sugli stessi 7 giorni (l\'ultimo che hanno tutti e due). Apple dà numeri solo per le app uscite sull\'App Store (TestFlight non conta).') : null,
     conNegozi.length ? h('div', { class: 'griglia g2' }, ...conNegozi.map(schedaNegozi)) : null,
+    schedaSearchConsole(),
     scheda('Giocatori', tabella(colonne('', (r, g) => (r.cella ? r.cella(g) : valore(r.v(g), r.f ?? num))), [statoDati, ...righeGiocatori], {}),
       { nota: 'attivato = ha avviato almeno una partita (§3.1)' }),
     scheda('Ritorno e ricavi', tabella(colonne('', (r, g) => valore(r.v(g), r.f ?? num)), righeRitorno, {}),

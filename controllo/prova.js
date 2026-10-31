@@ -139,8 +139,10 @@ function PORTAFOGLIO_FINTO() {
   function semaforoFinto(app) {
     const rossoProve = app === 'last-sheep-royale';
     return {
-      colore: rossoProve ? 'rosso' : app === 'settegames-minigiochi' ? 'grigio' : 'giallo', qualita: 'verificato', ore: 72, ios_uscito: false,
-      motivi: [
+      colore: rossoProve ? 'rosso' : 'giallo', qualita: 'verificato', ore: 72, ios_uscito: false,
+      // 31/10: i minigiochi con 0 sessioni dicono «senza dati» (non grigio).
+      senza_dati: app === 'settegames-minigiochi',
+      motivi: app === 'settegames-minigiochi' ? ["senza dati: nessuna sessione dei giocatori nelle ultime 72 ore (l'adattatore risponde, ma non c'è niente da misurare: non è verde)"] : [
         ...(rossoProve ? ["iOS su TestFlight (il gioco non è ancora sull'App Store): 2 sessioni morte su 9 (22,2%, sopra il 3%)"] : []),
         'iOS (non ancora sull\'App Store): 3 sessioni di TestFlight in 3 giorni, meno di 5 (dato insufficiente)',
       ],
@@ -202,6 +204,15 @@ function PORTAFOGLIO_FINTO() {
     ok: true, oggi: giorno(0), ieri, fuso: 'Europe/Rome', valuta: 'EUR', giochi,
     studio: { uap_giorno: v(6, 'stimato', 'somma senza deduplica'), uap_7: v(39, 'stimato'), uap_30: v(131, 'stimato'), uap_cumulativi: v(513, 'stimato'), uap_nuovi_30: v(128, 'stimato'), entrate_lorde_30: v(0, 'stimato', '1 giochi senza il dato') },
     raccolta: { in_coda: 0, ultima: istante(300) },
+    // 31 ott 2026: Search Console delle pagine /games/* (finta), giorni del Pacifico.
+    search_console: {
+      qualita: 'verificato', fuso: 'America/Los_Angeles', fino: giorno(3), fonte: 'Search Console (finta)',
+      totale: { '7': { clic: 1, impressioni: 12, ctr: 0.0833, posizione: 14.2 }, '28': { clic: 3, impressioni: 108, ctr: 0.0278, posizione: 31.5 } },
+      pagine: [
+        { pagina: '/games/sette-secondi/', '7': { clic: 1, impressioni: 6, ctr: 0.1667, posizione: 9.1 }, '28': { clic: 1, impressioni: 31, ctr: 0.0323, posizione: 13.5 } },
+        { pagina: '/games/2048/', '7': { clic: 0, impressioni: 4, ctr: 0, posizione: 60 }, '28': { clic: 1, impressioni: 25, ctr: 0.04, posizione: 56.9 } },
+      ],
+    },
     stati: ['NOT_CONFIGURED', 'READY_FOR_BUILD', 'BUILDING', 'TESTING', 'READY_FOR_SUBMISSION', 'SUBMITTED', 'IN_REVIEW', 'REJECTED', 'APPROVED', 'LIVE', 'PAUSED', 'ROLLBACK_REQUIRED'],
   };
 }
