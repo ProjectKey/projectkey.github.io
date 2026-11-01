@@ -191,7 +191,8 @@ export async function disegna(ctx) {
   ];
   const schedaNegozi = (g) => {
     const n = g.negozi;
-    const fino = [n.fino_play ? `Play al ${giornoCorto(n.fino_play)}` : 'Play: nessun dato', n.fino_app_store ? `App Store al ${giornoCorto(n.fino_app_store)}` : 'App Store: ancora niente'].join(' · ');
+    // 1 nov 2026: il server dice anche il ritardo di Google («Play al 26/10: Google pubblica con 6 giorni di ritardo»).
+    const fino = [n.nota_play ?? (n.fino_play ? `Play al ${giornoCorto(n.fino_play)}` : 'Play: nessun dato'), n.fino_app_store ? `App Store al ${giornoCorto(n.fino_app_store)}` : 'App Store: ancora niente'].join(' · ');
     return scheda(g.nome, tabella([
       { titolo: '', cella: (r) => h('span', { style: { fontWeight: 600 }, title: r.aiuto ?? '' }, r.nome) },
       { titolo: 'Google Play', cella: (r) => valore(n.google_play?.[r.k], r.fPlay ?? r.f ?? num) },
