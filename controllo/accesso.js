@@ -58,7 +58,7 @@ export async function statoAccesso() {
 
 export async function esci() {
   try { await supabase().auth.signOut(); } catch { /* si esce comunque */ }
-  try { localStorage.removeItem('cc.bloccato'); } catch { /* niente */ }
+  try { localStorage.removeItem('cc.bloccato'); sessionStorage.removeItem('cc.apps'); } catch { /* niente */ }
   location.hash = '';
   location.reload();
 }
@@ -162,7 +162,7 @@ function blocca(email) {
           const sbaglio = await erroreDellaPassword(email, pw.value);
           tasto.disabled = false;
           if (sbaglio) { errore.textContent = motivoAccesso(sbaglio); if (sbaglio.code === 'invalid_credentials') pw.value = ''; return; }
-          try { localStorage.removeItem('cc.bloccato'); } catch { /* niente */ }
+          try { localStorage.removeItem('cc.bloccato'); sessionStorage.removeItem('cc.apps'); } catch { /* niente */ }
           velo.remove();
           riparti();
         },

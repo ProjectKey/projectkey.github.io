@@ -35,21 +35,27 @@ export async function disegna(ctx) {
   const primoMeseScorso = (() => { const d = new Date(`${oggi}T12:00:00`); d.setDate(1); d.setMonth(d.getMonth() - 1); return d.toISOString().slice(0, 10); })();
   const da = [giorniFa(giorni - 1), primoMeseScorso].sort()[0];
 
+  // Salute e allarmi partono subito, insieme ai numeri (2/11/2026: l'apertura durava 16 s).
+  const saluteP = Promise.all((ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'salute')).map(async (a) => ({ app: a, s: await api.salute(a.id).catch(() => null) })));
+  const allarmiP = api.allarmi({ soloAperti: true }).catch(() => []);
+  // I numeri: i giochi insieme, ma per ogni gioco prima il totale e poi Android e iOS. Scopa e Briscola stanno sullo stesso
+  // database, e il totale più Android più iOS di tutte e due insieme lo intasavano oltre i 12 s («non risponde», 2/11).
   // 27/10/2026, Giorgio: «non sono riuscito a vedere la differenza tra utenti iOS e Android». Col Totale si
   // chiedono anche le due parti, e si mostrano affiancate: si vede subito quanto vale ognuna.
-  const divisiP = piattaforma === 'tutte' ? Promise.all(bersagli.filter((a) => api.divide(a, 'ios')).map(async (app) => {
-    const [an, io] = await Promise.all(['android', 'ios'].map((pt) => api.kpi(app.id, giorniFa(giorni - 1), oggi, pt).catch(() => null)));
-    return { app, android: an?.giorni ?? null, ios: io?.giorni ?? null };
-  })) : Promise.resolve([]);
-  const risposte = await Promise.all(bersagli.map(async (app) => {
-    try { return { app, k: await api.kpi(app.id, da, oggi, piattaforma) }; } catch (e) { return { app, errore: e }; }
+  const perGioco = await Promise.all(bersagli.map(async (app) => {
+    let r;
+    try { r = { app, k: await api.kpi(app.id, da, oggi, piattaforma) }; } catch (e) { r = { app, errore: e }; }
+    let diviso = null;
+    if (piattaforma === 'tutte' && api.divide(app, 'ios')) {
+      const [an, io] = await Promise.all(['android', 'ios'].map((pt) => api.kpi(app.id, giorniFa(giorni - 1), oggi, pt).catch(() => null)));
+      diviso = { app, android: an?.giorni ?? null, ios: io?.giorni ?? null };
+    }
+    return { r, diviso };
   }));
+  const risposte = perGioco.map((x) => x.r);
+  const divisi = perGioco.map((x) => x.diviso).filter(Boolean);
+  const [salute, allarmi] = await Promise.all([saluteP, allarmiP]);
   const buone = risposte.filter((r) => r.k);
-  const divisi = await divisiP;
-  const [salute, allarmi] = await Promise.all([
-    Promise.all((ctx.app ? [ctx.app] : ctx.apps).filter((a) => api.sa(a, 'salute')).map(async (a) => ({ app: a, s: await api.salute(a.id).catch(() => null) }))),
-    api.allarmi().catch(() => []),
-  ]);
 
   const somma = sommaSerie(buone.map((r) => r.k.giorni ?? []));
   const periodo = somma.slice(-giorni);

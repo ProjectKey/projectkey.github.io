@@ -84,6 +84,8 @@ async function chiama(azione, argomenti = {}, giaRiprovato = false) {
     const base = MESSAGGI[codice] ?? (r.status === 404 ? 'La funzione del server non risponde (non ancora pubblicata?).' : `Errore: ${codice}`);
     throw new ErroreApi(j?.dettaglio ? `${base}: ${j.dettaglio}` : base, r.status, codice, j);
   }
+  // Un cambio alle app o alla loro configurazione rende vecchio l'elenco tenuto in memoria.
+  if (/^(app|config)\./.test(azione) && !['app.elenco', 'app.capacita', 'config.leggi', 'config.valida'].includes(azione) || /^approvazioni\.(approva|rifiuta|annulla)$/.test(azione)) dimenticaApps();
   return j;
 }
 
@@ -119,7 +121,30 @@ export async function io() {
 
 const NOMI_STORE = { google_play: 'Google Play', app_store: 'App Store', altro: 'Altro store' };
 
+// L'elenco dei giochi con le loro capacità costa sei chiamate (~2 s): si tiene 10 minuti nella scheda del browser
+// (2/11/2026, «il Command Center è troppo lento»). Un gioco che non ha risposto non si tiene: si richiede subito.
+const APPS_IN_MEMORIA = 'cc.apps', APPS_MINUTI = 10;
+
 export async function apps() {
+  if (!inProva()) {
+    try {
+      const m = JSON.parse(sessionStorage.getItem(APPS_IN_MEMORIA) ?? 'null');
+      if (m && Date.now() - m.quando < APPS_MINUTI * 60_000) return m.elenco;
+    } catch { /* memoria del browser chiusa o rovinata: si chiede al server */ }
+  }
+  const elenco = await appsDalServer();
+  if (!inProva() && elenco.every((a) => !a.adattatore || a.capacita)) {
+    try { sessionStorage.setItem(APPS_IN_MEMORIA, JSON.stringify({ quando: Date.now(), elenco })); } catch { /* niente memoria: pazienza */ }
+  }
+  return elenco;
+}
+
+/** Dopo un cambio a un'app (salva, crea, clona) l'elenco tenuto in memoria non vale più. */
+export function dimenticaApps() {
+  try { sessionStorage.removeItem(APPS_IN_MEMORIA); } catch { /* niente */ }
+}
+
+async function appsDalServer() {
   const j = await chiama('app.elenco');
   if (inProva()) return j.apps ?? [];
   const famiglie = new Map((j.famiglie ?? []).map((f) => [f.id, f.nome]));
@@ -512,8 +537,9 @@ export async function ruoli() {
   return (j.ruoli ?? []).map((r) => ({ nome: r.nome, permessi: r.permessi ?? [], tetti: { monete: r.tetto_monete, gemme: r.tetto_gemme } }));
 }
 
-export async function allarmi() {
-  const j = await chiama(inProva() ? 'allarmi' : 'allarmi.elenco', { aperti: false });
+/** Gli allarmi: con `soloAperti` solo quelli ancora aperti (il Command Center), se no anche gli ultimi 200 chiusi. */
+export async function allarmi({ soloAperti = false } = {}) {
+  const j = await chiama(inProva() ? 'allarmi' : 'allarmi.elenco', { aperti: soloAperti });
   if (inProva()) return j.allarmi ?? [];
   return (j.allarmi ?? []).map((a) => ({ ...a, severita: String(a.severita).toUpperCase(), quando: a.aperto_il, stato: a.chiuso_il ? 'chiuso' : 'aperto' }));
 }
