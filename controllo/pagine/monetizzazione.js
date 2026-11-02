@@ -11,6 +11,7 @@
  * l'acquisto aveva dato (`acquisti.rimborsa`, docs/controllo/ARCHITETTURA.md).
  */
 import * as api from '../api.js';
+import { righeImbuto, nomeCella } from '../imbutoAcquisti.js';
 import { h, scheda, tabella, pill, kpi, num, soldi, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, confermaConMotivo, avvisa } from '../ui.js';
 
 export async function disegna(ctx) {
@@ -22,6 +23,9 @@ export async function disegna(ctx) {
   const apps = (ctx.app ? [ctx.app] : ctx.apps);
   const conAcquisti = apps.filter((a) => api.sa(a, 'acquisti'));
   const risposte = await Promise.all(conAcquisti.map(async (a) => ({ app: a, r: await api.acquisti(a.id, f.da, f.a).catch((e) => ({ errore: e })) })));
+  // F-165 (2 nov 2026): l'imbuto d'acquisto per gioco e piattaforma, se l'adattatore lo sa (0136).
+  const imbuti = await Promise.all(apps.filter((x) => api.sa(x, 'acquisti.imbuto'))
+    .map(async (x) => ({ app: x, r: await api.imbutoAcquisti(x.id, f.da, f.a).catch((e) => ({ errore: e })) })));
   const tutti = risposte.flatMap(({ app, r }) => (Array.isArray(r) ? r : []).map((x) => ({ ...x, app })))
     .sort((a, b) => String(b.quando).localeCompare(String(a.quando)));
   const visibili = tutti.filter((x) => !f.stato || x.stato === f.stato);
@@ -68,6 +72,7 @@ export async function disegna(ctx) {
         h('li', {}, 'I rimborsi di Google si leggono ogni ora e tolgono quello che l\'acquisto aveva dato (F-111-decies).'),
         h('li', {}, 'La stima netta è indicativa: il netto vero arriva dai report finanziari di Google Play (fase 2).'),
         h('li', {}, 'Offerte, prezzi e prodotti da pannello (§33, §34) sono in fase 2: oggi i prodotti si creano con lo script prodotti-play.ts.')))),
+    ...imbuti.map(schedaImbuto),
     scheda(`Acquisti (${visibili.length})`, tabella([
       { titolo: 'Quando', cella: (x) => data(x.quando) },
       { titolo: 'Giocatore', cella: (x) => x.giocatore ? h('a', { href: `#/giocatori/${x.app.id}/${x.giocatore}` }, x.nome ?? x.giocatore.slice(0, 8)) : '—' },
@@ -108,4 +113,46 @@ export function tastoRimborsa(ctx, app, x) {
       } catch (err) { avvisa(err.message, true); }
     },
   }, 'Rimborsa');
+}
+
+/**
+ * **L'imbuto d'acquisto di un gioco** (F-165): una riga per passo, una colonna per piattaforma e gruppo
+ * («persone · volte»), poi i perché più frequenti. Prima della 0136 dice cosa manca, non zero.
+ */
+function schedaImbuto({ app, r }) {
+  if (r?.errore) return nonDisponibile(`Imbuto d'acquisto di ${app.nome}`, r.errore.message ?? String(r.errore));
+  const celle = Array.isArray(r?.celle) ? r.celle : [];
+  const colonne = [{ titolo: 'Passo', cella: (x) => h('span', { title: x.aiuto }, x.passo) },
+    ...celle.map((c, i) => ({
+      titolo: nomeCella(c), num: true,
+      cella: (x) => {
+        const v = x.celle[i];
+        if (v.persone === null) return num(v.volte);
+        return v.volte === null ? num(v.persone) : `${num(v.persone)} · ${num(v.volte)}`;
+      },
+    }))];
+  const perCella = celle.map(righeImbuto);
+  const righe = (perCella[0] ?? []).map((x, k) => ({ passo: x.passo, aiuto: x.aiuto, celle: perCella.map((rr) => rr[k]) }));
+  const codici = celle.flatMap((c) => (c.codici ?? []).map((k) => ({ ...k, dove: nomeCella(c) })))
+    .sort((a, b) => b.volte - a.volte).slice(0, 12);
+  const mancanti = celle.flatMap((c) => Object.entries(c.mancanti ?? {}).map(([prodotto, persone]) => ({ prodotto, persone, dove: nomeCella(c) })));
+  const nuovi = r?.misure && !r.misure.esiti && !r.misure.negozio_euro;
+  return scheda(`Imbuto d'acquisto · ${app.nome}`, h('div', {},
+    nuovi ? h('p', { style: { color: 'var(--ink2)', marginTop: 0 } },
+      'Annullati, falliti e negozio chiuso si misurano dall\'aggiornamento di F-165: prima di quello quei passi restano vuoti.') : null,
+    tabella(colonne, righe, { vuoto: 'Nessun dato nel periodo.' }),
+    codici.length ? h('div', { style: { marginTop: '12px' } }, h('strong', {}, 'I perché'), tabella([
+      { titolo: 'Dove', cella: (k) => k.dove },
+      { titolo: 'Esito', cella: (k) => pill(k.esito, k.esito === 'annullato' || k.esito === 'lascia_stare' ? '' : 'ambra') },
+      { titolo: 'Fase', cella: (k) => k.fase ?? '—' },
+      { titolo: 'Codice', cella: (k) => h('span', { class: 'mono' }, k.codice || '—') },
+      { titolo: 'Persone', num: true, cella: (k) => num(k.persone) },
+      { titolo: 'Volte', num: true, cella: (k) => num(k.volte) },
+    ], codici)) : null,
+    mancanti.length ? h('div', { style: { marginTop: '12px' } }, h('strong', {}, 'Prodotti senza prezzo dello store'), tabella([
+      { titolo: 'Dove', cella: (m) => m.dove },
+      { titolo: 'Prodotto', cella: (m) => h('span', { class: 'mono' }, m.prodotto) },
+      { titolo: 'Persone', num: true, cella: (m) => num(m.persone) },
+    ], mancanti)) : null),
+  { nota: r?.nota ?? 'persone · volte' });
 }

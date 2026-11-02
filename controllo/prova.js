@@ -18,7 +18,7 @@ const istante = (min) => new Date(oggi - min * 60000).toISOString();
 
 const TUTTE = ['kpi', 'giocatori.cerca', 'giocatori.scheda', 'giocatori.timeline', 'giocatori.accredita',
   'giocatori.blocca', 'giocatori.sblocca', 'giocatori.nome', 'partite.cerca', 'partite.scheda', 'config.leggi',
-  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi', 'crescita', 'crescita.cruscotto', 'crescita.raccogli', 'crescita.esperimento', 'crescita.recensioni'];
+  'config.scrivi', 'errori', 'salute', 'acquisti', 'acquisti.rimborsa', 'acquisti.imbuto', 'versioni', 'problemi', 'problemi.letto', 'percorso', 'economia', 'config.verifica', 'posta.manda', 'posta.elenco', 'missioni.leggi', 'segmenti.leggi', 'negozio.leggi', 'giochi', 'assistenza.elenco', 'assistenza.scheda', 'assistenza.aggiorna', 'moderazione.coda', 'moderazione.decidi', 'rischio', 'analisi.catalogo', 'analisi.eventi', 'analisi.imbuto', 'analisi.coorti', 'esperimenti.risultati', 'giocatori.escludi', 'crescita', 'crescita.cruscotto', 'crescita.raccogli', 'crescita.esperimento', 'crescita.recensioni'];
 
 const APPS = [
   {
@@ -352,6 +352,23 @@ export async function rispondi(azione, a) {
       ],
     };
     case 'acquisti.rimborsa': return { ok: true, acquisto: a.id, revoca: 'revocato' };
+    // F-165: l'imbuto d'acquisto (finto), una cella per gruppo e piattaforma come la 0136.
+    case 'acquisti.imbuto': {
+      const cella = (gruppo, piattaforma, k) => ({
+        gruppo, piattaforma,
+        passi: {
+          negozio_visto: { persone: 40 * k, volte: 200 * k }, negozio_aperto: 38 * k, negozio_chiuso: 2 * k, prezzi_mancanti: 0,
+          iniziati: { persone: 2 * k, volte: 3 * k }, completati: { persone: k > 1 ? 1 : 0, volte: k > 1 ? 1 : 0 },
+          senza_esito: k, consegnati: { persone: k > 1 ? 1 : 0, volte: k > 1 ? 1 : 0 },
+        },
+        esiti: { annullato: { persone: k, volte: k }, fallito: { persone: 1, volte: 1 }, lascia_stare: { persone: 3 * k, volte: 4 * k } },
+        codici: [{ esito: 'fallito', fase: 'foglio', codice: piattaforma === 'ios' ? 'sku-not-found' : 'service-timeout', persone: 1, volte: 1 },
+          { esito: 'annullato', fase: 'foglio', codice: '', persone: k, volte: k }],
+        chiuso_perche: { 'store_no:billing-unavailable': 2 * k }, mancanti: piattaforma === 'ios' ? { club_mensile: 1 } : {},
+      });
+      return { ok: true, gioco: 'scopa', misure: { esiti: 12, negozio_euro: 80 }, nota: 'dati finti',
+        celle: [cella('reali', 'android', 2), cella('reali', 'ios', 1), cella('prova', 'android', 1), cella('prova', 'ios', 1)] };
+    }
     case 'problemi': {
       const tutti = [
         { id: 'pr-1', profilo_id: GIOCATORI[1].id, giocatore: 'Marta88', testo: 'Il tavolo si è bloccato dopo la scopa, non potevo più giocare', dove: 'tavolo', partita_id: 'p-1000-0', versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Samsung SM-A546B · Android 14', creata_il: istante(18), letta_il: null, letta_da: null },

@@ -282,6 +282,14 @@ export async function acquisti(app, da, a) {
 }
 
 /**
+ * **L'imbuto d'acquisto** (F-165, 0136): una cella per gruppo (reali, prova) e piattaforma, dal Negozio aperto alle
+ * gemme consegnate. Prima della 0136 l'adattatore risponde `migrazione` e la chiamata solleva.
+ */
+export async function imbutoAcquisti(app, da, a) {
+  return sbusta(await chiama('acquisti.imbuto', { app, da, a }));
+}
+
+/**
  * **Rimborsa un acquisto** (Google Play `orders.refund` + la cassa toglie quello che aveva
  * dato). Il server lo vuole con un codice TOTP appena verificato: si verifica qui prima.
  */
