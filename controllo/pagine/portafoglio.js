@@ -180,6 +180,26 @@ export async function disegna(ctx) {
     { nome: 'Acquisti 30 giorni', v: s('acquisti_30') },
   ];
 
+  /* ------------------------------------------------------------ il D7 a coorti settimanali (0137, 3 nov 2026) */
+  // Il numero guida delle carte (SPECIFICHE §0-numero): D7 al 15% entro il 30/11, per settimana di nascita.
+  const obiettivoD7 = p.d7_settimanale?.obiettivo;
+  const conCoorti = giochi.filter((g) => g.d7_settimane?.qualita === 'verificato' && (g.d7_settimane.settimane ?? []).some((x) => x.n > 0));
+  const quota = (v, n, d) => (d ? h('span', { style: { fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }, title: `${n} su ${d}` },
+    `${percento(v)} `, h('span', { style: { color: 'var(--ink3)', fontSize: '11.5px' } }, `${n}/${d}`)) : h('span', { style: { color: 'var(--ink3)' } }, '—'));
+  const schedaCoorti = (g) => {
+    const c = g.d7_settimane;
+    const righe = [...c.settimane].filter((x) => x.n > 0).reverse();
+    const sopra = (x) => obiettivoD7 && x.d7 !== null && x.d7_completa && x.d7 >= obiettivoD7.valore;
+    return scheda(g.nome, tabella([
+      { titolo: 'Nati', cella: (x) => h('span', { title: `${x.settimana} → ${x.fino}` }, `${giornoCorto(x.settimana)}–${giornoCorto(x.fino)}`) },
+      { titolo: 'n', cella: (x) => num(x.n) },
+      { titolo: 'D1', cella: (x) => quota(x.d1, x.d1_num, x.d1_den) },
+      { titolo: 'D7', cella: (x) => h('span', { style: { fontWeight: x.d7_completa ? 600 : 400, color: sopra(x) ? 'var(--verde)' : 'inherit' } }, quota(x.d7, x.d7_num, x.d7_den)) },
+      { titolo: 'Tornati 1–7', cella: (x) => quota(x.ritorno_1_7, x.ritorno_1_7_num, x.d7_den) },
+      { titolo: '', cella: (x) => (x.d7_completa ? '' : h('span', { style: { color: 'var(--ink3)', fontSize: '11.5px' } }, 'in corso')) },
+    ], righe, {}), { nota: c.coorte ?? '' });
+  };
+
   /* ------------------------------------------------------------ i negozi (0119) */
   const tasso = (n) => (n === null || n === undefined ? '—' : `${(n * 100).toFixed(2).replace('.', ',')}%`);
   const VOCI_NEGOZI = [
@@ -373,6 +393,10 @@ export async function disegna(ctx) {
       { nota: 'attivato = ha avviato almeno una partita (§3.1)' }),
     scheda('Ritorno e ricavi', tabella(colonne('', (r, g) => valore(r.v(g), r.f ?? num)), righeRitorno, {}),
       { nota: 'D1/D7/D30: «esattamente il giorno N», giorni di Roma' }),
+    conCoorti.length ? h('h3', { style: { margin: '8px 0 0', fontSize: '15px' } }, 'D7 per settimana di nascita') : null,
+    conCoorti.length ? h('p', { style: { margin: 0, color: 'var(--ink3)', fontSize: '12.5px' } },
+      `Obiettivo D7 ${Math.round((obiettivoD7?.valore ?? 0) * 100)}% entro il ${giornoCorto(obiettivoD7?.entro)}. Settimane lun–dom (Roma), solo giorni chiusi, tutte le piattaforme.`) : null,
+    conCoorti.length ? h('div', { class: 'griglia g2' }, ...conCoorti.map(schedaCoorti)) : null,
     scheda('Problemi e prossima azione', tabella(colonne('', (r, g) => r.cella(g)), righeDecisioni, {}),
       { nota: 'in cima il semaforo crash e la fluidità (ultimi 3 giorni, letti adesso); in rosso quelli che dicono i numeri da soli' }),
     h('p', { style: { color: 'var(--ink3)', fontSize: '12.5px' } },
