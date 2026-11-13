@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ti sfido a Tresette · Settebello</title>
+<meta name="description" content="Un amico ti ha invitato a Tresette Online: a due, in coppia, Traversone. Gratis su Google Play.">
+<!-- Pagina personale di un invito: non va nei risultati di ricerca. -->
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="SetteGames">
+<meta property="og:title" content="Ti sfido a Tresette">
+<meta property="og:description" content="Scarica Tresette Online e gioca con me. Gratis.">
+<meta property="og:image" content="https://settegames.com/img/settegames-anteprima.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!--sg:testa-->
+<link rel="stylesheet" href="/pop.css">
+<link rel="icon" type="image/svg+xml" href="/img/sette-piccolo.svg">
+<!--/sg:testa-->
+<link rel="stylesheet" href="../stile.css">
+<link rel="stylesheet" href="../settebello/guide.css">
+<style>
+  .invito { max-width: 560px; margin: 0 auto; padding: 32px 16px 48px; text-align: center; }
+  .invito h1 { margin: 8px 0 12px; }
+  .codice { display: inline-block; font: 700 28px/1.2 ui-monospace, Menlo, monospace; letter-spacing: 4px;
+            padding: 10px 18px; border-radius: 12px; background: #202020; color: #ebff55; border: 1px solid #454545; margin: 8px 0 4px; }
+  .tasto { margin-top: 20px; }
+  .piccolo { color: #b8b8b2; font-size: 15px; margin-top: 18px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="pagina">
+<main class="invito">
+  <!--
+    LA PAGINA DEL LINK DELL'AMICO, DEL TRESSETTE (3 nov 2026, TRESSETTE.md T-51)
+    La copia di b/ per l'app it.settebello.tressette: s/ porta a Scopa, b/ a Briscola.
+    Prima della build col filtro su /t/ (T11) Android apre questa pagina anche a chi ha il gioco:
+    il tasto «Ho già il gioco» lo apre con lo schema settebello-tressette://, che la build 1.0.0 ha già.
+    [F-75-ter, docs/requisiti/FUORIGIOCO.md]
+    Col gioco installato Android non arriva nemmeno qui: apre l'app (App Links,
+    /.well-known/assetlinks.json). Qui arriva chi non ce l'ha: si dice cosa
+    succede e si va al Play Store passandogli il codice nel referrer, così il
+    gioco lo usa da solo al primo avvio.
+  -->
+  <img src="/img/sette-piccolo.svg" alt="" width="96" height="96">
+  <h1 id="titolo">Ti sfido a Tresette</h1>
+  <p id="testo">Tresette e Traversone, gratis.</p>
+  <div id="conCodice" hidden>
+    <p>Il codice del tuo amico:</p>
+    <div class="codice" id="codice"></div>
+    <p class="piccolo" id="nota"></p>
+  </div>
+  <a class="tasto" id="play" href="https://play.google.com/store/apps/details?id=it.settebello.tressette">Scarica da Google Play</a>
+  <p class="piccolo" id="apri" hidden><a id="apriLink" href="#">Ho già il gioco: apri</a></p>
+  <p class="piccolo" id="iphone" hidden>Su iPhone arriva presto.</p>
+  </main>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var tipo = q.get('invita') ? 'invita' : q.get('tavolo') ? 'tavolo' : null;
+    var codice = tipo ? String(q.get(tipo)).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12) : '';
+    // Il link del tavolo porta anche il codice d'invito di chi l'ha aperto (F-161, 31 ott 2026).
+    var da = tipo === 'tavolo' ? String(q.get('da') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12) : '';
+    var pulito = function (s) { return String(s || '').toLowerCase().replace(/[^a-z0-9_-]+/g, '_').slice(0, 60); };
+    var rif = [
+      ['utm_source', pulito(q.get('utm_source') || 'link')],
+      ['utm_medium', pulito(q.get('utm_medium') || 'link')],
+      ['utm_campaign', pulito(q.get('utm_campaign') || tipo || 'link')],
+      ['utm_content', tipo || ''],
+      // Allo Store passano il codice d'invito (anche quello di chi ha aperto il tavolo) e il tavolo: al primo
+      // avvio il gioco usa il primo da solo e porta dall'amico col secondo, se vale ancora (F-161).
+      ['codice', tipo === 'invita' ? codice : da],
+      ['tavolo', tipo === 'tavolo' ? codice : '']
+    ].filter(function (c) { return c[1]; }).map(function (c) { return c[0] + '=' + c[1]; }).join('&');
+    document.getElementById('play').href =
+      'https://play.google.com/store/apps/details?id=it.settebello.tressette&referrer=' + encodeURIComponent(rif);
+    if (codice) {
+      document.getElementById('conCodice').hidden = false;
+      document.getElementById('codice').textContent = codice;
+      // Testi corti, uguali a Scopa e Briscola (F-161). Su iPhone il gioco non si installa: resta solo chi ce l'ha già.
+      var iphone = /iPhone|iPad|iPod/.test(navigator.userAgent);
+      // Lo schema dell'app (nella build 1.0.0): apre il gioco già installato, che porta da solo al tavolo.
+      document.getElementById('apriLink').href = 'settebello-tressette://' + tipo + '/' + codice;
+      document.getElementById('apri').hidden = iphone;
+      document.getElementById('nota').textContent = tipo === 'invita'
+        // Niente promesse di monete: i premi d'invito del Tressette arrivano con gli Amici (T6).
+        ? 'Installa il gioco: il codice lo mette lui.'
+        : 'Vale 15 minuti.' + (iphone ? '' : ' Il gioco ti porta al tavolo.');
+      if (tipo === 'tavolo') document.getElementById('titolo').textContent = 'Ti aspetto al mio tavolo';
+    }
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.getElementById('iphone').hidden = false;
+    /*
+      IL CLIC SI CONTA [Growth Engine G4, §19: il CTR degli inviti]. Una chiamata
+      al server con la chiave pubblica (la stessa dell'app), mai bloccante: se non
+      va, la pagina funziona uguale. Il server non tiene l'indirizzo IP, solo
+      un'impronta col sale del giorno (0090, `segna_clic_invito`). Le anteprime
+      dei link (WhatsApp, Telegram…) non eseguono questo codice, e i robot si scartano.
+    */
+    if (codice && !navigator.webdriver && !/bot|crawl|spider|preview|headless/i.test(navigator.userAgent)) {
+      try {
+        fetch('https://agtvevphfaaycjbcfwfa.supabase.co/rest/v1/rpc/segna_clic_invito', {
+          method: 'POST', keepalive: true,
+          headers: { 'Content-Type': 'application/json', apikey: 'sb_publishable_ht_xB-CO7sAf9Jea0zFYfQ_Qu36mRLF' },
+          body: JSON.stringify({ p_tipo: tipo, p_codice: codice, p_campagna: q.get('utm_campaign') || '' })
+        }).catch(function () {});
+      } catch (e) { /* un browser vecchio: niente conto, la pagina va */ }
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "it.settebello.app",
@@ -11,7 +13,9 @@
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "it.settebello.briscola",
@@ -22,7 +26,9 @@
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.lastsheep.game",
@@ -32,12 +38,27 @@
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.settegames.snake",
       "sha256_cert_fingerprints": [
         "34:89:34:D2:86:06:D9:0B:CF:9F:6E:E6:12:37:CC:61:79:23:C5:A0:8C:59:9D:E6:CF:A4:31:57:CB:F3:25:54"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "it.settebello.tressette",
+      "sha256_cert_fingerprints": [
+        "21:D6:29:50:77:F1:B9:B9:6E:E8:EA:B2:DC:C8:9C:13:28:9B:84:5D:7F:8B:00:55:FE:68:35:8A:5E:D7:D9:01",
+        "3F:FA:D0:D4:C5:29:BE:A2:BB:43:4C:34:80:5B:A6:9C:3D:2E:5E:4A:98:D5:5E:DD:36:7B:81:20:AB:69:54:41"
       ]
     }
   }
