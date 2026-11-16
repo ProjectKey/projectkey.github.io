@@ -300,10 +300,11 @@ export async function rimborsa(app, id, motivo, codice) {
 
 /**
  * **Le segnalazioni dei giocatori** («Segnala un problema», F-146-bis): le più recenti prima,
- * al massimo 200. `soloNonLette` = solo quelle che nessuno ha ancora segnato come lette.
+ * al massimo 200. `soloNonLette` = solo quelle che nessuno ha ancora segnato come lette. Ogni riga ha il suo `gioco`.
  */
-export async function problemi(app, da, a, soloNonLette = false) {
-  const j = sbusta(await chiama('problemi', { app, da, a, soloNonLette }));
+export async function problemi(app, da, a, soloNonLette = false, gioco = null) {
+  // `gioco` (0143): 'scopa' | 'briscola' | 'tressette', o 'nessuno' per quelle di prima senza gioco; null = tutte.
+  const j = sbusta(await chiama('problemi', { app, da, a, soloNonLette, ...(gioco ? { gioco } : {}) }));
   return j.problemi ?? (Array.isArray(j.dati) ? j.dati : []);
 }
 
@@ -388,10 +389,17 @@ export const moderazioneDecidi = (app, x) => chiama('moderazione.decidi', { app,
 export const rischio = async (app, giorni) => sbusta(await chiama('rischio', { app, giorni }));
 
 /** L'analisi (C4): catalogo degli eventi, eventi di un nome, imbuto a passi scelti, coorti. */
-export const analisiCatalogo = async (app, da, a) => (sbusta(await chiama('analisi.catalogo', { app, da, a })).eventi ?? []);
+export const analisiCatalogo = async (app, da, a) => {
+  const j = sbusta(await chiama('analisi.catalogo', { app, da, a }));
+  // 0145: l'elenco porta con sé di quando è l'istantanea (la pagina lo dice con `aggiornato`).
+  return Object.assign(j.eventi ?? [], { istantanea: j.istantanea ?? null });
+};
 export const analisiEventi = async (app, x) => sbusta(await chiama('analisi.eventi', { app, ...x }));
 export const analisiImbuto = async (app, passi, da, a) => (sbusta(await chiama('analisi.imbuto', { app, passi, da, a })).passi ?? []);
-export const analisiCoorti = async (app, per, da, a) => (sbusta(await chiama('analisi.coorti', { app, per, da, a })).coorti ?? []);
+export const analisiCoorti = async (app, per, da, a) => {
+  const j = sbusta(await chiama('analisi.coorti', { app, per, da, a }));
+  return Object.assign(j.coorti ?? [], { istantanea: j.istantanea ?? null });
+};
 
 /** I risultati di un esperimento (C6): variante e controllo. */
 export const esperimentiRisultati = async (app, id) => sbusta(await chiama('esperimenti.risultati', { app, id }));
@@ -555,7 +563,8 @@ export const chiudiAllarme = (id, motivo) => chiama('allarmi.chiudi', { id, moti
 
 /** Il nome corto di un gioco, per la scelta in alto e i grafici (Giorgio, 27/10/2026: «la scelta del gioco è
  *  diventata troppo incasinata»). L'ordine è quello in cui si mostrano. */
-const CORTI = [['settebello-scopa', 'Scopa'], ['settebello-briscola', 'Briscola'], ['last-sheep-royale', 'Last Sheep'],
+// Il Tressette dal 12/11/2026 (0141): la terza app di carte, dopo Briscola.
+const CORTI = [['settebello-scopa', 'Scopa'], ['settebello-briscola', 'Briscola'], ['settebello-tressette', 'Tresette'], ['last-sheep-royale', 'Last Sheep'],
   ['snake-100', 'Snake 100'], ['settegames-minigiochi', 'Minigiochi']];
 export const nomeCorto = (app) => CORTI.find(([id]) => id === app?.id)?.[1] ?? app?.nome ?? '';
 export const inOrdine = (apps) => [...apps].sort((a, b) => {

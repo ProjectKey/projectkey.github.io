@@ -12,7 +12,7 @@
  * la nota, e i loro «iniziano» a zero non sono un crollo.
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
+import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico, aggiornato } from '../ui.js';
 
 const quota = (n, su) => (su ? n / su : null);
 
@@ -34,6 +34,7 @@ export async function disegna(ctx) {
       ? erroreBox(new Error(`${x.nome} non risponde: ${x.erroreAdattatore}. Ricarica la pagina fra poco.`))
       : nonDisponibile(`Percorso di ${x.nome}`, 'l\'adattatore non espone `percorso`.'))),
     ...risposte.filter((x) => x.r?.errore).map((x) => erroreBox(new Error(`${x.app.nome}: ${x.r.errore.message}`))),
+    aggiornato(...risposte.map((x) => x.r)),
     scheda(null, h('form', {
       class: 'filtri',
       onsubmit: (e) => {

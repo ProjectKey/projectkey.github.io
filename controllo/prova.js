@@ -371,11 +371,12 @@ export async function rispondi(azione, a) {
     }
     case 'problemi': {
       const tutti = [
-        { id: 'pr-1', profilo_id: GIOCATORI[1].id, giocatore: 'Marta88', testo: 'Il tavolo si è bloccato dopo la scopa, non potevo più giocare', dove: 'tavolo', partita_id: 'p-1000-0', versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Samsung SM-A546B · Android 14', creata_il: istante(18), letta_il: null, letta_da: null },
-        { id: 'pr-2', profilo_id: GIOCATORI[2].id, giocatore: 'Giocatore 4685', testo: 'Non mi è arrivato il baule della missione', dove: 'impostazioni', partita_id: null, versione: '1.0.7', aggiornamento: null, telefono: 'Xiaomi 2201117TY · Android 13', creata_il: istante(400), letta_il: null, letta_da: null },
-        { id: 'pr-3', profilo_id: GIOCATORI[0].id, giocatore: 'Giorgio', testo: 'Prova della segnalazione', dove: 'impostazioni', partita_id: null, versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Google Pixel 7 · Android 15', creata_il: istante(3000), letta_il: istante(2900), letta_da: 'supporto.applicazioni@gmail.com' },
+        { id: 'pr-1', gioco: 'scopa', profilo_id: GIOCATORI[1].id, giocatore: 'Marta88', testo: 'Il tavolo si è bloccato dopo la scopa, non potevo più giocare', dove: 'tavolo', partita_id: 'p-1000-0', versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Samsung SM-A546B · Android 14', creata_il: istante(18), letta_il: null, letta_da: null },
+        { id: 'pr-2', gioco: 'tressette', profilo_id: GIOCATORI[2].id, giocatore: 'Giocatore 4685', testo: 'Non mi è arrivato il baule della missione', dove: 'impostazioni', partita_id: null, versione: '1.0.7', aggiornamento: null, telefono: 'Xiaomi 2201117TY · Android 13', creata_il: istante(400), letta_il: null, letta_da: null },
+        { id: 'pr-3', gioco: null, profilo_id: GIOCATORI[0].id, giocatore: 'Giorgio', testo: 'Prova della segnalazione', dove: 'impostazioni', partita_id: null, versione: '1.0.8', aggiornamento: '01a0d885', telefono: 'Google Pixel 7 · Android 15', creata_il: istante(3000), letta_il: istante(2900), letta_da: 'supporto.applicazioni@gmail.com' },
       ];
-      return { ok: true, problemi: a.soloNonLette ? tutti.filter((x) => !x.letta_il) : tutti };
+      const delGioco = !a.gioco ? tutti : tutti.filter((x) => (a.gioco === 'nessuno' ? x.gioco === null : x.gioco === a.gioco));
+      return { ok: true, problemi: a.soloNonLette ? delGioco.filter((x) => !x.letta_il) : delGioco };
     }
     case 'percorso': {
       // Trenta coorti finte: aprono → iniziano → finiscono → tornano, con la prima carta in secondi.

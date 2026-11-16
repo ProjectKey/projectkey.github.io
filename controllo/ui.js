@@ -61,6 +61,21 @@ export function data(d, conOra = true) {
   });
 }
 export const ora = (d) => new Date(d).toLocaleTimeString('it-IT', { timeZone: CONFIG.fuso, hour: '2-digit', minute: '2-digit' });
+
+/**
+ * **«Numeri aggiornati alle 14:05»** (0145, 16/11/2026). Le letture pesanti con il periodo di serie vengono dalle
+ * istantanee che il database rifà da solo ogni 3 ore (`istantanea` nella risposta dell'adattatore): la pagina dice di
+ * quando sono, il pezzo più vecchio. Senza istantanee (periodo scelto a mano) i numeri sono di adesso e non si scrive niente.
+ */
+export function aggiornato(...risposte) {
+  const ist = risposte.map((r) => r?.istantanea).filter((x) => x && x.calcolata_il && !Number.isNaN(Date.parse(x.calcolata_il)));
+  if (!ist.length) return null;
+  const piuVecchia = ist.map((x) => x.calcolata_il).sort((a, b) => Date.parse(a) - Date.parse(b))[0];
+  const ogni = ist[0].ogni_ore ?? 3;
+  const vivo = ist.some((x) => x.dal_vivo > 0) ? ' (una parte è di adesso)' : '';
+  return h('p', { class: 'aggiornato', style: { margin: 0, color: 'var(--ink3)', fontSize: '12px' } },
+    `Numeri aggiornati alle ${ora(piuVecchia)}${vivo} · si ricalcolano da soli ogni ${ogni} ore`);
+}
 export const giornoDi = (d) => new Date(d).toLocaleDateString('it-IT', { timeZone: CONFIG.fuso, weekday: 'long', day: 'numeric', month: 'long' });
 
 export function fa(d) {

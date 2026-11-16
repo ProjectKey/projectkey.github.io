@@ -17,7 +17,7 @@
  *    il giorno 1, 3, 7, 14, 30, quante partite a testa, quanti pagano.
  */
 import * as api from '../api.js';
-import { h, svuota, metti, scheda, tabella, pill, kpi, num, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, caricamento } from '../ui.js';
+import { h, svuota, metti, scheda, tabella, pill, kpi, num, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, caricamento, aggiornato } from '../ui.js';
 
 // `prima_carta` c'è solo dalla 1.0.9: nel percorso di serie svuoterebbe tutto quello che viene dopo.
 const ONBOARDING = ['avvio', 'partita_iniziata', 'partita', 'partita'];
@@ -39,7 +39,7 @@ export async function disegna(ctx) {
   h('button', { class: 'bottone primario', type: 'submit' }, 'Applica'),
   h('span', { style: { color: 'var(--ink3)' } }, 'Senza i tuoi telefoni, i robot di Google e le prove.')));
 
-  return [periodo, esplora(app, f, catalogo), imbuto(app, f, catalogo), coorti(app, f)];
+  return [aggiornato(catalogo), periodo, esplora(app, f, catalogo), imbuto(app, f, catalogo), coorti(app, f)];
 }
 
 /* ------------------------------------------------------------ esplora eventi */

@@ -22,7 +22,7 @@
  * robot e prove): le installazioni della Play Console arrivano col blocco G2-bis.
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, pill, kpi, num, perc, data, fa, erroreBox, nonDisponibile, avvisa, grafico, finestra, confermaConMotivo } from '../ui.js';
+import { h, scheda, tabella, pill, kpi, num, perc, data, fa, erroreBox, nonDisponibile, avvisa, grafico, finestra, confermaConMotivo, aggiornato } from '../ui.js';
 
 const STATI = { NOW: 'viola', NEXT: 'blu', LATER: '', WON: 'verde', LOST: 'rosso' };
 const DECISIONI = { SCALE: 'verde', ITERATE: 'ambra', HOLD: '', KILL: 'rosso' };
@@ -129,6 +129,7 @@ export async function disegna(ctx) {
   const cumulati = serie.map((x) => { if (x.giorno_programma >= 1) cum += x.nuovi; return x.giorno_programma >= 1 ? cum : null; });
 
   return [
+    aggiornato(c),
     h('div', { class: 'avviso' }, h('span', { class: 'ico' }, '★'), h('div', {},
       h('strong', {}, `North Star: ${num(10000)} download in ${pr.giorni ?? 90} giorni. `),
       inCorso ? `Giorno ${giornoN} di ${pr.giorni ?? 90}, partito il ${data(pr.giorno1).slice(0, 10)}.` : `Il conto parte il ${data(pr.giorno1).slice(0, 10)} (giorno 1): questa è la settimana per rendere tutto misurabile.`,

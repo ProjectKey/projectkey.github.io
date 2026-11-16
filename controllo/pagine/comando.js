@@ -10,7 +10,7 @@
 import * as api from '../api.js';
 import {
   h, kpi, num, soldi, perc, grafico, scheda, tabella, pill, giorniFa, memoria, erroreBox, fa,
-  DETTO_PIATTAFORMA, FUORI_DAI_CONTI, piattaformaScelta, sceltaPiattaforma,
+  DETTO_PIATTAFORMA, FUORI_DAI_CONTI, piattaformaScelta, sceltaPiattaforma, aggiornato,
 } from '../ui.js';
 
 const PERIODI = [{ g: 7, t: '7 giorni' }, { g: 30, t: '30 giorni' }, { g: 90, t: '90 giorni' }];
@@ -98,6 +98,8 @@ export async function disegna(ctx) {
       h('strong', {}, `${DETTO_PIATTAFORMA[piattaforma]}.`), ` ${FUORI_DAI_CONTI}`,
       testflight ? ` iPhone di prova fuori: ${num(testflight)}.` : '',
       nonDivisi.length ? ` Non diviso: ${nonDivisi.map((a) => a.nome).join(', ')} (solo nel Totale).` : ''),
+    // 0145: i numeri vengono dalle istantanee del database (ogni 3 ore): si dice di quando sono.
+    aggiornato(...buone.map((r) => r.k)),
     ...risposte.filter((r) => r.errore).map((r) => erroreBox(new Error(`${r.app.nome}: ${r.errore.message}`))),
 
     aperti.length ? h('div', { class: `avviso ${aperti.some((a) => a.severita === 'CRITICAL') ? 'rosso' : 'ambra'}` },

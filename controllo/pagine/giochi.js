@@ -25,7 +25,7 @@
  * registri non dicono il gioco) c'è il **Quiz del giorno** di Briscola (`quiz`).
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
+import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico, aggiornato } from '../ui.js';
 
 const COLORI = ['--cielo', '--viola', '--verde', '--ambra', '--rosso', '--ink3'];
 
@@ -59,6 +59,7 @@ export async function disegna(ctx) {
   const etichetta = (g) => g.slice(5).split('-').reverse().join('/');
 
   return [
+    aggiornato(r),
     scheda(null, h('form', {
       class: 'filtri',
       onsubmit: (e) => { e.preventDefault(); memoria.scrivi('giochi.filtri', { da: da.value, a: a.value, giorno: giorniFa(0) }); ctx.vai(`#/giochi?${Date.now()}`); },

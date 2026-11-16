@@ -12,7 +12,7 @@
  * euro stanno a parte. La definizione sta in `0069_l_economia_nel_pannello.sql`.
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
+import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico, aggiornato } from '../ui.js';
 
 const GENERE = { tavolo: 'tavolo', regalo: 'regalato', fuori: 'fuori dal gioco' };
 
@@ -34,6 +34,7 @@ export async function disegna(ctx) {
       ? erroreBox(new Error(`${x.nome} non risponde: ${x.erroreAdattatore}. Ricarica la pagina fra poco.`))
       : nonDisponibile(`Economia di ${x.nome}`, 'l\'adattatore non espone `economia`.'))),
     ...risposte.filter((x) => x.r?.errore).map((x) => erroreBox(new Error(`${x.app.nome}: ${x.r.errore.message}`))),
+    aggiornato(...risposte.map((x) => x.r)),
     scheda(null, h('form', {
       class: 'filtri',
       onsubmit: (e) => {

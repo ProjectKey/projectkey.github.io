@@ -21,7 +21,7 @@
  * crescita per ora è solo organica, decisione di Giorgio del 2 ott 2026).
  */
 import * as api from '../api.js';
-import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico } from '../ui.js';
+import { h, scheda, tabella, kpi, num, perc, giorniFa, memoria, erroreBox, nonDisponibile, grafico, aggiornato } from '../ui.js';
 
 const COLORI = ['--cielo', '--viola', '--verde', '--ambra', '--rosso', '--ink3'];
 const DOVE = { fine_partita: 'a fine partita', amici: 'dalla pagina Amici' };
@@ -50,6 +50,7 @@ export async function disegna(ctx) {
   const quota = (x) => (x && x[1] ? h('span', { title: `${x[0]} su ${x[1]}` }, perc(x[0] / x[1])) : '…');
 
   return [
+    aggiornato(r, coorti),
     scheda(null, h('form', {
       class: 'filtri', onsubmit: (e) => { e.preventDefault(); memoria.scrivi('crescita.periodo', { da: da.value, a: a.value, giorno: giorniFa(0) }); ctx.vai(`#/crescita?${Date.now()}`); },
     }, h('label', { class: 'campo' }, h('span', {}, 'Dal'), da), h('label', { class: 'campo' }, h('span', {}, 'al'), a),

@@ -8,21 +8,28 @@
  * docs/controllo/ARCHITETTURA.md), e finisce nel registro come ogni scrittura.
  * Le app il cui adattatore non dichiara `problemi` lo dicono, invece di
  * sembrare vuote.
+ *
+ * **Di che gioco** (0143): la cassa scrive il gioco di ogni riga (Scopa,
+ * Briscola, Tressette): la colonna «Gioco» lo mostra e il filtro ne tiene uno.
+ * Le righe di prima della 0143 che non si sanno sono «—» (filtro «Senza gioco»).
  */
 import * as api from '../api.js';
 import { h, scheda, tabella, pill, kpi, num, data, giorniFa, memoria, erroreBox, nonDisponibile, avvisa } from '../ui.js';
 
 const DOVE = { tavolo: ['al tavolo', 'viola'], impostazioni: ['dalla home', 'cielo'] };
+/** I giochi delle righe (0143), coi nomi delle app. `nessuno` = le righe di prima, senza gioco. */
+export const GIOCHI = { scopa: 'Scopa', briscola: 'Briscola', tressette: 'Tressette', nessuno: 'Senza gioco' };
 
 export async function disegna(ctx) {
   ctx.ricordaRecente('Segnalazioni');
   // Come in Monetizzazione: le date valgono per la giornata, il giorno dopo si riparte dagli ultimi 30.
   const salvati = memoria.leggi('segnalazioni.filtri', null);
-  const f = salvati?.giorno === giorniFa(0) ? salvati : { da: giorniFa(29), a: giorniFa(0), soloDaLeggere: salvati?.soloDaLeggere ?? true };
+  const f = salvati?.giorno === giorniFa(0) ? salvati : { da: giorniFa(29), a: giorniFa(0), soloDaLeggere: salvati?.soloDaLeggere ?? true, gioco: salvati?.gioco ?? '' };
+  const gioco = GIOCHI[f.gioco] ? f.gioco : null;
   const apps = ctx.app ? [ctx.app] : ctx.apps;
   const conProblemi = apps.filter((a) => api.sa(a, 'problemi'));
   const risposte = await Promise.all(conProblemi.map(async (a) => ({
-    app: a, r: await api.problemi(a.id, f.da, f.a, !!f.soloDaLeggere).catch((e) => ({ errore: e })),
+    app: a, r: await api.problemi(a.id, f.da, f.a, !!f.soloDaLeggere, gioco).catch((e) => ({ errore: e })),
   })));
   const tutte = risposte.flatMap(({ app, r }) => (Array.isArray(r) ? r : []).map((x) => ({ ...x, app })))
     .sort((a, b) => String(b.creata_il).localeCompare(String(a.creata_il)));
@@ -31,6 +38,9 @@ export async function disegna(ctx) {
   const da = h('input', { type: 'date', value: f.da, 'aria-label': 'Dal' });
   const a = h('input', { type: 'date', value: f.a, 'aria-label': 'Al' });
   const solo = h('input', { type: 'checkbox', checked: !!f.soloDaLeggere, 'aria-label': 'Solo da leggere' });
+  const scelta = h('select', { 'aria-label': 'Gioco' },
+    h('option', { value: '', selected: !gioco }, 'Tutti'),
+    ...Object.entries(GIOCHI).map(([v, nome]) => h('option', { value: v, selected: gioco === v }, nome)));
 
   return [
     ...apps.filter((x) => !api.sa(x, 'problemi')).map((x) => (x.erroreAdattatore
@@ -41,10 +51,11 @@ export async function disegna(ctx) {
       class: 'filtri',
       onsubmit: (e) => {
         e.preventDefault();
-        memoria.scrivi('segnalazioni.filtri', { da: da.value, a: a.value, soloDaLeggere: solo.checked, giorno: giorniFa(0) });
+        memoria.scrivi('segnalazioni.filtri', { da: da.value, a: a.value, soloDaLeggere: solo.checked, gioco: scelta.value, giorno: giorniFa(0) });
         ctx.vai(`#/segnalazioni?${Date.now()}`);
       },
     }, h('label', { class: 'campo' }, h('span', {}, 'Dal'), da), h('label', { class: 'campo' }, h('span', {}, 'Al'), a),
+    h('label', { class: 'campo' }, h('span', {}, 'Gioco'), scelta),
     h('label', { class: 'campo' }, h('span', {}, 'Solo da leggere'), solo),
     h('button', { class: 'bottone primario', type: 'submit' }, 'Applica'))),
     h('div', { class: 'griglia g2' },
@@ -54,6 +65,7 @@ export async function disegna(ctx) {
       { titolo: 'Quando', cella: (x) => data(x.creata_il) },
       { titolo: 'Giocatore', cella: (x) => x.profilo_id ? h('a', { href: `#/giocatori/${x.app.id}/${x.profilo_id}` }, x.giocatore ?? x.profilo_id.slice(0, 8)) : (x.giocatore ?? '—') },
       ...(apps.length > 1 ? [{ titolo: 'App', cella: (x) => x.app.nome }] : []),
+      { titolo: 'Gioco', cella: (x) => GIOCHI[x.gioco] ?? '—' },
       { titolo: 'Dove', cella: (x) => pill(...(DOVE[x.dove] ?? [x.dove ?? '—', ''])) },
       { titolo: 'Testo', cella: (x) => h('span', { style: { whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' } }, x.testo) },
       { titolo: 'Versione', cella: (x) => h('span', { class: 'mono' }, [x.versione ?? '—', x.aggiornamento ? ` · ${String(x.aggiornamento).slice(0, 8)}` : ''].join('')) },

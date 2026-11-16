@@ -12,7 +12,7 @@
  */
 import * as api from '../api.js';
 import { righeImbuto, nomeCella } from '../imbutoAcquisti.js';
-import { h, scheda, tabella, pill, kpi, num, soldi, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, confermaConMotivo, avvisa } from '../ui.js';
+import { h, scheda, tabella, pill, kpi, num, soldi, perc, data, giorniFa, memoria, erroreBox, nonDisponibile, confermaConMotivo, avvisa, aggiornato } from '../ui.js';
 
 export async function disegna(ctx) {
   ctx.ricordaRecente('Monetizzazione');
@@ -50,6 +50,8 @@ export async function disegna(ctx) {
       ? erroreBox(new Error(`${x.nome} non risponde: ${x.erroreAdattatore}. Ricarica la pagina fra poco.`))
       : nonDisponibile(`Acquisti di ${x.nome}`, 'l\'adattatore non espone `acquisti`.'))),
     ...risposte.filter((x) => x.r?.errore).map((x) => erroreBox(new Error(`${x.app.nome}: ${x.r.errore.message}`))),
+    // 0145: l'imbuto viene dalle istantanee (ogni 3 ore); gli acquisti qui sotto sono sempre di adesso.
+    aggiornato(...imbuti.map((x) => x.r)),
     scheda(null, h('form', {
       class: 'filtri', onsubmit: (e) => { e.preventDefault(); memoria.scrivi('monetizzazione.filtri', { da: da.value, a: a.value, stato: stato.value, giorno: giorniFa(0) }); ctx.vai(`#/monetizzazione?${Date.now()}`); },
     }, h('label', { class: 'campo' }, h('span', {}, 'Dal'), da), h('label', { class: 'campo' }, h('span', {}, 'Al'), a),
