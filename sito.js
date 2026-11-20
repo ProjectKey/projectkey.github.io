@@ -46,12 +46,12 @@
    * col gioco acceso; [data-ios-presto="gioco"] è il «presto» che sparisce. Il menu dei
    * giochi aggiunge «· iPhone». Senza JavaScript resta il «presto»: mai un link rotto.
    */
-  var SU_APP_STORE = { settebello: true, briscola: true, lastsheep: false, snake: false };
+  var SU_APP_STORE = { settebello: true, briscola: true, tressette: false, lastsheep: false, snake: false };
   var acceso = function (el, attributo) { return SU_APP_STORE[el.getAttribute(attributo)] === true; };
   [].forEach.call(document.querySelectorAll('[data-ios]'), function (el) { el.hidden = !acceso(el, 'data-ios'); });
   [].forEach.call(document.querySelectorAll('[data-ios-presto]'), function (el) { el.hidden = acceso(el, 'data-ios-presto'); });
   [].forEach.call(document.querySelectorAll('.sottomenu a'), function (a) {
-    var g = (a.pathname.match(/^\/(settebello|briscola|lastsheep|snake)\/$/) || [])[1];
+    var g = (a.pathname.match(/^\/(settebello|briscola|tressette|lastsheep|snake)\/$/) || [])[1];
     var riga = a.querySelector('small');
     if (g && riga && SU_APP_STORE[g] === true) riga.textContent += ' · iPhone';
   });

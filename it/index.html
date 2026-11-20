@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SetteGames: Scopa, Briscola e giochi online gratis</title>
-<meta name="description" content="Scopa e Briscola, i giochi di carte italiani, Last Sheep Royale e minigiochi gratis da giocare nel browser: 2048, Snake, Sudoku, Solitario. PLAY DIFFERENT.">
+<title>SetteGames: Scopa, Briscola, Tresette e giochi online gratis</title>
+<meta name="description" content="Scopa, Briscola e Tresette, i giochi di carte italiani, Last Sheep Royale e minigiochi gratis da giocare nel browser: 2048, Snake, Sudoku, Solitario. PLAY DIFFERENT.">
 <meta name="theme-color" content="#131313">
 
 <!--
@@ -71,6 +71,7 @@
           <li class="gruppo">Settebello Collection</li>
           <li><a href="../settebello/"><img src="../img/settebello-icona.webp" alt="" width="40" height="40"><span><b>Scopa Online</b><small>Scopa e Scopone · Android</small></span></a></li>
           <li><a href="../briscola/"><img src="../img/briscola-icona.webp" alt="" width="40" height="40"><span><b>Briscola Online</b><small>Briscola · Android</small></span></a></li>
+          <li><a href="../tressette/"><img src="../img/tressette-icona.webp" alt="" width="40" height="40"><span><b>Tresette Online</b><small>Tresette e Traversone · Android</small></span></a></li>
           <li class="gruppo">Battle Royale Collection</li>
           <li><a href="../lastsheep/"><img src="../img/lastsheep-icona.webp" alt="" width="40" height="40"><span><b>Last Sheep Royale</b><small>Battle royale · Android</small></span></a></li>
           <li><a href="../snake/"><img src="../img/snake-icona.webp" alt="" width="40" height="40"><span><b>Snake 100 Battle Royale</b><small>Battle royale · Android</small></span></a></li>
@@ -130,7 +131,7 @@
     <div class="dentro">
       <div class="novita-testa">
         <h2 id="s-novita">Novità<span class="punto">.</span></h2>
-        <p><time datetime="2026-10-27">27 ott 2026</time></p>
+        <p><time datetime="2026-11-19">19 nov 2026</time></p>
       </div>
       <div class="novita-corpo">
         <a class="novita-grande" href="../snake/" data-evento="game_card_click" data-gioco="snake">
@@ -143,6 +144,11 @@
           <span class="novita-freccia" aria-hidden="true"><svg><use href="#freccia"/></svg></span>
         </a>
         <ul class="novita-lista">
+          <li><a href="../tressette/" data-evento="game_card_click" data-gioco="tressette">
+            <img src="../img/tressette-icona.webp" alt="" width="56" height="56" loading="lazy">
+            <span><span class="novita-gioco">Tresette Online</span><b>Nuovo su Google Play: Tresette a 2, a 4 e Traversone.</b></span>
+            <span class="novita-freccia" aria-hidden="true"><svg><use href="#freccia"/></svg></span>
+          </a></li>
           <li><a href="../settebello/" data-evento="game_card_click" data-gioco="settebello">
             <img src="../img/settebello-icona.webp" alt="" width="56" height="56" loading="lazy">
             <span><span class="novita-gioco">Scopa Online</span><b>Gioca con un amico: un link su WhatsApp, stesso tavolo.</b></span>
@@ -172,7 +178,7 @@
           <p>Le carte di casa, sul telefono.</p>
         </div>
       </div>
-      <div class="coppia">
+      <div class="coppia tre">
         <article class="gioco">
           <img class="copertina" src="../img/settebello-copertina.webp" alt="Settebello: Scopa e Scopone, tre carte napoletane sopra il logo" width="1024" height="500" loading="lazy">
           <div class="corpo">
@@ -200,6 +206,20 @@
                 <a class="badge-store" data-ios="briscola" hidden href="https://apps.apple.com/app/id6824986710" rel="noopener" aria-label="Scarica su App Store" data-evento="store_outbound_click" data-gioco="briscola" data-store="app_store"><img src="../img/store/app-store-it.svg" alt="Scarica su App Store" width="164" height="55"></a>
               </p>
               <a class="tasto fantasma" href="../briscola/" data-evento="game_card_click" data-gioco="briscola">Scopri il gioco</a>
+            </div>
+          </div>
+        </article>
+        <article class="gioco" id="tressette">
+          <img class="copertina" src="../img/tressette-copertina.webp" alt="Settebello Tresette e Traversone: tre carte napoletane e una corona sopra il logo, nel cielo blu" width="1024" height="500" loading="lazy">
+          <div class="corpo">
+            <div class="etichette"><span class="etichetta">Gioco di carte</span><span class="etichetta">Android</span></div>
+            <h3>Tresette Online <small>Tresette e Traversone</small></h3>
+            <p>Tresette a 2 con la pesca, a 4 in coppia, e il Traversone dove vince chi fa meno punti. Contro il computer o online.</p>
+            <div class="tasti">
+              <p class="negozi">
+                <a class="badge-store" href="https://play.google.com/store/apps/details?id=it.settebello.tressette&amp;referrer=utm_source%3Dsito%26utm_campaign%3Dhome" rel="noopener" aria-label="Disponibile su Google Play" data-evento="store_outbound_click" data-gioco="tressette" data-store="google_play"><img src="../img/store/google-play-it.png" alt="Disponibile su Google Play" width="187" height="72"></a>
+              </p>
+              <a class="tasto fantasma" href="../tressette/" data-evento="game_card_click" data-gioco="tressette">Scopri il gioco</a>
             </div>
           </div>
         </article>
@@ -281,6 +301,7 @@
       <h2 id="s-guide">Impara a giocare<span class="punto">.</span></h2>
       <p><strong>Scopa:</strong> <a href="../settebello/punteggio/">Punteggio della Scopa</a> · <a href="../settebello/strategie/">Strategie della Scopa</a> · <a href="../settebello/varianti/">Varianti della Scopa</a> · <a href="../settebello/scopone-scientifico/">Scopone scientifico</a> · <a href="../settebello/asso-piglia-tutto/">Asso piglia tutto</a> · <a href="../settebello/scopa-a-quindici/">Scopa a 15</a> · <a href="../settebello/napola/">Napola e re bello</a> · <a href="../settebello/mazzi/">Mazzi regionali</a> · <a href="../settebello/mano-del-giorno/">Mano del giorno</a></p>
       <p><strong>Briscola:</strong> <a href="../briscola/regole/">Regole della Briscola</a> · <a href="../briscola/chiamata/">Briscola chiamata e a 4</a> · <a href="../briscola/strategie/">Strategie della Briscola</a></p>
+      <p><strong>Tresette:</strong> <a href="../tressette/regole/">Regole del Tresette e del Traversone</a></p>
     </div>
   </section>
 

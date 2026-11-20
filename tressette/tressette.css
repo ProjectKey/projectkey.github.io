@@ -1,0 +1,105 @@
+/*
+  LA PAGINA DEL TRESETTE E LE SUE GUIDE (20 novembre 2026)
+  ========================================================
+  Sopra `/pop.css`, `/stile.css` e `/settebello/guide.css` (carte, tabelle,
+  riquadro «gioca», elenco delle guide): qui solo quello che è del Tresette.
+  L'impianto è quello di Briscola (`/briscola/briscola.css`), così la famiglia
+  Settebello si riconosce; i colori no.
+
+  **I colori sono quelli dell'app** (`src/app/tressette/testi.ts`, SCHEDE_TRESSETTE,
+  T-47): blu, rosso del nastro, oro delle lettere, verde della bandiera. La chiara
+  per i fondi, la scura per i numeri. Sul chiaro il testo resta antracite.
+*/
+:root {
+  --due: #cfe2ff;        --due-s: #0b3fb0;
+  --quattro: #ffd9d2;    --quattro-s: #b3200c;
+  --traversone: #ffe9a6; --traversone-s: #7a5200;
+  --tre: #d3f1d9;        --tre-s: #1e7a34;
+  --blu-t: #0643cd;
+  --entra: cubic-bezier(0.23, 1, 0.32, 1);
+}
+::selection { background: var(--lime); color: var(--antracite); }
+
+/* --- il cappello: copertina, titolo, Play, le quattro modalità --- */
+.cappello.gioco-t { display: grid; gap: 22px 36px; align-items: center; }
+.gioco-t .copertina-t {
+  width: 100%; height: auto; aspect-ratio: 1024 / 500; border-radius: var(--r-pannello);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+@media (min-width: 780px) {
+  .cappello.gioco-t { grid-template-columns: 1.15fr 1fr; }
+  .gioco-t .copertina-t { grid-column: 2; grid-row: 1; }
+  .gioco-t .testo-t { grid-column: 1; grid-row: 1; }
+}
+.gioco-t .testo-t > :first-child { margin-top: 0; }
+.gioco-t .iphone { margin: 14px 0 0 !important; color: var(--grigio-su-scuro) !important; font-size: 0.9375rem; }
+
+/* Le quattro modalità: pastiglie coi colori dell'app, portano alla tessera. */
+body.pagina main .quattro-modi { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; grid-column: 1 / -1; }
+.cappello .quattro-modi a[href] {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px;
+  background: var(--t); color: var(--antracite) !important; font-weight: 700; font-size: 0.9375rem;
+  text-decoration: none !important;
+  transition: transform var(--veloce) var(--entra);
+}
+.cappello .quattro-modi a[href]:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) { .cappello .quattro-modi a[href]:hover { transform: translateY(-2px) rotate(-2deg); } }
+/* L'unico momento animato: le pastiglie entrano una dopo l'altra, come carte date. */
+@media (prefers-reduced-motion: no-preference) {
+  .quattro-modi li { animation: data 420ms var(--entra) both; animation-delay: calc(var(--i) * 55ms + 120ms); }
+  @keyframes data { from { opacity: 0; transform: translateY(10px) scale(0.94); } }
+}
+
+/* --- le schermate: una fila che scorre col dito --- */
+.vetrina {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(62vw, 232px); gap: 14px;
+  overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  margin: 26px calc(var(--gutter) * -1) 0; padding: 4px var(--gutter) 16px; scroll-padding: 0 var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--ink3) transparent;
+}
+.vetrina figure { margin: 0; scroll-snap-align: start; }
+.vetrina img {
+  width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 18px; background: var(--blu-t);
+  box-shadow: 0 2px 0 rgba(19, 19, 19, 0.08), 0 12px 26px rgba(19, 19, 19, 0.14);
+}
+.vetrina:focus-visible { outline-offset: -3px; }
+
+/* --- le quattro modalità: tessere coi colori dell'app --- */
+.modi { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 6px 0 14px; }
+@media (min-width: 560px) { .modi { grid-template-columns: repeat(2, 1fr); } }
+.modo {
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr; gap: 2px 14px; align-content: start;
+  background: var(--t); border-radius: var(--r-card); padding: 16px 18px 16px 16px; scroll-margin-top: 90px;
+}
+.modo .n {
+  grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px;
+  background: var(--s); color: var(--bianco); font-weight: 800; font-size: 1.375rem; line-height: 1;
+}
+.modo .n small { display: block; font-size: 0.625rem; font-weight: 700; letter-spacing: 0.04em; margin-top: 2px; }
+.modo h3 { margin: 2px 0 2px !important; font-size: 1.125rem; }
+body.pagina main .modo p { margin: 0; color: var(--antracite); font-size: 0.9375rem; line-height: 1.45; }
+.modo:target { box-shadow: 0 0 0 3px var(--antracite); }
+
+.t-due { --t: var(--due); --s: var(--due-s); }
+.t-quattro { --t: var(--quattro); --s: var(--quattro-s); }
+.t-traversone { --t: var(--traversone); --s: var(--traversone-s); }
+.t-tre { --t: var(--tre); --s: var(--tre-s); }
+
+/* --- cosa c'è dentro: righe brevi, senza scatole --- */
+.dentro-app { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 4px 26px; margin: 4px 0 12px; padding: 0; list-style: none; }
+body.pagina main .dentro-app li { margin: 0; padding: 12px 0; border-top: 1px solid var(--filo); color: var(--ink2); }
+.dentro-app b { display: block; color: var(--ink); }
+
+/* --- le guide --- */
+.tabella td.forte { font-weight: 800; color: var(--ink); }
+.riquadro { background: var(--t, var(--carta2)); border-radius: var(--r-card); padding: 14px 18px; margin: 4px 0 16px; }
+body.pagina main .riquadro p { color: var(--antracite); margin: 0; }
+body.pagina main .riquadro p + p { margin-top: 8px; }
+/* L'asso di bastoni del Traversone: la carta che nessuno vuole, segnata d'oro. */
+.pesante .carta-g { box-shadow: 0 0 0 3px var(--traversone-s), 0 8px 18px rgba(19, 19, 19, 0.16); }
+.pesante figcaption { color: var(--ink) !important; }
+
+@media (max-width: 560px) {
+  .cappello .quattro-modi a[href] { min-height: 38px; padding: 0 13px; font-size: 0.875rem; }
+  .modo { padding: 14px; }
+}
