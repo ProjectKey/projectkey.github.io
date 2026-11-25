@@ -55,7 +55,6 @@
   </div>
   <a class="tasto" id="play" href="https://play.google.com/store/apps/details?id=it.settebello.tressette">Scarica da Google Play</a>
   <p class="piccolo" id="apri" hidden><a id="apriLink" href="#">Ho già il gioco: apri</a></p>
-  <p class="piccolo" id="iphone" hidden>Su iPhone arriva presto.</p>
   </main>
 <script>
   (function () {
@@ -80,7 +79,7 @@
     if (codice) {
       document.getElementById('conCodice').hidden = false;
       document.getElementById('codice').textContent = codice;
-      // Testi corti, uguali a Scopa e Briscola (F-161). Su iPhone il gioco non si installa: resta solo chi ce l'ha già.
+      // Testi corti, uguali a Scopa e Briscola (F-161). Su iPhone il tasto porta all'App Store.
       var iphone = /iPhone|iPad|iPod/.test(navigator.userAgent);
       // Lo schema dell'app (nella build 1.0.0): apre il gioco già installato, che porta da solo al tavolo.
       document.getElementById('apriLink').href = 'settebello-tressette://' + tipo + '/' + codice;
@@ -91,7 +90,11 @@
         : 'Vale 15 minuti.' + (iphone ? '' : ' Il gioco ti porta al tavolo.');
       if (tipo === 'tavolo') document.getElementById('titolo').textContent = 'Ti aspetto al mio tavolo';
     }
-    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.getElementById('iphone').hidden = false;
+    // Su iPhone il gioco è sull'App Store (dal 25/11/2026 tutte e tre le carte): l'App Store non passa il codice.
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      var tasto = document.getElementById('play'); tasto.href = 'https://apps.apple.com/app/id6836715004'; tasto.textContent = 'Scarica dall\'App Store';
+      if (tipo === 'invita') document.getElementById('nota').textContent = 'Installa il gioco dall\'App Store.';
+    }
     /*
       IL CLIC SI CONTA [Growth Engine G4, §19: il CTR degli inviti]. Una chiamata
       al server con la chiave pubblica (la stessa dell'app), mai bloccante: se non

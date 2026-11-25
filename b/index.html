@@ -53,7 +53,6 @@
     <p class="piccolo" id="nota"></p>
   </div>
   <a class="tasto" id="play" href="https://play.google.com/store/apps/details?id=it.settebello.briscola">Scarica da Google Play</a>
-  <p class="piccolo" id="iphone" hidden>Su iPhone arriva presto.</p>
   <p class="piccolo"><a href="/briscola/regole/">Come si gioca a Briscola</a></p>
 </main>
 <script>
@@ -80,7 +79,11 @@
         : 'Codice del tavolo: vale 15 minuti. Installa e scrivilo in Amici → Entra.';
       if (tipo === 'tavolo') document.getElementById('titolo').textContent = 'Ti aspetto al mio tavolo';
     }
-    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.getElementById('iphone').hidden = false;
+    // Su iPhone il gioco è sull'App Store (dal 25/11/2026 tutte e tre le carte): l'App Store non passa il codice.
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      var tasto = document.getElementById('play'); tasto.href = 'https://apps.apple.com/app/id6824986710'; tasto.textContent = 'Scarica dall\'App Store';
+      if (tipo === 'invita') document.getElementById('nota').textContent = 'Installa il gioco dall\'App Store.';
+    }
     /*
       IL CLIC SI CONTA [Growth Engine G4, §19: il CTR degli inviti]. Una chiamata
       al server con la chiave pubblica (la stessa dell'app), mai bloccante: se non
